@@ -1,0 +1,20 @@
+{
+  "name": "cyclesidechick",
+  "version": "2.0.0",
+  "description": "Credible, privacy-first menstrual cycle tracking, symptoms journal, and evidence-based wellness companion. 100% on-device.",
+  "main": "index.html",
+  "scripts": {
+    "test": "node tests/test_runner.js"
+  },
+  "keywords": [
+    "menstrual-cycle",
+    "period-tracker",
+    "privacy-first",
+    "womens-health",
+    "femtech",
+    "offline-first",
+    "pwa"
+  ],
+  "author": "CycleSideChick Contributors",
+  "license": "MIT"
+}
