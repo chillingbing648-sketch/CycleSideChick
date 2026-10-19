@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CycleSideChick</title>
+<link rel="icon" id="fv" type="image/svg+xml" href="data:,"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{--bg:#FFF0F2;--iv:#FFF9F5;--plum:#823C53;--pink:#E95D98;--rose:#D9A7B2;--lav:#E8DDF0;--sage:#DDE4D8;--ink:#342A30;--line:#F0D3DA;--bi:#342A30;--mut:#6E5A64;--sh:#FFF9F5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17151B;--iv:#211D26;--sh:#211D26;--plum:#F6F0F5;--ink:#F6F0F5;--mut:#BEB2C2;--pink:#E982B0;--bi:#17151B;--line:#403543;--lav:#2A2330;--sage:#252B2B;--rose:#6B4A5E;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17151B;--iv:#211D26;--sh:#211D26;--plum:#F6F0F5;--ink:#F6F0F5;--mut:#BEB2C2;--pink:#E982B0;--bi:#17151B;--line:#403543;--lav:#2A2330;--sage:#252B2B;--rose:#6B4A5E;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.5 "DM Sans",system-ui,sans-serif;min-height:100%}
+#app{max-width:480px;margin:0 auto;padding:12px 16px 120px}
+h1,h2,h3{color:var(--plum);margin:0;font-weight:700;line-height:1.2}
+h2{font-size:22px}h3{font-size:18px}p{margin:.4em 0}.mut{opacity:.78;font-size:14px}
+.hand{font-weight:500;font-size:15px;color:var(--mut)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.wm2{font-weight:700;font-size:17px;color:var(--plum)}
+.icon{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--iv);color:var(--plum);display:grid;place-items:center;cursor:pointer}
+.card{background:var(--iv);border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:12px}
+.card.l{background:var(--lav)}.card.s{background:var(--sage)}.card.q{border-radius:22px 22px 22px 6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn{background:var(--pink);color:var(--bi);border:0;border-radius:999px;padding:12px 20px;min-height:48px;font:700 16px "DM Sans",sans-serif;cursor:pointer;width:100%}
+.btn.g{background:transparent;border:1.5px solid var(--rose);color:var(--plum)}.btn[disabled]{opacity:.45}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px;background:var(--iv);color:var(--plum);font:500 15px "DM Sans",sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed=true]{background:var(--pink);border-color:var(--pink);color:var(--bi)}
+.dots i{display:inline-block;width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor;margin-left:2px}.dots i.on{background:currentColor}
+.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
+.mood{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;border:1.5px solid var(--line);border-radius:16px;background:var(--iv);color:var(--plum);font:500 12px "DM Sans",sans-serif;cursor:pointer;min-height:64px}
+.mood[aria-pressed=true]{background:var(--pink);border-color:var(--pink);color:var(--bi)}
+.mood[aria-pressed=true] svg circle:first-child{fill:var(--iv)}
+.ring{width:210px;height:210px;display:block;margin:0 auto}.rt{font-size:34px;font-weight:700;fill:var(--plum)}.rs{font-size:11px;font-weight:500;fill:var(--mut)}
+.big{font-size:20px;font-weight:700;line-height:1.3;color:var(--plum)}
+label{display:block;font-weight:500;margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--iv);border:1.5px solid var(--line);border-radius:14px;padding:11px 12px;min-height:46px}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.grid7 b{font-size:12px;opacity:.7;font-weight:500}
+.day{aspect-ratio:1;border-radius:50%;border:2px solid transparent;background:none;color:var(--ink);font:500 15px "DM Sans";cursor:pointer;position:relative;padding:0}
+.day.c{background:var(--pink);color:var(--bi);font-weight:700}.day.p{border:2px dashed var(--pink)}.day.f{background:var(--lav)}
+.day.t{box-shadow:0 0 0 2px var(--plum) inset}.day.s{outline:3px solid var(--plum);outline-offset:1px}
+.day.l::after{content:"";position:absolute;bottom:4px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--plum)}
+.leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;margin-top:10px}.leg i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:4px}
+.cares{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cares .card{margin:0}
+.nav{position:fixed;left:0;right:0;bottom:0;margin:auto;max-width:480px;display:grid;grid-template-columns:repeat(5,1fr);background:var(--iv);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+.nav button{background:none;border:0;color:var(--ink);opacity:.7;display:flex;flex-direction:column;align-items:center;gap:2px;font:500 12px "DM Sans";min-height:50px;cursor:pointer}
+.nav button[aria-current=page]{opacity:1;color:var(--plum);font-weight:700}.nav button[aria-current=page] svg{stroke:var(--pink)}
+.scrim{position:fixed;inset:0;background:rgba(52,42,48,.5);z-index:8}
+.sheet{position:fixed;left:0;right:0;bottom:0;margin:auto;max-width:480px;max-height:88%;overflow:auto;background:var(--bg);border-radius:26px 26px 0 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px));z-index:9;animation:up .25s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+#toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--plum);color:var(--bg);padding:8px 16px 8px 8px;border-radius:999px;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:.25s;z-index:20;font-weight:500;max-width:92%}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.ob{text-align:center;padding-top:6vh}.ob .wm{font-size:30px;margin:8px 0}.ob .btn{margin-top:14px}.ob form,.ob .left{text-align:left}
+.bounce{animation:b .6s ease-out}@keyframes b{40%{transform:translateY(-10px)}}
+:root{--f:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif}*,*::before,*::after{font-family:var(--f)!important}
+body{font-size:15px;line-height:1.55}.mut{opacity:1;color:var(--mut);font-size:13.5px}.hand{font-weight:500;font-size:15px;line-height:1.4;color:var(--mut)}
+.wm2{font-weight:700;font-size:17px;letter-spacing:-.01em}h3{font-size:18px;font-weight:600}.brand{display:flex;align-items:center;gap:8px}
+input,select,textarea{background:var(--bg)}.sheet{background:var(--sh);box-shadow:0 -10px 34px rgba(0,0,0,.28)}.card{box-shadow:0 1px 0 rgba(0,0,0,.04)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body><div id="app"></div><div id="toast" role="status" aria-live="polite"></div>
+<script>
+const $=s=>document.querySelector(s),DAY=864e5,KEY="csc.v1";
+const N=s=>{const[a,b,c]=s.split("-");return Date.UTC(a,b-1,c)/DAY},I=n=>new Date(n*DAY).toISOString().slice(0,10);
+const TD=()=>{const t=new Date();return Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())/DAY};
+const fmt=(n,o={month:"short",day:"numeric"})=>new Date(n*DAY).toLocaleDateString(undefined,{...o,timeZone:"UTC"});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const def=()=>({ob:0,cl:28,pl:5,reg:"unknown",goals:[],contra:0,rem:0,periods:[],logs:{},custom:[],theme:"system",rp:2,rt:"20:00",rk:{prep:1,log:1},dis:{},sent:{}});
+let S;try{S={...def(),...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){S=def()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const G={S},t0=new Date(),ui={tab:"home",cm:{y:t0.getFullYear(),m:t0.getMonth()},sel:TD(),prof:0,cf:""};
+G.ob={step:0,last:"",cl:28,pl:5,reg:"unknown",goals:[],contra:0,rem:0};
+const loadDraft=d=>{const L=S.logs[d]||{};G.dr={d,f:L.f||"",m:L.m??null,sy:{...(L.sy||{})},sl:L.sl??null,note:L.note||""}};loadDraft(I(TD()));
+
+/* ---------- cycle logic ---------- */
+const okD=s=>typeof s=="string"&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&I(N(s))==s;
+const vp=()=>S.periods.filter(p=>okD(p.s)&&N(p.s)<=TD());
+const badP=()=>S.periods.filter(p=>!(okD(p.s)&&N(p.s)<=TD()));
+const pEnd=p=>okD(p.e)&&N(p.e)>=N(p.s)&&N(p.e)<=TD()?N(p.e):Math.min(N(p.s)+S.pl-1,Math.max(TD(),N(p.s)));
+function stats(){
+ const st=[...new Set(vp().map(p=>N(p.s)))].sort((a,b)=>a-b),lens=[];
+ for(let i=1;i<st.length;i++){const l=st[i]-st[i-1];if(l>=15&&l<=90)lens.push(l)}
+ const r=lens.slice(-6),avg=r.length?r.reduce((a,b)=>a+b)/r.length:S.cl;
+ let sd=r.length>1?Math.sqrt(r.reduce((a,b)=>a+(b-avg)**2,0)/r.length):(S.reg=="irregular"?5:2);
+ if(S.reg=="irregular")sd=Math.max(sd,4);
+ const last=st.length?st[st.length-1]:null,A=Math.round(avg),pred=[];
+ if(last!=null)for(let k=1;k<=3;k++)pred.push(last+A*k);
+ return{st,lens,avg:A,pm:Math.min(7,Math.max(1,Math.round(sd))),last,pred,n:r.length}}
+const pdset=()=>{const s=new Set;vp().forEach(p=>{for(let d=N(p.s);d<=pEnd(p);d++)s.add(d)});return s};
+function ensurePeriod(dn){
+ if(dn>TD()||pdset().has(dn))return;
+ const prev=S.periods.filter(p=>N(p.s)<=dn).sort((a,b)=>N(a.s)-N(b.s)).pop(),nx=S.periods.find(p=>N(p.s)>dn&&N(p.s)-dn<=3);
+ if(nx)nx.s=I(dn);else if(prev&&dn-N(prev.s)<=10)prev.e=I(Math.max(dn,prev.e?N(prev.e):0));else S.periods.push({s:I(dn),e:null});
+ S.periods.sort((a,b)=>N(a.s)-N(b.s))}
+
+/* ---------- visual pieces ---------- */
+const ic={home:"M4 11l8-7 8 7v9H4z",calendar:"M4 6h16v14H4zM4 10h16M8 3v4M16 3v4",log:"M12 3a9 9 0 100 18 9 9 0 000-18zM12 8v8M8 12h8",insights:"M5 20V10M12 20V4M19 20v-7",care:"M12 20s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.5-7 10-7 10z",user:"M12 12a4 4 0 100-8 4 4 0 000 8zM4 21c0-4 4-6 8-6s8 2 8 6",x:"M6 6l12 12M18 6L6 18"};
+const svgi=k=>`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ic[k]}"/></svg>`;
+const bunny=(z=96,lbl=1)=>`<svg viewBox="0 0 100 100" width="${z}" height="${z}" ${lbl?'role="img" aria-label="Bun, the CycleSideChick mascot"':'aria-hidden="true"'}><g stroke="var(--plum)" stroke-width="2.5" stroke-linejoin="round"><ellipse cx="36" cy="26" rx="9" ry="22" fill="var(--iv)" transform="rotate(-8 36 26)"/><ellipse cx="64" cy="28" rx="9" ry="20" fill="var(--iv)" transform="rotate(14 64 28)"/><ellipse cx="50" cy="68" rx="31" ry="26" fill="var(--iv)"/></g><ellipse cx="36" cy="28" rx="4" ry="14" fill="var(--rose)" transform="rotate(-8 36 28)"/><ellipse cx="64" cy="30" rx="4" ry="12" fill="var(--rose)" transform="rotate(14 64 30)"/><circle cx="40" cy="66" r="3" fill="var(--plum)"/><circle cx="60" cy="66" r="3" fill="var(--plum)"/><path d="M50 86c-9-5-11-10-7-12 2-1 5 0 7 2 2-2 5-3 7-2 4 2 2 7-7 12z" fill="var(--pink)"/></svg>`;
+const MO=["Radiant","Calm","Okay","Anxious","Low"],MP=["M8 14q4 5 8 0","M8 14.5q4 3 8 0","M8.5 15h7","M8 15.5q2-2.5 4 0t4 0","M8 16.5q4-4 8 0"];
+const face=k=>`<svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="var(--lav)" stroke="var(--plum)" stroke-width="1.4"/><circle cx="8.8" cy="10" r="1.2" fill="var(--plum)"/><circle cx="15.2" cy="10" r="1.2" fill="var(--plum)"/><path d="${MP[k]}" fill="none" stroke="var(--plum)" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+const moods=(sel,a)=>`<div class="moods" role="group" aria-label="Mood">${MO.map((n,i)=>`<button class="mood" aria-pressed="${sel===i}" data-a="${a}" data-v="${i}">${face(i)}${n}</button>`).join("")}</div>`;
+const chip=(t,on,at)=>`<button class="chip" aria-pressed="${!!on}" ${at}>${t}</button>`;
+function ring(x,day){const C=339.3,A=x.avg,arc=(a,b,c)=>`<circle cx="70" cy="70" r="54" fill="none" stroke="${c}" stroke-width="12" stroke-dasharray="${(b-a)*C} ${C}" stroke-dashoffset="${-a*C}" transform="rotate(-90 70 70)"/>`;
+ const ang=Math.min(1,(day-1)/A)*2*Math.PI-Math.PI/2;
+ return `<svg viewBox="0 0 140 140" class="ring" role="img" aria-label="Cycle day ${day} of about ${A}. Pink is your usual period, lavender is the estimated fertile window.">${arc(0,1,"var(--line)")}${S.contra?"":arc(Math.max(0,(A-19)/A),Math.min(1,(A-12)/A),"var(--lav)")}${arc(0,Math.min(1,S.pl/A),"var(--pink)")}<circle cx="${70+54*Math.cos(ang)}" cy="${70+54*Math.sin(ang)}" r="8" fill="var(--iv)" stroke="var(--plum)" stroke-width="3"/><text x="70" y="52" text-anchor="middle" class="rs">Cycle day</text><text x="70" y="81" text-anchor="middle" class="rt">${day}</text><text x="70" y="98" text-anchor="middle" class="rs">of about ${A}</text></svg>`}
+function toast(m){const t=$("#toast");t.textContent=m;t.className="on";clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="",2300)}
+
+/* ---------- screens ---------- */
+function onb(){const o=G.ob,s=o.step,skip=`<button class="btn g" data-a="skip">Skip for now</button>`;
+ if(s==0)return`<div class="ob"><div>${bunny(64)}</div><h1 class="wm">CycleSideChick</h1><p class="hand">Your cycle. Your moods. Your little sidekick.</p><p class="mut">Private by default. Your records stay on this device.</p><button class="btn" data-a="next">Get started</button></div>`;
+ if(s==1)return`<div class="ob"><div class="left"><h2>Let’s set your starting point</h2><p class="mut">Leave anything blank if you don’t know it. Predictions improve as you log.</p>
+ <label for="ol">First day of your last period</label><input id="ol" type="date" max="${I(TD())}" value="${o.last}" data-k="ob.last">
+ <label for="oc">Usual cycle length (days)</label><input id="oc" type="number" min="15" max="90" value="${o.cl}" data-k="ob.cl">
+ <label for="op">Usual period length (days)</label><input id="op" type="number" min="1" max="14" value="${o.pl}" data-k="ob.pl"></div>
+ <button class="btn" data-a="next">Continue</button>${skip}</div>`;
+ return`<div class="ob"><div class="left"><h2>A few preferences</h2><label>How regular are your cycles?</label><div class="chips">${[["regular","Mostly regular"],["irregular","Irregular"],["unknown","Not sure"]].map(([v,t])=>chip(t,o.reg==v,`data-a="reg" data-v="${v}"`)).join("")}</div>
+ <label>What would you like help with?</label><div class="chips">${["Know when my period is coming","Understand my symptoms","Track my mood","Plan around my cycle"].map(g=>chip(g,o.goals.includes(g),`data-a="goal" data-v="${g}"`)).join("")}</div>
+ <div class="chips">${chip("I use hormonal contraception",o.contra,'data-a="contra"')}${chip("Remind me to log",o.rem,'data-a="rem"')}</div></div>
+ <button class="btn" data-a="finish">Start tracking</button>${skip}</div>`}
+
+function home(){const x=stats(),T=TD(),L=S.logs[I(T)]||{},bad=badP(),fix=bad.length?`<div class="card" role="alert"><h3>Check your period dates</h3><p class="mut">${bad.length} saved period date${bad.length>1?"s are":" is"} invalid or in the future, so ${bad.length>1?"they’re":"it’s"} left out of your predictions. Nothing has been changed yet.</p><button class="btn g" data-a="fixbad">Remove ${bad.length>1?"them":"it"}</button></div>`:"";
+ if(x.last==null)return`${gr(T)}${fix}<div class="card" style="text-align:center"><h2>Welcome in</h2><p>Add the first day of your last period and Bun will start working out your pattern.</p><button class="btn" data-a="startToday">My period started today</button><button class="btn g" style="margin-top:8px" data-a="tab" data-v="calendar">Pick another date</button></div>${moodCard(L)}`;
+ const day=T-x.last+1;if(day>90)return`${gr(T)}${fix}<div class="card"><h3>Your last logged period is out of date</h3><p>It started on ${fmt(x.last,{month:"long",day:"numeric",year:"numeric"})}, ${day-1} days ago. Estimates are paused until you log a more recent start date.</p><button class="btn" data-a="tab" data-v="calendar">Open calendar</button></div>${moodCard(L)}`;const nx=x.pred[0],until=nx-T,late=-until;
+ let est=until>=0?`Next period expected in about <b>${until} day${until==1?"":"s"}</b>`:`Your period is <b>${late} day${late==1?"":"s"}</b> past the estimate`,
+ note=until>=0?`Likely between ${fmt(nx-x.pm)} and ${fmt(nx+x.pm)}. ${x.n<1?"This uses the typical cycle length in your settings. Log a few more periods to personalise it.":x.n<3?"Based on "+x.n+" logged cycle"+(x.n>1?"s":"")+", so treat it as a rough guide.":x.pm>3?"Your cycles vary, so this window is wide.":"Based on your recent cycles."}`:"Cycles run late sometimes. Log the first day when it arrives and I’ll adjust. If you’re often much later than usual, a clinician can help you look into it.";
+ const prep=until<=Math.max(S.rp,3)&&until>=-7&&S.dis.p!=I(T)?`<div class="card s"><div class="row"><h3>Getting ready</h3><button class="icon" style="width:36px;height:36px" data-a="dis" data-v="p" aria-label="Dismiss">${svgi("x")}</button></div><p>${until>=0?"Your period may arrive soon.":"It could start any day."} Keep pads or tampons handy, pack a heat pack, and plan a gentler day if you tend to get cramps.</p></div>`:"";
+ const ph=pdset().has(T)?"A recorded period day. Go gently if you need to.":(!S.contra&&nx-T>=12&&nx-T<=19)?"You may be in your estimated fertile window. This is a guess from past cycles, not a confirmation of ovulation, and not contraception.":"Check in with how you feel today.";
+ return`${gr(T)}${fix}<div class="card" style="text-align:center">${ring(x,day)}<p class="big" style="margin-top:8px">${est.replace(/<\/?b>/g,"")}</p><p class="mut">${note}</p></div>${prep}<div class="card l"><p style="margin:0">${esc(ph)}</p></div>${moodCard(L)}<div class="chips">${until<=2?`<button class="btn" style="flex:1" data-a="startToday">Period started today</button><button class="btn g" style="flex:1" data-a="goLog" data-v="${I(T)}">Log symptoms</button>`:`<button class="btn" style="flex:1" data-a="goLog" data-v="${I(T)}">Log symptoms</button>`}</div>`}
+const gr=T=>{const h=new Date().getHours();return`<p class="mut" style="margin:0">${fmt(T,{weekday:"long",month:"long",day:"numeric",year:"numeric"})}</p><h2 style="margin-bottom:12px">${h<12?"Good morning":h<18?"Good afternoon":"Good evening"}</h2>`};
+const moodCard=L=>{const k=I(TD());if(L.m!=null)return`<div class="card"><div class="row"><span>Today’s mood: <b>${MO[L.m]}</b></span><button class="chip" data-a="goLog" data-v="${k}">Add details</button></div></div>`;if(S.dis.c==k)return"";return`<div class="card"><div class="row"><h3>How are you today?</h3><button class="icon" style="width:36px;height:36px" data-a="dis" data-v="c" aria-label="Dismiss check-in">${svgi("x")}</button></div>${moods(null,"qm")}<p class="mut">Optional. Skip it any day.</p></div>`};
+
+function cal(){const x=stats(),T=TD(),{y,m}=ui.cm,ps=pdset(),pr=new Set,fe=new Set;
+ x.pred.forEach(p=>{for(let d=p;d<p+S.pl;d++)if(d>=T)pr.add(d);if(!S.contra)for(let d=p-19;d<=p-13;d++)fe.add(d)});
+ const off=(new Date(Date.UTC(y,m,1)).getUTCDay()+6)%7,nd=new Date(Date.UTC(y,m+1,0)).getUTCDate();let cells="<i></i>".repeat(off);
+ for(let d=1;d<=nd;d++){const n=Date.UTC(y,m,d)/DAY,k=ps.has(n)?"c":pr.has(n)?"p":fe.has(n)?"f":"",nm=ps.has(n)?", period":pr.has(n)?", predicted period":fe.has(n)?", estimated fertile window":"";
+  cells+=`<button class="day ${k} ${n==T?"t":""} ${n==ui.sel?"s":""} ${S.logs[I(n)]?"l":""}" data-a="day" data-v="${n}" aria-label="${fmt(n,{weekday:"long",month:"long",day:"numeric"})}${nm}">${d}</button>`}
+ const sel=ui.sel,rec=vp().find(p=>N(p.s)<=sel&&sel<=pEnd(p)),fut=sel>T;
+ const st=rec?`Period day ${sel-N(rec.s)+1}. This is a confirmed record.`:pr.has(sel)?"Predicted period day. An estimate, not a record.":fe.has(sel)?"Estimated fertile window. A prediction only. It doesn’t confirm ovulation and isn’t contraception.":"No period recorded.";
+ const btns=rec?`${sel>N(rec.s)&&!fut?`<button class="btn g" data-a="pend">Period ended this day</button>`:""}<button class="btn g" data-a="prem">${ui.cf=="rm"?"Tap again to remove this period":"Remove this period"}</button>`:`<button class="btn" data-a="pstart" ${fut?"disabled":""}>Period started this day</button>`;
+ return`<div class="card"><div class="row"><button class="icon" data-a="mo" data-v="-1" aria-label="Previous month">‹</button><h2>${fmt(Date.UTC(y,m,1)/DAY,{month:"long",year:"numeric"})}</h2><button class="icon" data-a="mo" data-v="1" aria-label="Next month">›</button></div>
+ <div class="grid7" style="margin-top:12px">${["M","T","W","T","F","S","S"].map(d=>`<b>${d}</b>`).join("")}${cells}</div>
+ <div class="leg"><span><i style="background:var(--pink)"></i>Period</span><span><i style="border:2px dashed var(--pink)"></i>Predicted</span><span><i style="background:var(--lav)"></i>Fertile estimate</span></div></div>
+ <div class="card"><h3>${fmt(sel,{weekday:"long",month:"long",day:"numeric"})}</h3><p class="mut">${st}${fut?" Future dates can’t be logged.":""}</p><div class="chips" style="display:grid;gap:8px">${btns}${fut?"":`<button class="btn g" data-a="goLog" data-v="${I(sel)}">Log mood &amp; symptoms</button>`}</div></div>`}
+
+const SY=["Cramps","Headache","Bloating","Fatigue","Breast tenderness","Backache"],FL=["none","spotting","light","medium","heavy"];
+function log(){const d=G.dr,all=[...SY,...S.custom];
+ return`<h2>Log</h2><div class="card"><label for="ld">Date</label><input id="ld" type="date" max="${I(TD())}" value="${d.d}" data-a="ldate">
+ <label>Period flow</label><div class="chips">${FL.map(f=>chip(f[0].toUpperCase()+f.slice(1),d.f==f,`data-a="flow" data-v="${f}"`)).join("")}</div>
+ <label>Mood</label>${moods(d.m,"dm")}</div>
+ <div class="card"><h3>Symptoms</h3><p class="mut">Tap to cycle through mild, moderate and strong. Tap again to clear.</p><div class="chips">${all.map(s=>{const v=d.sy[s]||0;return chip(`${esc(s)}<span class="dots" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=v?"on":""}"></i>`).join("")}</span>`,v,`data-a="sym" data-v="${esc(s)}" aria-label="${esc(s)}: ${["not logged","mild","moderate","strong"][v]}"`)}).join("")}</div>
+ <div class="row"><input id="cs" placeholder="Add your own symptom" maxlength="30" aria-label="Custom symptom"><button class="chip" data-a="addc" style="flex:none">Add</button></div></div>
+ <div class="card"><label for="sl">Sleep: <b id="slv">${d.sl==null?"not logged":d.sl+" h"}</b></label><input id="sl" type="range" min="3" max="12" step="0.5" value="${d.sl??7}" data-k="dr.sl" data-out="slv" style="padding:0">
+ <label for="nt">Notes</label><textarea id="nt" rows="3" data-k="dr.note" maxlength="500">${esc(d.note)}</textarea></div><button class="btn" data-a="save">Save entry</button>`}
+
+function patt(){const x=stats(),c={};
+ Object.entries(S.logs).forEach(([d,l])=>{const n=N(d),s=x.st.filter(q=>q<=n).pop();if(s==null||n-s>90)return;const b=Math.min(3,[5,13,21].filter(z=>n-s+1>z).length);Object.keys(l.sy||{}).forEach(k=>{(c[k]=c[k]||[0,0,0,0])[b]++})});
+ return Object.entries(c).map(([k,a])=>({k,t:a.reduce((p,q)=>p+q),b:a.indexOf(Math.max(...a))})).filter(r=>r.t>=3).sort((a,b)=>b.t-a.t)}
+const BL=["cycle days 1–5","cycle days 6–13","cycle days 14–21","cycle day 22 onward"];
+function insights(){const x=stats(),ls=x.lens.slice(-8),n=vp().length,pt=patt();
+ const durs=vp().filter(p=>okD(p.e)&&N(p.e)>=N(p.s)).map(p=>N(p.e)-N(p.s)+1),mc=[0,0,0,0,0];Object.values(S.logs).forEach(l=>{if(l.m!=null)mc[l.m]++});const top=mc.indexOf(Math.max(...mc));
+ let h="<h2>Insights</h2>";
+ if(ls.length<2)h+=`<div class="card l" style="text-align:center"><h3>Still getting to know you</h3><p>Patterns need at least three logged period start dates. You have ${n}. Each one makes Bun’s guesses more your own.</p></div>`;
+ else{const mx=Math.max(...ls),mn=Math.min(...ls),w=300/ls.length;
+  h+=`<div class="card"><h3>Cycle length</h3><p class="mut">Average ${x.avg} days, ranging ${mn}–${mx}. ${mx-mn>7?"That’s a wide spread, so predictions stay approximate.":"Fairly steady."}</p><svg viewBox="0 0 300 130" role="img" aria-label="Bar chart of your last ${ls.length} cycle lengths in days: ${ls.join(", ")}" width="100%">${ls.map((l,i)=>{const bh=Math.max(8,l/mx*90);return`<rect x="${i*w+6}" y="${110-bh}" width="${w-12}" height="${bh}" rx="6" fill="var(--pink)"/><text x="${i*w+w/2}" y="${104-bh}" text-anchor="middle" font-size="11" fill="var(--ink)">${l}</text>`}).join("")}</svg></div>`}
+ if(durs.length)h+=`<div class="card s"><h3>Period length</h3><p>Averaging ${(durs.reduce((a,b)=>a+b)/durs.length).toFixed(1)} days across ${durs.length} period${durs.length>1?"s":""} with an end date.</p></div>`;
+ h+=`<div class="card"><h3>Symptom patterns</h3>${pt.length?pt.map(r=>`<p><b>${esc(r.k)}</b> logged ${r.t} times, most often around ${BL[r.b]}.</p>`).join("")+`<p class="mut">These are observations from your logs, not diagnoses.</p>`:`<p class="mut">Patterns show once a symptom has been logged at least three times.</p>`}</div>`;
+ if(mc[top])h+=`<div class="card l"><h3>Mood</h3><p>“${MO[top]}” is the mood you’ve logged most (${mc[top]} of ${mc.reduce((a,b)=>a+b)} entries).</p></div>`;
+ return h}
+
+const TIP={Cramps:"A heating pad on your lower belly can ease cramps. Gentle stretching or a short walk may help too.",Headache:"Keep water and regular meals close, and try a dim, quiet room. Note whether headaches cluster near your period.",Bloating:"Slow meals, water and a short walk can help. Easing off very salty food for a few days may too.",Fatigue:"Protect tonight’s sleep and trim your to-do list. Iron-rich foods can help around your period.",["Breast tenderness"]:"A soft, supportive bra and a warm compress can help. It often eases once your period starts.",Backache:"A warm compress, hip and back stretches, and changing position often can bring relief."};
+function care(){const cut=TD()-30,c={};let low=0;
+ Object.entries(S.logs).forEach(([d,l])=>{if(N(d)<cut)return;Object.keys(l.sy||{}).forEach(k=>c[k]=(c[k]||0)+1);if(l.m==4||l.m==3)if(N(d)>=TD()-14)low++});
+ const top=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,2),
+ tips=top.map(([k])=>`<p><b>${esc(k)}:</b> ${TIP[k]||"You’ve logged this often lately. Rest, warmth and water are good first steps. Raise it with a clinician if it’s hard to manage."}</p>`).join("")+(low>=3?`<p><b>Mood:</b> Low or anxious days have come up a few times lately. Be gentle with yourself. If it lingers or feels heavy, talk to someone you trust or a clinician.</p>`:"");
+ const cards=[["Warmth","Heat pad or warm bath for cramps and tense muscles.","l"],["Water","Sip steadily through the day. Herbal tea counts.","s"],["Rest","Go to bed a little earlier on tender days.","l"],["Gentle movement","A walk or light stretching can lift mood and ease aches.","s"],["Journal","Jot a line in your log notes. Patterns appear over time.",""],["Nourish","Regular meals with iron and protein keep energy steadier.","l"]];
+ return`<h2>Care</h2><div class="card q"><h3>For you right now</h3>${tips||`<p class="mut">Log a few symptoms and the tips here will match what you actually feel. Nothing here is guessed.</p>`}</div>
+ <div class="cares">${cards.map(([t,d,c])=>`<div class="card ${c}"><h3>${t}</h3><p class="mut">${d}</p></div>`).join("")}</div>
+ <div class="card" style="margin-top:12px"><h3>When to call a clinician</h3><p class="mut">Soaking through a pad or tampon every hour for two hours or more. Pain that stops you doing daily things. No period for 90 days or more. Cycles that are regularly shorter than 21 or longer than 45 days. Fainting or a fever with a period. Bun can’t diagnose, but a professional can.</p></div>`}
+
+const prof=()=>`<div class="scrim" data-a="close"></div><section class="sheet" role="dialog" aria-label="Profile and settings"><div class="row"><h2>Profile &amp; privacy</h2><button class="icon" data-a="close" aria-label="Close">${svgi("x")}</button></div>
+ <label for="pc">Usual cycle length (days)</label><input id="pc" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl">
+ <label for="pp">Usual period length (days)</label><input id="pp" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl">
+ <label for="pg">Cycle regularity</label><select id="pg" data-k="S.reg" data-r="1">${[["regular","Mostly regular"],["irregular","Irregular"],["unknown","Not sure"]].map(([v,t])=>`<option value="${v}" ${S.reg==v?"selected":""}>${t}</option>`).join("")}</select>
+ <label>Appearance</label><div class="chips">${[["system","System"],["light","Light"],["dark","Dark"]].map(([v,t])=>chip(t,S.theme==v,`data-a="th" data-v="${v}"`)).join("")}</div>
+ <div class="chips">${chip("Hormonal contraception",S.contra,'data-a="pc"')}</div>
+ <h3 style="margin-top:14px">Reminders</h3><div class="chips">${chip(S.rem?"Reminders on":"Reminders off",S.rem,'data-a="pr"')}</div>${S.rem?`<div class="chips">${chip("Period heads-up",S.rk.prep,'data-a="rk" data-v="prep"')}${chip("Daily check-in",S.rk.log,'data-a="rk" data-v="log"')}</div><label for="rp">Heads-up days before</label><select id="rp" data-k="S.rp">${[1,2,3,4,5].map(n=>`<option ${S.rp==n?"selected":""}>${n}</option>`).join("")}</select><label for="rt">Check-in time</label><input id="rt" type="time" value="${S.rt}" data-k="S.rt"><p class="mut">${nstat()}</p>`:""}
+ <p class="mut">${S.contra?"Fertile-window estimates are hidden. Cycles on hormonal contraception may not follow a natural pattern. ":""}</p>
+ <h3 style="margin-top:14px">Your data</h3><p class="mut">Everything is saved only in this browser. Copy your records to keep a backup.</p>
+ <textarea readonly rows="4" id="ex" aria-label="Exported records">${esc(JSON.stringify({periods:S.periods,logs:S.logs,settings:{cl:S.cl,pl:S.pl,reg:S.reg}}))}</textarea>
+ <div class="chips" style="display:grid;gap:8px"><button class="btn g" data-a="copy">Copy records</button><button class="btn g" data-a="wipe">${ui.cf=="wipe"?"Tap again to delete everything":"Delete all my data"}</button></div>
+ <p class="mut">CycleSideChick offers estimates for tracking, not medical advice.</p></section>`;
+
+const NAVS=[["home","Home"],["calendar","Calendar"],["log","Log"],["insights","Insights"],["care","Care"]];
+function render(){const a=$("#app");if(!S.ob){a.innerHTML=onb();return}
+ a.innerHTML=`<header class="top"><span class="brand">${bunny(30,0)}<b class="wm2">CycleSideChick</b></span><button class="icon" data-a="prof" aria-label="Profile and settings">${svgi("user")}</button></header><main>${{home,calendar:cal,log,insights,care}[ui.tab]()}</main><nav class="nav" aria-label="Main">${NAVS.map(([k,t])=>`<button data-a="tab" data-v="${k}" ${ui.tab==k?'aria-current="page"':""}>${svgi(k)}${t}</button>`).join("")}</nav>${ui.prof?prof():""}`}
+
+/* ---------- actions ---------- */
+const tg=(arr,v)=>{const i=arr.indexOf(v);i<0?arr.push(v):arr.splice(i,1)};
+const A={
+ next:()=>G.ob.step++,
+ skip:()=>{S.ob=1;save()},
+ reg:v=>G.ob.reg=v,goal:v=>tg(G.ob.goals,v),contra:()=>G.ob.contra=+!G.ob.contra,rem:()=>{G.ob.rem=+!G.ob.rem;if(G.ob.rem)askNotif()},
+ finish:()=>{const o=G.ob;Object.assign(S,{cl:o.cl||28,pl:o.pl||5,reg:o.reg,goals:o.goals,contra:o.contra,rem:o.rem,ob:1});if(o.last&&N(o.last)<=TD())S.periods=[{s:o.last,e:null}];save();toast("You’re all set")},
+ tab:v=>{ui.tab=v;ui.cf="";scrollTo(0,0)},prof:()=>ui.prof=1,close:()=>{ui.prof=0;ui.cf=""},
+ startToday:()=>{ensurePeriod(TD());save();toast("Period start saved")},
+ qm:v=>{const k=I(TD());S.logs[k]={...(S.logs[k]||{}),m:+v};save();toast("Mood saved: "+MO[v])},
+ day:v=>{ui.sel=+v;ui.cf=""},
+ mo:v=>{let{y,m}=ui.cm;m+=+v;if(m<0){m=11;y--}if(m>11){m=0;y++}ui.cm={y,m}},
+ pstart:()=>{ensurePeriod(ui.sel);save();toast("Period start saved")},
+ pend:()=>{const r=S.periods.find(p=>N(p.s)<=ui.sel&&ui.sel<=pEnd(p));if(r){r.e=I(ui.sel);save();toast("Period end saved")}},
+ prem:()=>{if(ui.cf!="rm"){ui.cf="rm";return}const r=S.periods.find(p=>N(p.s)<=ui.sel&&ui.sel<=pEnd(p));S.periods=S.periods.filter(p=>p!==r);ui.cf="";save();toast("Period removed")},
+ goLog:v=>{loadDraft(v);ui.tab="log";scrollTo(0,0)},
+ ldate:(v,b)=>loadDraft(b.value||I(TD())),
+ flow:v=>G.dr.f=G.dr.f==v?"":v,dm:v=>G.dr.m=G.dr.m===+v?null:+v,
+ sym:v=>{const s=G.dr.sy,n=((s[v]||0)+1)%4;n?s[v]=n:delete s[v]},
+ addc:()=>{const e=$("#cs"),v=e.value.trim().slice(0,30);if(v&&![...SY,...S.custom].includes(v)){S.custom.push(v);G.dr.sy[v]=1;save()}},
+ save:()=>{const d=G.dr,o={m:d.m,sy:{...d.sy},sl:d.sl,note:d.note.trim(),f:d.f};
+  if(o.m==null&&!Object.keys(o.sy).length&&!o.note&&!o.f&&o.sl==null){toast("Nothing to save yet");return}
+  S.logs[d.d]=o;if(o.f&&o.f!="none")ensurePeriod(N(d.d));save();toast("Entry saved for "+fmt(N(d.d)));ui.tab="home"},
+ pc:()=>{S.contra=+!S.contra;save()},fixbad:()=>{S.periods=vp();save();toast("Invalid dates removed")},th:v=>{S.theme=v;save();applyTheme()},rk:v=>{S.rk[v]=+!S.rk[v];save()},dis:v=>{S.dis[v]=I(TD());save()},
+ pr:()=>{S.rem=+!S.rem;if(S.rem)askNotif();save()},
+ copy:async()=>{const e=$("#ex");e.select();try{await navigator.clipboard.writeText(e.value);toast("Records copied")}catch(x){toast("Press copy on the selected text")}},
+ wipe:()=>{if(ui.cf!="wipe"){ui.cf="wipe";return}Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,def());applyTheme();try{localStorage.removeItem(KEY)}catch(x){}ui.prof=0;ui.cf="";G.ob.step=0;loadDraft(I(TD()));toast("All data deleted")}
+};
+function askNotif(){try{if("Notification" in window&&Notification.permission=="default")Notification.requestPermission().then(()=>{render();tick()})}catch(e){}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||b.tagName=="INPUT")return;const f=A[b.dataset.a];if(f){f(b.dataset.v,b);if(!S.ob||b.dataset.a!="copy")render()}});
+const LIM={"S.cl":[15,90],"S.pl":[1,14],"ob.cl":[15,90],"ob.pl":[1,14]};
+function onIn(e){const el=e.target,k=el.dataset.k;
+ if(el.dataset.a=="ldate"&&e.type=="change"){A.ldate(0,el);render();return}
+ if(!k||(e.type=="change"&&!el.dataset.r))return;
+ let v=el.value;if(el.type=="number"||el.type=="range"){v=+v;const l=LIM[k];if(l&&!(v>=l[0]&&v<=l[1]))return}
+ const p=k.split(".");let o=G;while(p.length>1)o=o[p.shift()];o[p[0]]=v;
+ if(el.dataset.out)document.getElementById(el.dataset.out).textContent=v+" h";
+ if(k.startsWith("S."))save();if(el.dataset.r)render()}
+document.addEventListener("input",onIn);document.addEventListener("change",onIn);
+document.addEventListener("keydown",e=>{if(e.key=="Escape"&&ui.prof){ui.prof=0;render()}});
+
+/* theme, favicon, date rollover and reminders */
+function applyTheme(){const r=document.documentElement;S.theme=="light"||S.theme=="dark"?r.dataset.theme=S.theme:r.removeAttribute("data-theme")}
+const nstat=()=>!("Notification" in window)?"This browser doesn’t support notifications. Reminders appear on the Home screen when you open the app.":Notification.permission=="granted"?"Notifications are allowed. Browsers can’t schedule them in the background, so they appear only while this page is open. Otherwise reminders show on Home.":Notification.permission=="denied"?"Notifications are blocked in your browser settings. Reminders will show on Home instead.":"Allow notifications when asked. They appear only while this page is open, since browsers can’t schedule them in the background.";
+function due(){const x=stats(),T=TD(),k=I(T),o=[];if(!S.ob||!S.rem)return o;
+ if(S.rk.prep&&x.last!=null){const u=x.pred[0]-T;if(u>=0&&u<=S.rp&&T-x.last>=S.pl)o.push({id:"p"+k,t:"Period may start "+(u?"in about "+u+" day"+(u>1?"s":""):"today"),b:"Keep supplies handy. It’s an estimate."})}
+ const L=S.logs[k];if(S.rk.log&&!(L&&Object.keys(L).length)&&new Date().toTimeString().slice(0,5)>=S.rt)o.push({id:"l"+k,t:"Daily check-in",b:"Log how you feel if you’d like."});return o}
+function tick(f){const k=I(TD());
+ if(ui.day!=k){ui.day=k;ui.sel=TD();const n=new Date();ui.cm={y:n.getFullYear(),m:n.getMonth()};if(ui.tab!="log")loadDraft(k);render()}else if(f===true)render();
+ try{if(S.rem&&"Notification" in window&&Notification.permission=="granted"){due().forEach(r=>{if(!S.sent[r.id]){S.sent[r.id]=1;new Notification("CycleSideChick",{body:r.t+". "+r.b})}});Object.keys(S.sent).forEach(i=>{if(!i.endsWith(k))delete S.sent[i]});save()}}catch(e){}}
+ui.day=I(TD());applyTheme();
+const fav=()=>{$("#fv").href="data:image/svg+xml,"+encodeURIComponent(bunny(64,0).replace(/var\(--(\w+)\)/g,(m,n)=>({plum:"#823C53",iv:"#FFF9F5",rose:"#D9A7B2",pink:"#E95D98"}[n])).replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" '))};fav();
+setInterval(tick,6e4);document.addEventListener("visibilitychange",()=>{if(!document.hidden)tick(true)});tick();
+render();
+</script></body></html>
