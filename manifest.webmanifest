@@ -1,0 +1,18 @@
+{
+  "name": "CycleSideChick — Cycle & Wellness Companion",
+  "short_name": "CycleSideChick",
+  "description": "Credible, privacy-first menstrual cycle tracking, symptoms journal, and evidence-based wellness assistant. 100% on-device.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FAF5F7",
+  "theme_color": "#FAF5F7",
+  "icons": [
+    {
+      "src": "./public/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"]
+}
