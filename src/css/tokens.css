@@ -1,0 +1,161 @@
+/* ==========================================================================
+   CycleSideChick — Design Tokens & Soft Semantic Color System
+   ========================================================================== */
+:root {
+  --font: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Base Light Theme — Warm off-white surfaces, never harsh #FFFFFF */
+  --bg: #FAF5F7;
+  --surface: #FDF9FA;
+  --surface-alt: #F7EDF2;
+  --surface-elevated: #FFFFFF;
+  --surface-soft: #FFF4F8;
+  --plum: #481930;
+  --ink: #281822;
+  --muted: #786470;
+  --subtle: #A2909C;
+  --border: #ECDBE3;
+  --border-subtle: rgba(72, 25, 48, 0.08);
+
+  /* Primary Brand Accent (Used for Primary Actions Only) */
+  --pink: #D9447E;
+  --pink-hover: #C5356E;
+  --pink-light: #FDEBF2;
+  --pink-border: #F7BFD5;
+  --pink-glow: rgba(217, 68, 126, 0.22);
+  --rose: #C68196;
+  --nav-bg: rgba(253, 249, 250, 0.94);
+
+  /* Soft Semantic Tints — Light (All reach >= 4.5:1 text contrast) */
+  --tint-rose-bg: #FBE3EA;
+  --tint-rose-text: #7D2342;
+  --tint-rose-border: #F3C5D3;
+
+  --tint-lavender-bg: #EFE6F7;
+  --tint-lavender-text: #532E77;
+  --tint-lavender-border: #DEC8EE;
+
+  --tint-butter-bg: #FFF3C4;
+  --tint-butter-text: #664E00;
+  --tint-butter-border: #F7E188;
+
+  --tint-amber-bg: #FBE0B0;
+  --tint-amber-text: #7A4400;
+  --tint-amber-border: #F5C679;
+
+  --tint-sage-bg: #DDE8D5;
+  --tint-sage-text: #265231;
+  --tint-sage-border: #BED2B2;
+
+  --tint-mint-bg: #D3EDE3;
+  --tint-mint-text: #1A573F;
+  --tint-mint-border: #A7DCB9;
+
+  --tint-sky-bg: #DCEBF6;
+  --tint-sky-text: #194B73;
+  --tint-sky-border: #BAD8EF;
+
+  --tint-peach-bg: #FADCCB;
+  --tint-peach-text: #773B1B;
+  --tint-peach-border: #F3BF9F;
+
+  /* Shadows & Radii */
+  --card-shadow: 0 4px 18px -2px rgba(72, 25, 48, 0.05), 0 1px 3px rgba(72, 25, 48, 0.03);
+  --card-shadow-hover: 0 8px 24px -4px rgba(72, 25, 48, 0.08);
+  --sheet-shadow: 0 -10px 36px rgba(72, 25, 48, 0.12);
+
+  --radius-xl: 28px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --radius-pill: 9999px;
+
+  color-scheme: light;
+}
+
+/* Layered Dark Mode — Layered surfaces (#17151B, #211D26, #2A2330) */
+:root[data-theme="dark"],
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17151B;
+    --surface: #211D26;
+    --surface-alt: #2A2330;
+    --surface-elevated: #2E2736;
+    --surface-soft: #2E2537;
+    --plum: #F6EDF3;
+    --ink: #EBE0EA;
+    --muted: #A694A3;
+    --subtle: #796877;
+    --border: #352B3B;
+    --border-subtle: rgba(246, 237, 243, 0.09);
+
+    --pink: #EB6FA1;
+    --pink-hover: #F286B2;
+    --pink-light: #341B28;
+    --pink-border: #5C2B42;
+    --pink-glow: rgba(235, 111, 161, 0.28);
+    --rose: #9C657A;
+    --nav-bg: rgba(33, 29, 38, 0.94);
+
+    /* Soft Semantic Tints — Dark (All reach >= 4.5:1 text contrast) */
+    --tint-rose-bg: #2E2029;
+    --tint-rose-text: #F8BAC9;
+    --tint-rose-border: #4D3342;
+
+    --tint-lavender-bg: #2A2330;
+    --tint-lavender-text: #DCCBF0;
+    --tint-lavender-border: #463753;
+
+    --tint-butter-bg: #3A3322;
+    --tint-butter-text: #FEE685;
+    --tint-butter-border: #594D2C;
+
+    --tint-amber-bg: #3F3120;
+    --tint-amber-text: #FED085;
+    --tint-amber-border: #5F472A;
+
+    --tint-sage-bg: #25302A;
+    --tint-sage-text: #B7E1C3;
+    --tint-sage-border: #384F41;
+
+    --tint-mint-bg: #223229;
+    --tint-mint-text: #AEE2CF;
+    --tint-mint-border: #335041;
+
+    --tint-sky-bg: #212C38;
+    --tint-sky-text: #B0D7F5;
+    --tint-sky-border: #33485E;
+
+    --tint-peach-bg: #3A2A26;
+    --tint-peach-text: #F8BC9E;
+    --tint-peach-border: #573B32;
+
+    --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+    --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
+    --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+}
+
+/* High Contrast Accessibility Override */
+@media (prefers-contrast: more) {
+  :root {
+    --border: #734F63;
+    --border-subtle: #734F63;
+    --ink: #000000;
+    --muted: #482B3C;
+  }
+  :root[data-theme="dark"],
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --border: #DFCBD8;
+      --border-subtle: #DFCBD8;
+      --ink: #FFFFFF;
+      --muted: #EADCE6;
+    }
+  }
+  .card, .chip, .mood, .day {
+    border-width: 2px !important;
+  }
+}

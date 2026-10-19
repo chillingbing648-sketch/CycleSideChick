@@ -1,0 +1,257 @@
+/* ==========================================================================
+   CycleSideChick — Specialized View Styles
+   ========================================================================== */
+
+/* 1. Local Health Assistant */
+.assistant-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assistant-prompt-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.assistant-prompt-list::-webkit-scrollbar { display: none; }
+
+.assistant-prompt-chip {
+  flex: 0 0 auto;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  background: var(--surface);
+  color: var(--plum);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.assistant-prompt-chip:hover {
+  border-color: var(--pink);
+  background: var(--surface-alt);
+}
+
+.assistant-response-card {
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.assistant-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* 2. Education Library */
+.library-search {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.library-filter-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 10px;
+  scrollbar-width: none;
+}
+.library-filter-chips::-webkit-scrollbar { display: none; }
+
+.article-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--surface);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--pink-border);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.article-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.article-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* 3. Privacy Ledger & Security */
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+
+.ledger-table th, .ledger-table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.ledger-table th {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 11.5px;
+  text-transform: uppercase;
+}
+
+/* 4. PIN Lock Screen Overlay */
+.pin-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.pin-bubbles {
+  display: flex;
+  gap: 14px;
+  margin: 24px 0 32px;
+}
+
+.pin-bubble {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--plum);
+  background: transparent;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.pin-bubble.filled {
+  background: var(--pink);
+  border-color: var(--pink);
+  transform: scale(1.15);
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.pin-key {
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--plum);
+  font-size: 22px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pin-key:hover {
+  background: var(--surface-alt);
+}
+
+.pin-key:active {
+  transform: scale(0.92);
+  background: var(--pink-light);
+}
+
+/* 5. Partner Share */
+.partner-qr-box {
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  display: inline-block;
+  margin: 14px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.partner-preview-card {
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1.5px dashed var(--border);
+  background: var(--surface);
+  margin: 14px 0;
+}
+
+/* 6. Mode-Specific Banners (Pregnancy & Perimenopause) */
+.pregnancy-hero {
+  text-align: center;
+  padding: 24px 18px;
+  background: radial-gradient(circle, var(--tint-butter-bg) 0%, var(--surface) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--tint-butter-border);
+  margin-bottom: 14px;
+}
+
+.perimenopause-hero {
+  text-align: center;
+  padding: 24px 18px;
+  background: radial-gradient(circle, var(--tint-sage-bg) 0%, var(--surface) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--tint-sage-border);
+  margin-bottom: 14px;
+}
+
+/* 7. Print Styles for Clinician Report */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .nav, .top, .btn, .icon, .chips {
+    display: none !important;
+  }
+  .sheet {
+    position: static !important;
+    max-height: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .scrim {
+    display: none !important;
+  }
+}
