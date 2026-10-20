@@ -228,6 +228,69 @@ function checkCareAlerts(S) {
 }
 
 /**
+ * Daily Phase Guidance: Contextual wellness, hormones, and gentle suggestions
+ */
+function getDailyPhaseGuidance(phaseKey, cycleDay = 1) {
+  const guides = {
+    menstrual: {
+      key: "menstrual",
+      name: "Menstrual Phase",
+      hormones: "Estrogen & progesterone are at baseline levels as the uterine lining sheds.",
+      energy: "Reflective, restorative energy. Natural slowing down.",
+      nutrition: "Iron-rich foods (leafy greens, lentils), warming broths, and ginger tea for comfort.",
+      movement: "Restorative stretching, gentle walking, or cozy rest. Avoid intense HIIT if cramping.",
+      selfCareTip: "Keep a warm heating pad nearby and honor your body's request for deeper sleep."
+    },
+    follicular: {
+      key: "follicular",
+      name: "Follicular Phase",
+      hormones: "FSH triggers follicle maturation; estrogen steadily rises.",
+      energy: "Rising physical stamina, sharper focus, and renewed curiosity.",
+      nutrition: "Light, fresh meals, fermented foods (kimchi, kefir), and complex carbohydrates.",
+      movement: "Cardio, brisk trail walks, swimming, and creative brainstorming sessions.",
+      selfCareTip: "Great time to start a new project, plan goals, or socialize with loved ones."
+    },
+    fertile: {
+      key: "fertile",
+      name: "Estimated Fertile Window",
+      hormones: "Estrogen peaks, triggering an LH surge that prompts the release of an egg.",
+      energy: "Peak sociability, confidence, and vibrant connection.",
+      nutrition: "Antioxidant-dense berries, pumpkin/sunflower seeds, and ample hydration.",
+      movement: "Higher intensity workouts, dance, or resistance training feeling fluid.",
+      selfCareTip: "Cervical fluid may be watery or egg-white. Note: calendar dates are mathematical approximations."
+    },
+    luteal: {
+      key: "luteal",
+      name: "Luteal Phase",
+      hormones: "Progesterone rises to support the endometrium; basal body temperature shifts slightly higher.",
+      energy: "Grounded, nesting energy turning inward. Sensitivity to blood sugar drops.",
+      nutrition: "Magnesium-rich dark chocolate, roasted root vegetables, and complex grains to curb cravings.",
+      movement: "Pilates, steady-state movement, and calming yin yoga.",
+      selfCareTip: "Set gentle personal boundaries, minimize evening screens, and prioritize soothing rituals."
+    },
+    pregnancy: {
+      key: "pregnancy",
+      name: "Gestational Journey",
+      hormones: "Progesterone and hCG support placental development.",
+      energy: "Fluctuating stamina; honor your fatigue without judgment.",
+      nutrition: "Folate, choline, small frequent meals, and plentiful clean hydration.",
+      movement: "Prenatal yoga, pelvic tilts, and leisurely walks in fresh air.",
+      selfCareTip: "Stay closely connected with your prenatal care team and record bodily sensations gently."
+    },
+    perimenopause: {
+      key: "perimenopause",
+      name: "Rhythmic Transition",
+      hormones: "Ovarian follicular supply naturally shifts, causing cycle variance.",
+      energy: "Dynamic rhythm; adaptability and body listening are paramount.",
+      nutrition: "Phytoestrogens (flaxseed, edamame), calcium, and vitamin D3.",
+      movement: "Strength training for bone density and joint-friendly mobility work.",
+      selfCareTip: "Wear layered breathable clothing to stay comfortable through temperature shifts."
+    }
+  };
+  return guides[phaseKey] || guides.follicular;
+}
+
+/**
  * Formats a comprehensive, printable, and copyable Clinician Summary report.
  */
 function generateClinicianSummary(S) {
@@ -335,11 +398,23 @@ function compareToUsual(S) {
   };
 }
 
+/**
+ * Cervical Fluid Classification (Creighton / Billings natural fertility model)
+ */
+const CERVICAL_FLUID = {
+  dry: { label: "Dry / None", desc: "Little or no sensation; typical right after menses.", fertile: "Low" },
+  sticky: { label: "Sticky / Thick", desc: "Paste-like, white or yellowish, holds shape.", fertile: "Low" },
+  creamy: { label: "Creamy / Smooth", desc: "Like lotion or yogurt, wet feeling.", fertile: "Transitional" },
+  watery: { label: "Watery / Slippery", desc: "Clear, thin, liquid, very wet sensation.", fertile: "High" },
+  eggwhite: { label: "Egg-white / Spinnbarkeit", desc: "Clear, highly stretchy between fingers.", fertile: "Peak (Estimated)" }
+};
+
 // Export for module environments
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     DAY, N, I, TD, fmt, okD, vp, badP, pEnd, pdset,
     calculateStats, calculatePregnancy, checkCareAlerts,
-    generateClinicianSummary, compareToUsual
+    getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
+    CERVICAL_FLUID
   };
 }
