@@ -5,22 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FAF5F7" id="meta-theme">
 <title>CycleSideChick — Cycle &amp; Wellness Companion</title>
-<link rel="icon" id="fv" type="image/svg+xml" href="data:,">
+<link rel="icon" id="fv" type="image/svg+xml" href="./public/favicon.svg">
+<link rel="manifest" href="./manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
    CycleSideChick — Design Tokens & Soft Semantic Color System
    ========================================================================== */
 :root {
   --font: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  
-  /* Light Theme — Warm off-white surfaces, never pure white */
+
+  /* Base Light Theme — Warm off-white surfaces, never harsh #FFFFFF */
   --bg: #FAF5F7;
   --surface: #FDF9FA;
   --surface-alt: #F7EDF2;
-  --surface-elevated: #F8EDF3;
+  --surface-elevated: #FFFFFF;
   --surface-soft: #FFF4F8;
   --plum: #481930;
   --ink: #281822;
@@ -28,6 +29,8 @@
   --subtle: #A2909C;
   --border: #ECDBE3;
   --border-subtle: rgba(72, 25, 48, 0.08);
+
+  /* Primary Brand Accent (Used for Primary Actions Only) */
   --pink: #D9447E;
   --pink-hover: #C5356E;
   --pink-light: #FDEBF2;
@@ -35,7 +38,7 @@
   --pink-glow: rgba(217, 68, 126, 0.22);
   --rose: #C68196;
   --nav-bg: rgba(253, 249, 250, 0.94);
-  
+
   /* Soft Semantic Tints — Light (All reach >= 4.5:1 text contrast) */
   --tint-rose-bg: #FBE3EA;
   --tint-rose-text: #7D2342;
@@ -68,28 +71,29 @@
   --tint-peach-bg: #FADCCB;
   --tint-peach-text: #773B1B;
   --tint-peach-border: #F3BF9F;
-  
+
+  /* Shadows & Radii */
   --card-shadow: 0 4px 18px -2px rgba(72, 25, 48, 0.05), 0 1px 3px rgba(72, 25, 48, 0.03);
   --card-shadow-hover: 0 8px 24px -4px rgba(72, 25, 48, 0.08);
   --sheet-shadow: 0 -10px 36px rgba(72, 25, 48, 0.12);
-  
+
   --radius-xl: 28px;
   --radius-lg: 24px;
   --radius-md: 18px;
   --radius-sm: 12px;
   --radius-pill: 9999px;
-  
+
   color-scheme: light;
 }
 
-/* Dark Theme — Layered surfaces (#17151B, #211D26, #2A2330) */
+/* Layered Dark Mode — Layered surfaces (#17151B, #211D26, #2A2330) */
 :root[data-theme="dark"],
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #17151B;
     --surface: #211D26;
     --surface-alt: #2A2330;
-    --surface-elevated: #2A2330;
+    --surface-elevated: #2E2736;
     --surface-soft: #2E2537;
     --plum: #F6EDF3;
     --ink: #EBE0EA;
@@ -97,6 +101,7 @@
     --subtle: #796877;
     --border: #352B3B;
     --border-subtle: rgba(246, 237, 243, 0.09);
+
     --pink: #EB6FA1;
     --pink-hover: #F286B2;
     --pink-light: #341B28;
@@ -137,11 +142,11 @@
     --tint-peach-bg: #3A2A26;
     --tint-peach-text: #F8BC9E;
     --tint-peach-border: #573B32;
-    
+
     --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
     --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
     --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-    
+
     color-scheme: dark;
   }
 }
@@ -168,7 +173,10 @@
   }
 }
 
-/* Global Typography & Inheritance */
+
+/* ==========================================================================
+   CycleSideChick — Base Layout, Resets & Typography
+   ========================================================================== */
 html, body, button, input, select, textarea {
   font-family: var(--font);
 }
@@ -207,7 +215,7 @@ body {
 #app {
   max-width: 480px;
   margin: 0 auto;
-  padding: 14px 16px calc(100px + env(safe-area-inset-bottom, 0px));
+  padding: 14px 16px calc(108px + env(safe-area-inset-bottom, 0px));
 }
 
 h1, h2, h3, h4 {
@@ -221,6 +229,7 @@ h1, h2, h3, h4 {
 h1 { font-size: 26px; }
 h2 { font-size: 22px; }
 h3 { font-size: 17px; font-weight: 600; }
+h4 { font-size: 15px; font-weight: 600; }
 p { margin: 0.4em 0; }
 
 .mut {
@@ -229,7 +238,7 @@ p { margin: 0.4em 0; }
   line-height: 1.45;
 }
 
-/* Semantic Tint Helpers */
+/* Soft Semantic Tint Component Classes */
 .tint-rose { background: var(--tint-rose-bg); color: var(--tint-rose-text); border: 1px solid var(--tint-rose-border); }
 .tint-lavender { background: var(--tint-lavender-bg); color: var(--tint-lavender-text); border: 1px solid var(--tint-lavender-border); }
 .tint-butter { background: var(--tint-butter-bg); color: var(--tint-butter-text); border: 1px solid var(--tint-butter-border); }
@@ -239,7 +248,34 @@ p { margin: 0.4em 0; }
 .tint-sky { background: var(--tint-sky-bg); color: var(--tint-sky-text); border: 1px solid var(--tint-sky-border); }
 .tint-peach { background: var(--tint-peach-bg); color: var(--tint-peach-text); border: 1px solid var(--tint-peach-border); }
 
-/* Header & Top Bar */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Touch Targets: minimum 44px */
+button, input, select, textarea, .chip, .mood, .day {
+  min-height: 44px;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ==========================================================================
+   CycleSideChick — Component Styles
+   ========================================================================== */
+
+/* Top Header */
 .top {
   display: flex;
   justify-content: space-between;
@@ -284,7 +320,7 @@ p { margin: 0.4em 0; }
   transform: scale(0.92);
 }
 
-/* Cards & Surfaces */
+/* Cards */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -298,13 +334,6 @@ p { margin: 0.4em 0; }
 .card.card-interactive:hover {
   transform: translateY(-2px);
   box-shadow: var(--card-shadow-hover);
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
 }
 
 /* Buttons */
@@ -395,7 +424,7 @@ p { margin: 0.4em 0; }
   box-shadow: 0 4px 12px var(--pink-glow);
 }
 
-/* Symptom Chip Intensity Indicators */
+/* Symptom 3-Level Dots */
 .dots {
   display: inline-flex;
   align-items: center;
@@ -678,7 +707,7 @@ input[type="range"]::-webkit-slider-thumb:active {
   transform: scale(1.2);
 }
 
-/* Calendar */
+/* Calendar Month Grid */
 .grid7 {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -795,60 +824,6 @@ input[type="range"]::-webkit-slider-thumb:active {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-}
-
-/* Care Grid */
-.cares {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.cares .card {
-  margin: 0;
-  padding: 16px;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* Interactive Breathing Widget */
-.breath-box {
-  text-align: center;
-  padding: 24px 16px;
-}
-
-.breath-circle {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--tint-rose-bg) 0%, var(--tint-lavender-bg) 100%);
-  border: 3px solid var(--pink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 16px auto;
-  box-shadow: 0 0 30px var(--pink-glow);
-  animation: breathAnim 8s infinite ease-in-out;
-  transition: all 0.3s ease;
-}
-
-.breath-label {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--plum);
-}
-
-@keyframes breathAnim {
-  0%, 100% {
-    transform: scale(0.85);
-    box-shadow: 0 0 15px var(--pink-glow);
-  }
-  40%, 60% {
-    transform: scale(1.22);
-    box-shadow: 0 0 40px var(--pink-glow);
-  }
 }
 
 /* Bottom Navigation Bar */
@@ -1029,81 +1004,433 @@ input[type="range"]::-webkit-slider-thumb:active {
   }
 }
 
+@keyframes gentlePulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.35); opacity: 0.15; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
 .view-enter {
   animation: viewFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Onboarding */
-.ob {
-  text-align: center;
-  padding-top: 4vh;
+.ring-pulse-halo {
+  animation: gentlePulse 2.4s ease-in-out infinite;
+  transform-origin: center;
 }
 
-.ob .wm {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 12px 0 6px;
+.phase-art-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: gentleFloat 4s ease-in-out infinite;
 }
 
-.ob .btn {
-  margin-top: 14px;
-}
-
-.ob form, .ob .left {
+/* Phase Guidance & Educational Popovers */
+.phase-guidance-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
   text-align: left;
 }
 
+.guidance-metric-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.guidance-metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.guidance-metric b {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+/* Water Hydration Cups */
+.water-cups-row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.water-cup-btn {
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 4px 0;
+}
+
+.water-cup-btn:hover {
+  border-color: var(--tint-sky-border);
+  background: var(--tint-sky-bg);
+}
+
+.water-cup-btn.filled {
+  background: var(--tint-sky-bg);
+  border-color: var(--tint-sky-text);
+  color: var(--tint-sky-text);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(25, 75, 115, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Tooltip / Info Popover Buttons */
+.info-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.info-btn:hover {
+  color: var(--plum);
+  transform: scale(1.1);
+}
+
+/* Step Indicators for Onboarding */
 .step-indicator {
   display: flex;
   justify-content: center;
-  gap: 6px;
-  margin: 16px 0 24px;
+  gap: 8px;
+  margin: 16px 0;
 }
 
 .step-dot {
-  width: 24px;
-  height: 4px;
-  border-radius: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: var(--border);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .step-dot.active {
+  width: 24px;
+  border-radius: var(--radius-pill);
   background: var(--pink);
-  width: 36px;
 }
 
-/* Accessibility: Reduced Motion */
+/* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .breath-circle {
+  .view-enter, .ring-pulse-halo, .phase-art-wrap {
     animation: none !important;
   }
 }
+
+
+/* ==========================================================================
+   CycleSideChick — Specialized View Styles
+   ========================================================================== */
+
+/* 1. Local Health Assistant */
+.assistant-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assistant-prompt-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.assistant-prompt-list::-webkit-scrollbar { display: none; }
+
+.assistant-prompt-chip {
+  flex: 0 0 auto;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  background: var(--surface);
+  color: var(--plum);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.assistant-prompt-chip:hover {
+  border-color: var(--pink);
+  background: var(--surface-alt);
+}
+
+.assistant-response-card {
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.assistant-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* 2. Education Library */
+.library-search {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.library-filter-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 10px;
+  scrollbar-width: none;
+}
+.library-filter-chips::-webkit-scrollbar { display: none; }
+
+.article-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--surface);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--pink-border);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.article-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.article-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* 3. Privacy Ledger & Security */
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+
+.ledger-table th, .ledger-table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.ledger-table th {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 11.5px;
+  text-transform: uppercase;
+}
+
+/* 4. PIN Lock Screen Overlay */
+.pin-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.pin-bubbles {
+  display: flex;
+  gap: 14px;
+  margin: 24px 0 32px;
+}
+
+.pin-bubble {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--plum);
+  background: transparent;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.pin-bubble.filled {
+  background: var(--pink);
+  border-color: var(--pink);
+  transform: scale(1.15);
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.pin-key {
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--plum);
+  font-size: 22px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pin-key:hover {
+  background: var(--surface-alt);
+}
+
+.pin-key:active {
+  transform: scale(0.92);
+  background: var(--pink-light);
+}
+
+/* 5. Partner Share */
+.partner-qr-box {
+  background: #FFFFFF;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  display: inline-block;
+  margin: 14px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.partner-preview-card {
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1.5px dashed var(--border);
+  background: var(--surface);
+  margin: 14px 0;
+}
+
+/* 6. Mode-Specific Banners (Pregnancy & Perimenopause) */
+.pregnancy-hero {
+  text-align: center;
+  padding: 24px 18px;
+  background: radial-gradient(circle, var(--tint-butter-bg) 0%, var(--surface) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--tint-butter-border);
+  margin-bottom: 14px;
+}
+
+.perimenopause-hero {
+  text-align: center;
+  padding: 24px 18px;
+  background: radial-gradient(circle, var(--tint-sage-bg) 0%, var(--surface) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--tint-sage-border);
+  margin-bottom: 14px;
+}
+
+/* 7. Print Styles for Clinician Report */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .nav, .top, .btn, .icon, .chips {
+    display: none !important;
+  }
+  .sheet {
+    position: static !important;
+    max-height: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .scrim {
+    display: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div id="toast" role="status" aria-live="polite"></div>
-
 <script>
-/* ==========================================================================
-   CycleSideChick — Core Engine & Accurate Cycle Intelligence
-   ========================================================================== */
-const $ = s => document.querySelector(s);
-const DAY = 864e5;
-const KEY = "csc.v1";
-const SCHEMA_VERSION = 2;
+/**
+ * CycleSideChick — Cycle Engine v2
+ * High-accuracy, evidence-based, on-device cycle calculations.
+ * Supports: natural, irregular, hormonal contraception, TTC, pregnancy, and perimenopause modes.
+ */
 
-/* Date Utilities */
+const DAY = 864e5;
+
 const N = s => {
-  if (typeof s !== "string") return 0;
+  if (typeof s !== "string" || !s) return 0;
   const [a, b, c] = s.split("-");
   return Date.UTC(+a, +b - 1, +c) / DAY;
 };
@@ -1118,152 +1445,26 @@ const TD = () => {
 const fmt = (n, o = { month: "short", day: "numeric" }) =>
   new Date(n * DAY).toLocaleDateString(undefined, { ...o, timeZone: "UTC" });
 
-const esc = s =>
-  String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const okD = s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s) && I(N(s)) === s;
 
-/* Safe Haptic Feedback */
-function haptic(pattern = 15) {
-  try {
-    if ('vibrate' in navigator && typeof navigator.vibrate === 'function') {
-      navigator.vibrate(pattern);
-    }
-  } catch (e) {}
-}
+const vp = S => (S.periods || []).filter(p => okD(p.s) && N(p.s) <= TD());
+const badP = S => (S.periods || []).filter(p => !(okD(p.s) && N(p.s) <= TD()));
+const pEnd = (p, S) => (okD(p.e) && N(p.e) >= N(p.s) && N(p.e) <= TD()) ? N(p.e) : Math.min(N(p.s) + (S.pl || 5) - 1, Math.max(TD(), N(p.s)));
 
-/* Default State Schema */
-const def = () => ({
-  _v: SCHEMA_VERSION,
-  ob: 0,
-  cl: 28,
-  pl: 5,
-  ll: 14, // Luteal phase length (10-16 days, default 14)
-  reg: "unknown",
-  mode: "natural", // natural | irregular | contra | ttc | none
-  goals: [],
-  contra: 0,
-  rem: 0,
-  periods: [],
-  logs: {},
-  custom: [],
-  theme: "system",
-  rp: 2,
-  rt: "20:00",
-  rk: { prep: 1, log: 1 },
-  dis: {},
-  sent: {}
-});
-
-/* Migration & Storage Recovery */
-function migrate(data) {
-  if (!data || typeof data !== "object") return def();
-  // Schema v1 -> v2 migration
-  if (!data._v || data._v < 2) {
-    data._v = SCHEMA_VERSION;
-    if (!data.mode) {
-      if (data.contra) data.mode = "contra";
-      else if (data.reg === "irregular") data.mode = "irregular";
-      else data.mode = "natural";
-    }
-    if (!data.ll) data.ll = 14;
-    data.periods = Array.isArray(data.periods) ? data.periods : [];
-    data.logs = (data.logs && typeof data.logs === "object") ? data.logs : {};
-    data.custom = Array.isArray(data.custom) ? data.custom : [];
-  }
-  return { ...def(), ...data };
-}
-
-let S;
-let storageCorrupt = false;
-try {
-  const raw = localStorage.getItem(KEY);
-  if (raw) {
-    const parsed = JSON.parse(raw);
-    S = migrate(parsed);
-  } else {
-    S = def();
-  }
-} catch (e) {
-  storageCorrupt = true;
-  console.error("Storage corrupted. Entering recovery mode.", e);
-  try {
-    const rawCorrupt = localStorage.getItem(KEY);
-    if (rawCorrupt) localStorage.setItem(KEY + ".corrupt_backup", rawCorrupt);
-  } catch (ex) {}
-  S = def();
-}
-
-const save = () => {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(S));
-  } catch (e) {}
-};
-
-/* Application State */
-const t0 = new Date();
-const G = { S };
-const scrollPositions = { home: 0, calendar: 0, log: 0, insights: 0, care: 0 };
-
-const ui = {
-  tab: "home",
-  cm: { y: t0.getFullYear(), m: t0.getMonth() },
-  sel: TD(),
-  prof: 0,
-  cf: "",
-  breath: 0,
-  corrupt: storageCorrupt,
-  conflict: null, // Period 10-day conflict modal state
-  clinicianModal: false,
-  importPreview: null
-};
-
-G.ob = { step: 0, last: "", cl: 28, pl: 5, reg: "unknown", mode: "natural", goals: [], rem: 0 };
-
-const loadDraft = d => {
-  const L = S.logs[d] || {};
-  G.dr = {
-    d,
-    f: L.f || "",
-    m: L.m ?? null,
-    p: L.p ?? null,         // Pain 0-10
-    en: L.en || "",         // Energy: low | balanced | high
-    sl: L.sl ?? null,       // Sleep hours
-    sq: L.sq || "",         // Sleep quality: restful | fair | restless | poor
-    med: Array.isArray(L.med) ? [...L.med] : (L.med ? [L.med] : []), // Medication list
-    bbt: L.bbt || "",       // Basal body temp
-    lh: L.lh || "",         // LH test: none | neg | faint | pos
-    sy: { ...(L.sy || {}) },
-    note: L.note || ""
-  };
-};
-loadDraft(I(TD()));
-
-/* ==========================================================================
-   Cycle Calculation & Accuracy Intelligence
-   ========================================================================== */
-const okD = s => typeof s == "string" && /^\d{4}-\d{2}-\d{2}$/.test(s) && I(N(s)) == s;
-const vp = () => S.periods.filter(p => okD(p.s) && N(p.s) <= TD());
-const badP = () => S.periods.filter(p => !(okD(p.s) && N(p.s) <= TD()));
-const pEnd = p => (okD(p.e) && N(p.e) >= N(p.s) && N(p.e) <= TD()) ? N(p.e) : Math.min(N(p.s) + S.pl - 1, Math.max(TD(), N(p.s)));
-
-const pdset = () => {
+const pdset = S => {
   const s = new Set();
-  vp().forEach(p => {
-    for (let d = N(p.s); d <= pEnd(p); d++) s.add(d);
+  vp(S).forEach(p => {
+    for (let d = N(p.s); d <= pEnd(p, S); d++) s.add(d);
   });
   return s;
 };
 
 /**
- * Enhanced cycle statistics engine:
- * - Recency-weighted mean of up to last 6 valid cycles (15-90 days)
- * - Median used when outliers exist
- * - Prediction range capped at ±max(1, round(SD)), max ±7
- * - Confidence level & reason (Low, Moderate, Higher)
- * - Adjustable luteal length (10-16d) -> estimated ovulation & fertile window
- * - Unusual cycle gaps flagged
+ * Calculates cycle statistics using recency-weighted mean or median when outliers exist.
  */
-function stats() {
-  const st = [...new Set(vp().map(p => N(p.s)))].sort((a, b) => a - b);
+function calculateStats(S) {
+  const validPeriods = vp(S);
+  const st = [...new Set(validPeriods.map(p => N(p.s)))].sort((a, b) => a - b);
   const lens = [];
   const gaps = [];
 
@@ -1276,9 +1477,9 @@ function stats() {
     }
   }
 
-  const r = lens.slice(-6); // Last up to 6 valid cycles
+  const r = lens.slice(-6); // Up to last 6 valid cycles
   const n = r.length;
-  let A = S.cl;
+  let A = S.cl || 28;
   let sd = 2;
   let outlierDetected = false;
 
@@ -1294,7 +1495,7 @@ function stats() {
       outlierDetected = true;
       A = median;
     } else {
-      // Recency-weighted mean: weights scale linearly
+      // Recency-weighted mean
       let totalW = 0;
       let weightedSum = 0;
       for (let i = 0; i < n; i++) {
@@ -1316,10 +1517,10 @@ function stats() {
 
   if (S.mode === "irregular") sd = Math.max(sd, 4);
 
-  // Range ±max(1, round(SD)), capped at ±7
+  // Prediction range: ±max(1, round(SD)), capped at ±7 days
   const pm = Math.min(7, Math.max(1, Math.round(sd)));
 
-  // Confidence assessment with plain-language rationale
+  // Clinical confidence evaluation
   let confLevel = "Low";
   let confReason = "";
   if (n < 3) {
@@ -1342,11 +1543,10 @@ function stats() {
     for (let k = 1; k <= 3; k++) pred.push(last + A * k);
   }
 
-  // Estimated Ovulation: predicted period start minus luteal length
+  // Adjustable luteal length (10-16d, default 14d)
   const ll = Math.max(10, Math.min(16, S.ll || 14));
   const nextPred = pred[0] || null;
   const estOvulation = nextPred ? nextPred - ll : null;
-  // Estimated Fertile Window: ovulation - 5 days to ovulation + 1 day
   const fertileStart = estOvulation ? estOvulation - 5 : null;
   const fertileEnd = estOvulation ? estOvulation + 1 : null;
 
@@ -1372,125 +1572,182 @@ function stats() {
 }
 
 /**
- * Period start validation & conflict handler:
- * Enforces the 10-day separation rule or triggers conflict resolution.
+ * Pregnancy Calculations
+ * Uses Naegele's rule (LMP + 280 days) or Conception date + 266 days.
  */
-function requestPeriodStart(dn) {
-  if (dn > TD()) {
-    toast("Future dates cannot be recorded as period starts");
-    return;
-  }
-  const existingPeriods = vp();
-  // Check for conflicts within 10 days
-  const conflict = existingPeriods.find(p => Math.abs(dn - N(p.s)) < 10 && dn !== N(p.s));
-  if (conflict) {
-    ui.conflict = { dn, existing: conflict };
-    render();
-    return;
-  }
-  ensurePeriod(dn);
-  save();
-  haptic([20, 50, 20]);
-  toast("Period start recorded");
-  render();
-}
+function calculatePregnancy(S) {
+  const lmpStr = S.pregnancyLmp || (S.periods && S.periods.length ? S.periods[S.periods.length - 1].s : null);
+  if (!lmpStr) return null;
 
-function ensurePeriod(dn) {
-  if (dn > TD() || pdset().has(dn)) return;
-  const prev = S.periods.filter(p => N(p.s) <= dn).sort((a, b) => N(a.s) - N(b.s)).pop();
-  const nx = S.periods.find(p => N(p.s) > dn && N(p.s) - dn <= 3);
-  if (nx) {
-    nx.s = I(dn);
-  } else if (prev && dn - N(prev.s) <= 10) {
-    prev.e = I(Math.max(dn, prev.e ? N(prev.e) : 0));
-  } else {
-    S.periods.push({ s: I(dn), e: null });
-  }
-  S.periods.sort((a, b) => N(a.s) - N(b.s));
+  const lmpDays = N(lmpStr);
+  const nowDays = TD();
+  const daysAlong = Math.max(0, nowDays - lmpDays);
+  const weeks = Math.floor(daysAlong / 7);
+  const days = daysAlong % 7;
+  const edd = lmpDays + 280; // Estimated due date
+
+  let trimester = "First trimester";
+  if (weeks >= 13 && weeks <= 27) trimester = "Second trimester";
+  else if (weeks >= 28) trimester = "Third trimester";
+
+  return {
+    lmp: lmpStr,
+    daysAlong,
+    weeks,
+    days,
+    edd: I(edd),
+    eddFormatted: fmt(edd, { month: "long", day: "numeric", year: "numeric" }),
+    trimester
+  };
 }
 
 /**
- * Plain-language "When to seek care" triggers based on user's own logs
+ * Plain-language "When to seek care" prompts triggered by the user's actual records.
  */
-function checkCareAlerts() {
+function checkCareAlerts(S) {
   const alerts = [];
-  const x = stats();
+  const x = calculateStats(S);
   const T = TD();
 
   // 1. Regular cycles < 21 or > 35 days
   if (x.n >= 2 && (x.avg < 21 || x.avg > 35)) {
-    alerts.push(`Average cycle length is ${x.avg} days (typical range is 21–35 days).`);
+    alerts.push(`Average cycle length is ${x.avg} days (typical physiological range is 21–35 days).`);
   }
 
   // 2. No period for 90+ days
-  if (x.last != null && T - x.last > 90) {
-    alerts.push(`No period start recorded for ${T - x.last} days (90+ days threshold).`);
+  if (x.last != null && T - x.last > 90 && S.mode !== "pregnancy") {
+    alerts.push(`No period start recorded for ${T - x.last} days (90+ days clinical threshold).`);
   }
 
   // 3. Bleeding > 7 days
-  const longPeriod = vp().find(p => {
-    const dur = pEnd(p) - N(p.s) + 1;
+  const longPeriod = vp(S).find(p => {
+    const dur = pEnd(p, S) - N(p.s) + 1;
     return dur > 7;
   });
   if (longPeriod) {
-    const dur = pEnd(longPeriod) - N(longPeriod.s) + 1;
+    const dur = pEnd(longPeriod, S) - N(longPeriod.s) + 1;
     alerts.push(`Bleeding recorded for ${dur} consecutive days (longer than the typical 7-day duration).`);
   }
 
-  // 4. Soaking a pad/tampon hourly or persistent heavy flow
+  // 4. Heavy flow on 3+ days
   let heavyDays = 0;
-  Object.values(S.logs).forEach(l => {
+  Object.values(S.logs || {}).forEach(l => {
     if (l.f === "heavy") heavyDays++;
   });
   if (heavyDays >= 3) {
-    alerts.push(`Heavy bleeding recorded on ${heavyDays} days. If soaking a pad or tampon hourly for 2+ consecutive hours, contact a clinician.`);
+    alerts.push(`Heavy bleeding recorded on ${heavyDays} days. If soaking a pad or tampon hourly for 2+ consecutive hours, consult a clinician.`);
   }
 
-  // 5. Severe pain (pain >= 8)
+  // 5. Severe pelvic pain (>= 8/10)
   let maxPain = 0;
-  Object.values(S.logs).forEach(l => {
+  Object.values(S.logs || {}).forEach(l => {
     if (l.p != null && l.p > maxPain) maxPain = l.p;
   });
   if (maxPain >= 8) {
-    alerts.push(`Severe pelvic pain (${maxPain}/10) recorded. Pain that stops daily activities warrants professional evaluation.`);
+    alerts.push(`Severe pelvic pain (${maxPain}/10) recorded. Pain that stops daily activities warrants clinical evaluation.`);
   }
 
   return alerts;
 }
 
-/* Clinician Summary Generator */
-function generateClinicianSummary() {
-  const x = stats();
-  const alerts = checkCareAlerts();
-  const recentPeriods = vp().slice(-6).reverse();
+/**
+ * Daily Phase Guidance: Contextual wellness, hormones, and gentle suggestions
+ */
+function getDailyPhaseGuidance(phaseKey, cycleDay = 1) {
+  const guides = {
+    menstrual: {
+      key: "menstrual",
+      name: "Menstrual Phase",
+      hormones: "Estrogen & progesterone are at baseline levels as the uterine lining sheds.",
+      energy: "Reflective, restorative energy. Natural slowing down.",
+      nutrition: "Iron-rich foods (leafy greens, lentils), warming broths, and ginger tea for comfort.",
+      movement: "Restorative stretching, gentle walking, or cozy rest. Avoid intense HIIT if cramping.",
+      selfCareTip: "Keep a warm heating pad nearby and honor your body's request for deeper sleep."
+    },
+    follicular: {
+      key: "follicular",
+      name: "Follicular Phase",
+      hormones: "FSH triggers follicle maturation; estrogen steadily rises.",
+      energy: "Rising physical stamina, sharper focus, and renewed curiosity.",
+      nutrition: "Light, fresh meals, fermented foods (kimchi, kefir), and complex carbohydrates.",
+      movement: "Cardio, brisk trail walks, swimming, and creative brainstorming sessions.",
+      selfCareTip: "Great time to start a new project, plan goals, or socialize with loved ones."
+    },
+    fertile: {
+      key: "fertile",
+      name: "Estimated Fertile Window",
+      hormones: "Estrogen peaks, triggering an LH surge that prompts the release of an egg.",
+      energy: "Peak sociability, confidence, and vibrant connection.",
+      nutrition: "Antioxidant-dense berries, pumpkin/sunflower seeds, and ample hydration.",
+      movement: "Higher intensity workouts, dance, or resistance training feeling fluid.",
+      selfCareTip: "Cervical fluid may be watery or egg-white. Note: calendar dates are mathematical approximations."
+    },
+    luteal: {
+      key: "luteal",
+      name: "Luteal Phase",
+      hormones: "Progesterone rises to support the endometrium; basal body temperature shifts slightly higher.",
+      energy: "Grounded, nesting energy turning inward. Sensitivity to blood sugar drops.",
+      nutrition: "Magnesium-rich dark chocolate, roasted root vegetables, and complex grains to curb cravings.",
+      movement: "Pilates, steady-state movement, and calming yin yoga.",
+      selfCareTip: "Set gentle personal boundaries, minimize evening screens, and prioritize soothing rituals."
+    },
+    pregnancy: {
+      key: "pregnancy",
+      name: "Gestational Journey",
+      hormones: "Progesterone and hCG support placental development.",
+      energy: "Fluctuating stamina; honor your fatigue without judgment.",
+      nutrition: "Folate, choline, small frequent meals, and plentiful clean hydration.",
+      movement: "Prenatal yoga, pelvic tilts, and leisurely walks in fresh air.",
+      selfCareTip: "Stay closely connected with your prenatal care team and record bodily sensations gently."
+    },
+    perimenopause: {
+      key: "perimenopause",
+      name: "Rhythmic Transition",
+      hormones: "Ovarian follicular supply naturally shifts, causing cycle variance.",
+      energy: "Dynamic rhythm; adaptability and body listening are paramount.",
+      nutrition: "Phytoestrogens (flaxseed, edamame), calcium, and vitamin D3.",
+      movement: "Strength training for bone density and joint-friendly mobility work.",
+      selfCareTip: "Wear layered breathable clothing to stay comfortable through temperature shifts."
+    }
+  };
+  return guides[phaseKey] || guides.follicular;
+}
+
+/**
+ * Formats a comprehensive, printable, and copyable Clinician Summary report.
+ */
+function generateClinicianSummary(S) {
+  const x = calculateStats(S);
+  const alerts = checkCareAlerts(S);
+  const recentPeriods = vp(S).slice(-6).reverse();
 
   let text = `=== CycleSideChick Health Summary ===\n`;
   text += `Generated: ${new Date().toLocaleDateString(undefined, { dateStyle: "long" })}\n`;
-  text += `Tracking Mode: ${MODE_NAMES[S.mode] || S.mode}\n`;
-  text += `Cycle Regularity: ${S.reg}\n\n`;
+  text += `Tracking Mode: ${S.mode || "natural"}\n`;
+  text += `Cycle Regularity: ${S.reg || "unknown"}\n\n`;
 
   text += `--- CYCLE PARAMETERS ---\n`;
   text += `• Estimated Average Cycle: ${x.avg} days (Recency-weighted mean)\n`;
   text += `• Cycle Variation: ±${x.pm} days (SD: ${x.sd.toFixed(1)}d · ${x.confLevel} confidence)\n`;
   text += `• Adjustable Luteal Length: ${x.ll} days\n`;
-  text += `• Total Cycles Tracked: ${x.n}\n\n`;
+  text += `• Total Valid Cycles Tracked: ${x.n}\n\n`;
 
   text += `--- RECENT PERIOD START DATES & DURATIONS ---\n`;
   if (recentPeriods.length) {
     recentPeriods.forEach(p => {
-      const dur = pEnd(p) - N(p.s) + 1;
-      text += `• ${p.s} to ${p.e || I(pEnd(p))} (${dur} days)\n`;
+      const dur = pEnd(p, S) - N(p.s) + 1;
+      text += `• ${p.s} to ${p.e || I(pEnd(p, S))} (${dur} days)\n`;
     });
   } else {
     text += `• No completed period dates recorded yet.\n`;
   }
   text += `\n`;
 
-  text += `--- RECORDED SYMPTOM FREQUENCIES ---\n`;
+  text += `--- SYMPTOM FREQUENCIES & PAIN ---\n`;
   const symCounts = {};
   let totalPain = 0;
   let painEntries = 0;
-  Object.values(S.logs).forEach(l => {
+  Object.values(S.logs || {}).forEach(l => {
     Object.keys(l.sy || {}).forEach(k => {
       symCounts[k] = (symCounts[k] || 0) + 1;
     });
@@ -1508,11 +1765,11 @@ function generateClinicianSummary() {
     text += `• No symptoms logged yet.\n`;
   }
   if (painEntries > 0) {
-    text += `• Average Pain Level: ${(totalPain / painEntries).toFixed(1)} / 10\n`;
+    text += `• Average Pain Rating: ${(totalPain / painEntries).toFixed(1)} / 10\n`;
   }
   text += `\n`;
 
-  text += `--- CLINICAL ALERTS & PATTERNS ---\n`;
+  text += `--- CLINICAL PATTERNS & ALERTS ---\n`;
   if (alerts.length) {
     alerts.forEach(a => { text += `• ATTENTION: ${a}\n`; });
   } else {
@@ -1522,107 +1779,1152 @@ function generateClinicianSummary() {
   return text;
 }
 
-/* ==========================================================================
-   Design System Icons & Visual Elements
-   ========================================================================== */
+/**
+ * Compare to your usual: compares current cycle days, pain, symptoms against baseline.
+ */
+function compareToUsual(S) {
+  const x = calculateStats(S);
+  if (x.n < 3) {
+    return {
+      ready: false,
+      needed: 3,
+      current: x.n,
+      message: `Compare to your usual unlocks after 3 recorded cycles (currently ${x.n} of 3 logged).`
+    };
+  }
+
+  const T = TD();
+  const curCycleDay = x.last != null ? T - x.last + 1 : 0;
+  let curPeriodPainTotal = 0;
+  let curPeriodPainCount = 0;
+
+  // Recent logs in current cycle
+  if (x.last != null) {
+    for (let d = x.last; d <= T; d++) {
+      const l = (S.logs || {})[I(d)];
+      if (l && l.p != null) {
+        curPeriodPainTotal += l.p;
+        curPeriodPainCount++;
+      }
+    }
+  }
+
+  const avgCurPain = curPeriodPainCount ? (curPeriodPainTotal / curPeriodPainCount).toFixed(1) : null;
+
+  return {
+    ready: true,
+    avgCycle: x.avg,
+    curCycleDay,
+    cycleDiff: curCycleDay - x.avg,
+    avgCurPain,
+    confidence: x.confLevel
+  };
+}
+
+/**
+ * Cervical Fluid Classification (Creighton / Billings natural fertility model)
+ */
+const CERVICAL_FLUID = {
+  dry: { label: "Dry / None", desc: "Little or no sensation; typical right after menses.", fertile: "Low" },
+  sticky: { label: "Sticky / Thick", desc: "Paste-like, white or yellowish, holds shape.", fertile: "Low" },
+  creamy: { label: "Creamy / Smooth", desc: "Like lotion or yogurt, wet feeling.", fertile: "Transitional" },
+  watery: { label: "Watery / Slippery", desc: "Clear, thin, liquid, very wet sensation.", fertile: "High" },
+  eggwhite: { label: "Egg-white / Spinnbarkeit", desc: "Clear, highly stretchy between fingers.", fertile: "Peak (Estimated)" }
+};
+
+// Export for module environments
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    DAY, N, I, TD, fmt, okD, vp, badP, pEnd, pdset,
+    calculateStats, calculatePregnancy, checkCareAlerts,
+    getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
+    CERVICAL_FLUID
+  };
+}
+
+
+/**
+ * CycleSideChick — Storage, Privacy Ledger & Cryptographic Security
+ * Zero cloud. 100% on-device storage. Salted PIN lock. Safe migrations.
+ * Architectural layer: StorageRepository (decoupled from UI)
+ */
+
+const KEY = "csc.v1";
+const PIN_SALT_KEY = "csc.pin.salt";
+const PIN_HASH_KEY = "csc.pin.hash";
+const SCHEMA_VERSION = 2;
+
+const defState = () => ({
+  _v: SCHEMA_VERSION,
+  ob: 0,
+  cl: 28,
+  pl: 5,
+  ll: 14,
+  reg: "unknown",
+  mode: "natural", // natural | irregular | contra | ttc | pregnancy | perimenopause | none
+  pregnancyLmp: null,
+  goals: [],
+  rem: 0,
+  periods: [],
+  logs: {},
+  custom: [],
+  theme: "system",
+  rp: 2,
+  rt: "20:00",
+  rk: { prep: 1, log: 1 },
+  dis: {},
+  sent: {},
+  discreetNotif: 0
+});
+
+/**
+ * Migration function for older schema versions
+ */
+function migrateState(data) {
+  if (!data || typeof data !== "object") return defState();
+  if (!data._v || data._v < 2) {
+    data._v = SCHEMA_VERSION;
+    if (!data.mode) {
+      if (data.contra) data.mode = "contra";
+      else if (data.reg === "irregular") data.mode = "irregular";
+      else data.mode = "natural";
+    }
+    if (!data.ll) data.ll = 14;
+    data.periods = Array.isArray(data.periods) ? data.periods : [];
+    data.logs = (data.logs && typeof data.logs === "object") ? data.logs : {};
+    data.custom = Array.isArray(data.custom) ? data.custom : [];
+  }
+  return { ...defState(), ...data };
+}
+
+/**
+ * Safe local storage load with corruption fallback
+ */
+function loadState() {
+  try {
+    const raw = typeof localStorage !== "undefined" ? localStorage.getItem(KEY) : null;
+    if (!raw) return { state: defState(), corrupt: false };
+    const parsed = JSON.parse(raw);
+    return { state: migrateState(parsed), corrupt: false };
+  } catch (err) {
+    console.error("Storage read exception:", err);
+    try {
+      if (typeof localStorage !== "undefined") {
+        const rawCorrupt = localStorage.getItem(KEY);
+        if (rawCorrupt) localStorage.setItem(KEY + ".corrupt_backup", rawCorrupt);
+      }
+    } catch (e) {}
+    return { state: defState(), corrupt: true };
+  }
+}
+
+function saveState(state) {
+  try {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    }
+  } catch (e) {
+    console.error("Failed to save state to localStorage:", e);
+  }
+}
+
+/**
+ * Privacy Ledger: Audits all client-side storage keys and byte counts
+ */
+function getPrivacyLedger() {
+  const items = [];
+  try {
+    if (typeof localStorage !== "undefined") {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith("csc")) {
+          const val = localStorage.getItem(k) || "";
+          const bytes = new Blob([val]).size;
+          let desc = "Application data";
+          if (k === KEY) desc = "Cycle history, symptom logs, personal settings (Schema v2)";
+          else if (k.includes("backup")) desc = "Local recovery safety backup";
+          else if (k.includes("pin")) desc = "Salted cryptographic PIN hash for app lock";
+
+          items.push({
+            key: k,
+            sizeBytes: bytes,
+            sizeKB: (bytes / 1024).toFixed(2),
+            description: desc
+          });
+        }
+      }
+    }
+  } catch (e) {}
+  return items;
+}
+
+/**
+ * Salted PIN Hash verification & storage (Web Crypto API)
+ */
+async function hashPin(pin, saltHex) {
+  if (typeof crypto === "undefined" || !crypto.subtle) {
+    // Basic fallback for environments without web crypto (e.g. older headless)
+    return { saltHex: saltHex || "salt00", hashHex: "mock_hash_" + pin };
+  }
+  const enc = new TextEncoder();
+  const salt = saltHex ? hexToBytes(saltHex) : crypto.getRandomValues(new Uint8Array(16));
+  const pinData = enc.encode(pin);
+  const combined = new Uint8Array(salt.length + pinData.length);
+  combined.set(salt);
+  combined.set(pinData, salt.length);
+
+  const hashBuffer = await crypto.subtle.digest("SHA-256", combined);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+  return {
+    saltHex: bytesToHex(salt),
+    hashHex
+  };
+}
+
+function bytesToHex(bytes) {
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+function hexToBytes(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes;
+}
+
+async function verifyPin(pin, storedSaltHex, storedHashHex) {
+  const { hashHex } = await hashPin(pin, storedSaltHex);
+  return hashHex === storedHashHex;
+}
+
+/**
+ * High-level PIN Lock Management
+ */
+const PinLock = {
+  isEnabled() {
+    try {
+      return !!(typeof localStorage !== "undefined" && localStorage.getItem(PIN_HASH_KEY));
+    } catch (e) {
+      return false;
+    }
+  },
+  async set(pin) {
+    const { saltHex, hashHex } = await hashPin(pin);
+    try {
+      localStorage.setItem(PIN_SALT_KEY, saltHex);
+      localStorage.setItem(PIN_HASH_KEY, hashHex);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+  async verify(pin) {
+    try {
+      const salt = localStorage.getItem(PIN_SALT_KEY);
+      const hash = localStorage.getItem(PIN_HASH_KEY);
+      if (!salt || !hash) return false;
+      return await verifyPin(pin, salt, hash);
+    } catch (e) {
+      return false;
+    }
+  },
+  remove() {
+    try {
+      localStorage.removeItem(PIN_SALT_KEY);
+      localStorage.removeItem(PIN_HASH_KEY);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
+/**
+ * CSV Export Generator
+ */
+function generateCSV(S) {
+  const headers = [
+    "Date", "Entry_Type", "Bleeding_Flow", "Mood", "Pain_0_10",
+    "Energy", "Sleep_Hours", "Sleep_Quality", "Hydration_Glasses", "Cervical_Mucus", "Medications",
+    "BBT", "LH_Test", "Symptoms", "Notes"
+  ];
+  const rows = [];
+  const dates = new Set([...Object.keys(S.logs || {})]);
+
+  (S.periods || []).forEach(p => {
+    if (p.s) dates.add(p.s);
+    if (p.e) dates.add(p.e);
+  });
+
+  const sortedDates = [...dates].sort();
+
+  sortedDates.forEach(d => {
+    const l = (S.logs && S.logs[d]) || {};
+    const symList = Object.entries(l.sy || {}).map(([k, v]) => `${k}:${["mild", "mod", "sev"][v - 1] || v}`).join("; ");
+    const medsList = Array.isArray(l.med) ? l.med.join("; ") : (l.med || "");
+
+    const row = [
+      d,
+      l.f && l.f !== "none" ? "Bleeding / Period" : "Daily Log",
+      l.f || "",
+      l.m != null ? l.m : "",
+      l.p != null ? l.p : "",
+      l.en || "",
+      l.sl != null ? l.sl : "",
+      l.sq || "",
+      l.water || 0,
+      l.cm || "",
+      `"${medsList.replace(/"/g, '""')}"`,
+      l.bbt || "",
+      l.lh || "",
+      `"${symList.replace(/"/g, '""')}"`,
+      `"${(l.note || "").replace(/"/g, '""')}"`
+    ];
+    rows.push(row.join(","));
+  });
+
+  return [headers.join(","), ...rows].join("\r\n");
+}
+
+/**
+ * JSON Export Generator
+ */
+function generateJSON(S) {
+  const exported = {
+    app: "CycleSideChick",
+    version: SCHEMA_VERSION,
+    exportedAt: new Date().toISOString(),
+    data: S
+  };
+  return JSON.stringify(exported, null, 2);
+}
+
+/**
+ * Import validation & conflict detection
+ */
+function previewImport(jsonOrCsvString, currentState) {
+  try {
+    let parsed = JSON.parse(jsonOrCsvString);
+    if (parsed.data && parsed.app === "CycleSideChick") {
+      parsed = parsed.data;
+    }
+    const incomingPeriods = Array.isArray(parsed.periods) ? parsed.periods : [];
+    const incomingLogs = (parsed.logs && typeof parsed.logs === "object") ? parsed.logs : {};
+
+    const existingStartDates = new Set((currentState.periods || []).map(p => p.s));
+    let newPeriods = 0;
+    let dupPeriods = 0;
+
+    incomingPeriods.forEach(p => {
+      if (existingStartDates.has(p.s)) dupPeriods++;
+      else newPeriods++;
+    });
+
+    let newLogs = 0;
+    let mergedLogs = 0;
+    Object.keys(incomingLogs).forEach(d => {
+      if ((currentState.logs || {})[d]) mergedLogs++;
+      else newLogs++;
+    });
+
+    return {
+      valid: true,
+      newPeriods,
+      dupPeriods,
+      newLogs,
+      mergedLogs,
+      parsedData: parsed
+    };
+  } catch (e) {
+    return { valid: false, error: "Invalid JSON format: please upload a valid CycleSideChick backup file." };
+  }
+}
+
+/**
+ * CycleStorage Repository — Abstract Data Access Layer
+ * Enables decoupling the UI and easily substituting IndexedDB or encrypted storage.
+ */
+const CycleStorage = {
+  load: loadState,
+  save: saveState,
+  getLedger: getPrivacyLedger,
+  pin: PinLock,
+  exportCSV: generateCSV,
+  exportJSON: generateJSON,
+  previewImport: previewImport,
+  wipe() {
+    try {
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(PIN_SALT_KEY);
+      localStorage.removeItem(PIN_HASH_KEY);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    KEY, SCHEMA_VERSION, defState, migrateState, loadState, saveState,
+    getPrivacyLedger, hashPin, verifyPin, PinLock, generateCSV, generateJSON,
+    previewImport, CycleStorage
+  };
+}
+
+
+/**
+ * CycleSideChick — Educational Content Library
+ * 22 original evidence-based articles with cited clinical sources.
+ * Sources include ACOG, NHS, WHO, NICE, NAMS, ASRM, and Cochrane.
+ */
+
+const ARTICLES = [
+  {
+    id: "cycle-phases",
+    title: "The Four Phases of the Menstrual Cycle Explained",
+    category: "Cycle Science",
+    tags: ["cycle", "phases", "estrogen", "progesterone"],
+    readTime: "3 min",
+    summary: "How the menstrual, follicular, ovulatory, and luteal phases interact across your endocrine system.",
+    body: `The menstrual cycle is orchestrated by an intricate hormonal feedback loop between the hypothalamus, pituitary gland, and ovaries (the HPO axis). 
+    
+    1. Menstrual Phase (Days 1 to bleeding end): When pregnancy does not occur, progesterone and estrogen levels decline, prompting the uterine endometrium to shed.
+    2. Follicular Phase (Overlapping Day 1 to ovulation): Follicle-stimulating hormone (FSH) recruits ovarian follicles, while rising estradiol thickens the uterine lining and promotes vitality.
+    3. Ovulatory Window (Around mid-cycle): A sharp surge in luteinizing hormone (LH) triggers the release of a mature oocyte within 24 to 36 hours.
+    4. Luteal Phase (Post-ovulation to next period): The ruptured follicle transforms into the corpus luteum, producing progesterone to support a potential pregnancy and stabilize the endometrium.`,
+    source: "American College of Obstetricians and Gynecologists (ACOG) — Clinical Guidelines"
+  },
+  {
+    id: "estrogen-progesterone",
+    title: "Estrogen & Progesterone: The Endocrine Dance",
+    category: "Hormones",
+    tags: ["hormones", "estrogen", "progesterone", "mood"],
+    readTime: "3 min",
+    summary: "Understanding how shifting hormone levels shape energy, mood, and physical sensations.",
+    body: `Estrogen and progesterone are the master chemical messengers of reproductive health. Estrogen peaks twice: first right before ovulation (often correlating with higher cognitive clarity and stamina), and a smaller secondary rise in the mid-luteal phase. 
+
+    Progesterone acts as a natural neurosteroid, interacting with GABA receptors in the brain to produce a calming effect, though abrupt premenstrual declines can trigger irritability or sleep disruption. Tracking your cycle helps reveal personal patterns in how you respond to these predictable endocrine shifts.`,
+    source: "The Endocrine Society — Reproductive Endocrinology Resource Guide"
+  },
+  {
+    id: "cycle-variability",
+    title: "Natural Cycle Variability vs. True Irregularity",
+    category: "Cycle Science",
+    tags: ["variability", "irregular", "predictions"],
+    readTime: "3 min",
+    summary: "Why cycles fluctuate by a few days and when variability warrants medical evaluation.",
+    body: `It is completely normal for healthy menstrual cycles to vary by several days from month to month. A cycle length between 21 and 35 days is considered typical for adults. Factors such as temporary psychological stress, jet lag, acute illness, intense athletic training, or changes in sleep schedules can shift follicular development and delay ovulation.
+
+    A cycle is generally defined as clinically irregular when the length varies by more than 7 to 9 days between consecutive cycles, or when periods regularly fall outside the 21–35 day window.`,
+    source: "National Health Service (NHS) — Period Pain and Irregular Cycles"
+  },
+  {
+    id: "fertile-window",
+    title: "Understanding the Estimated Fertile Window",
+    category: "Fertility",
+    tags: ["fertile", "ovulation", "ttc", "estimates"],
+    readTime: "3 min",
+    summary: "The biological lifespan of sperm and egg that defines the fertile window.",
+    body: `Biologically, conception can only occur during a specific six-day timeframe: the five days preceding ovulation plus the day of ovulation itself. This is because viable sperm can survive in hospitable cervical fluid for up to 5 days, while a released ovum survives for approximately 12 to 24 hours.
+
+    Because cycle lengths vary and ovulation timing shifts, calendar-based estimates are always mathematical approximations. They should never be used as a standalone form of natural contraception.`,
+    source: "American Society for Reproductive Medicine (ASRM) — Optimizing Natural Fertility"
+  },
+  {
+    id: "cervical-fluid",
+    title: "Cervical Fluid Changes Throughout Your Cycle",
+    category: "Fertility",
+    tags: ["discharge", "fertility", "ovulation", "cervical mucus"],
+    readTime: "3 min",
+    summary: "How estrogen transforms cervical mucus to facilitate or impede sperm motility.",
+    body: `Cervical mucus undergoes distinct structural changes in response to estrogen levels:
+    - Post-period: Scant, dry, or tacky fluid.
+    - Mid-follicular: Creamy, lotion-like texture as estrogen climbs.
+    - Pre-ovulatory (Peak): Clear, slippery, and stretchy (resembling raw egg whites). This high-estrogen fluid creates microscopic swimming channels that nourish and guide sperm.
+    - Post-ovulatory: Promptly reverts to thick, sticky, or dry under the influence of progesterone.`,
+    source: "World Health Organization (WHO) — Family Planning: A Global Handbook"
+  },
+  {
+    id: "bbt-tracking",
+    title: "Basal Body Temperature (BBT): The Thermal Shift",
+    category: "Fertility",
+    tags: ["bbt", "temperature", "ovulation", "ttc"],
+    readTime: "3 min",
+    summary: "Using morning temperature changes to confirm whether ovulation has occurred.",
+    body: `Basal Body Temperature is your body's temperature at complete rest. Progesterone produced by the corpus luteum after ovulation has a thermogenic effect, raising waking temperature by approximately 0.4°F to 0.8°F (0.2°C to 0.5°C).
+
+    Because this thermal shift occurs only AFTER ovulation, BBT confirms that an egg has already been released; it does not predict ovulation in advance. For best results, take your temperature immediately upon waking before sitting up or speaking.`,
+    source: "ACOG Patient Education — Fertility Awareness-Based Methods"
+  },
+  {
+    id: "lh-test-strips",
+    title: "LH Test Strips: Timing and Interpretation",
+    category: "Fertility",
+    tags: ["lh", "ovulation", "testing", "ttc"],
+    readTime: "2 min",
+    summary: "Detecting the luteinizing hormone surge that triggers egg release.",
+    body: `Ovulation predictor kits (OPKs) detect elevated concentrations of luteinizing hormone in urine. An LH surge typically occurs 24 to 36 hours before follicular rupture.
+
+    Unlike pregnancy tests, an LH test is only positive when the test line is as dark as or darker than the control line. Testing between late morning and early evening often yields clearer results, as LH levels typically enter urine several hours after entering the bloodstream.`,
+    source: "ASRM Guidelines — Diagnostic Evaluation of the Ovulatory Cycle"
+  },
+  {
+    id: "dysmenorrhea-cramps",
+    title: "Primary vs. Secondary Dysmenorrhea: Understanding Period Pain",
+    category: "Pain & Symptoms",
+    tags: ["cramps", "pain", "dysmenorrhea"],
+    readTime: "3 min",
+    summary: "Differentiating ordinary prostaglandin contractions from underlying gynecological conditions.",
+    body: `Menstrual cramps (dysmenorrhea) fall into two clinical categories:
+    - Primary Dysmenorrhea: Cramping caused by natural prostaglandins produced in the uterine lining, causing muscular contractions. Pain typically begins 1–2 days before or with bleeding and subsides within 48 hours.
+    - Secondary Dysmenorrhea: Pain resulting from an anatomical condition, such as endometriosis, adenomyosis, or uterine fibroids. This pain often worsens over time, lasts beyond the period, or resists standard relief methods.`,
+    source: "ACOG Practice Bulletin No. 224 — Dysmenorrhea and Pelvic Pain"
+  },
+  {
+    id: "cramp-relief",
+    title: "Evidence-Based Cramp Relief: Heat, Nutrition & Movement",
+    category: "Care & Self-Care",
+    tags: ["cramps", "relief", "warmth", "movement"],
+    readTime: "3 min",
+    summary: "Systematic review findings on non-pharmacological relief for pelvic tension.",
+    body: `Clinical trials consistently highlight several evidence-based non-drug interventions for menstrual discomfort:
+    1. Continuous Local Heat: Applying a heating pad or thermal patch (around 40°C / 104°F) increases blood flow and relaxes uterine smooth muscle, performing as effectively as OTC analgesics in multiple controlled trials.
+    2. Light Aerobic Movement: Walking or gentle pelvic stretches stimulate endorphin release and reduce inflammatory prostaglandins.
+    3. Magnesium & Hydration: Adequate dietary magnesium helps regulate smooth muscle contractions and nerve conduction.`,
+    source: "Cochrane Database of Systematic Reviews — Non-Steroidal Anti-Inflammatory Drugs and Complementary Therapies for Dysmenorrhea"
+  },
+  {
+    id: "midcycle-spotting",
+    title: "Mid-Cycle Spotting: Normal Variations & When to Investigate",
+    category: "Bleeding",
+    tags: ["spotting", "bleeding", "flow"],
+    readTime: "3 min",
+    summary: "Why light bleeding occurs between periods and what patterns to share with a doctor.",
+    body: `Light spotting between menstrual periods can occur for several benign physiological reasons:
+    - Ovulation Spotting: A brief drop in estrogen around egg release can cause minor endometrial shedding for 12–48 hours.
+    - Hormonal Contraception: Breakthrough bleeding is common during the first 3 to 6 months of starting birth control pills, IUDs, or implants.
+    - Cervical Sensitivity: Light pink spotting can occur after sexual intercourse or a cervical exam.
+    
+    Frequent, heavy, or post-menopausal spotting should always be evaluated by a healthcare professional.`,
+    source: "Royal College of Obstetricians and Gynaecologists (RCOG) — Abnormal Uterine Bleeding"
+  },
+  {
+    id: "heavy-bleeding",
+    title: "Heavy Menstrual Bleeding (Menorrhagia): Key Red Flags",
+    category: "Safety",
+    tags: ["heavy", "bleeding", "clinician", "safety"],
+    readTime: "3 min",
+    summary: "Recognizing when flow exceeds typical thresholds and poses an anemia risk.",
+    body: `Heavy menstrual bleeding (menorrhagia) affects roughly 1 in 5 women. You should consult a doctor if you experience:
+    - Soaking through one or more tampons or pads every hour for two or more consecutive hours.
+    - Passing blood clots larger than a quarter (2.5 cm).
+    - Bleeding that continues longer than 7 full days.
+    - Symptoms of anemia: unusual fatigue, shortness of breath on exertion, dizziness, or pale skin.`,
+    source: "National Institute for Health and Care Excellence (NICE) Guideline NG88"
+  },
+  {
+    id: "birth-control-impact",
+    title: "How Hormonal Contraception Modifies Your Cycle",
+    category: "Contraception",
+    tags: ["contraception", "birth control", "pill"],
+    readTime: "3 min",
+    summary: "The distinction between natural menstruation and withdrawal bleeding.",
+    body: `Combined oral contraceptives, patches, and vaginal rings deliver synthetic estrogen and progestin that suppress the pituitary gland from releasing FSH and LH, preventing natural follicular maturation and ovulation.
+
+    The bleeding experienced during the placebo week is not a physiological menstrual period, but a 'withdrawal bleed' triggered by the sudden drop in synthetic hormones. Because ovulation does not occur, fertile-window estimations do not apply to cycles under hormonal contraception.`,
+    source: "CDC — U.S. Selected Practice Recommendations for Contraceptive Use"
+  },
+  {
+    id: "late-period-causes",
+    title: "Causes of a Late Period Beyond Pregnancy",
+    category: "Cycle Science",
+    tags: ["late period", "stress", "delayed ovulation"],
+    readTime: "3 min",
+    summary: "Why ovulation can be delayed by psychological stress, circadian shifts, or illness.",
+    body: `When a period arrives later than expected, delayed ovulation is almost always the cause. Common non-pregnancy triggers include:
+    - Acute Psychological Stress: Cortisol and CRH can inhibit GnRH release, delaying follicular selection.
+    - Circadian and Travel Shifts: Long-haul flights across time zones disrupt melatonin and central endocrine timing.
+    - Sudden Dietary or Weight Changes: Caloric deficits trigger evolutionary conservation signals that pause ovulation.
+    - Thyroid and Prolactin Variations: Elevated TSH or prolactin can suppress cycle regularity.`,
+    source: "Mayo Clinic — Menstrual Cycle: What's Normal, What's Not"
+  },
+  {
+    id: "preconception-health",
+    title: "Preconception Essentials: Nutrition, Folic Acid & Timing",
+    category: "TTC",
+    tags: ["ttc", "preconception", "nutrition"],
+    readTime: "3 min",
+    summary: "Optimal clinical steps to support conception and early fetal neural development.",
+    body: `Clinical organizations emphasize that preconception health begins at least three months prior to attempting conception:
+    - Folic Acid: Daily supplementation with 400 mcg of folic acid reduces neural tube defects by up to 70%.
+    - Timing Intercourse: Having intercourse every 1 to 2 days during the 5 days leading up to and including ovulation maximizes chances.
+    - Hydration and Nutrition: Balanced dietary intake supports healthy cervical fluid and egg quality.`,
+    source: "ACOG Committee Opinion No. 762 — Prepregnancy Counseling"
+  },
+  {
+    id: "early-pregnancy",
+    title: "First Trimester Milestones & Physiological Shifts",
+    category: "Pregnancy",
+    tags: ["pregnancy", "first trimester", "hcg"],
+    readTime: "3 min",
+    summary: "What to expect as human chorionic gonadotropin (hCG) and progesterone rise.",
+    body: `The first trimester spans from conception through week 12 of pregnancy. Following implantation, the developing placenta begins secreting human chorionic gonadotropin (hCG), which signals the corpus luteum to maintain high progesterone production.
+
+    Common early sensations include heightened breast tenderness, morning nausea (often triggered by sensory sensitivities), mild fatigue, and increased urinary frequency as blood volume expands.`,
+    source: "NHS Pregnancy Guide — The First Trimester"
+  },
+  {
+    id: "perimenopause-overview",
+    title: "Understanding Perimenopause: Signs, Hormones & Transition",
+    category: "Perimenopause",
+    tags: ["perimenopause", "hot flashes", "hormones"],
+    readTime: "3 min",
+    summary: "Navigating the natural transition leading up to the final menstrual period.",
+    body: `Perimenopause is the natural biological transition leading up to menopause (defined as 12 consecutive months without a period). It typically begins in a woman's 40s and is characterized by erratic fluctuations in ovarian follicle responsiveness.
+
+    Rather than a steady decline, estrogen levels frequently spike and plummet unpredictably, causing cycle lengths to swing shorter or longer, alongside vasomotor symptoms, sleep changes, and mood shifts.`,
+    source: "The Menopause Society (formerly NAMS) — Perimenopause Overview"
+  },
+  {
+    id: "hot-flashes",
+    title: "Managing Vasomotor Symptoms: Hot Flashes & Night Sweats",
+    category: "Perimenopause",
+    tags: ["hot flashes", "night sweats", "relief"],
+    readTime: "3 min",
+    summary: "Clinical strategies to support thermoregulation during hormonal transitions.",
+    body: `Vasomotor symptoms occur when declining or fluctuating estrogen levels narrow the thermoneutral zone in the hypothalamus, triggering an exaggerated cooling response (vasodilation and sweating).
+
+    Helpful self-care adjustments include dressing in breathable layers (such as natural cotton or bamboo), keeping a fan and cold water near the bed, limiting alcohol and spicy foods before sleep, and practicing paced diaphragmatic breathing during hot flash episodes.`,
+    source: "NAMS Position Statement — The 2023 Nonhormone Therapy Position Statement"
+  },
+  {
+    id: "sleep-and-hormones",
+    title: "Sleep Quality and the Menstrual Cycle",
+    category: "Care & Self-Care",
+    tags: ["sleep", "melatonin", "progesterone"],
+    readTime: "2 min",
+    summary: "How circadian rhythms and progesterone influence REM and deep sleep architecture.",
+    body: `Sleep architecture is directly influenced by ovarian hormones. Progesterone and its metabolite allopregnanolone increase non-REM slow-wave sleep. However, during the late luteal phase and early menstruation, sharp drops in progesterone can lead to fragmented sleep or nighttime waking.
+
+    Consistent wake times, evening light dimming, and magnesium-rich evening snacks support sustained melatonin production.`,
+    source: "National Sleep Foundation — Sleep in Women"
+  },
+  {
+    id: "pelvic-floor",
+    title: "The Pelvic Floor: Relaxation, Stability & Cycle Aches",
+    category: "Care & Self-Care",
+    tags: ["pelvic floor", "movement", "cramps"],
+    readTime: "3 min",
+    summary: "Why down-training hypertonic pelvic muscles can significantly relieve period discomfort.",
+    body: `The pelvic floor is a hammock of muscles that supports the bladder, uterus, and bowel. During menstruation, inflammatory prostaglandins can cause pelvic floor muscles to tense reflexively (hypertonicity), amplifying cramp sensations.
+
+    Gentle restorative yoga postures—such as Child's Pose, Reclined Butterfly, and Happy Baby—encourage the pelvic floor to lengthen and relax, reducing pressure on surrounding nerve pathways.`,
+    source: "Chartered Society of Physiotherapy (CSP) — Pelvic Health Physiotherapy"
+  },
+  {
+    id: "iron-and-energy",
+    title: "Iron, Ferritin & Menstrual Vitality",
+    category: "Care & Self-Care",
+    tags: ["iron", "energy", "nutrition"],
+    readTime: "3 min",
+    summary: "Protecting oxygen delivery and cellular energy across monthly blood loss.",
+    body: `Each milliliter of menstrual blood contains approximately 0.5 mg of elemental iron. Over several cycles, moderate to heavy bleeding can deplete ferritin (the body's stored iron reserve) long before frank hemoglobin anemia appears in blood tests.
+
+    Symptoms of low ferritin include chronic fatigue, brain fog, cold hands, and brittle nails. Pair iron-rich foods (lentils, spinach, lean meats) with vitamin C to enhance intestinal absorption.`,
+    source: "World Health Organization (WHO) — Guidelines on Haemoglobin and Ferritin Concentrations"
+  },
+  {
+    id: "pms-vs-pmdd",
+    title: "PMS vs. PMDD: Understanding Severity & Support",
+    category: "Hormones",
+    tags: ["pms", "pmdd", "mood", "mental health"],
+    readTime: "3 min",
+    summary: "Recognizing Premenstrual Dysphoric Disorder as a severe neuroendocrine reaction.",
+    body: `While Premenstrual Syndrome (PMS) involves mild to moderate physical and emotional changes that resolve within days of bleeding starting, Premenstrual Dysphoric Disorder (PMDD) is a severe, disabling condition affecting 3% to 8% of menstruating individuals.
+
+    PMDD is not caused by abnormal hormone levels, but rather an acute neurological vulnerability to normal luteal progesterone fluctuations. If premenstrual mood changes impair work, relationships, or safety, professional clinical care can provide transformative support.`,
+    source: "ACOG Clinical Guidelines — Management of Premenstrual Dysphoric Disorder"
+  },
+  {
+    id: "doctor-appointment-prep",
+    title: "Preparing for a Gynecological Appointment: Questions & Logs",
+    category: "Safety",
+    tags: ["doctor", "clinician", "appointment", "records"],
+    readTime: "3 min",
+    summary: "How to use your CycleSideChick logs to advocate clearly for your care.",
+    body: `When discussing reproductive symptoms with a physician, objective longitudinal data is invaluable. Bring along your exported Clinician Summary and be prepared to review:
+    - Average cycle length and day-to-day variability.
+    - Heaviest bleeding days and pad/tampon saturation rates.
+    - Pain severity ratings on a 0–10 scale and whether pain responds to OTC analgesics.
+    - Documented symptoms and their correlation with specific cycle days.`,
+    source: "ACOG Health Care Guidance — Patient-Centered Gynecologic Care"
+  }
+];
+
+function searchArticles(query) {
+  if (!query || !query.trim()) return ARTICLES;
+  const q = query.toLowerCase().trim();
+  return ARTICLES.filter(a =>
+    a.title.toLowerCase().includes(q) ||
+    a.summary.toLowerCase().includes(q) ||
+    a.tags.some(t => t.toLowerCase().includes(q)) ||
+    a.category.toLowerCase().includes(q)
+  );
+}
+
+function getArticlesByTag(tag) {
+  if (!tag) return ARTICLES;
+  const t = tag.toLowerCase();
+  return ARTICLES.filter(a => a.tags.some(x => x.toLowerCase() === t) || a.category.toLowerCase() === t);
+}
+
+function getRecommendedArticles(loggedSymptoms = {}, mode = "natural") {
+  const symKeys = Object.keys(loggedSymptoms || {}).map(s => s.toLowerCase());
+  const recs = [];
+
+  if (mode === "pregnancy") {
+    recs.push(...ARTICLES.filter(a => a.category === "Pregnancy"));
+  } else if (mode === "perimenopause") {
+    recs.push(...ARTICLES.filter(a => a.category === "Perimenopause"));
+  } else if (mode === "ttc") {
+    recs.push(...ARTICLES.filter(a => a.category === "Fertility" || a.category === "TTC"));
+  } else if (mode === "contra") {
+    recs.push(...ARTICLES.filter(a => a.category === "Contraception"));
+  }
+
+  if (symKeys.includes("cramps")) recs.push(...ARTICLES.filter(a => a.id === "dysmenorrhea-cramps" || a.id === "cramp-relief"));
+  if (symKeys.includes("fatigue")) recs.push(...ARTICLES.filter(a => a.id === "iron-and-energy" || a.id === "sleep-and-hormones"));
+  if (symKeys.includes("headache")) recs.push(...ARTICLES.filter(a => a.id === "estrogen-progesterone"));
+
+  // Ensure unique articles
+  const seen = new Set();
+  const unique = [];
+  recs.concat(ARTICLES).forEach(a => {
+    if (!seen.has(a.id)) {
+      seen.add(a.id);
+      unique.push(a);
+    }
+  });
+
+  return unique.slice(0, 4);
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    ARTICLES, searchArticles, getArticlesByTag, getRecommendedArticles
+  };
+}
+
+
+/**
+ * CycleSideChick — Local On-Device Health Assistant
+ * Rule-based, privacy-first Q&A engine that queries the user's local logs.
+ * Never diagnoses. Never transmits data. Always cites evidence-based sources.
+ */
+
+const ASSISTANT_TOPICS = [
+  {
+    id: "late-period",
+    triggers: ["late", "delayed", "overdue", "missed", "pregnancy"],
+    question: "Why is my period late?",
+    answer: (S, stats) => {
+      const T = typeof TD === "function" ? TD() : Math.floor(Date.now() / 864e5);
+      const daysPast = stats.nextPred ? T - stats.nextPred : null;
+      let contextNote = "";
+      if (daysPast !== null && daysPast > 0) {
+        contextNote = `In your records, your period is approximately ${daysPast} day${daysPast > 1 ? "s" : ""} past the estimated start date (${fmt(stats.nextPred)}). `;
+      } else {
+        contextNote = `Your next period is currently estimated in about ${stats.nextPred ? Math.max(0, stats.nextPred - T) : S.cl} days. `;
+      }
+
+      return {
+        title: "Understanding a Delayed or Late Period",
+        context: contextNote,
+        body: `A late period almost always indicates that ovulation occurred later than typical or was temporarily delayed. Ovulation is sensitive to:
+        • Acute psychological or physiological stress (elevated cortisol suppresses GnRH release).
+        • Travel across time zones or disrupted sleep schedules.
+        • Recent viral illnesses, changes in caloric intake, or sudden athletic exertion.
+        • Medication shifts or hormonal transitions.`,
+        source: "Mayo Clinic & American College of Obstetricians and Gynecologists (ACOG)",
+        clinicianAdvice: "If a period is more than 7–10 days past estimate and pregnancy is possible, take a home pregnancy test. If you miss periods for 90 or more days (in the absence of pregnancy), schedule an evaluation with a healthcare provider."
+      };
+    }
+  },
+  {
+    id: "cramps-pain",
+    triggers: ["cramp", "pain", "dysmenorrhea", "ache", "pelvic"],
+    question: "Are severe cramps normal?",
+    answer: (S, stats) => {
+      let maxLoggedPain = 0;
+      Object.values(S.logs || {}).forEach(l => {
+        if (l.p != null && l.p > maxLoggedPain) maxLoggedPain = l.p;
+      });
+      const painNote = maxLoggedPain > 0 ? `Your highest logged pain level is ${maxLoggedPain}/10. ` : "";
+
+      return {
+        title: "Menstrual Cramps & Pelvic Pain",
+        context: painNote,
+        body: `Mild to moderate pelvic cramping caused by natural uterine prostaglandins is common. However, severe pain that stops daily activities, radiates intensely into your legs, or does not respond to heating pads or standard OTC pain relievers is NOT something you must simply endure.
+        
+        Severe dysmenorrhea can indicate secondary conditions such as endometriosis, adenomyosis, or uterine fibroids that benefit from personalized medical management.`,
+        source: "ACOG Practice Bulletin No. 224 — Management of Dysmenorrhea and Pelvic Pain",
+        clinicianAdvice: "If cramps cause you to miss school, work, or social activities, share your logged pain ratings with a gynecologist. Effective medical options exist."
+      };
+    }
+  },
+  {
+    id: "cervical-mucus",
+    triggers: ["discharge", "mucus", "fluid", "egg white", "wet"],
+    question: "What does my cervical fluid mean?",
+    answer: (S, stats) => {
+      const mode = S.mode || "natural";
+      const isFertileTime = (mode === "natural" || mode === "ttc") && stats.fertileStart && stats.fertileEnd;
+
+      return {
+        title: "Cervical Fluid & Ovulation Biomarkers",
+        context: isFertileTime ? "You are currently near your estimated fertile window in your cycle model." : "Cervical fluid shifts naturally throughout your cycle.",
+        body: `Cervical discharge changes in direct response to circulating estrogen and progesterone:
+        • Fertile Fluid: Clear, watery, or stretchy like raw egg whites. This indicates high estrogen and creates microscopic channels that nourish sperm.
+        • Non-Fertile Fluid: Sticky, creamy, cloudy, or dry. Progesterone thickens this fluid into a protective barrier.
+        
+        Discharge should typically be clear or white without a foul odor, itching, or burning sensation.`,
+        source: "World Health Organization (WHO) — Family Planning Clinical Handbook",
+        clinicianAdvice: "If you notice discharge that is yellow-green, frothy, clumpy cottage-cheese texture, or accompanied by itching or odor, seek evaluation for a yeast or bacterial infection."
+      };
+    }
+  },
+  {
+    id: "birth-control",
+    triggers: ["pill", "contraception", "birth control", "iud", "implant"],
+    question: "How does birth control affect bleeding?",
+    answer: (S, stats) => {
+      return {
+        title: "Hormonal Contraception & Bleeding Patterns",
+        context: S.mode === "contra" ? "You have Hormonal Contraception mode active in CycleSideChick." : "Hormonal birth control modifies your natural cycle.",
+        body: `Hormonal contraception (combination pills, patches, rings, injections, implants, and hormonal IUDs) prevents natural ovulation by maintaining steady synthetic hormone levels.
+        
+        The bleeding that occurs during a placebo pill week is known as 'withdrawal bleeding' caused by synthetic hormone withdrawal—not true physiological menstruation. Breakthrough spotting is common, especially during the first 3 to 6 months of use.`,
+        source: "Centers for Disease Control and Prevention (CDC) — Contraceptive Guidance",
+        clinicianAdvice: "If breakthrough bleeding persists past 6 months or becomes unexpectedly heavy, speak with your prescribing clinician about adjusting your formulation or dosage."
+      };
+    }
+  },
+  {
+    id: "perimenopause",
+    triggers: ["perimenopause", "hot flash", "night sweat", "menopause", "40s"],
+    question: "What are early perimenopause signs?",
+    answer: (S, stats) => {
+      return {
+        title: "Recognizing Perimenopause Transitions",
+        context: S.mode === "perimenopause" ? "You have Perimenopause mode active in CycleSideChick." : "Perimenopause typically begins in a woman's 40s.",
+        body: `Perimenopause is marked by fluctuating ovarian hormone production:
+        • Cycle Variability: Consecutive cycle lengths changing by 7 or more days (shorter or longer).
+        • Vasomotor Symptoms: Hot flashes, sudden flushing, or nighttime waking with drenching sweats.
+        • Neuroendocrine Shifts: Mood fluctuations, increased anxiety, fatigue, and temporary brain fog.
+        • Sleep Disruption: Difficulty falling or staying asleep as progesterone fluctuates.`,
+        source: "The Menopause Society (formerly NAMS) — Clinical Guidelines",
+        clinicianAdvice: "Discuss persistent sleep disturbances, severe hot flashes, or bleeding that occurs after sexual intercourse with your doctor. Safe hormone and non-hormone therapies can provide significant relief."
+      };
+    }
+  },
+  {
+    id: "heavy-flow",
+    triggers: ["heavy", "bleed", "soak", "clot", "menorrhagia"],
+    question: "When should I see a doctor about heavy bleeding?",
+    answer: (S, stats) => {
+      return {
+        title: "Heavy Menstrual Bleeding Red Flags",
+        context: "Menstrual flow varies, but clinically excessive blood loss requires medical evaluation.",
+        body: `Clinical guidelines define heavy menstrual bleeding as blood loss that impacts physical, emotional, or social quality of life. Key warning signs include:
+        • Soaking through a pad or tampon every hour for two or more consecutive hours.
+        • Waking up during the night to change protection.
+        • Passing blood clots larger than 2.5 cm (the size of a quarter).
+        • Bleeding lasting longer than 7 full days.`,
+        source: "NICE Clinical Guidelines NG88 — Heavy Menstrual Bleeding: Assessment and Management",
+        clinicianAdvice: "Heavy bleeding frequently causes iron deficiency anemia. Use CycleSideChick's Clinician Summary to show your doctor your documented bleeding durations and flow ratings."
+      };
+    }
+  },
+  {
+    id: "ttc-prep",
+    triggers: ["ttc", "pregnant", "conception", "baby", "conceive"],
+    question: "How to optimize chances when trying to conceive?",
+    answer: (S, stats) => {
+      return {
+        title: "Optimizing Natural Fertility (TTC)",
+        context: S.mode === "ttc" ? "You have Trying to Conceive mode active in CycleSideChick." : "Tracking fertility biomarkers helps identify optimal timing.",
+        body: `To optimize natural conception:
+        • Focus on the 5 days before ovulation plus ovulation day itself. Having intercourse every 1 to 2 days during this window offers the highest cumulative probability of conception.
+        • Watch for peak cervical mucus (clear, slippery, stretchy like raw egg white).
+        • Take a daily prenatal supplement with 400–800 mcg of folic acid.
+        • Track morning Basal Body Temperature (BBT) to confirm the post-ovulation thermal shift.`,
+        source: "American Society for Reproductive Medicine (ASRM) — Committee Opinion",
+        clinicianAdvice: "If you are under 35 and have been trying for 12 months (or over 35 and trying for 6 months), schedule a preconception evaluation with a reproductive endocrinologist or OB/GYN."
+      };
+    }
+  }
+];
+
+function answerQuestion(query, S, stats) {
+  if (!query || !query.trim()) return null;
+  const q = query.toLowerCase();
+
+  for (const topic of ASSISTANT_TOPICS) {
+    if (topic.triggers.some(t => q.includes(t))) {
+      return topic.answer(S, stats);
+    }
+  }
+
+  // Fallback safe answer
+  return {
+    title: "Cycle & Reproductive Wellness Insights",
+    context: `Based on your logged data (${stats.n} cycles tracked, mode: ${S.mode || "natural"}).`,
+    body: `Your question touches on reproductive patterns that vary between individuals. Because cycle lengths and hormonal sensitivity shift naturally, tracking symptoms over multiple cycles provides the clearest personal baseline.
+    
+    Remember that all predictions generated by CycleSideChick are mathematical estimates for wellness tracking and do not constitute clinical diagnosis.`,
+    source: "ACOG & NHS Health Library",
+    clinicianAdvice: "If you are experiencing acute pain, unexplained bleeding, or persistent distress, consult a licensed healthcare professional. You can share your exported Clinician Summary with them."
+  };
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { ASSISTANT_TOPICS, answerQuestion };
+}
+
+
+/**
+ * CycleSideChick — UI Rendering, Vector Art & Icon System
+ * Mobile-first, accessible, Manrope typography, soft semantic tints.
+ * Professional SVG Vector Architecture (consistent 24x24 grid, 1.8px stroke).
+ */
+
+/* Visual & Text Sanitization */
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* Cohesive 24x24 Line Iconography */
 const ic = {
-  home: "M3 10.5L12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5h-4.5a1 1 0 0 1-1-1v-4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v4a1 1 0 0 1-1 1H4.5A1.5 1.5 0 0 1 3 20v-9.5z",
-  calendar: "M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm0 5h16M8 3v4M16 3v4",
+  home: "M3.5 10.5L12 3.5l8.5 7V20a1.5 1.5 0 0 1-1.5 1.5h-4.5a1 1 0 0 1-1-1v-4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v4a1 1 0 0 1-1 1H5A1.5 1.5 0 0 1 3.5 20v-9.5z",
+  calendar: "M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm0 5h16M8 3v4M16 3v4 M8 14h.01 M12 14h.01 M16 14h.01 M8 17h.01 M12 17h.01 M16 17h.01",
   log: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 5v8m-4-4h8",
-  insights: "M18 20V10M12 20V4M6 20v-6",
+  insights: "M3 20h18 M6 16l4-5 4 3 5-7 M19 7h-4v4",
   care: "M19.5 12.572l-7.5 7.428l-7.5-7.428a5 5 0 1 1 7.5-6.566a5 5 0 1 1 7.5 6.572",
   user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-8 9c0-4 4-6 8-6s8 2 8 6",
   x: "M18 6L6 18M6 6l12 12",
   check: "M20 6L9 17l-5-5",
-  sparkle: "M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z",
+  sparkle: "M12 2l1.8 5.4L19 9.5l-5.2 2.1L12 17l-1.8-5.4L5 9.5l5.2-2.1L12 2z",
   arrowLeft: "M15 19l-7-7 7-7",
   arrowRight: "M9 5l7 7-7 7",
   alert: "M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z",
+  info: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-11v6m0-8h.01",
   copy: "M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.24a2 2 0 0 0-.59-1.41l-3.24-3.24A2 2 0 0 0 14.76 2H10a2 2 0 0 0-2 2z M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2",
-  download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+  download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
+  share: "M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13",
+  lock: "M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zm-7 6v-2m-4-4V7a4 4 0 0 1 8 0v4",
+  search: "M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z",
+  water: "M12 2.7l5.3 6.6a7 7 0 1 1-10.6 0L12 2.7z M8 13.5q4 2 8 0",
+  pill: "M10.5 4.5l-6 6a5 5 0 0 0 7.1 7.1l6-6a5 5 0 0 0-7.1-7.1zm-1.5 7.5l7-7",
+  moon: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
+  zap: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+  thermometer: "M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z M12 11v6",
+  flame: "M8.5 14.5A4.5 4.5 0 0 0 13 19a4.5 4.5 0 0 0 4.5-4.5c0-3-2.5-5-3.5-7.5-.5 1-1 2-2.5 2.5 0-2-1-4-3-4.5 0 2.5-1 4.5 0 5z",
+  shield: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",
+  book: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 0 4 22z",
+  trash: "M3 6h18 M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
+  refresh: "M23 4v6h-6 M1 20v-6h6 M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15",
+  plus: "M12 5v14M5 12h14",
+  minus: "M5 12h14",
+  clock: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-14v6l4 2"
 };
 
-const svgi = (k, sz = 22) =>
-  `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ic[k] || ''}"/></svg>`;
+const svgi = (k, sz = 22, cls = "") =>
+  `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" class="${cls}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ic[k] || ''}"/></svg>`;
 
-/* Bun Mascot Brand Icon */
+/**
+ * Refined Brand Mascot — Subtle Bunny Vector Mark
+ * Designed to scale cleanly from 20px header mark to 72px onboarding emblem.
+ */
 const bunny = (z = 32, lbl = 1) =>
   `<svg viewBox="0 0 100 100" width="${z}" height="${z}" ${lbl ? 'role="img" aria-label="CycleSideChick bunny brand logo"' : 'aria-hidden="true"'} style="flex-shrink:0;">
-    <g stroke="var(--plum)" stroke-width="2.5" stroke-linejoin="round">
-      <ellipse cx="36" cy="26" rx="9" ry="22" fill="var(--surface-alt)" transform="rotate(-8 36 26)"/>
-      <ellipse cx="64" cy="28" rx="9" ry="20" fill="var(--surface-alt)" transform="rotate(14 64 28)"/>
-      <ellipse cx="50" cy="68" rx="31" ry="26" fill="var(--surface-alt)"/>
+    <defs>
+      <radialGradient id="bunnyGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--pink-light)" stop-opacity="0.8"/>
+        <stop offset="100%" stop-color="var(--surface)" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="50" r="46" fill="url(#bunnyGlow)"/>
+    <g stroke="var(--plum)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Left Ear -->
+      <path d="M40 45 C35 24 30 14 36 10 C42 6 47 18 45 42" fill="var(--surface)"/>
+      <path d="M38 38 C36 26 34 18 37 14 C40 12 43 20 42 36" fill="var(--tint-rose-bg)" stroke="none"/>
+      <!-- Right Ear -->
+      <path d="M60 45 C65 24 70 14 64 10 C58 6 53 18 55 42" fill="var(--surface)"/>
+      <path d="M62 38 C64 26 66 18 63 14 C60 12 57 20 58 36" fill="var(--tint-rose-bg)" stroke="none"/>
+      <!-- Head / Face -->
+      <ellipse cx="50" cy="62" rx="30" ry="24" fill="var(--surface)"/>
+      <!-- Cheeks Blush -->
+      <circle cx="34" cy="65" r="5" fill="var(--tint-rose-bg)" stroke="none" opacity="0.85"/>
+      <circle cx="66" cy="65" r="5" fill="var(--tint-rose-bg)" stroke="none" opacity="0.85"/>
+      <!-- Eyes (calm, smiling crescent curve) -->
+      <path d="M37 58 Q41 55 45 58" fill="none" stroke="var(--plum)" stroke-width="2.6"/>
+      <path d="M55 58 Q59 55 63 58" fill="none" stroke="var(--plum)" stroke-width="2.6"/>
+      <!-- Cute Nose & Mouth -->
+      <path d="M48 64 Q50 62 52 64 L50 67 Z" fill="var(--pink)" stroke="none"/>
+      <path d="M47 69 Q50 71 53 69" fill="none" stroke="var(--plum)" stroke-width="2"/>
     </g>
-    <ellipse cx="36" cy="28" rx="4" ry="14" fill="var(--rose)" transform="rotate(-8 36 28)"/>
-    <ellipse cx="64" cy="30" rx="4" ry="12" fill="var(--rose)" transform="rotate(14 64 30)"/>
-    <circle cx="40" cy="66" r="3" fill="var(--plum)"/>
-    <circle cx="60" cy="66" r="3" fill="var(--plum)"/>
-    <path d="M50 86c-9-5-11-10-7-12 2-1 5 0 7 2 2-2 5-3 7-2 4 2 2 7-7 12z" fill="var(--pink)"/>
   </svg>`;
 
-/* 5 Expressive Mood Avatars */
+/**
+ * Five Refined Mood Personalities
+ */
 const MOODS = [
-  { name: "Radiant", sub: "Energized & glowing" },
-  { name: "Calm", sub: "Peaceful & centered" },
-  { name: "Okay", sub: "Steady & balanced" },
-  { name: "Anxious", sub: "Restless or tense" },
-  { name: "Low", sub: "Tired or tender" }
+  { name: "Radiant", sub: "Energized & glowing", color: "var(--tint-butter-text)" },
+  { name: "Calm", sub: "Peaceful & centered", color: "var(--tint-sage-text)" },
+  { name: "Okay", sub: "Steady & balanced", color: "var(--tint-sky-text)" },
+  { name: "Anxious", sub: "Restless or tense", color: "var(--tint-lavender-text)" },
+  { name: "Low", sub: "Tired or tender", color: "var(--tint-rose-text)" }
 ];
 
-const face = (k, sz = 34) => {
+const face = (k, sz = 36) => {
   const faces = [
-    // 0: Radiant
+    // 0: Radiant (Joyful curved eyes, gentle smile, glowing blush)
     `<circle cx="12" cy="12" r="10" fill="var(--surface-alt)" stroke="currentColor" stroke-width="1.6"/>
-     <path d="M7 10c.8-.9 1.7-.9 2.5 0M14.5 10c.8-.9 1.7-.9 2.5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-     <path d="M7.5 14q4.5 4.5 9 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-     <circle cx="6.5" cy="13" r="1.3" fill="var(--pink)" opacity="0.6"/>
-     <circle cx="17.5" cy="13" r="1.3" fill="var(--pink)" opacity="0.6"/>`,
-    // 1: Calm
+     <path d="M6.5 10.5q2-2 4 0 M13.5 10.5q2-2 4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+     <path d="M8 14.5q4 3.5 8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+     <circle cx="6.5" cy="13" r="1.4" fill="var(--pink)" opacity="0.75" stroke="none"/>
+     <circle cx="17.5" cy="13" r="1.4" fill="var(--pink)" opacity="0.75" stroke="none"/>`,
+
+    // 1: Calm (Serene resting curved eyes, centered gentle breath)
     `<circle cx="12" cy="12" r="10" fill="var(--surface-alt)" stroke="currentColor" stroke-width="1.6"/>
-     <path d="M7 10.5q2.5-1.5 5 0M12 10.5q2.5-1.5 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-     <path d="M8.5 15q3.5 2.5 7 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>`,
-    // 2: Okay
+     <path d="M7 11q2.5-1.5 5 0 M12 11q2.5-1.5 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+     <path d="M9 15.2q3 2 6 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+     <circle cx="6.8" cy="13.2" r="1.2" fill="var(--rose)" opacity="0.5" stroke="none"/>
+     <circle cx="17.2" cy="13.2" r="1.2" fill="var(--rose)" opacity="0.5" stroke="none"/>`,
+
+    // 2: Okay (Neutral steady eyes, relaxed straight mouth)
     `<circle cx="12" cy="12" r="10" fill="var(--surface-alt)" stroke="currentColor" stroke-width="1.6"/>
      <circle cx="8.5" cy="10.5" r="1.3" fill="currentColor"/>
      <circle cx="15.5" cy="10.5" r="1.3" fill="currentColor"/>
-     <path d="M9 15h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
-    // 3: Anxious
+     <path d="M9.5 15h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
+
+    // 3: Anxious (Slightly furrowed eyebrows, wavy mouth, caring look)
     `<circle cx="12" cy="12" r="10" fill="var(--surface-alt)" stroke="currentColor" stroke-width="1.6"/>
-     <path d="M7 9l3 1.2M17 9l-3 1.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-     <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
-     <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
-     <path d="M8 15.5q2-2 4 0t4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>`,
-    // 4: Low
+     <path d="M7 9l3 1.2 M17 9l-3 1.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+     <circle cx="9" cy="12.5" r="1.3" fill="currentColor"/>
+     <circle cx="15" cy="12.5" r="1.3" fill="currentColor"/>
+     <path d="M8.5 16q1.8-1.5 3.5 0t3.5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>`,
+
+    // 4: Low (Tender down-turned curved eyes, soft comforting pout)
     `<circle cx="12" cy="12" r="10" fill="var(--surface-alt)" stroke="currentColor" stroke-width="1.6"/>
-     <path d="M7 11.5q2.5 1.5 5 0M12 11.5q2.5 1.5 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-     <path d="M8.5 16q3.5-2.5 7 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>`
+     <path d="M7 11.5q2.5 1.5 5 0 M12 11.5q2.5 1.5 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+     <path d="M8.5 16.2q3.5-2.2 7 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+     <circle cx="6.5" cy="13.5" r="1.2" fill="var(--pink)" opacity="0.5" stroke="none"/>
+     <circle cx="17.5" cy="13.5" r="1.2" fill="var(--pink)" opacity="0.5" stroke="none"/>`
   ];
-  return `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" aria-hidden="true">${faces[k] || ''}</svg>`;
+  return `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" class="mood-face-svg" aria-hidden="true">${faces[k] || ''}</svg>`;
 };
 
 const moods = (sel, a) =>
   `<div class="moods" role="group" aria-label="Mood Selector">
     ${MOODS.map((m, i) =>
       `<button class="mood" aria-pressed="${sel === i}" data-a="${a}" data-v="${i}">
-        ${face(i)}
+        ${face(i, 36)}
         <span>${m.name}</span>
       </button>`
     ).join("")}
   </div>`;
 
-const chip = (t, on, at = "") =>
-  `<button class="chip" aria-pressed="${!!on}" ${at}>${t}</button>`;
+const chip = (t, on, at = "") => `<button class="chip" aria-pressed="${!!on}" ${at}>${t}</button>`;
 
 const MODE_NAMES = {
   natural: "Natural cycle",
   irregular: "Irregular cycle",
   contra: "Hormonal contraception",
   ttc: "Trying to conceive",
+  pregnancy: "Pregnancy mode",
+  perimenopause: "Perimenopause",
   none: "No predictions"
 };
 
-/* Interactive Cycle Ring with Tracking Mode Adaptations */
-function ring(x, day) {
+/**
+ * Tasteful Phase Illustrations (Vector Artwork)
+ */
+function phaseArt(phase, sz = 54) {
+  const arts = {
+    // Menstrual: soothing crimson droplet embracing a botanical blossom
+    menstrual: `
+      <svg viewBox="0 0 64 64" width="${sz}" height="${sz}" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="var(--tint-rose-bg)"/>
+        <path d="M32 14 C25 24 20 30 20 37 a12 12 0 0 0 24 0 c0-7-5-13-12-23 z" fill="var(--pink)" opacity="0.25"/>
+        <path d="M32 18 C26 27 22 32 22 38 a10 10 0 0 0 20 0 c0-6-4-11-10-20 z" fill="var(--pink)"/>
+        <!-- Soft White Petal Accent -->
+        <path d="M28 36 Q32 32 36 36 Q32 40 28 36 Z" fill="#FFFFFF" opacity="0.75"/>
+      </svg>`,
+
+    // Follicular: fresh rising sprout reaching toward morning warmth
+    follicular: `
+      <svg viewBox="0 0 64 64" width="${sz}" height="${sz}" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="var(--tint-sage-bg)"/>
+        <path d="M32 46 V24" stroke="var(--tint-sage-text)" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M32 34 C24 34 20 28 20 22 C26 22 32 26 32 34 Z" fill="var(--tint-sage-text)"/>
+        <path d="M32 28 C40 28 44 22 44 16 C38 16 32 20 32 28 Z" fill="var(--tint-sage-text)"/>
+        <circle cx="44" cy="16" r="2.5" fill="var(--tint-butter-border)"/>
+      </svg>`,
+
+    // Fertile / Ovulation: radiant blooming flower with luminous glow
+    fertile: `
+      <svg viewBox="0 0 64 64" width="${sz}" height="${sz}" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="var(--tint-lavender-bg)"/>
+        <!-- Petals -->
+        <circle cx="32" cy="22" r="7" fill="var(--tint-lavender-border)"/>
+        <circle cx="32" cy="42" r="7" fill="var(--tint-lavender-border)"/>
+        <circle cx="22" cy="32" r="7" fill="var(--tint-lavender-border)"/>
+        <circle cx="42" cy="32" r="7" fill="var(--tint-lavender-border)"/>
+        <!-- Center Core -->
+        <circle cx="32" cy="32" r="8" fill="var(--pink)"/>
+        <!-- Radiant Star Sparks -->
+        <path d="M32 10 L33.5 15 L36 12 Z M32 54 L33.5 49 L36 52 Z M10 32 L15 33.5 L12 36 Z M54 32 L49 33.5 L52 36 Z" fill="var(--tint-lavender-text)"/>
+      </svg>`,
+
+    // Luteal: peaceful crescent moon cradled in quiet evening stars
+    luteal: `
+      <svg viewBox="0 0 64 64" width="${sz}" height="${sz}" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="var(--tint-peach-bg)"/>
+        <path d="M38 18 A15 15 0 1 1 23 44 A18 18 0 0 0 38 18 Z" fill="var(--tint-peach-text)"/>
+        <circle cx="44" cy="22" r="2" fill="var(--tint-amber-text)"/>
+        <circle cx="42" cy="38" r="1.5" fill="var(--tint-amber-text)"/>
+        <circle cx="20" cy="20" r="1.5" fill="var(--tint-amber-text)"/>
+      </svg>`,
+
+    // Pregnancy: tender nested protective circle cradling life
+    pregnancy: `
+      <svg viewBox="0 0 64 64" width="${sz}" height="${sz}" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="var(--tint-butter-bg)"/>
+        <path d="M22 38 C20 26 30 18 40 22 C48 26 48 38 40 44 C34 48 24 46 22 38 Z" stroke="var(--tint-butter-text)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="34" cy="33" r="6" fill="var(--pink)"/>
+        <path d="M31 29 Q34 26 37 29" stroke="#FFF" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>`,
+
+    // Perimenopause: harmonious ocean rhythm of balancing transition
+    perimenopause: `
+      <svg viewBox="0 0 64 64" width="${sz}" height="${sz}" fill="none" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="var(--tint-mint-bg)"/>
+        <path d="M16 28 Q24 20 32 28 T48 28" stroke="var(--tint-mint-text)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M16 36 Q24 28 32 36 T48 36" stroke="var(--tint-mint-text)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="32" cy="18" r="3.5" fill="var(--tint-amber-text)"/>
+      </svg>`
+  };
+  return arts[phase] || arts.menstrual;
+}
+
+/**
+ * Interactive SVG Cycle Ring
+ * Smooth circular progress visualization with distinct period and fertile phases.
+ */
+function ring(x, day, S) {
   const R = 62;
   const C = 2 * Math.PI * R;
   const A = x.avg || 28;
@@ -1631,13 +2933,13 @@ function ring(x, day) {
   const dotX = (80 + R * Math.cos(ang)).toFixed(1);
   const dotY = (80 + R * Math.sin(ang)).toFixed(1);
 
-  const arc = (fromFrac, toFrac, color, width = 11) => {
+  const arc = (fromFrac, toFrac, color, width = 11, dash = "") => {
     const len = Math.max(0, toFrac - fromFrac) * C;
     const off = -fromFrac * C;
-    return `<circle cx="80" cy="80" r="${R}" fill="none" stroke="${color}" stroke-width="${width}" stroke-dasharray="${len} ${C}" stroke-dashoffset="${off}" stroke-linecap="round" transform="rotate(-90 80 80)"/>`;
+    return `<circle cx="80" cy="80" r="${R}" fill="none" stroke="${color}" stroke-width="${width}" ${dash ? `stroke-dasharray="${dash}"` : `stroke-dasharray="${len} ${C}"`} stroke-dashoffset="${off}" stroke-linecap="round" transform="rotate(-90 80 80)" class="ring-track-arc"/>`;
   };
 
-  const periodFrac = Math.min(1, S.pl / A);
+  const periodFrac = Math.min(1, (S.pl || 5) / A);
   const showFertile = (S.mode === "natural" || S.mode === "ttc") && x.fertileStart && x.fertileEnd;
   const fertileStartFrac = showFertile ? Math.max(0, (x.fertileStart - (x.nextPred - A)) / A) : 0;
   const fertileEndFrac = showFertile ? Math.min(1, (x.fertileEnd - (x.nextPred - A)) / A) : 0;
@@ -1645,10 +2947,15 @@ function ring(x, day) {
   return `
     <div class="ring-wrap" role="img" aria-label="Cycle day ${safeDay} of estimated ${A} days">
       <svg viewBox="0 0 160 160" class="ring">
+        <!-- Background Track -->
         <circle cx="80" cy="80" r="${R}" fill="none" stroke="var(--border-subtle)" stroke-width="11"/>
-        ${showFertile ? arc(fertileStartFrac, fertileEndFrac, "var(--tint-lavender-text)", 11) : ""}
+        <!-- Fertile Window Arc -->
+        ${showFertile ? arc(fertileStartFrac, fertileEndFrac, "var(--tint-lavender-border)", 11) : ""}
+        <!-- Period Flow Arc -->
         ${S.mode !== "none" ? arc(0, periodFrac, "var(--pink)", 11) : ""}
-        <circle cx="${dotX}" cy="${dotY}" r="7.5" fill="var(--surface)" stroke="var(--plum)" stroke-width="3.5"/>
+        <!-- Current Cycle Day Indicator Pulse -->
+        <circle cx="${dotX}" cy="${dotY}" r="11" fill="var(--pink-glow)" class="ring-pulse-halo"/>
+        <circle cx="${dotX}" cy="${dotY}" r="7.5" fill="var(--surface)" stroke="var(--plum)" stroke-width="3.5" class="ring-tracker-head"/>
       </svg>
       <div class="ring-center">
         <span class="ring-cap">Cycle Day</span>
@@ -1658,19 +2965,145 @@ function ring(x, day) {
     </div>`;
 }
 
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    esc, ic, svgi, bunny, MOODS, face, moods, chip, MODE_NAMES, phaseArt, ring
+  };
+}
+
+
+/**
+ * CycleSideChick — Main Application Controller & View Orchestrator
+ * High-performance, accessible, state-preserving mobile PWA.
+ */
+
+// Application State & Globals
+let S;
+let G = {};
+const scrollPositions = { home: 0, calendar: 0, log: 0, insights: 0, care: 0 };
+
+const ui = {
+  tab: "home",
+  cm: { y: new Date().getFullYear(), m: new Date().getMonth() },
+  sel: typeof TD === "function" ? TD() : Math.floor(Date.now() / 864e5),
+  prof: 0,
+  cf: "",
+  breath: 0,
+  corrupt: false,
+  conflict: null,
+  clinicianModal: false,
+  partnerModal: false,
+  activeArticle: null,
+  articleSearch: "",
+  articleCategory: "All",
+  assistantQuery: "",
+  assistantResult: null,
+  importPreview: null,
+  infoTopic: null,
+  pinLocked: false,
+  pinEntered: "",
+  pinSettingUp: false,
+  pinSetupFirst: ""
+};
+
+/* Setup and State Migration */
+const loaded = loadState();
+S = loaded.state;
+ui.corrupt = loaded.corrupt;
+ui.pinLocked = PinLock.isEnabled();
+
+G.S = S;
+G.ob = { step: 0, last: "", cl: S.cl || 28, pl: S.pl || 5, reg: S.reg || "unknown", mode: S.mode || "natural", goals: S.goals || [], rem: S.rem || 0 };
+
+// Draft record for daily logging
+const loadDraft = d => {
+  const L = (S.logs && S.logs[d]) || {};
+  G.dr = {
+    d,
+    f: L.f || "",
+    m: L.m ?? null,
+    p: L.p ?? null,
+    en: L.en || "",
+    sl: L.sl ?? null,
+    sq: L.sq || "",
+    water: L.water || 0,
+    cm: L.cm || "",
+    med: Array.isArray(L.med) ? [...L.med] : (L.med ? [L.med] : []),
+    bbt: L.bbt || "",
+    lh: L.lh || "",
+    sy: { ...(L.sy || {}) },
+    note: L.note || ""
+  };
+};
+loadDraft(I(TD()));
+
+function haptic(pattern = 15) {
+  try {
+    if ('vibrate' in navigator && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(pattern);
+    }
+  } catch (e) {}
+}
+
 function toast(m) {
-  const t = $("#toast");
+  const t = document.querySelector("#toast");
+  if (!t) return;
   t.innerHTML = `${svgi("check", 18)} <span>${m}</span>`;
   t.className = "on";
   clearTimeout(toast.t);
   toast.t = setTimeout(() => (t.className = ""), 2600);
 }
 
+/* 10-Day Period Conflict Protection */
+function ensurePeriod(dn) {
+  if (dn > TD() || pdset(S).has(dn)) return;
+  const prev = S.periods.filter(p => N(p.s) <= dn).sort((a, b) => N(a.s) - N(b.s)).pop();
+  const nx = S.periods.find(p => N(p.s) > dn && N(p.s) - dn <= 3);
+
+  if (nx) {
+    nx.s = I(dn);
+  } else if (prev && dn - N(prev.s) <= 10) {
+    // Flag conflict modal if user attempts separate start within 10 days
+    ui.conflict = { dn, existing: prev };
+    return;
+  } else {
+    S.periods.push({ s: I(dn), e: null });
+  }
+  S.periods.sort((a, b) => N(a.s) - N(b.s));
+}
+
+/* Scroll & Caret Preservation Across Re-renders */
+function beforeRender() {
+  if (ui.tab) scrollPositions[ui.tab] = window.scrollY;
+  const active = document.activeElement;
+  return {
+    id: active && active.id ? active.id : null,
+    start: active && typeof active.selectionStart === "number" ? active.selectionStart : null,
+    end: active && typeof active.selectionEnd === "number" ? active.selectionEnd : null,
+    prevTab: ui.tab
+  };
+}
+
+function afterRender(ctx) {
+  if (ctx && ctx.prevTab === ui.tab && scrollPositions[ui.tab] != null) {
+    window.scrollTo({ top: scrollPositions[ui.tab], behavior: "instant" });
+  }
+  if (ctx && ctx.id) {
+    const el = document.getElementById(ctx.id);
+    if (el) {
+      el.focus();
+      if (ctx.start !== null && ctx.end !== null && typeof el.setSelectionRange === "function") {
+        try { el.setSelectionRange(ctx.start, ctx.end); } catch (e) {}
+      }
+    }
+  }
+}
+
 /* ==========================================================================
-   Screen Views & Components
+   Screen Views & Component Rendering
    ========================================================================== */
 
-/* 1. Onboarding Screen */
+/* 1. Onboarding Flow */
 function onb() {
   const o = G.ob;
   const s = o.step;
@@ -1678,11 +3111,19 @@ function onb() {
 
   if (s == 0) {
     return `
-      <div class="ob view-enter">
-        <div style="margin-bottom:12px">${bunny(68)}</div>
-        <h1 class="wm">CycleSideChick</h1>
-        <p class="mut" style="font-size:16px;font-weight:600;color:var(--plum);margin:6px 0 14px">Your cycle, symptoms, and quiet wellness sidekick.</p>
-        <p class="mut" style="margin:16px 0 24px">All records stay privately in this browser. We never transmit or sell your health data.</p>
+      <div class="ob view-enter" style="text-align:center;padding:32px 20px;max-width:440px;margin:0 auto">
+        <div style="margin-bottom:14px">${bunny(72)}</div>
+        <h1 class="wm" style="font-size:28px;margin-bottom:4px">CycleSideChick</h1>
+        <p class="mut" style="font-size:15.5px;font-weight:600;color:var(--plum);margin:4px 0 16px">Your private, evidence-based cycle and wellness companion.</p>
+        <div class="card tint-mint" style="text-align:left;margin-bottom:20px;padding:16px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            ${svgi("shield", 22)}
+            <b>100% On-Device Privacy</b>
+          </div>
+          <p class="mut" style="margin:0;font-size:13px;line-height:1.5">
+            Your records stay strictly in this browser. Zero cloud tracking, zero accounts, and zero advertising beacons.
+          </p>
+        </div>
         <div class="step-indicator">
           <div class="step-dot active"></div>
           <div class="step-dot"></div>
@@ -1694,20 +3135,22 @@ function onb() {
 
   if (s == 1) {
     return `
-      <div class="ob view-enter">
-        <div class="left">
-          <h2>Your starting point</h2>
-          <p class="mut">If you're not sure, leave it blank. You can always adjust these in Settings.</p>
-          <div class="step-indicator" style="justify-content:flex-start">
-            <div class="step-dot"></div>
-            <div class="step-dot active"></div>
-            <div class="step-dot"></div>
-          </div>
+      <div class="ob view-enter" style="max-width:440px;margin:0 auto;padding:24px 20px">
+        <h2>Your Cycle Baseline</h2>
+        <p class="mut" style="margin-bottom:16px">If you're not sure, leave defaults. You can adjust anytime in Profile.</p>
+        <div class="step-indicator" style="justify-content:flex-start">
+          <div class="step-dot"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+        </div>
+        <div class="card">
           <label for="ol">First day of last period</label>
           <input id="ol" type="date" max="${I(TD())}" value="${o.last}" data-k="ob.last">
-          <label for="oc">Usual cycle length (days)</label>
+
+          <label for="oc" style="margin-top:14px">Usual cycle length (days)</label>
           <input id="oc" type="number" min="15" max="90" value="${o.cl}" data-k="ob.cl">
-          <label for="op">Usual period bleeding duration (days)</label>
+
+          <label for="op" style="margin-top:14px">Usual period bleeding duration (days)</label>
           <input id="op" type="number" min="1" max="14" value="${o.pl}" data-k="ob.pl">
         </div>
         <button class="btn" data-a="next">Continue</button>
@@ -1716,75 +3159,101 @@ function onb() {
   }
 
   return `
-    <div class="ob view-enter">
-      <div class="left">
-        <h2>Choose your tracking mode</h2>
-        <div class="step-indicator" style="justify-content:flex-start">
-          <div class="step-dot"></div>
-          <div class="step-dot"></div>
-          <div class="step-dot active"></div>
-        </div>
-        <label>Tracking mode</label>
-        <div class="chips">
-          ${[
-            ["natural", "Natural cycle"],
-            ["irregular", "Irregular cycles"],
-            ["contra", "Hormonal contraception"],
-            ["ttc", "Trying to conceive"],
-            ["none", "No predictions"]
-          ].map(([v, t]) => chip(t, (o.mode || "natural") === v, `data-a="mode" data-v="${v}"`)).join("")}
-        </div>
-        <label style="margin-top:14px">Cycle regularity</label>
-        <div class="chips">
-          ${[["regular", "Mostly regular"], ["irregular", "Irregular"], ["unknown", "Not sure"]]
-            .map(([v, t]) => chip(t, o.reg == v, `data-a="reg" data-v="${v}"`)).join("")}
-        </div>
-        <div class="chips" style="margin-top:14px">
-          ${chip("Remind me to check in daily", o.rem, 'data-a="rem"')}
-        </div>
+    <div class="ob view-enter" style="max-width:440px;margin:0 auto;padding:24px 20px">
+      <h2>Select Your Tracking Mode</h2>
+      <p class="mut" style="margin-bottom:16px">Tailor calculations to your unique physiology. Fertility predictions can be disabled anytime.</p>
+      <div class="step-indicator" style="justify-content:flex-start">
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot active"></div>
       </div>
-      <button class="btn" data-a="finish">Start tracking</button>
+      <div class="chips" style="display:grid;gap:8px;margin-bottom:20px">
+        ${[
+          ["natural", "Natural Cycle", "Predicts periods & estimated fertile window based on past history."],
+          ["irregular", "Irregular Cycle", "Turns off fixed fertile windows to prevent false assurance."],
+          ["contra", "Hormonal Contraception", "Hides ovulation; tracks withdrawal bleeds & pill adherence."],
+          ["ttc", "Trying to Conceive", "Elevates fertile window, LH test strips & BBT tracking."],
+          ["pregnancy", "Pregnancy Mode", "Calculates gestational weeks and due date via Naegele's rule."],
+          ["perimenopause", "Perimenopause Mode", "STRAW+10 aligned tracking for transition rhythms."],
+          ["none", "No Predictions", "Simple health diary without mathematical forecasting."]
+        ].map(([v, title, desc]) => `
+          <button class="card card-interactive" style="text-align:left;padding:14px;border:1.5px solid ${o.mode === v ? "var(--pink)" : "var(--border)"};background:${o.mode === v ? "var(--tint-rose-bg)" : "var(--surface)"}" data-a="setObMode" data-v="${v}">
+            <b style="color:${o.mode === v ? "var(--tint-rose-text)" : "var(--plum)"}">${title}</b>
+            <p class="mut" style="margin:2px 0 0;font-size:12.5px">${desc}</p>
+          </button>`
+        ).join("")}
+      </div>
+      <button class="btn" data-a="finishOb">Enter CycleSideChick</button>
       ${skip}
     </div>`;
 }
 
-/* 2. Home Dashboard */
-function home() {
-  const x = stats();
+/* 2. Dashboard View */
+function renderHome() {
+  const x = calculateStats(S);
   const T = TD();
-  const L = S.logs[I(T)] || {};
-  const bad = badP();
-  const careAlerts = checkCareAlerts();
+  const L = (S.logs && S.logs[I(T)]) || {};
+  const careAlerts = checkCareAlerts(S);
 
-  // Storage recovery banner
-  const corruptBanner = ui.corrupt ? `
-    <div class="card tint-amber" role="alert">
-      <div class="row">
-        <b>Storage Recovery Notice</b>
+  // Pregnancy Hero
+  if (S.mode === "pregnancy") {
+    const preg = calculatePregnancy(S);
+    const guidance = getDailyPhaseGuidance("pregnancy");
+    return `
+      <div class="pregnancy-hero card tint-butter" style="text-align:center;padding:24px 20px">
+        <div class="phase-art-wrap" style="margin-bottom:10px">${phaseArt("pregnancy", 64)}</div>
+        <span class="phase-pill tint-butter">✦ Pregnancy Tracking Mode</span>
+        <h2 style="margin:10px 0 4px">${preg ? `Week ${preg.weeks}, Day ${preg.days}` : "Gestational Tracking"}</h2>
+        <p class="mut" style="font-weight:700;color:var(--plum);margin-bottom:8px">${preg ? preg.trimester : "Estimated Milestones"}</p>
+        <p class="mut" style="max-width:360px;margin:0 auto 16px">Estimated Due Date: <b>${preg ? preg.eddFormatted : "LMP needed"}</b>. Cycle forecasts are calmly paused.</p>
+
+        <div class="guidance-metric-row">
+          <div class="guidance-metric">
+            <b>Nutrition Focus</b>
+            <span>${guidance.nutrition}</span>
+          </div>
+          <div class="guidance-metric">
+            <b>Gentle Movement</b>
+            <span>${guidance.movement}</span>
+          </div>
+        </div>
+
+        <div class="chips" style="justify-content:center;margin-top:16px">
+          <button class="btn" style="max-width:240px" data-a="goLog" data-v="${I(T)}">Log daily pregnancy signs</button>
+        </div>
       </div>
-      <p class="mut">We encountered an issue reading previous records. A safe raw copy was preserved in backup storage.</p>
-      <button class="btn g" style="margin-top:8px" data-a="dismissCorrupt">Dismiss notice</button>
-    </div>` : "";
+      ${renderMoodCard(L)}`;
+  }
 
-  // Bad dates banner
-  const fixAlert = bad.length ? `
-    <div class="card tint-amber" role="alert">
-      <div class="row">
-        <b>Date Check Required</b>
+  // Perimenopause Hero
+  if (S.mode === "perimenopause") {
+    const guidance = getDailyPhaseGuidance("perimenopause");
+    return `
+      <div class="perimenopause-hero card tint-sage" style="text-align:center;padding:24px 20px">
+        <div class="phase-art-wrap" style="margin-bottom:10px">${phaseArt("perimenopause", 64)}</div>
+        <span class="phase-pill tint-sage">✦ Perimenopause Mode</span>
+        <h2 style="margin:10px 0 4px">Hormonal Transition Rhythm</h2>
+        <p class="mut" style="max-width:360px;margin:0 auto 16px">Cycles naturally fluctuate as ovarian activity shifts. Rigid ovulation estimates are turned off.</p>
+
+        <div class="guidance-metric-row">
+          <div class="guidance-metric">
+            <b>Transition Comfort</b>
+            <span>${guidance.selfCareTip}</span>
+          </div>
+          <div class="guidance-metric">
+            <b>Active Strength</b>
+            <span>${guidance.movement}</span>
+          </div>
+        </div>
+
+        <div class="chips" style="justify-content:center;margin-top:16px">
+          <button class="btn" style="max-width:240px" data-a="goLog" data-v="${I(T)}">Log symptoms &amp; hot flashes</button>
+        </div>
       </div>
-      <p class="mut">${bad.length} saved period date${bad.length > 1 ? "s are" : " is"} in the future or improperly formatted. They are preserved in your records but excluded from forecasts.</p>
-    </div>` : "";
+      ${renderMoodCard(L)}`;
+  }
 
-  // Gaps banner
-  const gapAlert = x.gaps.length ? `
-    <div class="card tint-butter">
-      <div class="row">
-        <b>Unusual Cycle Gap Detected</b>
-      </div>
-      <p class="mut">A gap of ${x.gaps[0].days} days was recorded between ${fmt(N(x.gaps[0].from))} and ${fmt(N(x.gaps[0].to))}. It has been flagged without disturbing your valid predictions.</p>
-    </div>` : "";
-
-  // Clinician alerts banner
+  // Clinical Red Flag Alert
   const clinicalPrompt = careAlerts.length ? `
     <div class="card tint-amber">
       <div class="row">
@@ -1794,17 +3263,17 @@ function home() {
         </div>
       </div>
       <p class="mut" style="margin-top:6px">${careAlerts[0]}</p>
-      <button class="btn g" style="margin-top:10px;min-height:40px;font-size:13px" data-a="openClinician">View clinician summary</button>
+      <button class="btn g" style="margin-top:10px;min-height:40px;font-size:13px" data-a="openClinician">View clinician report</button>
     </div>` : "";
 
-  // 7-day Week Strip (Center around selected date)
+  // Week Strip
   let weekDaysHTML = "";
   for (let i = -3; i <= 3; i++) {
     const dNum = ui.sel + i;
     const isToday = dNum === T;
     const isSel = dNum === ui.sel;
-    const hasPeriod = pdset().has(dNum);
-    const hasLog = !!S.logs[I(dNum)];
+    const hasPeriod = pdset(S).has(dNum);
+    const hasLog = !!(S.logs && S.logs[I(dNum)]);
     const isFertile = (S.mode === "natural" || S.mode === "ttc") && x.fertileStart && dNum >= x.fertileStart && dNum <= x.fertileEnd;
     const dotColor = hasPeriod ? "var(--pink)" : isFertile ? "var(--tint-lavender-text)" : hasLog ? "var(--plum)" : "transparent";
 
@@ -1816,20 +3285,20 @@ function home() {
       </div>`;
   }
 
-  // Missing data state (no defaults assumption)
+  // Missing data empty state
   if (x.last == null) {
     return `
-      ${gr(T)}
-      ${corruptBanner}
+      ${renderGreeting(T)}
       ${clinicalPrompt}
-      <div class="card" style="text-align:center;padding:26px 20px">
+      <div class="card" style="text-align:center;padding:28px 20px">
+        <div class="phase-art-wrap" style="margin-bottom:12px">${bunny(64)}</div>
         <span class="phase-pill tint-sage">Setup Your History</span>
         <h2 style="margin:10px 0 6px">Begin your cycle record</h2>
-        <p class="mut" style="max-width:340px;margin:0 auto 18px">Log the first day of your last period or set your known average cycle in Profile to enable personalized estimates.</p>
+        <p class="mut" style="max-width:340px;margin:0 auto 20px">Log the first day of your last period or set your known average cycle in Profile to enable personalized estimates.</p>
         <button class="btn" data-a="startToday">My period started today</button>
         <button class="btn g" style="margin-top:10px" data-a="tab" data-v="calendar">Pick past date on calendar</button>
       </div>
-      ${moodCard(L)}`;
+      ${renderMoodCard(L)}`;
   }
 
   const day = T - x.last + 1;
@@ -1837,75 +3306,95 @@ function home() {
   const until = nx - T;
   const late = -until;
 
-  // Mode-aware forecast text
   let est = "";
   let note = "";
+  let phaseKey = "follicular";
+  let phasePill = "";
+
+  if (pdset(S).has(T)) {
+    phaseKey = "menstrual";
+    phasePill = `<span class="phase-pill tint-rose">🌸 Recorded Period Day</span>`;
+  } else if ((S.mode === "natural" || S.mode === "ttc") && x.fertileStart && T >= x.fertileStart && T <= x.fertileEnd) {
+    phaseKey = "fertile";
+    phasePill = `<span class="phase-pill tint-lavender">✨ Estimated Fertile Window</span>`;
+  } else if (day < x.avg - x.ll) {
+    phaseKey = "follicular";
+    phasePill = `<span class="phase-pill tint-sage">🌱 Follicular Phase</span>`;
+  } else {
+    phaseKey = "luteal";
+    phasePill = `<span class="phase-pill tint-peach">🌙 Luteal Phase</span>`;
+  }
+
   if (S.mode === "none") {
     est = `Cycle day <b>${day}</b> recorded`;
-    note = "Predictions are disabled in your settings.";
+    note = "Predictions are turned off in your Profile settings.";
   } else if (S.mode === "contra") {
     est = `Day <b>${day}</b> of current cycle record`;
     note = "Hormonal contraception active; predictions and fertile window are hidden.";
   } else if (until >= 0) {
     est = `Next estimated period in about <b>${until} day${until == 1 ? "" : "s"}</b>`;
-    note = `Estimated between ${fmt(nx - x.pm)} and ${fmt(nx + x.pm)} (±${x.pm}d · ${x.confLevel} confidence). ${x.confReason}`;
+    note = `Estimated between ${fmt(nx - x.pm)} and ${fmt(nx + x.pm)} (±${x.pm}d · ${x.confLevel} confidence).`;
   } else {
     est = `Period is <b>${late} day${late == 1 ? "" : "s"}</b> past estimate`;
-    note = `A late period has many common causes including stress, travel, illness, sleep disruption, or natural cycle variations.`;
+    note = `A late period has many common causes including stress, travel, illness, sleep changes, or natural variation.`;
   }
 
-  // Phase computation with estimated qualifiers
-  let phasePill = "";
-  let phaseDesc = "";
-  if (pdset().has(T)) {
-    phasePill = `<span class="phase-pill tint-rose">🌸 Recorded Period Day</span>`;
-    phaseDesc = "A confirmed period day. Listen to your body and rest when you need to.";
-  } else if ((S.mode === "natural" || S.mode === "ttc") && x.fertileStart && T >= x.fertileStart && T <= x.fertileEnd) {
-    phasePill = `<span class="phase-pill tint-lavender">✨ Estimated Fertile Window</span>`;
-    phaseDesc = "Estimated window based on past cycle history. Mathematical approximation only; do not rely on for contraception.";
-  } else if (day < x.avg - x.ll) {
-    phasePill = `<span class="phase-pill tint-sage">🌱 Follicular Phase</span>`;
-    phaseDesc = "Estrogen is gradually rising. Energy and focus often feel lighter.";
-  } else {
-    phasePill = `<span class="phase-pill tint-peach">🌙 Luteal Phase</span>`;
-    phaseDesc = "Progesterone dominant. Prioritize warmth, steady nourishment, and restful boundaries.";
-  }
+  const guidance = getDailyPhaseGuidance(phaseKey, day);
 
-  const prep = (until <= Math.max(S.rp, 3) && until >= -7 && S.dis.p != I(T)) ? `
-    <div class="card tint-butter">
+  // Compare to your usual insight
+  const comp = compareToUsual(S);
+  const compCard = comp.ready ? `
+    <div class="card tint-sky" style="padding:16px">
       <div class="row">
-        <b>Preparation Notice</b>
-        <button class="icon" style="width:34px;height:34px" data-a="dis" data-v="p" aria-label="Dismiss notification">${svgi("x", 16)}</button>
+        <b>Compare to Your Usual</b>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11.5px">Cycle Day ${comp.curCycleDay}</span>
       </div>
-      <p class="mut" style="margin-top:4px">${until >= 0 ? "Your period is estimated to arrive soon." : "Your period may start any day."} Keep supplies handy and take things gently.</p>
+      <p class="mut" style="margin-top:4px;font-size:13px">
+        Your current cycle is ${comp.cycleDiff === 0 ? "on track with your baseline" : comp.cycleDiff > 0 ? `${comp.cycleDiff} days longer than average` : `${Math.abs(comp.cycleDiff)} days shorter than average`}.
+        ${comp.avgCurPain ? `Average recorded pain this cycle: ${comp.avgCurPain}/10.` : ""}
+      </p>
     </div>` : "";
 
   return `
-    ${gr(T)}
-    ${corruptBanner}
-    ${fixAlert}
-    ${gapAlert}
+    ${renderGreeting(T)}
     ${clinicalPrompt}
 
     <div class="week-strip" role="region" aria-label="Current Week">
       ${weekDaysHTML}
     </div>
 
+    <!-- Cycle Ring Dashboard Card -->
     <div class="card" style="text-align:center;padding:20px 16px">
-      ${phasePill}
-      ${ring(x, day)}
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
+        ${phasePill}
+        <button class="info-btn" data-a="openInfo" data-v="${phaseKey}" aria-label="About ${guidance.name}">${svgi("info", 16)}</button>
+      </div>
+      ${ring(x, day, S)}
       <p class="big" style="margin:4px 0 6px">${est}</p>
-      <p class="mut" style="max-width:380px;margin:0 auto">${note}</p>
+      <p class="mut" style="max-width:380px;margin:0 auto;font-size:13px">${note}</p>
+      <div style="margin-top:8px">
+        <button class="chip" style="min-height:28px;padding:2px 10px;font-size:11.5px" data-a="openInfo" data-v="confidence">
+          ${svgi("sparkle", 12)} Confidence: ${x.confLevel} (±${x.pm}d)
+        </button>
+      </div>
     </div>
 
-    <div class="card tint-mint">
-      <p style="margin:0;font-size:14px;font-weight:600">${esc(phaseDesc)}</p>
+    <!-- Daily Phase & Wellness Guidance Card -->
+    <div class="card tint-mint phase-guidance-card">
+      <div class="phase-art-wrap">${phaseArt(phaseKey, 54)}</div>
+      <div>
+        <h4 style="margin:0 0 2px;color:var(--plum)">${guidance.name}</h4>
+        <p style="margin:0;font-size:12.5px;line-height:1.45;color:var(--plum)">${guidance.hormones}</p>
+        <div style="margin-top:8px;font-size:12px;font-weight:600">
+          💡 ${guidance.selfCareTip}
+        </div>
+      </div>
     </div>
 
-    ${prep}
-    ${moodCard(L)}
+    ${compCard}
+    ${renderMoodCard(L)}
 
-    <div class="chips" style="display:flex;gap:10px">
+    <div class="chips" style="display:flex;gap:10px;margin-top:4px">
       ${until <= 2
         ? `<button class="btn" style="flex:1" data-a="startToday">Period started today</button>
            <button class="btn g" style="flex:1" data-a="goLog" data-v="${I(T)}">Log symptoms</button>`
@@ -1914,7 +3403,7 @@ function home() {
     </div>`;
 }
 
-const gr = T => {
+function renderGreeting(T) {
   const h = new Date().getHours();
   const greeting = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
   return `
@@ -1922,51 +3411,47 @@ const gr = T => {
       <p class="mut" style="margin:0;font-weight:600">${fmt(T, { weekday: "long", month: "long", day: "numeric" })}</p>
       <h2>${greeting}</h2>
     </div>`;
-};
+}
 
-const moodCard = L => {
+function renderMoodCard(L) {
   const k = I(TD());
   if (L.m != null) {
     return `
       <div class="card tint-peach">
         <div class="row">
           <div style="display:flex;align-items:center;gap:12px">
-            ${face(L.m, 40)}
+            ${face(L.m, 42)}
             <div>
-              <p style="margin:0;font-size:12px;text-transform:uppercase;font-weight:700">Today's Mood</p>
+              <p style="margin:0;font-size:11px;text-transform:uppercase;font-weight:700">Today's Mood</p>
               <h3 style="margin:0">${MOODS[L.m].name}</h3>
+              <p class="mut" style="margin:0;font-size:12px">${MOODS[L.m].sub}</p>
             </div>
           </div>
           <button class="chip" data-a="goLog" data-v="${k}">Edit entry</button>
         </div>
       </div>`;
   }
-
-  if (S.dis.c == k) return "";
-
   return `
     <div class="card">
       <div class="row">
         <h3>How are you feeling today?</h3>
-        <button class="icon" style="width:34px;height:34px" data-a="dis" data-v="c" aria-label="Dismiss check-in">${svgi("x", 16)}</button>
       </div>
       ${moods(null, "qm")}
-      <p class="mut" style="margin:4px 0 0">Tap once to check in your mood.</p>
     </div>`;
-};
+}
 
 /* 3. Calendar View */
-function cal() {
-  const x = stats();
+function renderCalendar() {
+  const x = calculateStats(S);
   const T = TD();
   const { y, m } = ui.cm;
-  const ps = pdset();
+  const ps = pdset(S);
   const pr = new Set();
   const fe = new Set();
 
-  if (S.mode !== "none" && S.mode !== "contra") {
+  if (S.mode !== "none" && S.mode !== "contra" && S.mode !== "pregnancy") {
     x.pred.forEach(p => {
-      for (let d = p; d < p + S.pl; d++) if (d >= T) pr.add(d);
+      for (let d = p; d < p + (S.pl || 5); d++) if (d >= T) pr.add(d);
       if (S.mode !== "irregular" && x.fertileStart && x.fertileEnd) {
         for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
       }
@@ -1982,40 +3467,37 @@ function cal() {
     const n = Date.UTC(y, m, d) / DAY;
     const k = ps.has(n) ? "c" : pr.has(n) ? "p" : fe.has(n) ? "f" : "";
     const label = fmt(n, { weekday: "long", month: "long", day: "numeric" });
-    const tag = ps.has(n) ? ", period recorded" : pr.has(n) ? ", predicted period" : fe.has(n) ? ", estimated fertile window" : "";
 
     cells += `
-      <button class="day ${k} ${n == T ? "t" : ""} ${n == ui.sel ? "s" : ""} ${S.logs[I(n)] ? "l" : ""}"
-        data-a="day" data-v="${n}" aria-label="${label}${tag}">
+      <button class="day ${k} ${n == T ? "t" : ""} ${n == ui.sel ? "s" : ""} ${(S.logs && S.logs[I(n)]) ? "l" : ""}"
+        data-a="day" data-v="${n}" aria-label="${label}">
         ${d}
       </button>`;
   }
 
   const sel = ui.sel;
-  const rec = vp().find(p => N(p.s) <= sel && sel <= pEnd(p));
+  const rec = vp(S).find(p => N(p.s) <= sel && sel <= pEnd(p, S));
   const fut = sel > T;
 
   let st = "No period recorded.";
-  if (rec) {
-    st = `Period day ${sel - N(rec.s) + 1}. Confirmed record.`;
-  } else if (pr.has(sel)) {
-    st = "Estimated period day (prediction, not a record).";
-  } else if (fe.has(sel)) {
-    st = "Estimated fertile window (approximation only).";
-  }
+  if (rec) st = `Period day ${sel - N(rec.s) + 1}. Confirmed record.`;
+  else if (pr.has(sel)) st = "Estimated period day (mathematical prediction).";
+  else if (fe.has(sel)) st = "Estimated fertile window (approximation only).";
 
   const btns = rec
     ? `${sel > N(rec.s) && !fut ? `<button class="btn g" data-a="pend">Period ended this day</button>` : ""}
        <button class="btn g" data-a="prem">${ui.cf == "rm" ? "Tap again to remove period" : "Remove this period"}</button>`
     : `<button class="btn" data-a="pstart" ${fut ? "disabled" : ""}>Period started this day</button>`;
 
-  const selLog = S.logs[I(sel)];
+  const selLog = S.logs && S.logs[I(sel)];
   const logSnippet = selLog ? `
-    <div style="margin:10px 0;padding:12px;background:var(--surface-alt);border-radius:var(--radius-sm);font-size:13.5px">
+    <div style="margin:10px 0;padding:12px;background:var(--surface-alt);border-radius:var(--radius-sm);font-size:13px;line-height:1.5">
       ${selLog.m != null ? `<b>Mood:</b> ${MOODS[selLog.m].name} · ` : ""}
       ${selLog.f ? `<b>Flow:</b> ${selLog.f} · ` : ""}
       ${selLog.p != null ? `<b>Pain:</b> ${selLog.p}/10 · ` : ""}
       ${selLog.en ? `<b>Energy:</b> ${selLog.en} · ` : ""}
+      ${selLog.water ? `<b>Hydration:</b> ${selLog.water} glasses · ` : ""}
+      ${selLog.cm ? `<b>Cervical Fluid:</b> ${selLog.cm} · ` : ""}
       ${selLog.sl != null ? `<b>Sleep:</b> ${selLog.sl}h · ` : ""}
       ${Object.keys(selLog.sy || {}).length ? `<b>Symptoms:</b> ${Object.keys(selLog.sy).join(", ")}` : ""}
     </div>` : "";
@@ -2037,7 +3519,7 @@ function cal() {
         </div>
 
         <div class="leg">
-          <span><i style="background:var(--pink)"></i> Recorded period</span>
+          <span><i style="background:var(--pink)"></i> Confirmed period</span>
           <span><i style="border:2px dashed var(--pink);background:var(--tint-rose-bg)"></i> Predicted</span>
           <span><i style="background:var(--tint-lavender-bg);border:1px solid var(--tint-lavender-border)"></i> Estimated fertile</span>
           <span><i style="background:var(--plum);width:6px;height:6px"></i> Logged entry</span>
@@ -2053,25 +3535,16 @@ function cal() {
         ${logSnippet}
         <div class="chips" style="display:grid;gap:8px;margin-top:14px">
           ${btns}
-          ${fut ? "" : `<button class="btn g" data-a="goLog" data-v="${I(sel)}">Log symptoms &amp; health signs</button>`}
+          ${fut ? "" : `<button class="btn g" data-a="goLog" data-v="${I(sel)}">${svgi("log", 16)} Log symptoms &amp; health signs</button>`}
         </div>
       </div>
     </div>`;
 }
 
-/* 4. Log View */
-const SY = ["Cramps", "Headache", "Bloating", "Fatigue", "Breast tenderness", "Backache"];
-const FL = [
-  { k: "none", l: "None" },
-  { k: "spotting", l: "Spotting" },
-  { k: "light", l: "Light" },
-  { k: "medium", l: "Medium" },
-  { k: "heavy", l: "Heavy" }
-];
-
-function log() {
+/* 4. Daily Logging View */
+function renderLog() {
   const d = G.dr;
-  const all = [...SY, ...S.custom];
+  const all = ["Cramps", "Headache", "Bloating", "Fatigue", "Breast tenderness", "Backache", ...(S.custom || [])];
 
   return `
     <div class="view-enter">
@@ -2089,7 +3562,8 @@ function log() {
 
         <label style="margin-top:16px">Bleeding flow</label>
         <div class="chips">
-          ${FL.map(f => chip(f.l, d.f == f.k, `data-a="flow" data-v="${f.k}"`)).join("")}
+          ${[["none", "None"], ["spotting", "Spotting"], ["light", "Light"], ["medium", "Medium"], ["heavy", "Heavy"]]
+            .map(([f, l]) => chip(l, d.f == f, `data-a="flow" data-v="${f}"`)).join("")}
         </div>
 
         <label style="margin-top:16px">Mood</label>
@@ -2098,7 +3572,7 @@ function log() {
 
       <div class="card">
         <div class="row">
-          <label for="lp" style="margin:0">Pain level (0–10)</label>
+          <label for="lp" style="margin:0">Pain rating (0–10)</label>
           <span id="lpv" style="font-weight:700;color:var(--plum);font-size:14px">
             ${d.p != null ? d.p + "/10 · " + (d.p === 0 ? "No pain" : d.p <= 3 ? "Mild" : d.p <= 6 ? "Moderate" : d.p <= 8 ? "Severe" : "Very severe") : "Not logged"}
           </span>
@@ -2111,10 +3585,17 @@ function log() {
             .map(([v, l]) => chip(l, d.en === v, `data-a="energy" data-v="${v}"`)).join("")}
         </div>
 
-        <label style="margin-top:16px">Sleep quality</label>
-        <div class="chips">
-          ${[["restful", "Restful"], ["fair", "Fair"], ["restless", "Restless"], ["poor", "Poor"]]
-            .map(([v, l]) => chip(l, d.sq === v, `data-a="sleepQ" data-v="${v}"`)).join("")}
+        <div class="row" style="margin-top:16px">
+          <label style="margin:0">Hydration (8 glasses goal)</label>
+          <span style="font-size:13px;font-weight:700;color:var(--tint-sky-text)">${d.water || 0} / 8 glasses</span>
+        </div>
+        <div class="water-cups-row">
+          ${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `
+            <button class="water-cup-btn ${n <= (d.water || 0) ? "filled" : ""}" data-a="setWater" data-v="${n}" aria-label="${n} glasses of water">
+              ${svgi("water", 16)}
+              <span style="font-size:11px">${n}</span>
+            </button>`
+          ).join("")}
         </div>
 
         <div class="row" style="margin-top:16px">
@@ -2125,14 +3606,20 @@ function log() {
       </div>
 
       <div class="card">
-        <label>Medication &amp; supplements taken</label>
+        <label>Cervical fluid consistency</label>
+        <div class="chips">
+          ${[["dry", "Dry"], ["sticky", "Sticky"], ["creamy", "Creamy"], ["watery", "Watery"], ["eggwhite", "Egg-white"]]
+            .map(([v, l]) => chip(l, d.cm === v, `data-a="cm" data-v="${v}"`)).join("")}
+        </div>
+
+        <label style="margin-top:16px">Medication &amp; supplements</label>
         <div class="chips">
           ${["Contraceptive pill", "Pain reliever", "Vitamins", "Iron", "Magnesium"]
             .map(m => chip(m, d.med.includes(m), `data-a="med" data-v="${m}"`)).join("")}
         </div>
 
         ${(S.mode === "natural" || S.mode === "ttc") ? `
-          <label style="margin-top:16px">LH ovulation test result</label>
+          <label style="margin-top:16px">LH ovulation test</label>
           <div class="chips">
             ${[["none", "Not tested"], ["neg", "Negative"], ["faint", "Faint / Low"], ["pos", "Positive / Peak"]]
               .map(([v, l]) => chip(l, d.lh === v, `data-a="lh" data-v="${v}"`)).join("")}
@@ -2167,218 +3654,188 @@ function log() {
 
       <div class="card">
         <label for="nt" style="margin:0 0 6px">Personal notes</label>
-        <textarea id="nt" rows="3" data-k="dr.note" maxlength="500" placeholder="Physical sensations, stress, cravings, or reflections...">${esc(d.note)}</textarea>
+        <textarea id="nt" rows="3" data-k="dr.note" maxlength="500" placeholder="Feelings, cravings, or health observations...">${esc(d.note)}</textarea>
       </div>
 
-      <button class="btn" style="margin-top:8px" data-a="save">Save entry</button>
+      <button class="btn" style="margin-top:8px" data-a="save">${svgi("check", 18)} Save entry</button>
     </div>`;
 }
 
 /* 5. Insights View */
-function patt() {
-  const x = stats();
-  const c = {};
-  Object.entries(S.logs).forEach(([d, l]) => {
-    const n = N(d);
-    const s = x.st.filter(q => q <= n).pop();
-    if (s == null || n - s > 90) return;
-    const b = Math.min(3, [5, 13, 21].filter(z => n - s + 1 > z).length);
-    Object.keys(l.sy || {}).forEach(k => {
-      (c[k] = c[k] || [0, 0, 0, 0])[b]++;
-    });
-  });
-  return Object.entries(c)
-    .map(([k, a]) => ({ k, t: a.reduce((p, q) => p + q), b: a.indexOf(Math.max(...a)) }))
-    .filter(r => r.t >= 3)
-    .sort((a, b) => b.t - a.t);
-}
-
-const BL = [
-  "Menstrual phase (days 1–5)",
-  "Follicular phase (days 6–13)",
-  "Estimated ovulatory window (days 14–21)",
-  "Luteal phase (day 22 onward)"
-];
-
-function insights() {
-  const x = stats();
+function renderInsights() {
+  const x = calculateStats(S);
   const ls = x.lens.slice(-8);
-  const n = vp().length;
-  const pt = patt();
-  const durs = vp().filter(p => okD(p.e) && N(p.e) >= N(p.s)).map(p => N(p.e) - N(p.s) + 1);
-
-  let h = `
-    <div class="view-enter">
-      <h2 style="margin-bottom:14px">Cycle Insights &amp; Statistics</h2>`;
-
-  // Key stats overview cards
-  h += `
-    <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px">
-      <div class="tint-rose" style="padding:14px;border-radius:var(--radius-md);text-align:center">
-        <span style="font-size:12px;text-transform:uppercase;font-weight:700">Recency Mean</span>
-        <div style="font-size:24px;font-weight:800;margin-top:2px">${x.avg} <span style="font-size:14px;font-weight:600">days</span></div>
-        <div style="font-size:12px;margin-top:2px">Range: ±${x.pm}d</div>
-      </div>
-      <div class="tint-sage" style="padding:14px;border-radius:var(--radius-md);text-align:center">
-        <span style="font-size:12px;text-transform:uppercase;font-weight:700">Average Period</span>
-        <div style="font-size:24px;font-weight:800;margin-top:2px">${durs.length ? (durs.reduce((a, b) => a + b) / durs.length).toFixed(1) : S.pl} <span style="font-size:14px;font-weight:600">days</span></div>
-        <div style="font-size:12px;margin-top:2px">${durs.length} periods logged</div>
-      </div>
-    </div>`;
-
-  // Confidence & Tracking Mode Banner
-  h += `
-    <div class="card tint-lavender">
-      <div class="row">
-        <b>Confidence: ${x.confLevel}</b>
-        <span class="chip" style="min-height:28px;padding:2px 8px;font-size:12px">${MODE_NAMES[S.mode] || S.mode}</span>
-      </div>
-      <p class="mut" style="margin-top:4px">${x.confReason} Luteal length set to ${x.ll} days.</p>
-    </div>`;
-
-  if (ls.length < 2) {
-    h += `
-      <div class="card tint-mint" style="text-align:center;padding:24px 18px">
-        <h3>Still learning your rhythm</h3>
-        <p class="mut">Comprehensive cycle patterns emerge after at least 3 period start dates. You currently have ${n}.</p>
-      </div>`;
-  } else {
-    const mx = Math.max(...ls, 35);
-    const mn = Math.min(...ls);
-    const chartW = 300;
-    const barW = chartW / ls.length;
-
-    h += `
-      <div class="card">
-        <div class="row" style="margin-bottom:8px">
-          <h3>Recent cycle lengths</h3>
-          <span class="chip" style="min-height:28px;padding:2px 10px;font-size:12px">Range: ${mn}–${Math.max(...ls)}d</span>
-        </div>
-        <p class="mut">Last ${ls.length} recorded cycles. ${x.outlierDetected ? "Outliers detected; median used for current forecasts." : "Calculated with recency weighting."}</p>
-        <svg viewBox="0 0 300 130" role="img" aria-label="Cycle lengths chart" width="100%" style="margin-top:12px">
-          <line x1="0" y1="105" x2="300" y2="105" stroke="var(--border)" stroke-width="1"/>
-          ${ls.map((l, i) => {
-            const bh = Math.max(10, (l / mx) * 85);
-            const xPos = i * barW + 8;
-            const w = barW - 16;
-            return `
-              <rect x="${xPos}" y="${105 - bh}" width="${w}" height="${bh}" rx="6" fill="var(--pink)"/>
-              <text x="${xPos + w / 2}" y="${98 - bh}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--plum)">${l}</text>
-              <text x="${xPos + w / 2}" y="122" text-anchor="middle" font-size="11" fill="var(--muted)">#${i + 1}</text>`;
-          }).join("")}
-        </svg>
-      </div>`;
-  }
-
-  // Symptom patterns
-  h += `
-    <div class="card">
-      <h3>Symptom occurrences</h3>
-      <div style="margin-top:10px">
-        ${pt.length
-          ? pt.map(r => `
-              <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">
-                <div style="font-weight:700;color:var(--plum)">${esc(r.k)}</div>
-                <div class="mut">Logged ${r.t} times · peaks around ${BL[r.b]}</div>
-              </div>`
-            ).join("") + `<p class="mut" style="margin-top:6px;font-size:12.5px">Personal observations from your logs, not clinical diagnosis.</p>`
-          : `<p class="mut">Symptom trends will appear after an individual symptom has been logged at least 3 times.</p>`
-        }
-      </div>
-    </div>`;
-
-  h += `</div>`;
-  return h;
-}
-
-/* 6. Care & Clinician View */
-const TIP = {
-  Cramps: "A warm heat pack on your lower abdomen helps relax uterine muscles. Chamomile or ginger tea and gentle pelvic stretches also offer comfort.",
-  Headache: "Ensure steady hydration and unhurried meals. Resting in a quiet, softly lit room with cool neck compresses can provide relief.",
-  Bloating: "Sip water or peppermint infusion throughout the day. Opt for lower-sodium meals and take an easy stroll to ease digestion.",
-  Fatigue: "Protect an early bedtime and prune your schedule. Gentle walks and iron-rich foods help replenish energy around your cycle.",
-  "Breast tenderness": "Wear a soft, supportive wireless bra. A warm compress and reducing high-caffeine intake can ease breast fullness.",
-  Backache: "Warm baths, gentle cat-cow stretches, and supporting your lower back with a cushion when sitting bring soothing relief."
-};
-
-function care() {
-  const careAlerts = checkCareAlerts();
-  const cards = [
-    ["Warmth", "Heating pad or warm bath to comfort pelvic cramps and tension.", "tint-rose"],
-    ["Hydration", "Sip water, coconut water, and herbal teas steadily.", "tint-sky"],
-    ["Rest", "Honor low-energy days with earlier bedtimes.", "tint-lavender"],
-    ["Gentle Movement", "Easy walking, restorative yoga, and soft stretches.", "tint-mint"],
-    ["Reflection", "Jot down feelings and thoughts in your daily notes.", "tint-peach"],
-    ["Nourishment", "Warm, balanced meals with iron, magnesium, and healthy fats.", "tint-sage"]
-  ];
+  const durs = vp(S).filter(p => okD(p.e) && N(p.e) >= N(p.s)).map(p => N(p.e) - N(p.s) + 1);
 
   return `
     <div class="view-enter">
-      <h2 style="margin-bottom:14px">Care &amp; Wellness</h2>
+      <h2 style="margin-bottom:14px">Cycle Insights &amp; Health Patterns</h2>
+
+      <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px">
+        <div class="tint-rose" style="padding:14px;border-radius:var(--radius-md);text-align:center">
+          <span style="font-size:11.5px;text-transform:uppercase;font-weight:700">Recency Mean</span>
+          <div style="font-size:24px;font-weight:800;margin-top:2px">${x.avg} <span style="font-size:14px;font-weight:600">days</span></div>
+          <div style="font-size:12px;margin-top:2px">Range: ±${x.pm}d</div>
+        </div>
+        <div class="tint-sage" style="padding:14px;border-radius:var(--radius-md);text-align:center">
+          <span style="font-size:11.5px;text-transform:uppercase;font-weight:700">Average Period</span>
+          <div style="font-size:24px;font-weight:800;margin-top:2px">${durs.length ? (durs.reduce((a, b) => a + b) / durs.length).toFixed(1) : S.pl} <span style="font-size:14px;font-weight:600">days</span></div>
+          <div style="font-size:12px;margin-top:2px">${durs.length} periods logged</div>
+        </div>
+      </div>
+
+      <div class="card tint-lavender">
+        <div class="row">
+          <div style="display:flex;align-items:center;gap:8px">
+            <b>Prediction Confidence: ${x.confLevel}</b>
+            <button class="info-btn" data-a="openInfo" data-v="confidence">${svgi("info", 16)}</button>
+          </div>
+          <span class="chip" style="min-height:28px;padding:2px 8px;font-size:12px">${MODE_NAMES[S.mode] || S.mode}</span>
+        </div>
+        <p class="mut" style="margin-top:4px;font-size:13px">${x.confReason} Luteal length configured to ${x.ll} days.</p>
+      </div>
+
+      <!-- Follicular vs Luteal Breakdown -->
+      <div class="card">
+        <h3>Estimated Phase Distribution</h3>
+        <p class="mut" style="font-size:13px">Based on your average ${x.avg}-day cycle and ${x.ll}-day luteal length.</p>
+        <div style="margin-top:12px;display:flex;gap:4px;height:24px;border-radius:var(--radius-pill);overflow:hidden">
+          <div style="flex:${Math.max(1, x.avg - x.ll)};background:var(--tint-sage-border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tint-sage-text)">
+            Follicular (~${Math.max(1, x.avg - x.ll)}d)
+          </div>
+          <div style="flex:${x.ll};background:var(--tint-peach-border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tint-peach-text)">
+            Luteal (${x.ll}d)
+          </div>
+        </div>
+      </div>
+
+      ${ls.length >= 2 ? `
+        <div class="card">
+          <h3>Recent cycle lengths</h3>
+          <p class="mut">Last ${ls.length} recorded cycles. ${x.outlierDetected ? "Outliers detected; median applied for safety." : "Calculated with recency weighting."}</p>
+          <svg viewBox="0 0 300 130" role="img" aria-label="Cycle lengths chart" width="100%" style="margin-top:12px">
+            <line x1="0" y1="105" x2="300" y2="105" stroke="var(--border)" stroke-width="1"/>
+            ${ls.map((l, i) => {
+              const mx = Math.max(...ls, 35);
+              const barW = 300 / ls.length;
+              const bh = Math.max(10, (l / mx) * 85);
+              const xPos = i * barW + 8;
+              const w = barW - 16;
+              return `
+                <rect x="${xPos}" y="${105 - bh}" width="${w}" height="${bh}" rx="6" fill="var(--pink)"/>
+                <text x="${xPos + w / 2}" y="${98 - bh}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--plum)">${l}</text>
+                <text x="${xPos + w / 2}" y="122" text-anchor="middle" font-size="11" fill="var(--muted)">#${i + 1}</text>`;
+            }).join("")}
+          </svg>
+        </div>` : `
+        <div class="card tint-mint" style="text-align:center;padding:22px">
+          <h3>History Unlocks After 2 Cycles</h3>
+          <p class="mut">Currently ${ls.length} of 2 cycles logged. Predictions personalize automatically as your records grow.</p>
+        </div>`
+      }
+    </div>`;
+}
+
+/* 6. Care & Assistant View */
+function renderCare() {
+  const x = calculateStats(S);
+  const careAlerts = checkCareAlerts(S);
+  const searchResults = searchArticles(ui.articleSearch);
+
+  return `
+    <div class="view-enter">
+      <h2 style="margin-bottom:14px">Care, Insights &amp; Guidance</h2>
 
       ${careAlerts.length ? `
         <div class="card tint-amber">
           <div class="row">
             <div style="display:flex;align-items:center;gap:8px">
               ${svgi("alert", 20)}
-              <b>Health Patterns Noticed in Your Logs</b>
+              <b>Clinical Red Flags to Discuss</b>
             </div>
           </div>
-          <div style="margin-top:8px;font-size:14px;line-height:1.5">
+          <div style="margin-top:8px;font-size:13.5px;line-height:1.5">
             ${careAlerts.map(a => `<div style="margin-bottom:6px">• ${a}</div>`).join("")}
           </div>
-          <button class="btn" style="margin-top:12px;background:var(--plum)" data-a="openClinician">Open Clinician Summary</button>
+          <button class="btn" style="margin-top:10px;background:var(--plum)" data-a="openClinician">Open Clinician Report</button>
         </div>` : ""
       }
 
-      <div class="card tint-butter">
+      <!-- Local Health Assistant -->
+      <div class="card tint-lavender assistant-box">
         <div class="row">
-          <div>
-            <b>Prepare a Clinician Summary</b>
-            <p class="mut" style="margin:2px 0 0">Generate a clean text report of your cycle metrics, pain, and symptoms for your doctor.</p>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${svgi("sparkle", 20)}
+            <b>Local Health Assistant</b>
           </div>
-          <button class="chip" data-a="openClinician">Summary</button>
+          <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">100% On-Device</span>
         </div>
-      </div>
+        <p class="mut" style="margin:2px 0 8px;font-size:13px">Ask questions about your cycle, symptoms, or health patterns. All data stays strictly on your device.</p>
 
-      <div class="card" style="padding:16px 20px">
-        <div class="row">
-          <div>
-            <h3>Mindful breathing</h3>
-            <p class="mut" style="margin:2px 0 0">A 1-minute calming breath to center your nervous system.</p>
-          </div>
-          <button class="chip" data-a="toggleBreath">${ui.breath ? "Hide" : "Begin"}</button>
+        <div class="assistant-prompt-list">
+          ${ASSISTANT_TOPICS.map(t =>
+            `<button class="assistant-prompt-chip" data-a="askAssistant" data-v="${t.id}">${t.question}</button>`
+          ).join("")}
         </div>
-        ${ui.breath ? `
-          <div class="breath-box">
-            <div class="breath-circle">
-              <span class="breath-label">Breathe</span>
+
+        <div class="row">
+          <input id="assistantQueryInput" placeholder="Type a symptom or question..." value="${esc(ui.assistantQuery)}">
+          <button class="chip" style="flex:none;min-height:48px" data-a="submitAssistant">Ask</button>
+        </div>
+
+        ${ui.assistantResult ? `
+          <div class="assistant-response-card">
+            <h4 style="margin:0;color:var(--plum)">${esc(ui.assistantResult.title)}</h4>
+            ${ui.assistantResult.context ? `<p style="margin:0;font-size:13px;font-weight:600;color:var(--plum)">${esc(ui.assistantResult.context)}</p>` : ""}
+            <p style="margin:0;font-size:14px;line-height:1.55">${esc(ui.assistantResult.body)}</p>
+            <div class="assistant-source-badge">Source: ${esc(ui.assistantResult.source)}</div>
+            <div class="tint-amber" style="padding:10px;border-radius:var(--radius-sm);font-size:12.5px;margin-top:4px">
+              <b>Clinician Guidance:</b> ${esc(ui.assistantResult.clinicianAdvice)}
             </div>
-            <p class="mut">Inhale gently... hold... exhale slowly.</p>
-          </div>` : ""}
+            <button class="btn g" style="min-height:36px;font-size:13px;margin-top:6px" data-a="openClinician">View Clinician Report</button>
+          </div>` : ""
+        }
       </div>
 
-      <div class="cares" style="margin-top:14px">
-        ${cards.map(([t, d, c]) => `
-          <div class="card ${c}">
-            <h3>${t}</h3>
-            <p class="mut">${d}</p>
-          </div>`
-        ).join("")}
+      <!-- Educational Content Library -->
+      <div class="card">
+        <div class="row" style="margin-bottom:8px">
+          <h3>Evidence-Based Library</h3>
+          <span class="mut" style="font-size:12px">${ARTICLES.length} articles</span>
+        </div>
+        <input class="library-search" id="libSearch" placeholder="Search articles by keyword or symptom..." value="${esc(ui.articleSearch)}" data-a="searchLib">
+
+        <div style="margin-top:12px">
+          ${searchResults.slice(0, 6).map(a => `
+            <div class="article-card" data-a="readArticle" data-v="${a.id}">
+              <h3>${esc(a.title)}</h3>
+              <p class="mut" style="margin:0">${esc(a.summary)}</p>
+              <div class="article-meta">
+                <span class="article-tag tint-sage">${esc(a.category)}</span>
+                <span>${esc(a.readTime)}</span>
+                <span style="margin-left:auto">${svgi("arrowRight", 14)}</span>
+              </div>
+            </div>`
+          ).join("")}
+        </div>
       </div>
 
-      <div class="card" style="margin-top:14px">
-        <h3>When to consult a healthcare provider</h3>
-        <p class="mut" style="line-height:1.6;margin-top:8px">
-          Soaking through a pad or tampon every hour for two consecutive hours. Pelvic pain that prevents normal daily activities. No period for 90 days or more. Cycles regularly shorter than 21 or longer than 35 days. Sudden fever, fainting, or severe dizziness with your period. CycleSideChick offers wellness self-tracking, not diagnostic medicine.
-        </p>
+      <!-- Partner Share Feature -->
+      <div class="card tint-mint">
+        <div class="row">
+          <div>
+            <b>Partner Share</b>
+            <p class="mut" style="margin:2px 0 0">Opt-in, read-only partner snapshot generated locally without server accounts.</p>
+          </div>
+          <button class="chip" data-a="openPartner">Share</button>
+        </div>
       </div>
     </div>`;
 }
 
 /* 7. Clinician Summary Modal */
 function clinicianModal() {
-  const summary = generateClinicianSummary();
+  const summary = generateClinicianSummary(S);
   return `
     <div class="scrim" data-a="closeClinician"></div>
     <section class="sheet" role="dialog" aria-label="Clinician Summary">
@@ -2388,7 +3845,7 @@ function clinicianModal() {
         <button class="icon" data-a="closeClinician" aria-label="Close">${svgi("x", 18)}</button>
       </div>
       <p class="mut">A plain-text overview of your cycle lengths, symptoms, and pain ratings designed for sharing with your healthcare provider.</p>
-      <textarea id="clinicianText" readonly rows="12" style="font-family:monospace;font-size:12px;margin:12px 0">${esc(summary)}</textarea>
+      <textarea id="clinicianText" readonly rows="12" style="font-family:monospace;font-size:12px;margin:12px 0;width:100%">${esc(summary)}</textarea>
       <div class="chips" style="display:grid;gap:8px">
         <button class="btn" data-a="copyClinician">${svgi("copy", 18)} Copy to clipboard</button>
         <button class="btn g" data-a="closeClinician">Done</button>
@@ -2412,7 +3869,7 @@ function conflictModal() {
         <b>Recorded Period on ${fmt(N(existing.s))}</b>
         <p class="mut" style="margin-top:4px">
           A period start is already recorded on ${fmt(N(existing.s))} (${daysDiff} day${daysDiff > 1 ? "s" : ""} ${dn < N(existing.s) ? "earlier" : "apart"}).
-          In menstrual physiology, a new cycle cannot start within 10 days of another. Bleeding within this window is typically spotting or part of the same flow.
+          In menstrual physiology, a new follicular cycle cannot begin within 10 days of another. Bleeding within this window is typically spotting or part of the same flow.
         </p>
       </div>
       <div class="chips" style="display:grid;gap:10px">
@@ -2423,136 +3880,258 @@ function conflictModal() {
     </section>`;
 }
 
-/* 9. Profile, Tracking Mode & Data Management Sheet */
-const prof = () => `
-  <div class="scrim" data-a="close"></div>
-  <section class="sheet" role="dialog" aria-label="Profile and Settings">
-    <div class="sheet-handle"></div>
-    <div class="row" style="margin-bottom:12px">
-      <h2>Profile &amp; Settings</h2>
-      <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
-    </div>
-
-    <label>Tracking mode</label>
-    <div class="chips">
-      ${[
-        ["natural", "Natural cycle"],
-        ["irregular", "Irregular cycle"],
-        ["contra", "Hormonal contraception"],
-        ["ttc", "Trying to conceive"],
-        ["none", "No predictions"]
-      ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
-    </div>
-    <p class="mut">
-      ${S.mode === "contra" ? "Hormonal contraception in use. Ovulation and fertile window predictions are hidden." :
-        S.mode === "irregular" ? "Estimates use a wider confidence range. Estimated fertile window is hidden." :
-        S.mode === "ttc" ? "Estimated fertile window and LH test markers highlighted for fertility planning." :
-        S.mode === "none" ? "All predictions disabled. Journal logging only." :
-        "Full cycle predictions and estimated fertile window."}
-    </p>
-
-    <label for="pc" style="margin-top:14px">Usual cycle length (days)</label>
-    <input id="pc" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl">
-
-    <label for="pp">Usual period duration (days)</label>
-    <input id="pp" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl">
-
-    <label for="pll">Adjustable luteal length (10–16 days)</label>
-    <input id="pll" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll">
-    <p class="mut">Used to calculate estimated ovulation (predicted period start minus luteal length).</p>
-
-    <label for="pg" style="margin-top:14px">Cycle regularity</label>
-    <select id="pg" data-k="S.reg" data-r="1">
-      ${[["regular", "Mostly regular"], ["irregular", "Irregular"], ["unknown", "Not sure"]]
-        .map(([v, t]) => `<option value="${v}" ${S.reg == v ? "selected" : ""}>${t}</option>`)
-        .join("")}
-    </select>
-
-    <label style="margin-top:18px">Appearance</label>
-    <div class="chips">
-      ${[["system", "System"], ["light", "Light"], ["dark", "Dark"]]
-        .map(([v, t]) => chip(t, S.theme == v, `data-a="th" data-v="${v}"`))
-        .join("")}
-    </div>
-
-    <h3 style="margin-top:20px">Reminders</h3>
-    <div class="chips">
-      ${chip(S.rem ? "Reminders active" : "Reminders off", S.rem, 'data-a="pr"')}
-    </div>
-    ${S.rem ? `
-      <div class="chips">
-        ${chip("Period heads-up", S.rk.prep, 'data-a="rk" data-v="prep"')}
-        ${chip("Daily check-in", S.rk.log, 'data-a="rk" data-v="log"')}
+/* 9. Article Reader Modal */
+function renderArticleModal() {
+  const a = ARTICLES.find(x => x.id === ui.activeArticle);
+  if (!a) return "";
+  return `
+    <div class="scrim" data-a="closeArticle"></div>
+    <section class="sheet" role="dialog" aria-label="${esc(a.title)}">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:12px">
+        <span class="article-tag tint-sage">${esc(a.category)}</span>
+        <button class="icon" data-a="closeArticle" aria-label="Close">${svgi("x", 18)}</button>
       </div>
-      <label for="rp">Heads-up days prior</label>
-      <select id="rp" data-k="S.rp">
-        ${[1, 2, 3, 4, 5].map(n => `<option ${S.rp == n ? "selected" : ""}>${n}</option>`).join("")}
-      </select>
-      <label for="rt">Daily check-in time</label>
-      <input id="rt" type="time" value="${S.rt}" data-k="S.rt">` : ""
+      <h2>${esc(a.title)}</h2>
+      <div class="mut" style="margin:4px 0 16px">Clinical Reading · ${esc(a.readTime)}</div>
+      <div style="font-size:14.5px;line-height:1.65;white-space:pre-line">
+        ${esc(a.body)}
+      </div>
+      <div class="tint-lavender" style="padding:12px;border-radius:var(--radius-sm);margin:18px 0;font-size:13px">
+        <b>Evidence Source:</b> ${esc(a.source)}
+      </div>
+      <button class="btn" data-a="closeArticle">Done reading</button>
+    </section>`;
+}
+
+/* 10. Partner Share Modal */
+function renderPartnerModal() {
+  const x = calculateStats(S);
+  const T = TD();
+  const day = x.last ? T - x.last + 1 : 0;
+  return `
+    <div class="scrim" data-a="closePartner"></div>
+    <section class="sheet" role="dialog" aria-label="Partner Share">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:10px">
+        <h2>Partner Share (Local &amp; Private)</h2>
+        <button class="icon" data-a="closePartner" aria-label="Close">${svgi("x", 18)}</button>
+      </div>
+      <p class="mut">Generate a read-only partner snapshot. It contains no intimate notes and requires zero account registration.</p>
+
+      <div class="partner-preview-card card tint-rose" style="padding:16px;margin:14px 0">
+        <span class="phase-pill tint-peach">Cycle Phase Snapshot</span>
+        <h3 style="margin:8px 0 4px">Cycle Day ${day}</h3>
+        <p class="mut" style="margin-bottom:10px">Next estimated period in about <b>${x.nextPred ? Math.max(0, x.nextPred - T) : S.cl} days</b>.</p>
+        <div class="tint-mint" style="padding:12px;border-radius:var(--radius-sm);font-size:13px">
+          <b>How to support me today:</b> Extra patience, steady warmth, gentle movement, and restorative evenings are deeply appreciated.
+        </div>
+      </div>
+
+      <div class="chips" style="display:grid;gap:8px">
+        <button class="btn" data-a="copyPartnerLink">${svgi("copy", 18)} Copy Read-Only Partner Summary</button>
+        <button class="btn g" data-a="closePartner">Done</button>
+      </div>
+    </section>`;
+}
+
+/* 11. Clinical Terminology & Educational Info Sheet Modal */
+function renderInfoModal() {
+  const t = ui.infoTopic;
+  if (!t) return "";
+
+  const topics = {
+    confidence: {
+      title: "How Prediction Confidence Works",
+      tag: "Statistical Modeling",
+      body: `CycleSideChick calculates predictions using a recency-weighted mean over your last 6 completed cycles (15–90 days).
+      
+      • Higher Confidence: 6+ completed cycles with a narrow standard deviation (SD ≤ 3 days).
+      • Moderate Confidence: 3 to 5 completed cycles or normal variability.
+      • Low Confidence: Fewer than 3 recorded cycles or standard deviation > 5 days.
+      
+      When cycle outliers exist (e.g., a cycle differing from your median by 10+ days), the engine automatically switches to the statistical median to prevent a single unusual cycle from distorting future predictions.`
+    },
+    luteal: {
+      title: "Understanding the Luteal Phase",
+      tag: "Hormonal Rhythm",
+      body: `The luteal phase begins right after ovulation and lasts until the first day of your next period.
+      
+      During this phase, the corpus luteum produces progesterone to support the uterine lining. While clinical textbooks often cite 14 days, normal luteal lengths range from 10 to 16 days. You can customize this in Profile settings to personalize your estimated ovulation timing.`
+    },
+    fertile: {
+      title: "Estimated Fertile Window",
+      tag: "Fertility Awareness",
+      body: `Biologically, sperm can survive in fertile cervical mucus for up to 5 days, while an unfertilized ovum remains viable for approximately 12–24 hours.
+      
+      The estimated fertile window covers the 5 days prior to ovulation through 1 day post-ovulation. In CycleSideChick, this is always labeled 'Estimated' because calendar-only calculations have natural biological variation and should never be used as a contraceptive method.`
+    },
+    menstrual: {
+      title: "The Menstrual Phase",
+      tag: "Cycle Phase",
+      body: `The menstrual phase marks the beginning of each cycle (Day 1). Estrogen and progesterone are at baseline levels. Rest, warmth, hydration, and iron replenishment are especially restorative now.`
+    },
+    follicular: {
+      title: "The Follicular Phase",
+      tag: "Cycle Phase",
+      body: `Follicle-stimulating hormone (FSH) prompts ovarian follicles to mature, leading to steadily rising estrogen. Physical energy, mental clarity, and focus naturally build during this phase.`
     }
-
-    <h3 style="margin-top:22px">Data Backup &amp; Clinician Export</h3>
-    <p class="mut">Everything is saved locally on this device. You can download a CSV file for spreadsheets or copy raw JSON backup.</p>
-    <div class="chips" style="display:grid;gap:8px">
-      <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Export</button>
-      <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Summary</button>
-    </div>
-
-    <label style="margin-top:14px">Raw JSON Records</label>
-    <textarea readonly rows="3" id="ex" aria-label="Exported records" style="font-size:12px;font-family:monospace">${esc(JSON.stringify({ _v: S._v, periods: S.periods, logs: S.logs, settings: { cl: S.cl, pl: S.pl, ll: S.ll, mode: S.mode, reg: S.reg } }))}</textarea>
-
-    <div class="chips" style="display:grid;gap:8px;margin-top:8px">
-      <button class="btn g" data-a="copyJSON">Copy JSON records</button>
-      <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">${ui.cf == "wipe" ? "Tap again to confirm deleting all data" : "Delete all records"}</button>
-    </div>
-  </section>`;
-
-/* Main Render Dispatcher with Scroll & Focus Preservation */
-const NAVS = [
-  ["home", "Home", "home"],
-  ["calendar", "Calendar", "calendar"],
-  ["log", "Log", "log"],
-  ["insights", "Insights", "insights"],
-  ["care", "Care", "care"]
-];
-
-function beforeRender() {
-  if (ui.tab) scrollPositions[ui.tab] = window.scrollY;
-  const active = document.activeElement;
-  return {
-    id: active && active.id ? active.id : null,
-    start: active && typeof active.selectionStart === "number" ? active.selectionStart : null,
-    end: active && typeof active.selectionEnd === "number" ? active.selectionEnd : null,
-    prevTab: ui.tab
   };
+
+  const item = topics[t] || topics.confidence;
+  return `
+    <div class="scrim" data-a="closeInfo"></div>
+    <section class="sheet" role="dialog" aria-label="${esc(item.title)}">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:12px">
+        <span class="article-tag tint-lavender">${esc(item.tag)}</span>
+        <button class="icon" data-a="closeInfo" aria-label="Close">${svgi("x", 18)}</button>
+      </div>
+      <h2>${esc(item.title)}</h2>
+      <p style="font-size:14px;line-height:1.6;white-space:pre-line;margin-top:12px">${esc(item.body)}</p>
+      <button class="btn" style="margin-top:16px" data-a="closeInfo">Got it</button>
+    </section>`;
 }
 
-function afterRender(ctx) {
-  if (ctx && ctx.prevTab === ui.tab && scrollPositions[ui.tab] != null) {
-    window.scrollTo({ top: scrollPositions[ui.tab], behavior: "instant" });
-  }
-  if (ctx && ctx.id) {
-    const el = document.getElementById(ctx.id);
-    if (el) {
-      el.focus();
-      if (ctx.start !== null && ctx.end !== null && typeof el.setSelectionRange === "function") {
-        try { el.setSelectionRange(ctx.start, ctx.end); } catch (e) {}
-      }
-    }
-  }
+/* 12. PIN Lock Screen Overlay */
+function renderPinLock() {
+  const dots = [0, 1, 2, 3].map(i => `<div class="pin-bubble ${i < ui.pinEntered.length ? "filled" : ""}"></div>`).join("");
+  return `
+    <div class="pin-overlay" role="dialog" aria-label="App Lock">
+      <div style="margin-bottom:12px">${bunny(64)}</div>
+      <h2 style="margin:0">CycleSideChick</h2>
+      <p class="mut" style="margin:4px 0 0">Enter your 4-digit PIN</p>
+      <div class="pin-bubbles">${dots}</div>
+      <div class="pin-keypad">
+        ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button class="pin-key" data-a="pinKey" data-v="${n}">${n}</button>`).join("")}
+        <button class="pin-key" data-a="pinDel" style="font-size:16px">${svgi("x", 20)}</button>
+        <button class="pin-key" data-a="pinKey" data-v="0">0</button>
+        <button class="pin-key" data-a="pinClear" style="font-size:13px;font-weight:700">Clear</button>
+      </div>
+    </div>`;
 }
 
+/* 13. Profile & Settings View */
+function renderProfile() {
+  const ledger = getPrivacyLedger();
+  const pinActive = PinLock.isEnabled();
+
+  return `
+    <div class="scrim" data-a="close"></div>
+    <section class="sheet" role="dialog" aria-label="Profile and Settings">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:12px">
+        <h2>Profile &amp; Settings</h2>
+        <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
+      </div>
+
+      <label>Tracking mode</label>
+      <div class="chips">
+        ${[
+          ["natural", "Natural cycle"],
+          ["irregular", "Irregular cycle"],
+          ["contra", "Hormonal contraception"],
+          ["ttc", "Trying to conceive"],
+          ["pregnancy", "Pregnancy"],
+          ["perimenopause", "Perimenopause"],
+          ["none", "No predictions"]
+        ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
+      </div>
+
+      <label for="pc" style="margin-top:14px">Usual cycle length (days)</label>
+      <input id="pc" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl">
+
+      <label for="pp">Usual period duration (days)</label>
+      <input id="pp" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl">
+
+      <label for="pll">Adjustable luteal length (10–16 days)</label>
+      <input id="pll" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll">
+
+      <label style="margin-top:18px">Appearance</label>
+      <div class="chips">
+        ${[["system", "System"], ["light", "Light"], ["dark", "Dark"]]
+          .map(([v, t]) => chip(t, S.theme == v, `data-a="th" data-v="${v}"`)).join("")}
+      </div>
+
+      <!-- PIN App Lock -->
+      <h3 style="margin-top:22px">Application Security Lock</h3>
+      <div class="card" style="padding:14px;margin-top:8px">
+        <div class="row">
+          <div>
+            <b>4-Digit App PIN Lock</b>
+            <p class="mut" style="margin:2px 0 0;font-size:12.5px">${pinActive ? "Enabled (Salted SHA-256 Web Crypto hash)" : "Disabled (Open immediately)"}</p>
+          </div>
+          <button class="chip" data-a="togglePin">${pinActive ? "Disable PIN" : "Set PIN"}</button>
+        </div>
+      </div>
+
+      <!-- Privacy Ledger -->
+      <h3 style="margin-top:22px">Privacy Ledger (On-Device Storage)</h3>
+      <p class="mut" style="font-size:13px">All data is stored strictly in your browser. Below is an audit of active storage keys and byte counts.</p>
+      <table class="ledger-table">
+        <thead>
+          <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          ${ledger.map(item => `
+            <tr>
+              <td><code>${esc(item.key)}</code></td>
+              <td>${item.sizeKB} KB</td>
+              <td>${esc(item.description)}</td>
+            </tr>`
+          ).join("")}
+        </tbody>
+      </table>
+
+      <!-- Export & Backup -->
+      <h3 style="margin-top:20px">Data Sovereignty &amp; Backup</h3>
+      <div class="chips" style="display:grid;gap:8px">
+        <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
+        <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
+        <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Summary</button>
+      </div>
+
+      <div class="chips" style="display:grid;gap:8px;margin-top:14px">
+        <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">${ui.cf == "wipe" ? "Tap again to confirm deleting all data" : "Delete all records"}</button>
+      </div>
+    </section>`;
+}
+
+/* Master Render Loop */
 function render() {
   const ctx = beforeRender();
-  const a = $("#app");
+  const a = document.querySelector("#app");
+  if (!a) return;
+
+  if (ui.pinLocked) {
+    a.innerHTML = renderPinLock();
+    afterRender(ctx);
+    return;
+  }
+
   if (!S.ob) {
     a.innerHTML = onb();
     afterRender(ctx);
     return;
   }
 
-  const screenHTML = { home, calendar: cal, log, insights, care }[ui.tab]();
+  const views = {
+    home: renderHome,
+    calendar: renderCalendar,
+    log: renderLog,
+    insights: renderInsights,
+    care: renderCare
+  };
+
+  const mainHTML = (views[ui.tab] || renderHome)();
+
+  const NAVS = [
+    ["home", "Home", "home"],
+    ["calendar", "Calendar", "calendar"],
+    ["log", "Log", "log"],
+    ["insights", "Insights", "insights"],
+    ["care", "Care", "care"]
+  ];
 
   a.innerHTML = `
     <header class="top">
@@ -2564,7 +4143,7 @@ function render() {
     </header>
 
     <main class="view-enter" key="${ui.tab}">
-      ${screenHTML}
+      ${mainHTML}
     </main>
 
     <nav class="nav" aria-label="Main Navigation">
@@ -2579,68 +4158,18 @@ function render() {
       }).join("")}
     </nav>
 
-    ${ui.prof ? prof() : ""}
+    ${ui.prof ? renderProfile() : ""}
+    ${ui.activeArticle ? renderArticleModal() : ""}
+    ${ui.partnerModal ? renderPartnerModal() : ""}
+    ${ui.clinicianModal ? clinicianModal() : ""}
     ${ui.conflict ? conflictModal() : ""}
-    ${ui.clinicianModal ? clinicianModal() : ""}`;
+    ${ui.infoTopic ? renderInfoModal() : ""}`;
 
   afterRender(ctx);
 }
 
-/* ==========================================================================
-   User Actions & Interactions
-   ========================================================================== */
-const tg = (arr, v) => {
-  const i = arr.indexOf(v);
-  i < 0 ? arr.push(v) : arr.splice(i, 1);
-};
-
+/* Event Delegation & Actions */
 const A = {
-  next: () => {
-    haptic(15);
-    G.ob.step++;
-  },
-  skip: () => {
-    haptic(15);
-    S.ob = 1;
-    save();
-  },
-  reg: v => {
-    haptic(15);
-    G.ob.reg = v;
-  },
-  mode: v => {
-    haptic(15);
-    G.ob.mode = v;
-  },
-  setMode: v => {
-    haptic(15);
-    S.mode = v;
-    save();
-  },
-  goal: v => {
-    haptic(15);
-    tg(G.ob.goals, v);
-  },
-  rem: () => {
-    haptic(15);
-    G.ob.rem = +!G.ob.rem;
-    if (G.ob.rem) askNotif();
-  },
-  finish: () => {
-    const o = G.ob;
-    Object.assign(S, {
-      cl: o.cl || 28,
-      pl: o.pl || 5,
-      reg: o.reg || "unknown",
-      mode: o.mode || "natural",
-      rem: o.rem || 0,
-      ob: 1
-    });
-    if (o.last && N(o.last) <= TD()) S.periods = [{ s: o.last, e: null }];
-    save();
-    haptic([20, 60, 20]);
-    toast("You’re all set!");
-  },
   tab: v => {
     if (ui.tab === v) return;
     scrollPositions[ui.tab] = window.scrollY;
@@ -2653,42 +4182,125 @@ const A = {
     haptic(10);
   },
   prof: () => {
-    haptic(10);
     ui.prof = 1;
+    haptic(10);
   },
   close: () => {
-    haptic(10);
     ui.prof = 0;
     ui.cf = "";
+    haptic(10);
+  },
+  openInfo: topic => {
+    ui.infoTopic = topic;
+    haptic(10);
+  },
+  closeInfo: () => {
+    ui.infoTopic = null;
+    haptic(10);
   },
   openClinician: () => {
-    haptic(15);
     ui.clinicianModal = true;
+    haptic(15);
   },
   closeClinician: () => {
-    haptic(10);
     ui.clinicianModal = false;
+    haptic(10);
   },
   copyClinician: async () => {
-    const text = generateClinicianSummary();
+    const text = generateClinicianSummary(S);
     try {
       await navigator.clipboard.writeText(text);
       haptic([20, 40]);
       toast("Clinician summary copied");
     } catch (e) {
-      toast("Press copy on selected text");
+      toast("Summary ready to copy");
     }
   },
-  dismissCorrupt: () => {
-    ui.corrupt = false;
+  conflictClose: () => {
+    ui.conflict = null;
+    haptic(10);
+  },
+  conflictSpotting: () => {
+    if (ui.conflict) {
+      const dn = ui.conflict.dn;
+      const key = I(dn);
+      S.logs[key] = { ...(S.logs[key] || {}), f: "spotting" };
+      saveState(S);
+      ui.conflict = null;
+      haptic(20);
+      toast("Logged as spotting on " + fmt(dn));
+    }
+  },
+  conflictExtend: () => {
+    if (ui.conflict) {
+      const { dn, existing } = ui.conflict;
+      existing.e = I(Math.max(dn, existing.e ? N(existing.e) : dn));
+      saveState(S);
+      ui.conflict = null;
+      haptic([20, 40]);
+      toast("Extended period to " + fmt(dn));
+    }
+  },
+  openPartner: () => {
+    ui.partnerModal = true;
+    haptic(15);
+  },
+  closePartner: () => {
+    ui.partnerModal = false;
+    haptic(10);
+  },
+  copyPartnerLink: async () => {
+    const x = calculateStats(S);
+    const day = x.last ? TD() - x.last + 1 : 0;
+    const text = `CycleSideChick Partner Snapshot: Current Cycle Day ${day}. Estimated next period in ~${x.nextPred ? Math.max(0, x.nextPred - TD()) : S.cl} days. Extra warmth and gentle rest appreciated today.`;
+    try {
+      await navigator.clipboard.writeText(text);
+      haptic([20, 40]);
+      toast("Partner snapshot copied");
+    } catch (e) {}
+  },
+  readArticle: id => {
+    ui.activeArticle = id;
+    haptic(15);
+  },
+  closeArticle: () => {
+    ui.activeArticle = null;
+    haptic(10);
+  },
+  searchLib: (v, el) => {
+    ui.articleSearch = el.value;
+  },
+  askAssistant: id => {
+    const topic = ASSISTANT_TOPICS.find(t => t.id === id);
+    if (topic) {
+      ui.assistantResult = topic.answer(S, calculateStats(S));
+      haptic(15);
+    }
+  },
+  submitAssistant: () => {
+    const input = document.querySelector("#assistantQueryInput");
+    const q = input ? input.value : "";
+    if (q) {
+      ui.assistantResult = answerQuestion(q, S, calculateStats(S));
+      haptic(15);
+    }
+  },
+  setMode: v => {
+    S.mode = v;
+    saveState(S);
+    haptic(15);
   },
   startToday: () => {
-    requestPeriodStart(TD());
+    const T = TD();
+    ensurePeriod(T);
+    saveState(S);
+    haptic([20, 50, 20]);
+    toast("Period start recorded");
   },
   qm: v => {
     const k = I(TD());
     S.logs[k] = { ...(S.logs[k] || {}), m: +v };
-    save();
+    saveState(S);
     haptic(20);
     toast("Mood saved: " + MOODS[v].name);
   },
@@ -2706,13 +4318,16 @@ const A = {
     haptic(10);
   },
   pstart: () => {
-    requestPeriodStart(ui.sel);
+    ensurePeriod(ui.sel);
+    saveState(S);
+    haptic([20, 40]);
+    toast("Period start recorded");
   },
   pend: () => {
-    const r = S.periods.find(p => N(p.s) <= ui.sel && ui.sel <= pEnd(p));
+    const r = vp(S).find(p => N(p.s) <= ui.sel && ui.sel <= pEnd(p, S));
     if (r) {
       r.e = I(ui.sel);
-      save();
+      saveState(S);
       haptic([20, 40]);
       toast("Period end recorded");
     }
@@ -2723,35 +4338,12 @@ const A = {
       haptic(15);
       return;
     }
-    const r = S.periods.find(p => N(p.s) <= ui.sel && ui.sel <= pEnd(p));
+    const r = vp(S).find(p => N(p.s) <= ui.sel && ui.sel <= pEnd(p, S));
     S.periods = S.periods.filter(p => p !== r);
     ui.cf = "";
-    save();
+    saveState(S);
     haptic([20, 40]);
     toast("Period removed");
-  },
-  conflictSpotting: () => {
-    if (!ui.conflict) return;
-    const { dn } = ui.conflict;
-    const k = I(dn);
-    S.logs[k] = { ...(S.logs[k] || {}), f: "spotting" };
-    save();
-    ui.conflict = null;
-    haptic(15);
-    toast("Recorded as Spotting");
-  },
-  conflictExtend: () => {
-    if (!ui.conflict) return;
-    const { dn, existing } = ui.conflict;
-    existing.e = I(Math.max(dn, existing.e ? N(existing.e) : dn));
-    save();
-    ui.conflict = null;
-    haptic(15);
-    toast("Period duration extended");
-  },
-  conflictClose: () => {
-    ui.conflict = null;
-    haptic(10);
   },
   goLog: v => {
     loadDraft(v);
@@ -2779,12 +4371,18 @@ const A = {
     G.dr.en = G.dr.en === v ? "" : v;
     haptic(15);
   },
-  sleepQ: v => {
-    G.dr.sq = G.dr.sq === v ? "" : v;
+  setWater: v => {
+    G.dr.water = G.dr.water === +v ? 0 : +v;
+    haptic(15);
+  },
+  cm: v => {
+    G.dr.cm = G.dr.cm === v ? "" : v;
     haptic(15);
   },
   med: v => {
-    tg(G.dr.med, v);
+    const arr = G.dr.med;
+    const i = arr.indexOf(v);
+    i < 0 ? arr.push(v) : arr.splice(i, 1);
     haptic(15);
   },
   lh: v => {
@@ -2798,13 +4396,13 @@ const A = {
     haptic(15);
   },
   addc: () => {
-    const e = $("#cs");
+    const e = document.querySelector("#cs");
     const v = e.value.trim().slice(0, 30);
-    if (v && ![...SY, ...S.custom].includes(v)) {
+    if (v && !["Cramps", "Headache", "Bloating", "Fatigue", "Breast tenderness", "Backache", ...S.custom].includes(v)) {
       S.custom.push(v);
       G.dr.sy[v] = 1;
       e.value = "";
-      save();
+      saveState(S);
       haptic([15, 30]);
       toast("Added: " + v);
     }
@@ -2817,6 +4415,8 @@ const A = {
       en: d.en,
       sl: d.sl,
       sq: d.sq,
+      water: d.water,
+      cm: d.cm,
       med: d.med.length ? [...d.med] : undefined,
       bbt: d.bbt ? d.bbt.trim() : undefined,
       lh: d.lh || undefined,
@@ -2824,85 +4424,66 @@ const A = {
       note: d.note.trim(),
       f: d.f
     };
-    const hasData = o.m != null || o.p != null || o.en || o.sl != null || o.sq ||
-      (o.med && o.med.length) || o.bbt || o.lh || Object.keys(o.sy).length || o.note || (o.f && o.f !== "none");
-    if (!hasData) {
-      toast("Nothing to save yet");
-      return;
-    }
     S.logs[d.d] = o;
     if (o.f && o.f !== "none" && o.f !== "spotting") {
-      requestPeriodStart(N(d.d));
-    } else {
-      save();
+      ensurePeriod(N(d.d));
     }
+    saveState(S);
     haptic([20, 60, 20]);
     toast("Entry saved for " + fmt(N(d.d)));
     ui.tab = "home";
   },
-  toggleBreath: () => {
-    ui.breath = !ui.breath;
-    haptic(15);
-  },
   th: v => {
     S.theme = v;
-    save();
+    saveState(S);
     applyTheme();
-    fav();
     haptic(15);
   },
-  rk: v => {
-    S.rk[v] = +!S.rk[v];
-    save();
-    haptic(15);
+  togglePin: async () => {
+    if (PinLock.isEnabled()) {
+      PinLock.remove();
+      toast("App PIN lock removed");
+    } else {
+      const pin = prompt("Enter a 4-digit PIN for app lock:");
+      if (pin && /^\d{4}$/.test(pin)) {
+        await PinLock.set(pin);
+        toast("4-Digit PIN lock enabled");
+      } else if (pin) {
+        alert("PIN must be exactly 4 numeric digits.");
+      }
+    }
+    haptic(20);
   },
-  dis: v => {
-    S.dis[v] = I(TD());
-    save();
+  pinKey: async v => {
+    if (ui.pinEntered.length < 4) {
+      ui.pinEntered += String(v);
+      haptic(15);
+      if (ui.pinEntered.length === 4) {
+        const ok = await PinLock.verify(ui.pinEntered);
+        if (ok) {
+          ui.pinLocked = false;
+          ui.pinEntered = "";
+          haptic([20, 50]);
+          toast("Unlocked");
+        } else {
+          haptic([40, 80, 40]);
+          toast("Incorrect PIN");
+          setTimeout(() => { ui.pinEntered = ""; render(); }, 300);
+        }
+      }
+    }
+  },
+  pinDel: () => {
+    ui.pinEntered = ui.pinEntered.slice(0, -1);
     haptic(10);
   },
-  pr: () => {
-    S.rem = +!S.rem;
-    if (S.rem) askNotif();
-    save();
-    haptic(15);
+  pinClear: () => {
+    ui.pinEntered = "";
+    haptic(10);
   },
   exportCSV: () => {
-    haptic(15);
-    const headers = ["Date", "Type", "Flow", "Mood", "Pain_0_10", "Energy", "Sleep_Hours", "Sleep_Quality", "Medications", "BBT", "LH_Test", "Symptoms", "Notes"];
-    const rows = [];
-    const dates = new Set([...Object.keys(S.logs)]);
-    vp().forEach(p => {
-      for (let d = N(p.s); d <= pEnd(p); d++) dates.add(I(d));
-    });
-    const sortedDates = [...dates].sort();
-    const ps = pdset();
-
-    sortedDates.forEach(d => {
-      const l = S.logs[d] || {};
-      const isPeriod = ps.has(N(d));
-      const symList = Object.entries(l.sy || {}).map(([k, v]) => `${k}:${["mild","mod","sev"][v-1] || v}`).join("; ");
-      const medsList = Array.isArray(l.med) ? l.med.join("; ") : (l.med || "");
-      const row = [
-        d,
-        isPeriod ? "Period Day" : "Log Entry",
-        l.f || (isPeriod ? "recorded" : ""),
-        l.m != null ? (MOODS[l.m] ? MOODS[l.m].name : l.m) : "",
-        l.p != null ? l.p : "",
-        l.en || "",
-        l.sl != null ? l.sl : "",
-        l.sq || "",
-        `"${medsList.replace(/"/g, '""')}"`,
-        l.bbt || "",
-        l.lh || "",
-        `"${symList.replace(/"/g, '""')}"`,
-        `"${(l.note || "").replace(/"/g, '""')}"`
-      ];
-      rows.push(row.join(","));
-    });
-
-    const csvContent = [headers.join(","), ...rows].join("\r\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const csv = generateCSV(S);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -2913,16 +4494,18 @@ const A = {
     URL.revokeObjectURL(url);
     toast("CSV export downloaded");
   },
-  copyJSON: async () => {
-    const e = $("#ex");
-    e.select();
-    try {
-      await navigator.clipboard.writeText(e.value);
-      haptic([20, 40]);
-      toast("JSON records copied to clipboard");
-    } catch (x) {
-      toast("Press copy on selected text");
-    }
+  exportJSON: () => {
+    const json = generateJSON(S);
+    const blob = new Blob([json], { type: "application/json;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `CycleSideChick_Backup_${I(TD())}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast("JSON backup downloaded");
   },
   wipe: () => {
     if (ui.cf != "wipe") {
@@ -2930,193 +4513,109 @@ const A = {
       haptic(20);
       return;
     }
+    CycleStorage.wipe();
     Object.keys(S).forEach(k => delete S[k]);
-    Object.assign(S, def());
+    Object.assign(S, defState());
     applyTheme();
-    try {
-      localStorage.removeItem(KEY);
-    } catch (x) {}
     ui.prof = 0;
     ui.cf = "";
     G.ob.step = 0;
     loadDraft(I(TD()));
-    fav();
     haptic([30, 60, 30]);
-    toast("All data deleted");
+    toast("All data wiped");
+  },
+  next: () => {
+    const o = G.ob;
+    if (o.step == 1 && o.last) {
+      ensurePeriod(N(o.last));
+      S.cl = +o.cl || 28;
+      S.pl = +o.pl || 5;
+    }
+    o.step++;
+    haptic(15);
+  },
+  skip: () => {
+    S.ob = 1;
+    saveState(S);
+    haptic(15);
+    render();
+  },
+  setObMode: v => {
+    G.ob.mode = v;
+    haptic(15);
+  },
+  finishOb: () => {
+    S.mode = G.ob.mode || "natural";
+    S.ob = 1;
+    saveState(S);
+    haptic([20, 50, 20]);
+    toast("Welcome to CycleSideChick");
+    render();
   }
 };
 
 /* Event Listeners */
-function askNotif() {
-  try {
-    if ("Notification" in window && Notification.permission == "default") {
-      Notification.requestPermission().then(() => {
-        render();
-        tick();
-      });
-    }
-  } catch (e) {}
-}
-
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-a]");
   if (!b || b.tagName == "INPUT") return;
   const f = A[b.dataset.a];
   if (f) {
     f(b.dataset.v, b);
-    if (!S.ob || b.dataset.a != "copyJSON") render();
+    if (!S.ob || (b.dataset.a !== "exportCSV" && b.dataset.a !== "exportJSON")) render();
   }
 });
 
-const LIM = { "S.cl": [15, 90], "S.pl": [1, 14], "S.ll": [10, 16], "ob.cl": [15, 90], "ob.pl": [1, 14] };
-
-function onIn(e) {
+document.addEventListener("input", e => {
   const el = e.target;
   const k = el.dataset.k;
-
-  if (el.dataset.a == "ldate" && e.type == "change") {
-    A.ldate(0, el);
-    render();
-    return;
-  }
-
-  if (!k || (e.type == "change" && !el.dataset.r)) return;
+  if (!k) return;
   let v = el.value;
-  if (el.type == "number" || el.type == "range") {
-    v = +v;
-    const l = LIM[k];
-    if (l && !(v >= l[0] && v <= l[1])) return;
-  }
-
+  if (el.type === "number" || el.type === "range") v = +v;
   const p = k.split(".");
   let o = G;
   while (p.length > 1) o = o[p.shift()];
   o[p[0]] = v;
-
   if (el.dataset.out) {
     const target = document.getElementById(el.dataset.out);
     if (target) {
-      if (k === "dr.p") {
-        target.textContent = v + "/10 · " + (v === 0 ? "No pain" : v <= 3 ? "Mild" : v <= 6 ? "Moderate" : v <= 8 ? "Severe" : "Very severe");
-      } else {
-        target.textContent = v + " h";
-      }
+      if (k === "dr.p") target.textContent = v + "/10 · " + (v === 0 ? "No pain" : v <= 3 ? "Mild" : v <= 6 ? "Moderate" : v <= 8 ? "Severe" : "Very severe");
+      else target.textContent = v + " h";
     }
   }
-
-  if (k.startsWith("S.")) save();
+  if (k.startsWith("S.")) saveState(S);
   if (el.dataset.r) render();
-}
+});
 
-document.addEventListener("input", onIn);
-document.addEventListener("change", onIn);
-document.addEventListener("keydown", e => {
-  if (e.key == "Escape") {
-    if (ui.clinicianModal) { ui.clinicianModal = false; render(); }
-    else if (ui.conflict) { ui.conflict = null; render(); }
-    else if (ui.prof) { ui.prof = 0; render(); }
+document.addEventListener("change", e => {
+  const el = e.target;
+  if (el.dataset.a === "ldate") {
+    loadDraft(el.value || I(TD()));
+    render();
   }
 });
 
-/* Theme, Dynamic Meta & Favicon */
 function applyTheme() {
   const r = document.documentElement;
   const isDark = S.theme === "dark" || (S.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  if (S.theme == "light" || S.theme == "dark") {
-    r.dataset.theme = S.theme;
-  } else {
-    r.removeAttribute("data-theme");
-  }
-  const meta = $("#meta-theme");
+  if (S.theme == "light" || S.theme == "dark") r.dataset.theme = S.theme;
+  else r.removeAttribute("data-theme");
+  const meta = document.querySelector("#meta-theme");
   if (meta) meta.content = isDark ? "#17151B" : "#FAF5F7";
 }
 
-function due() {
-  const x = stats();
-  const T = TD();
-  const k = I(T);
-  const o = [];
-  if (!S.ob || !S.rem) return o;
-
-  if (S.rk.prep && x.last != null) {
-    const u = x.pred[0] - T;
-    if (u >= 0 && u <= S.rp && T - x.last >= S.pl) {
-      o.push({
-        id: "p" + k,
-        t: "Period estimated " + (u ? "in about " + u + " day" + (u > 1 ? "s" : "") : "today"),
-        b: "Supplies reminder. CycleSideChick estimates are rough guides."
-      });
-    }
-  }
-
-  const L = S.logs[k];
-  if (S.rk.log && !(L && Object.keys(L).length) && new Date().toTimeString().slice(0, 5) >= S.rt) {
-    o.push({
-      id: "l" + k,
-      t: "Daily check-in",
-      b: "Log your symptoms or feelings today."
-    });
-  }
-  return o;
-}
-
-function tick(f) {
-  const k = I(TD());
-  if (ui.day != k) {
-    ui.day = k;
-    ui.sel = TD();
-    const n = new Date();
-    ui.cm = { y: n.getFullYear(), m: n.getMonth() };
-    if (ui.tab != "log") loadDraft(k);
-    render();
-  } else if (f === true) {
-    render();
-  }
-
-  try {
-    if (S.rem && "Notification" in window && Notification.permission == "granted") {
-      due().forEach(r => {
-        if (!S.sent[r.id]) {
-          S.sent[r.id] = 1;
-          new Notification("CycleSideChick", { body: r.t + ". " + r.b });
-        }
-      });
-      Object.keys(S.sent).forEach(i => {
-        if (!i.endsWith(k)) delete S.sent[i];
-      });
-      save();
-    }
-  } catch (e) {}
-}
-
-const fav = () => {
-  const isDark = document.documentElement.dataset.theme === "dark" ||
-    (S.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  const colors = isDark
-    ? { plum: "#F6EDF3", surface: "#2A2330", rose: "#9C657A", pink: "#EB6FA1" }
-    : { plum: "#481930", surface: "#F7EDF2", rose: "#C68196", pink: "#D9447E" };
-
-  const svg = bunny(64, 0)
-    .replace(/var\(--plum\)/g, colors.plum)
-    .replace(/var\(--surface-alt\)/g, colors.surface)
-    .replace(/var\(--rose\)/g, colors.rose)
-    .replace(/var\(--pink\)/g, colors.pink)
-    .replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ');
-
-  const el = $("#fv");
-  if (el) el.href = "data:image/svg+xml," + encodeURIComponent(svg);
-};
-
 /* Initialization */
-ui.day = I(TD());
 applyTheme();
-fav();
-setInterval(tick, 6e4);
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) tick(true);
-});
-tick();
 render();
+
+
+// PWA Service Worker Registration
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(err => {
+      console.warn("ServiceWorker skipped:", err);
+    });
+  });
+}
 </script>
 </body>
 </html>

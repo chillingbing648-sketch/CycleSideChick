@@ -1,19 +1,20 @@
 {
   "name": "cyclesidechick",
   "version": "2.0.0",
-  "description": "Credible, privacy-first menstrual cycle tracking, symptoms journal, and evidence-based wellness companion. 100% on-device.",
+  "description": "On-device, privacy-first reproductive health and cycle tracking companion.",
   "main": "index.html",
   "scripts": {
-    "test": "node tests/test_runner.js"
+    "test": "node tests/test_runner.js",
+    "build": "node scripts/bundle.js"
   },
   "keywords": [
-    "menstrual-cycle",
     "period-tracker",
+    "cycle-tracker",
+    "pwa",
     "privacy-first",
-    "womens-health",
-    "femtech",
-    "offline-first",
-    "pwa"
+    "reproductive-health",
+    "acog",
+    "flo-alternative"
   ],
   "author": "CycleSideChick Contributors",
   "license": "MIT"
