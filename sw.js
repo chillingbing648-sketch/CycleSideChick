@@ -9,6 +9,7 @@ const ASSETS_TO_CACHE = [
   "./CycleSideChick.html",
   "./manifest.webmanifest",
   "./public/favicon.svg",
+  "./public/cyclesidechick-infographic.svg",
   "./src/css/tokens.css",
   "./src/css/base.css",
   "./src/css/components.css",

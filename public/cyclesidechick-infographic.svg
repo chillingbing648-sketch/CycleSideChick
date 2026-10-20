@@ -1,0 +1,506 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 720" width="100%" height="100%" role="img" aria-label="CycleSideChick Architecture and Core Capabilities Infographic">
+  <title>CycleSideChick — Architecture &amp; Core Capabilities</title>
+  <desc>A comprehensive visual infographic illustrating CycleSideChick's on-device privacy, statistical cycle engine v2, dynamic calendar, daily biometric logging, and clinician care reports.</desc>
+
+  <defs>
+    <!-- Fonts -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap');
+
+      text {
+        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      .title { font-weight: 800; font-size: 28px; fill: #481930; letter-spacing: -0.02em; }
+      .subtitle { font-weight: 600; font-size: 14px; fill: #786470; }
+      .pill-text { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+      .card-title { font-weight: 700; font-size: 16px; fill: #481930; }
+      .card-sub { font-weight: 500; font-size: 12px; fill: #786470; line-height: 1.4; }
+      .metric-num { font-weight: 800; font-size: 20px; fill: #D9447E; }
+      .metric-lbl { font-weight: 600; font-size: 11px; fill: #786470; }
+      .label-sm { font-weight: 600; font-size: 11.5px; fill: #481930; }
+      .badge-text { font-weight: 700; font-size: 10.5px; }
+
+      @keyframes pulseGlow {
+        0%, 100% { r: 9px; opacity: 0.7; }
+        50% { r: 14px; opacity: 0.2; }
+      }
+
+      @keyframes floatSoft {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-3px); }
+      }
+
+      @keyframes rotateSlow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      .pulse-halo { animation: pulseGlow 2.5s ease-in-out infinite; }
+      .float-anim { animation: floatSoft 4s ease-in-out infinite; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pulse-halo, .float-anim { animation: none !important; }
+      }
+    </style>
+
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FAF5F7"/>
+      <stop offset="100%" stop-color="#F4ECF0"/>
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FDF9FA"/>
+    </linearGradient>
+
+    <linearGradient id="pinkGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EB6FA1"/>
+      <stop offset="100%" stop-color="#D9447E"/>
+    </linearGradient>
+
+    <linearGradient id="lavenderGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#DEC8EE"/>
+      <stop offset="100%" stop-color="#C5A4E2"/>
+    </linearGradient>
+
+    <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D9447E" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#D9447E" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="shadowSm" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#481930" flood-opacity="0.04"/>
+    </filter>
+
+    <filter id="shadowMd" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#481930" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1080" height="720" rx="24" fill="url(#bgGrad)"/>
+  <rect x="1" y="1" width="1078" height="718" rx="23" fill="none" stroke="#ECDBE3" stroke-width="1.5"/>
+
+  <!-- ========================================================================
+       HEADER: Brand, Mission & Invariant Trust Badges
+       ======================================================================== -->
+  <g transform="translate(48, 36)">
+    <!-- Bunny Logo -->
+    <g transform="translate(0, 2)">
+      <circle cx="26" cy="26" r="26" fill="#FDEBF2"/>
+      <g stroke="#481930" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 24 C18 12 15 6 18 4 C22 2 25 8 24 22" fill="#FFFFFF"/>
+        <path d="M31 24 C34 12 37 6 34 4 C30 2 27 8 28 22" fill="#FFFFFF"/>
+        <ellipse cx="26" cy="33" rx="16" ry="13" fill="#FFFFFF"/>
+        <circle cx="18" cy="35" r="2.5" fill="#FBE3EA" stroke="none"/>
+        <circle cx="34" cy="35" r="2.5" fill="#FBE3EA" stroke="none"/>
+        <path d="M20 31 Q22 29 24 31" fill="none" stroke="#481930" stroke-width="2"/>
+        <path d="M28 31 Q30 29 32 31" fill="none" stroke="#481930" stroke-width="2"/>
+        <path d="M25 34 L27 34 L26 36 Z" fill="#D9447E" stroke="none"/>
+      </g>
+    </g>
+
+    <!-- Header Titles -->
+    <text x="68" y="24" class="title">CycleSideChick</text>
+    <text x="68" y="44" class="subtitle">A Private, Evidence-Based Menstrual &amp; Reproductive Health Companion</text>
+
+    <!-- Trust Badges (Right-Aligned) -->
+    <g transform="translate(490, 8)">
+      <!-- Badge 1: 100% On-Device -->
+      <rect x="0" y="0" width="124" height="28" rx="14" fill="#D3EDE3" stroke="#A7DCB9" stroke-width="1"/>
+      <circle cx="14" cy="14" r="4.5" fill="#1A573F"/>
+      <text x="24" y="18" fill="#1A573F" class="pill-text">100% On-Device</text>
+
+      <!-- Badge 2: Zero Telemetry -->
+      <rect x="132" y="0" width="126" height="28" rx="14" fill="#DDE8D5" stroke="#BED2B2" stroke-width="1"/>
+      <path d="M144 14l2.5 2.5 5-5" stroke="#265231" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="157" y="18" fill="#265231" class="pill-text">Zero Trackers</text>
+
+      <!-- Badge 3: ACOG & NICE Guidelines -->
+      <rect x="266" y="0" width="118" height="28" rx="14" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+      <path d="M278 14l1.5 3 4-1" stroke="#532E77" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="288" y="18" fill="#532E77" class="pill-text">ACOG &amp; NICE</text>
+
+      <!-- Badge 4: Open Source MIT -->
+      <rect x="392" y="0" width="96" height="28" rx="14" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+      <text x="440" y="18" text-anchor="middle" fill="#194B73" class="pill-text">MIT License</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================
+       GRID LAYOUT: 4 Architectural Pillars
+       ======================================================================== -->
+
+  <!-- ------------------------------------------------------------------------
+       PILLAR 1: Cycle Engine v2 & Statistical Modeling (Top-Left)
+       ------------------------------------------------------------------------ -->
+  <g transform="translate(48, 108)">
+    <rect width="476" height="276" rx="20" fill="url(#cardGrad)" stroke="#ECDBE3" stroke-width="1.2" filter="url(#shadowSm)"/>
+
+    <!-- Section Header -->
+    <g transform="translate(24, 20)">
+      <rect x="0" y="0" width="28" height="28" rx="8" fill="#FBE3EA"/>
+      <path d="M14 8 a6 6 0 1 0 0 12 a6 6 0 0 0 0-12zm0 3v3l2 2" stroke="#D9447E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="38" y="18" class="card-title">Cycle Engine v2</text>
+      <text x="38" y="32" class="card-sub">Statistical predictions with scientific humility</text>
+    </g>
+
+    <!-- Vector Cycle Ring Graphic -->
+    <g transform="translate(40, 78)">
+      <!-- Outer Track Background -->
+      <circle cx="70" cy="70" r="54" fill="none" stroke="rgba(72, 25, 48, 0.08)" stroke-width="10"/>
+
+      <!-- Fertile Window Arc (Lavender) -->
+      <circle cx="70" cy="70" r="54" fill="none" stroke="#C5A4E2" stroke-width="10" stroke-dasharray="68 339" stroke-dashoffset="-140" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+
+      <!-- Period Arc (Rose Pink) -->
+      <circle cx="70" cy="70" r="54" fill="none" stroke="#D9447E" stroke-width="10" stroke-dasharray="60 339" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+
+      <!-- Current Day Indicator (Pulsing Halo) -->
+      <circle cx="118" cy="42" r="11" fill="#D9447E" opacity="0.25" class="pulse-halo"/>
+      <circle cx="118" cy="42" r="6.5" fill="#FFFFFF" stroke="#481930" stroke-width="3"/>
+
+      <!-- Center Text -->
+      <text x="70" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#786470" letter-spacing="0.04em">CYCLE DAY</text>
+      <text x="70" y="84" text-anchor="middle" font-size="24" font-weight="800" fill="#481930">14</text>
+      <text x="70" y="98" text-anchor="middle" font-size="10.5" font-weight="600" fill="#786470">of ~28 days</text>
+    </g>
+
+    <!-- Statistical Engine Feature Points -->
+    <g transform="translate(204, 76)">
+      <!-- Item 1: Recency-Weighted Mean -->
+      <g transform="translate(0, 0)">
+        <circle cx="6" cy="7" r="3.5" fill="#D9447E"/>
+        <text x="16" y="8" class="label-sm">Recency-Weighted Mean (Last 6 Cycles)</text>
+        <text x="16" y="24" class="card-sub">Prioritizes recent endocrine shifts over old history.</text>
+      </g>
+
+      <!-- Item 2: Outlier Median Fallback -->
+      <g transform="translate(0, 42)">
+        <circle cx="6" cy="7" r="3.5" fill="#7A4400"/>
+        <text x="16" y="8" class="label-sm">Outlier Median Substitution (≥10d Gap)</text>
+        <text x="16" y="24" class="card-sub">Prevents isolated stress/travel from skewing math.</text>
+      </g>
+
+      <!-- Item 3: Realistic Confidence Range -->
+      <g transform="translate(0, 84)">
+        <circle cx="6" cy="7" r="3.5" fill="#532E77"/>
+        <text x="16" y="8" class="label-sm">Realistic Range (±SD, Capped at ±7d)</text>
+        <text x="16" y="24" class="card-sub">Eliminates false certainty; labels all dates "Estimated".</text>
+      </g>
+
+      <!-- Item 4: Adjustable Luteal Phase -->
+      <g transform="translate(0, 126)">
+        <circle cx="6" cy="7" r="3.5" fill="#1A573F"/>
+        <text x="16" y="8" class="label-sm">Configurable Luteal Length (10–16 Days)</text>
+        <text x="16" y="24" class="card-sub">Customizes estimated ovulation to user biology.</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ------------------------------------------------------------------------
+       PILLAR 2: Dynamic Calendar & Conflict Protection (Top-Right)
+       ------------------------------------------------------------------------ -->
+  <g transform="translate(556, 108)">
+    <rect width="476" height="276" rx="20" fill="url(#cardGrad)" stroke="#ECDBE3" stroke-width="1.2" filter="url(#shadowSm)"/>
+
+    <!-- Section Header -->
+    <g transform="translate(24, 20)">
+      <rect x="0" y="0" width="28" height="28" rx="8" fill="#EFE6F7"/>
+      <path d="M9 10h10M11 7v3M17 7v3M8 9h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z" stroke="#532E77" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="38" y="18" class="card-title">Calendar &amp; Conflict Shield</text>
+      <text x="38" y="32" class="card-sub">Biologically guarded event tracking &amp; forecasting</text>
+    </g>
+
+    <!-- Mini Calendar Matrix UI Preview -->
+    <g transform="translate(24, 76)">
+      <rect width="216" height="174" rx="14" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+
+      <!-- Month Header -->
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#481930">October 2026</text>
+      <text x="202" y="22" text-anchor="end" font-size="10.5" font-weight="600" fill="#786470">Cycle Day 14</text>
+
+      <!-- Day Headings -->
+      <g transform="translate(14, 38)" font-size="9" font-weight="700" fill="#786470">
+        <text x="0">M</text><text x="28">T</text><text x="56">W</text><text x="84">T</text><text x="112">F</text><text x="140">S</text><text x="168">S</text>
+      </g>
+
+      <!-- Calendar Cells Sample -->
+      <g transform="translate(14, 52)">
+        <!-- Row 1: Period Days (1-4) -->
+        <rect x="-3" y="0" width="22" height="20" rx="6" fill="#D9447E"/>
+        <text x="8" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">1</text>
+
+        <rect x="25" y="0" width="22" height="20" rx="6" fill="#D9447E"/>
+        <text x="36" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">2</text>
+
+        <rect x="53" y="0" width="22" height="20" rx="6" fill="#D9447E"/>
+        <text x="64" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">3</text>
+
+        <rect x="81" y="0" width="22" height="20" rx="6" fill="#FBE3EA"/>
+        <text x="92" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#7D2342">4</text>
+
+        <text x="120" y="14" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">5</text>
+        <text x="148" y="14" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">6</text>
+        <text x="176" y="14" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">7</text>
+
+        <!-- Row 2: Follicular to Fertile (8-14) -->
+        <text x="8" y="38" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">8</text>
+        <text x="36" y="38" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">9</text>
+        <text x="64" y="38" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">10</text>
+
+        <!-- Fertile Window Cells (11-14) -->
+        <rect x="81" y="24" width="22" height="20" rx="6" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+        <text x="92" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#532E77">11</text>
+
+        <rect x="109" y="24" width="22" height="20" rx="6" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+        <text x="120" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#532E77">12</text>
+
+        <rect x="137" y="24" width="22" height="20" rx="6" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+        <text x="148" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#532E77">13</text>
+
+        <!-- Today Circle (14) with Ovulation Star -->
+        <rect x="165" y="24" width="22" height="20" rx="6" fill="#FFFFFF" stroke="#D9447E" stroke-width="2"/>
+        <text x="176" y="38" text-anchor="middle" font-size="10" font-weight="800" fill="#D9447E">14</text>
+        <circle cx="184" cy="27" r="2.5" fill="#532E77"/>
+
+        <!-- Row 3: Predicted Next Period Sample (28-30) -->
+        <text x="8" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">15</text>
+        <text x="36" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">16</text>
+        <text x="64" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">17</text>
+        <text x="92" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">18</text>
+        <text x="120" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">19</text>
+        <text x="148" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">20</text>
+        <text x="176" y="62" text-anchor="middle" font-size="10" font-weight="500" fill="#481930">21</text>
+      </g>
+
+      <!-- Calendar Legend -->
+      <g transform="translate(14, 138)" font-size="9" font-weight="600" fill="#786470">
+        <circle cx="4" cy="6" r="3.5" fill="#D9447E"/>
+        <text x="12" y="9">Confirmed</text>
+
+        <rect x="68" y="2.5" width="7" height="7" rx="2" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+        <text x="79" y="9">Est. Fertile</text>
+
+        <circle cx="140" cy="6" r="3.5" fill="#FFFFFF" stroke="#D9447E" stroke-width="1.5"/>
+        <text x="148" y="9">Today</text>
+      </g>
+    </g>
+
+    <!-- Guardrails Info Box -->
+    <g transform="translate(256, 76)">
+      <!-- 10-Day Period Conflict Protection -->
+      <rect width="196" height="72" rx="12" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+      <g transform="translate(12, 12)">
+        <path d="M8 2l6 3v5c0 4-3 7-6 8-3-1-6-4-6-8V5l6-3z" stroke="#7A4400" stroke-width="1.6" fill="#FBE0B0" stroke-linejoin="round"/>
+        <text x="22" y="11" font-size="11.5" font-weight="700" fill="#481930">10-Day Conflict Guard</text>
+        <text x="0" y="28" class="card-sub" font-size="10.5">Rejects or merges periods &lt;10d apart;</text>
+        <text x="0" y="42" class="card-sub" font-size="10.5">protects against mid-cycle errors.</text>
+      </g>
+
+      <!-- Multi-Mode Flexibility -->
+      <rect y="84" width="196" height="84" rx="12" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+      <g transform="translate(12, 96)">
+        <text x="0" y="11" font-size="11.5" font-weight="700" fill="#481930">6 Physiological Modes</text>
+        <text x="0" y="28" class="card-sub" font-size="10.5">• Natural &amp; Irregular Cycles</text>
+        <text x="0" y="42" class="card-sub" font-size="10.5">• Hormonal Contraception (Pill/IUD)</text>
+        <text x="0" y="56" class="card-sub" font-size="10.5">• TTC, Pregnancy &amp; Perimenopause</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ------------------------------------------------------------------------
+       PILLAR 3: Granular Logging & Wellness Biomarkers (Bottom-Left)
+       ------------------------------------------------------------------------ -->
+  <g transform="translate(48, 408)">
+    <rect width="476" height="276" rx="20" fill="url(#cardGrad)" stroke="#ECDBE3" stroke-width="1.2" filter="url(#shadowSm)"/>
+
+    <!-- Section Header -->
+    <g transform="translate(24, 20)">
+      <rect x="0" y="0" width="28" height="28" rx="8" fill="#D3EDE3"/>
+      <path d="M14 7l-7 7 3 3 7-7-3-3z M18 11l-2-2 M6 18l3-1-2-2z" stroke="#1A573F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="38" y="18" class="card-title">Holistic Daily Logging</text>
+      <text x="38" y="32" class="card-sub">Flow, pain, cervical mucus, mood, sleep &amp; hydration</text>
+    </g>
+
+    <!-- Sub-feature 1: Mood Row -->
+    <g transform="translate(24, 72)">
+      <text x="0" y="10" font-size="11.5" font-weight="700" fill="#786470" letter-spacing="0.03em">5 EXPRESIVE MOOD STATES</text>
+      <g transform="translate(0, 20)">
+        <!-- Radiant -->
+        <circle cx="20" cy="20" r="16" fill="#FFF3C4" stroke="#F7E188" stroke-width="1"/>
+        <path d="M14 18q3-2 6 0 M20 18q3-2 6 0 M16 23q4 3 8 0" stroke="#664E00" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <text x="20" y="46" text-anchor="middle" font-size="9" font-weight="600" fill="#481930">Radiant</text>
+
+        <!-- Calm -->
+        <circle cx="68" cy="20" r="16" fill="#DDE8D5" stroke="#BED2B2" stroke-width="1"/>
+        <path d="M62 19q3-1 6 0 M68 19q3-1 6 0 M64 24q4 2 8 0" stroke="#265231" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <text x="68" y="46" text-anchor="middle" font-size="9" font-weight="600" fill="#481930">Calm</text>
+
+        <!-- Okay -->
+        <circle cx="116" cy="20" r="16" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+        <circle cx="111" cy="18" r="1.5" fill="#194B73"/>
+        <circle cx="121" cy="18" r="1.5" fill="#194B73"/>
+        <path d="M112 24h8" stroke="#194B73" stroke-width="1.4" stroke-linecap="round"/>
+        <text x="116" y="46" text-anchor="middle" font-size="9" font-weight="600" fill="#481930">Okay</text>
+
+        <!-- Anxious -->
+        <circle cx="164" cy="20" r="16" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+        <path d="M159 17l2 1 M169 17l-2 1 M160 25q2-1.5 4 0t4 0" stroke="#532E77" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <text x="164" y="46" text-anchor="middle" font-size="9" font-weight="600" fill="#481930">Anxious</text>
+
+        <!-- Low -->
+        <circle cx="212" cy="20" r="16" fill="#FBE3EA" stroke="#F3C5D3" stroke-width="1"/>
+        <path d="M206 19q3 1 6 0 M212 19q3 1 6 0 M208 25q4-2 8 0" stroke="#7D2342" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <text x="212" y="46" text-anchor="middle" font-size="9" font-weight="600" fill="#481930">Low</text>
+      </g>
+    </g>
+
+    <!-- Sub-feature 2: Biomarker Chips & Hydration -->
+    <g transform="translate(24, 154)">
+      <!-- 8-Glass Water Tracker -->
+      <g transform="translate(0, 0)">
+        <text x="0" y="10" font-size="11.5" font-weight="700" fill="#786470" letter-spacing="0.03em">HYDRATION TRACKER</text>
+        <g transform="translate(0, 18)">
+          <!-- 8 cups preview -->
+          <g transform="translate(0, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#194B73"/>
+          </g>
+          <g transform="translate(28, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#194B73"/>
+          </g>
+          <g transform="translate(56, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#194B73"/>
+          </g>
+          <g transform="translate(84, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#194B73"/>
+          </g>
+          <g transform="translate(112, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#DCEBF6" stroke="#BAD8EF" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#194B73"/>
+          </g>
+          <g transform="translate(140, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#A2909C"/>
+          </g>
+          <g transform="translate(168, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#A2909C"/>
+          </g>
+          <g transform="translate(196, 0)">
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+            <path d="M12 5l3 4a4 4 0 1 1-6 0z" fill="#A2909C"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- Pain & Cervical Fluid Chips (Right Side) -->
+      <g transform="translate(256, 0)">
+        <text x="0" y="10" font-size="11.5" font-weight="700" fill="#786470" letter-spacing="0.03em">BIOMARKERS</text>
+        <g transform="translate(0, 18)">
+          <!-- Pain 0-10 Badge -->
+          <rect x="0" y="0" width="86" height="24" rx="12" fill="#FADCCB" stroke="#F3BF9F" stroke-width="1"/>
+          <text x="43" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#773B1B">Pain: 0–10</text>
+
+          <!-- Cervical Fluid -->
+          <rect x="94" y="0" width="94" height="24" rx="12" fill="#D3EDE3" stroke="#A7DCB9" stroke-width="1"/>
+          <text x="141" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1A573F">Cervical Fluid</text>
+
+          <!-- BBT & LH -->
+          <rect x="0" y="32" width="94" height="24" rx="12" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+          <text x="47" y="47" text-anchor="middle" font-size="10.5" font-weight="700" fill="#532E77">BBT Thermal</text>
+
+          <!-- Pill & Meds -->
+          <rect x="102" y="32" width="86" height="24" rx="12" fill="#FBE3EA" stroke="#F3C5D3" stroke-width="1"/>
+          <text x="145" y="47" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7D2342">Pill Adherence</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- 3-Level Symptoms Row -->
+    <g transform="translate(24, 234)">
+      <text x="0" y="14" font-size="11" font-weight="600" fill="#786470">3-Intensity Symptom Chips:</text>
+      <g transform="translate(148, 2)">
+        <rect x="0" y="0" width="84" height="22" rx="11" fill="#FBE3EA" stroke="#F3C5D3" stroke-width="1"/>
+        <text x="12" y="14" font-size="10" font-weight="700" fill="#7D2342">Cramps</text>
+        <circle cx="62" cy="11" r="2.5" fill="#7D2342"/>
+        <circle cx="69" cy="11" r="2.5" fill="#7D2342"/>
+        <circle cx="76" cy="11" r="2.5" fill="none" stroke="#7D2342" stroke-width="1"/>
+
+        <rect x="92" y="0" width="88" height="22" rx="11" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+        <text x="104" y="14" font-size="10" font-weight="600" fill="#481930">Headache</text>
+        <circle cx="158" cy="11" r="2.5" fill="#D9447E"/>
+        <circle cx="165" cy="11" r="2.5" fill="none" stroke="#D9447E" stroke-width="1"/>
+        <circle cx="172" cy="11" r="2.5" fill="none" stroke="#D9447E" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ------------------------------------------------------------------------
+       PILLAR 4: Insights, Local Assistant & Clinician Care (Bottom-Right)
+       ------------------------------------------------------------------------ -->
+  <g transform="translate(556, 408)">
+    <rect width="476" height="276" rx="20" fill="url(#cardGrad)" stroke="#ECDBE3" stroke-width="1.2" filter="url(#shadowSm)"/>
+
+    <!-- Section Header -->
+    <g transform="translate(24, 20)">
+      <rect x="0" y="0" width="28" height="28" rx="8" fill="#FADCCB"/>
+      <path d="M14 6l6 6-6 6-6-6 6-6z M14 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" stroke="#773B1B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="38" y="18" class="card-title">Insights, Local AI &amp; Care</text>
+      <text x="38" y="32" class="card-sub">Clinical red-flag triggers &amp; private on-device Q&amp;A</text>
+    </g>
+
+    <!-- Sub-feature 1: Local Health Assistant Card -->
+    <g transform="translate(24, 66)">
+      <rect width="428" height="74" rx="12" fill="#EFE6F7" stroke="#DEC8EE" stroke-width="1"/>
+      <g transform="translate(14, 14)">
+        <path d="M12 2l1.8 5.4L19 9.5l-5.2 2.1L12 17l-1.8-5.4L5 9.5l5.2-2.1L12 2z" fill="#532E77"/>
+        <text x="24" y="12" font-size="12" font-weight="700" fill="#532E77">On-Device Health Assistant</text>
+        <rect x="254" y="0" width="94" height="18" rx="9" fill="#FFFFFF"/>
+        <text x="301" y="12" text-anchor="middle" font-size="9.5" font-weight="700" fill="#532E77">100% Client-Side</text>
+        <text x="0" y="34" class="card-sub" font-size="11">Evidence-based answers citing ACOG, NHS &amp; WHO over user data.</text>
+        <text x="0" y="48" class="card-sub" font-size="11">Zero prompt transmission; never replaces licensed medical advice.</text>
+      </g>
+    </g>
+
+    <!-- Sub-feature 2: Clinician Summary & Care Alerts -->
+    <g transform="translate(24, 150)">
+      <!-- Care Alert Prompt -->
+      <rect width="206" height="106" rx="12" fill="#FBE0B0" stroke="#F5C679" stroke-width="1"/>
+      <g transform="translate(12, 14)">
+        <path d="M10 3l8 14H2L10 3z M10 8v4 M10 14h.01" stroke="#7A4400" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="24" y="11" font-size="11" font-weight="700" fill="#7A4400">Clinical Safety Alerts</text>
+        <text x="0" y="32" class="card-sub" font-size="10.5">• Absence &gt;90d (Amenorrhea)</text>
+        <text x="0" y="46" class="card-sub" font-size="10.5">• Cycle intervals &lt;21d</text>
+        <text x="0" y="60" class="card-sub" font-size="10.5">• Bleeding duration &gt;7d</text>
+        <text x="0" y="74" class="card-sub" font-size="10.5">• Severe pelvic pain (≥8/10)</text>
+      </g>
+
+      <!-- Clinician Summary Export -->
+      <rect x="218" width="210" height="106" rx="12" fill="#FAF5F7" stroke="#ECDBE3" stroke-width="1"/>
+      <g transform="translate(230, 14)">
+        <path d="M6 3h8l4 4v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="#481930" stroke-width="1.6" fill="none"/>
+        <path d="M14 3v4h4" stroke="#481930" stroke-width="1.6" fill="none"/>
+        <text x="22" y="11" font-size="11" font-weight="700" fill="#481930">Clinician Summary</text>
+        <text x="0" y="32" class="card-sub" font-size="10.5">• Printable &amp; copyable format</text>
+        <text x="0" y="46" class="card-sub" font-size="10.5">• Cycle &amp; period distributions</text>
+        <text x="0" y="60" class="card-sub" font-size="10.5">• Symptom phenotype tables</text>
+        <text x="0" y="74" class="card-sub" font-size="10.5">• Prepares OB/GYN triage</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ========================================================================
+       FOOTER: Security & Scientific Disclaimer
+       ======================================================================== -->
+  <g transform="translate(48, 694)">
+    <text x="0" y="0" font-size="11" font-weight="600" fill="#786470">CycleSideChick v2.0.0 • 100% On-Device Single Page &amp; Offline PWA • Mathematical estimations are approximations, not medical diagnoses.</text>
+    <text x="984" y="0" text-anchor="end" font-size="11" font-weight="700" fill="#D9447E">cyclesidechick.org</text>
+  </g>
+</svg>

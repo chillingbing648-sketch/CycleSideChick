@@ -26,6 +26,7 @@ const ui = {
   assistantResult: null,
   importPreview: null,
   infoTopic: null,
+  tourModal: false,
   pinLocked: false,
   pinEntered: "",
   pinSettingUp: false,
@@ -846,6 +847,23 @@ function renderCare() {
         </div>
       </div>
 
+      <!-- Architecture & Capabilities Infographic -->
+      <div class="card tint-sky" style="padding:16px">
+        <div class="row" style="margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:10px">
+            ${svgi("insights", 22)}
+            <div>
+              <b style="color:var(--plum);font-size:15px">Architecture &amp; Features</b>
+              <p class="mut" style="margin:2px 0 0;font-size:12px">Visual guide to on-device algorithms &amp; privacy</p>
+            </div>
+          </div>
+          <button class="chip" data-a="openTour">Full Infographic</button>
+        </div>
+        <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);cursor:pointer;margin-top:10px;background:var(--surface)" data-a="openTour" role="button" aria-label="Expand Architecture Infographic">
+          <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
+        </div>
+      </div>
+
       <!-- Partner Share Feature -->
       <div class="card tint-mint">
         <div class="row">
@@ -958,6 +976,27 @@ function renderPartnerModal() {
         <button class="btn" data-a="copyPartnerLink">${svgi("copy", 18)} Copy Read-Only Partner Summary</button>
         <button class="btn g" data-a="closePartner">Done</button>
       </div>
+    </section>`;
+}
+
+/* 10b. Architecture & Features Infographic Modal */
+function renderTourModal() {
+  return `
+    <div class="scrim" data-a="closeTour"></div>
+    <section class="sheet" role="dialog" aria-label="CycleSideChick Architecture and Core Capabilities" style="max-height:92vh;max-height:92dvh">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:12px">
+        <div>
+          <span class="article-tag tint-sky">Visual Architecture</span>
+          <h2 style="margin:4px 0 0">System &amp; Feature Overview</h2>
+        </div>
+        <button class="icon" data-a="closeTour" aria-label="Close">${svgi("x", 18)}</button>
+      </div>
+      <p class="mut" style="margin-bottom:14px;font-size:13px">A visual infographic showing our on-device cycle calculations, clinical safety boundaries, and privacy model.</p>
+      <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:16px">
+        <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+      </div>
+      <button class="btn" data-a="closeTour">Close Overview</button>
     </section>`;
 }
 
@@ -1189,7 +1228,8 @@ function render() {
     ${ui.partnerModal ? renderPartnerModal() : ""}
     ${ui.clinicianModal ? clinicianModal() : ""}
     ${ui.conflict ? conflictModal() : ""}
-    ${ui.infoTopic ? renderInfoModal() : ""}`;
+    ${ui.infoTopic ? renderInfoModal() : ""}
+    ${ui.tourModal ? renderTourModal() : ""}`;
 
   afterRender(ctx);
 }
@@ -1222,6 +1262,14 @@ const A = {
   },
   closeInfo: () => {
     ui.infoTopic = null;
+    haptic(10);
+  },
+  openTour: () => {
+    ui.tourModal = true;
+    haptic(15);
+  },
+  closeTour: () => {
+    ui.tourModal = false;
     haptic(10);
   },
   openClinician: () => {

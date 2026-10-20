@@ -3,10 +3,14 @@
 > **A credible, evidence-based, privacy-first alternative to commercial cycle trackers. 100% on-device, zero trackers, zero telemetry, zero accounts required.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![CI Tests](https://img.shields.io/badge/tests-10%20passing-brightgreen.svg)](./tests/)
+[![CI Tests](https://img.shields.io/badge/tests-12%20passing-brightgreen.svg)](./tests/)
 [![Telemetry](https://img.shields.io/badge/telemetry-zero%20external%20calls-success.svg)](./docs/PRIVACY.md)
 [![PWA](https://img.shields.io/badge/PWA-offline%20ready-ff69b4.svg)](./manifest.webmanifest)
 [![Clinical Grounding](https://img.shields.io/badge/clinical-ACOG%20%7C%20NICE%20%7C%20WHO-purple.svg)](./docs/CLINICAL_SOURCES.md)
+
+---
+
+![CycleSideChick Architecture & Core Capabilities](./public/cyclesidechick-infographic.svg)
 
 ---
 

@@ -24,13 +24,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Standalone Distribution
+        run: npm run build
+
+      - name: Run Automated Test Suite
+        run: npm test
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Entire root directory is static PWA
           path: '.'
 
       - name: Deploy to GitHub Pages
