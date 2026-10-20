@@ -185,6 +185,31 @@ html, body, button, input, select, textarea {
   box-sizing: border-box;
 }
 
+/* Custom Slim Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-pill);
+  transition: background 0.15s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--subtle);
+}
+
 html {
   margin: 0;
   padding: 0;
@@ -210,6 +235,11 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Background Scroll Lock for Active Modals */
+body.modal-open, html.modal-open {
+  overflow: hidden !important;
 }
 
 #app {
@@ -258,6 +288,22 @@ p { margin: 0.4em 0; }
 /* Touch Targets: minimum 44px */
 button, input, select, textarea, .chip, .mood, .day {
   min-height: 44px;
+}
+
+/* Accessible Focus States */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--pink-glow);
+  border-color: var(--pink) !important;
+}
+
+/* Disabled Controls */
+button:disabled, input:disabled, select:disabled, textarea:disabled, .btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Accessibility: Reduced Motion */
@@ -672,6 +718,37 @@ input, select, textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+textarea::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-pill);
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--subtle);
+}
+
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--pink);
@@ -911,11 +988,11 @@ input[type="range"]::-webkit-slider-thumb:active {
 .scrim {
   position: fixed;
   inset: 0;
-  background: rgba(18, 15, 22, 0.55);
+  background: rgba(18, 15, 22, 0.58);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 100;
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sheet {
@@ -929,12 +1006,88 @@ input[type="range"]::-webkit-slider-thumb:active {
   max-height: 90dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   background: var(--surface);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 12px 20px calc(28px + env(safe-area-inset-bottom, 0px));
   z-index: 101;
   box-shadow: var(--sheet-shadow);
-  animation: slideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile: Clean, non-distracting scrollbar while keeping smooth scrolling */
+@media (max-width: 600px) {
+  .sheet {
+    scrollbar-width: none;
+  }
+  .sheet::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Desktop & Tablet: Centered dialog with elegant slim scrollbar */
+@media (min-width: 601px) {
+  .sheet {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    max-width: 520px;
+    max-height: 85vh;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    padding: 24px 28px 28px;
+    animation: modalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .sheet::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sheet::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 16px 0;
+  }
+
+  .sheet::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--radius-pill);
+    transition: background 0.15s ease;
+  }
+
+  .sheet::-webkit-scrollbar-thumb:hover {
+    background: var(--subtle);
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+
+  /* Desktop centered navigation island */
+  .nav {
+    max-width: 480px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .sheet-handle {
@@ -944,6 +1097,22 @@ input[type="range"]::-webkit-slider-thumb:active {
   background: var(--muted);
   opacity: 0.28;
   margin: 4px auto 14px;
+}
+
+.sheet .row:first-of-type {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sheet .icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 /* Toast Notifications */
@@ -1273,11 +1442,22 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 /* 3. Privacy Ledger & Security */
+.ledger-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 12px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  scrollbar-width: thin;
+}
+
 .ledger-table {
   width: 100%;
+  min-width: 320px;
   border-collapse: collapse;
   font-size: 13px;
-  margin: 12px 0;
+  margin: 0;
 }
 
 .ledger-table th, .ledger-table td {
@@ -3085,7 +3265,26 @@ function beforeRender() {
   };
 }
 
+function hasOpenModal() {
+  return Boolean(
+    ui.prof ||
+    ui.activeArticle ||
+    ui.partnerModal ||
+    ui.clinicianModal ||
+    ui.conflict ||
+    ui.infoTopic ||
+    ui.tourModal
+  );
+}
+
+function updateScrollLock() {
+  const isLocked = hasOpenModal();
+  document.body.classList.toggle("modal-open", isLocked);
+  document.documentElement.classList.toggle("modal-open", isLocked);
+}
+
 function afterRender(ctx) {
+  updateScrollLock();
   if (ctx && ctx.prevTab === ui.tab && scrollPositions[ui.tab] != null) {
     window.scrollTo({ top: scrollPositions[ui.tab], behavior: "instant" });
   }
@@ -4107,20 +4306,22 @@ function renderProfile() {
       <!-- Privacy Ledger -->
       <h3 style="margin-top:22px">Privacy Ledger (On-Device Storage)</h3>
       <p class="mut" style="font-size:13px">All data is stored strictly in your browser. Below is an audit of active storage keys and byte counts.</p>
-      <table class="ledger-table">
-        <thead>
-          <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
-        </thead>
-        <tbody>
-          ${ledger.map(item => `
-            <tr>
-              <td><code>${esc(item.key)}</code></td>
-              <td>${item.sizeKB} KB</td>
-              <td>${esc(item.description)}</td>
-            </tr>`
-          ).join("")}
-        </tbody>
-      </table>
+      <div class="ledger-wrap">
+        <table class="ledger-table">
+          <thead>
+            <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            ${ledger.map(item => `
+              <tr>
+                <td><code>${esc(item.key)}</code></td>
+                <td>${item.sizeKB} KB</td>
+                <td>${esc(item.description)}</td>
+              </tr>`
+            ).join("")}
+          </tbody>
+        </table>
+      </div>
 
       <!-- Export & Backup -->
       <h3 style="margin-top:20px">Data Sovereignty &amp; Backup</h3>
@@ -4639,6 +4840,35 @@ document.addEventListener("change", e => {
   if (el.dataset.a === "ldate") {
     loadDraft(el.value || I(TD()));
     render();
+  }
+});
+
+/* Keyboard Accessibility: Dismiss Topmost Open Modal on Escape */
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" || e.key === "Esc") {
+    if (ui.conflict) {
+      ui.conflict = null;
+      render();
+    } else if (ui.tourModal) {
+      ui.tourModal = false;
+      render();
+    } else if (ui.infoTopic) {
+      ui.infoTopic = null;
+      render();
+    } else if (ui.clinicianModal) {
+      ui.clinicianModal = false;
+      render();
+    } else if (ui.partnerModal) {
+      ui.partnerModal = false;
+      render();
+    } else if (ui.activeArticle) {
+      ui.activeArticle = null;
+      render();
+    } else if (ui.prof) {
+      ui.prof = 0;
+      ui.cf = "";
+      render();
+    }
   }
 });
 

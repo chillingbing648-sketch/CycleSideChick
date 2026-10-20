@@ -64,7 +64,6 @@ body {
 /* Background Scroll Lock for Active Modals */
 body.modal-open, html.modal-open {
   overflow: hidden !important;
-  touch-action: none;
 }
 
 #app {

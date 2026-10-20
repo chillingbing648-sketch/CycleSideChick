@@ -111,7 +111,26 @@ function beforeRender() {
   };
 }
 
+function hasOpenModal() {
+  return Boolean(
+    ui.prof ||
+    ui.activeArticle ||
+    ui.partnerModal ||
+    ui.clinicianModal ||
+    ui.conflict ||
+    ui.infoTopic ||
+    ui.tourModal
+  );
+}
+
+function updateScrollLock() {
+  const isLocked = hasOpenModal();
+  document.body.classList.toggle("modal-open", isLocked);
+  document.documentElement.classList.toggle("modal-open", isLocked);
+}
+
 function afterRender(ctx) {
+  updateScrollLock();
   if (ctx && ctx.prevTab === ui.tab && scrollPositions[ui.tab] != null) {
     window.scrollTo({ top: scrollPositions[ui.tab], behavior: "instant" });
   }
@@ -1133,20 +1152,22 @@ function renderProfile() {
       <!-- Privacy Ledger -->
       <h3 style="margin-top:22px">Privacy Ledger (On-Device Storage)</h3>
       <p class="mut" style="font-size:13px">All data is stored strictly in your browser. Below is an audit of active storage keys and byte counts.</p>
-      <table class="ledger-table">
-        <thead>
-          <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
-        </thead>
-        <tbody>
-          ${ledger.map(item => `
-            <tr>
-              <td><code>${esc(item.key)}</code></td>
-              <td>${item.sizeKB} KB</td>
-              <td>${esc(item.description)}</td>
-            </tr>`
-          ).join("")}
-        </tbody>
-      </table>
+      <div class="ledger-wrap">
+        <table class="ledger-table">
+          <thead>
+            <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            ${ledger.map(item => `
+              <tr>
+                <td><code>${esc(item.key)}</code></td>
+                <td>${item.sizeKB} KB</td>
+                <td>${esc(item.description)}</td>
+              </tr>`
+            ).join("")}
+          </tbody>
+        </table>
+      </div>
 
       <!-- Export & Backup -->
       <h3 style="margin-top:20px">Data Sovereignty &amp; Backup</h3>
@@ -1665,6 +1686,35 @@ document.addEventListener("change", e => {
   if (el.dataset.a === "ldate") {
     loadDraft(el.value || I(TD()));
     render();
+  }
+});
+
+/* Keyboard Accessibility: Dismiss Topmost Open Modal on Escape */
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" || e.key === "Esc") {
+    if (ui.conflict) {
+      ui.conflict = null;
+      render();
+    } else if (ui.tourModal) {
+      ui.tourModal = false;
+      render();
+    } else if (ui.infoTopic) {
+      ui.infoTopic = null;
+      render();
+    } else if (ui.clinicianModal) {
+      ui.clinicianModal = false;
+      render();
+    } else if (ui.partnerModal) {
+      ui.partnerModal = false;
+      render();
+    } else if (ui.activeArticle) {
+      ui.activeArticle = null;
+      render();
+    } else if (ui.prof) {
+      ui.prof = 0;
+      ui.cf = "";
+      render();
+    }
   }
 });
 

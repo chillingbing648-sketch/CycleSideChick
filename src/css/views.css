@@ -114,11 +114,22 @@
 }
 
 /* 3. Privacy Ledger & Security */
+.ledger-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 12px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  scrollbar-width: thin;
+}
+
 .ledger-table {
   width: 100%;
+  min-width: 320px;
   border-collapse: collapse;
   font-size: 13px;
-  margin: 12px 0;
+  margin: 0;
 }
 
 .ledger-table th, .ledger-table td {

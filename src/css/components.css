@@ -687,6 +687,7 @@ input[type="range"]::-webkit-slider-thumb:active {
   max-height: 90dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   background: var(--surface);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 12px 20px calc(28px + env(safe-area-inset-bottom, 0px));
