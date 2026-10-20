@@ -731,6 +731,154 @@ input[type="range"]::-webkit-slider-thumb:active {
   }
 }
 
+@keyframes gentlePulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.35); opacity: 0.15; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
 .view-enter {
   animation: viewFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ring-pulse-halo {
+  animation: gentlePulse 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.phase-art-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* Phase Guidance & Educational Popovers */
+.phase-guidance-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  text-align: left;
+}
+
+.guidance-metric-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.guidance-metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.guidance-metric b {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+/* Water Hydration Cups */
+.water-cups-row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.water-cup-btn {
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 4px 0;
+}
+
+.water-cup-btn:hover {
+  border-color: var(--tint-sky-border);
+  background: var(--tint-sky-bg);
+}
+
+.water-cup-btn.filled {
+  background: var(--tint-sky-bg);
+  border-color: var(--tint-sky-text);
+  color: var(--tint-sky-text);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(25, 75, 115, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Tooltip / Info Popover Buttons */
+.info-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.info-btn:hover {
+  color: var(--plum);
+  transform: scale(1.1);
+}
+
+/* Step Indicators for Onboarding */
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.25s ease;
+}
+
+.step-dot.active {
+  width: 24px;
+  border-radius: var(--radius-pill);
+  background: var(--pink);
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .view-enter, .ring-pulse-halo, .phase-art-wrap {
+    animation: none !important;
+  }
 }
