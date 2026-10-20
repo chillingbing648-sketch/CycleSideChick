@@ -8,16 +8,23 @@
  * 5. Invalid, future, and duplicate dates handling
  * 6. Contraception mode (suppresses fertile window & ovulation)
  * 7. Pregnancy mode & perimenopause mode calculations
- * 8. Late-period messaging & lack of pregnancy inference
+ * 8. Late-period messaging & clinical red flags
  * 9. Midnight rollover simulation
+ * 10. Phase guidance & cervical fluid classifications
+ * 11. Storage repository export & import conflict detection
  */
 
 const assert = require("assert");
 const {
   N, I, TD, fmt, okD, vp, badP, pEnd, pdset,
   calculateStats, calculatePregnancy, checkCareAlerts,
-  generateClinicianSummary, compareToUsual
+  getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
+  CERVICAL_FLUID
 } = require("../src/js/engine.js");
+
+const {
+  generateJSON, previewImport
+} = require("../src/js/storage.js");
 
 console.log("==================================================");
 console.log("RUNNING CYCLESIDECHICK CYCLE ENGINE UNIT TESTS");
@@ -163,7 +170,6 @@ it("Contraception mode completely suppresses fertile window and phase arcs", () 
     ]
   };
   const stats = calculateStats(S);
-  // While mathematical properties exist for engine internals, UI check suppresses fertile window
   assert.strictEqual(S.mode, "contra");
 });
 
@@ -177,7 +183,6 @@ it("Pregnancy mode calculates gestational age and EDD using Naegele's rule", () 
   const preg = calculatePregnancy(S);
   assert(preg !== null, "Pregnancy calculation should return data");
   assert.strictEqual(preg.lmp, "2026-07-01");
-  // EDD is LMP + 280 days
   const expectedEdd = I(N("2026-07-01") + 280);
   assert.strictEqual(preg.edd, expectedEdd, "EDD must equal LMP + 280 days");
 });
@@ -206,6 +211,33 @@ it("Midnight rollover simulation advances cycle day accurately", () => {
   const todayDay = N("2026-10-20");
   const tomorrowDay = todayDay + 1; // +1 day across midnight
   assert.strictEqual(tomorrowDay - startDay + 1, (todayDay - startDay + 1) + 1, "Cycle day must advance by exactly 1 at midnight");
+});
+
+// 10. Phase Guidance & Cervical Fluid Categories
+it("Returns evidence-based phase guidance and cervical mucus types", () => {
+  const luteal = getDailyPhaseGuidance("luteal", 22);
+  assert(luteal.name.includes("Luteal"), "Guidance name must contain Luteal");
+  assert(luteal.hormones.includes("Progesterone"), "Luteal phase hormones must mention Progesterone");
+
+  assert(CERVICAL_FLUID.eggwhite !== undefined, "Egg-white cervical fluid must exist");
+  assert.strictEqual(CERVICAL_FLUID.eggwhite.fertile, "Peak (Estimated)");
+});
+
+// 11. Storage Repository Export & Import Preview
+it("Generates valid JSON backup and detects duplicate period imports", () => {
+  const S = {
+    cl: 28,
+    pl: 5,
+    periods: [{ s: "2026-09-01", e: "2026-09-05" }],
+    logs: { "2026-09-01": { f: "heavy" } }
+  };
+  const jsonStr = generateJSON(S);
+  assert(jsonStr.includes("CycleSideChick"), "JSON backup must contain app identifier");
+
+  const preview = previewImport(jsonStr, S);
+  assert.strictEqual(preview.valid, true, "Import format must be valid");
+  assert.strictEqual(preview.dupPeriods, 1, "Duplicate periods must be identified");
+  assert.strictEqual(preview.newPeriods, 0, "No new periods in identical backup");
 });
 
 console.log("==================================================");
