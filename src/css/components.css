@@ -399,6 +399,37 @@ input, select, textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+textarea::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-pill);
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--subtle);
+}
+
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--pink);
@@ -638,11 +669,11 @@ input[type="range"]::-webkit-slider-thumb:active {
 .scrim {
   position: fixed;
   inset: 0;
-  background: rgba(18, 15, 22, 0.55);
+  background: rgba(18, 15, 22, 0.58);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 100;
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sheet {
@@ -661,7 +692,82 @@ input[type="range"]::-webkit-slider-thumb:active {
   padding: 12px 20px calc(28px + env(safe-area-inset-bottom, 0px));
   z-index: 101;
   box-shadow: var(--sheet-shadow);
-  animation: slideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile: Clean, non-distracting scrollbar while keeping smooth scrolling */
+@media (max-width: 600px) {
+  .sheet {
+    scrollbar-width: none;
+  }
+  .sheet::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Desktop & Tablet: Centered dialog with elegant slim scrollbar */
+@media (min-width: 601px) {
+  .sheet {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    max-width: 520px;
+    max-height: 85vh;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    padding: 24px 28px 28px;
+    animation: modalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .sheet::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sheet::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 16px 0;
+  }
+
+  .sheet::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--radius-pill);
+    transition: background 0.15s ease;
+  }
+
+  .sheet::-webkit-scrollbar-thumb:hover {
+    background: var(--subtle);
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+
+  /* Desktop centered navigation island */
+  .nav {
+    max-width: 480px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .sheet-handle {
@@ -671,6 +777,22 @@ input[type="range"]::-webkit-slider-thumb:active {
   background: var(--muted);
   opacity: 0.28;
   margin: 4px auto 14px;
+}
+
+.sheet .row:first-of-type {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sheet .icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 /* Toast Notifications */

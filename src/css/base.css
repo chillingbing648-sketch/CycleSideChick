@@ -9,6 +9,31 @@ html, body, button, input, select, textarea {
   box-sizing: border-box;
 }
 
+/* Custom Slim Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-pill);
+  transition: background 0.15s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--subtle);
+}
+
 html {
   margin: 0;
   padding: 0;
@@ -34,6 +59,12 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Background Scroll Lock for Active Modals */
+body.modal-open, html.modal-open {
+  overflow: hidden !important;
+  touch-action: none;
 }
 
 #app {
@@ -82,6 +113,22 @@ p { margin: 0.4em 0; }
 /* Touch Targets: minimum 44px */
 button, input, select, textarea, .chip, .mood, .day {
   min-height: 44px;
+}
+
+/* Accessible Focus States */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--pink-glow);
+  border-color: var(--pink) !important;
+}
+
+/* Disabled Controls */
+button:disabled, input:disabled, select:disabled, textarea:disabled, .btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Accessibility: Reduced Motion */
