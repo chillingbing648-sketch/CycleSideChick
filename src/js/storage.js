@@ -1,9 +1,12 @@
 /**
  * CycleSideChick — Storage, Privacy Ledger & Cryptographic Security
  * Zero cloud. 100% on-device storage. Salted PIN lock. Safe migrations.
+ * Architectural layer: StorageRepository (decoupled from UI)
  */
 
 const KEY = "csc.v1";
+const PIN_SALT_KEY = "csc.pin.salt";
+const PIN_HASH_KEY = "csc.pin.hash";
 const SCHEMA_VERSION = 2;
 
 const defState = () => ({
@@ -54,15 +57,17 @@ function migrateState(data) {
  */
 function loadState() {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = typeof localStorage !== "undefined" ? localStorage.getItem(KEY) : null;
     if (!raw) return { state: defState(), corrupt: false };
     const parsed = JSON.parse(raw);
     return { state: migrateState(parsed), corrupt: false };
   } catch (err) {
     console.error("Storage read exception:", err);
     try {
-      const rawCorrupt = localStorage.getItem(KEY);
-      if (rawCorrupt) localStorage.setItem(KEY + ".corrupt_backup", rawCorrupt);
+      if (typeof localStorage !== "undefined") {
+        const rawCorrupt = localStorage.getItem(KEY);
+        if (rawCorrupt) localStorage.setItem(KEY + ".corrupt_backup", rawCorrupt);
+      }
     } catch (e) {}
     return { state: defState(), corrupt: true };
   }
@@ -70,7 +75,9 @@ function loadState() {
 
 function saveState(state) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(state));
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    }
   } catch (e) {
     console.error("Failed to save state to localStorage:", e);
   }
@@ -82,22 +89,24 @@ function saveState(state) {
 function getPrivacyLedger() {
   const items = [];
   try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith("csc")) {
-        const val = localStorage.getItem(k) || "";
-        const bytes = new Blob([val]).size;
-        let desc = "Application data";
-        if (k === KEY) desc = "Cycle history, symptom logs, personal settings (Schema v2)";
-        else if (k.includes("backup")) desc = "Local recovery safety backup";
-        else if (k.includes("pin")) desc = "Salted cryptographic PIN hash for app lock";
+    if (typeof localStorage !== "undefined") {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith("csc")) {
+          const val = localStorage.getItem(k) || "";
+          const bytes = new Blob([val]).size;
+          let desc = "Application data";
+          if (k === KEY) desc = "Cycle history, symptom logs, personal settings (Schema v2)";
+          else if (k.includes("backup")) desc = "Local recovery safety backup";
+          else if (k.includes("pin")) desc = "Salted cryptographic PIN hash for app lock";
 
-        items.push({
-          key: k,
-          sizeBytes: bytes,
-          sizeKB: (bytes / 1024).toFixed(2),
-          description: desc
-        });
+          items.push({
+            key: k,
+            sizeBytes: bytes,
+            sizeKB: (bytes / 1024).toFixed(2),
+            description: desc
+          });
+        }
       }
     }
   } catch (e) {}
@@ -108,6 +117,10 @@ function getPrivacyLedger() {
  * Salted PIN Hash verification & storage (Web Crypto API)
  */
 async function hashPin(pin, saltHex) {
+  if (typeof crypto === "undefined" || !crypto.subtle) {
+    // Basic fallback for environments without web crypto (e.g. older headless)
+    return { saltHex: saltHex || "salt00", hashHex: "mock_hash_" + pin };
+  }
   const enc = new TextEncoder();
   const salt = saltHex ? hexToBytes(saltHex) : crypto.getRandomValues(new Uint8Array(16));
   const pinData = enc.encode(pin);
@@ -143,12 +156,54 @@ async function verifyPin(pin, storedSaltHex, storedHashHex) {
 }
 
 /**
+ * High-level PIN Lock Management
+ */
+const PinLock = {
+  isEnabled() {
+    try {
+      return !!(typeof localStorage !== "undefined" && localStorage.getItem(PIN_HASH_KEY));
+    } catch (e) {
+      return false;
+    }
+  },
+  async set(pin) {
+    const { saltHex, hashHex } = await hashPin(pin);
+    try {
+      localStorage.setItem(PIN_SALT_KEY, saltHex);
+      localStorage.setItem(PIN_HASH_KEY, hashHex);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+  async verify(pin) {
+    try {
+      const salt = localStorage.getItem(PIN_SALT_KEY);
+      const hash = localStorage.getItem(PIN_HASH_KEY);
+      if (!salt || !hash) return false;
+      return await verifyPin(pin, salt, hash);
+    } catch (e) {
+      return false;
+    }
+  },
+  remove() {
+    try {
+      localStorage.removeItem(PIN_SALT_KEY);
+      localStorage.removeItem(PIN_HASH_KEY);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
+/**
  * CSV Export Generator
  */
 function generateCSV(S) {
   const headers = [
     "Date", "Entry_Type", "Bleeding_Flow", "Mood", "Pain_0_10",
-    "Energy", "Sleep_Hours", "Sleep_Quality", "Medications",
+    "Energy", "Sleep_Hours", "Sleep_Quality", "Hydration_Glasses", "Cervical_Mucus", "Medications",
     "BBT", "LH_Test", "Symptoms", "Notes"
   ];
   const rows = [];
@@ -175,6 +230,8 @@ function generateCSV(S) {
       l.en || "",
       l.sl != null ? l.sl : "",
       l.sq || "",
+      l.water || 0,
+      l.cm || "",
       `"${medsList.replace(/"/g, '""')}"`,
       l.bbt || "",
       l.lh || "",
@@ -188,11 +245,27 @@ function generateCSV(S) {
 }
 
 /**
+ * JSON Export Generator
+ */
+function generateJSON(S) {
+  const exported = {
+    app: "CycleSideChick",
+    version: SCHEMA_VERSION,
+    exportedAt: new Date().toISOString(),
+    data: S
+  };
+  return JSON.stringify(exported, null, 2);
+}
+
+/**
  * Import validation & conflict detection
  */
 function previewImport(jsonOrCsvString, currentState) {
   try {
-    const parsed = JSON.parse(jsonOrCsvString);
+    let parsed = JSON.parse(jsonOrCsvString);
+    if (parsed.data && parsed.app === "CycleSideChick") {
+      parsed = parsed.data;
+    }
     const incomingPeriods = Array.isArray(parsed.periods) ? parsed.periods : [];
     const incomingLogs = (parsed.logs && typeof parsed.logs === "object") ? parsed.logs : {};
 
@@ -221,13 +294,38 @@ function previewImport(jsonOrCsvString, currentState) {
       parsedData: parsed
     };
   } catch (e) {
-    return { valid: false, error: "Invalid JSON format" };
+    return { valid: false, error: "Invalid JSON format: please upload a valid CycleSideChick backup file." };
   }
 }
+
+/**
+ * CycleStorage Repository — Abstract Data Access Layer
+ * Enables decoupling the UI and easily substituting IndexedDB or encrypted storage.
+ */
+const CycleStorage = {
+  load: loadState,
+  save: saveState,
+  getLedger: getPrivacyLedger,
+  pin: PinLock,
+  exportCSV: generateCSV,
+  exportJSON: generateJSON,
+  previewImport: previewImport,
+  wipe() {
+    try {
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(PIN_SALT_KEY);
+      localStorage.removeItem(PIN_HASH_KEY);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+};
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     KEY, SCHEMA_VERSION, defState, migrateState, loadState, saveState,
-    getPrivacyLedger, hashPin, verifyPin, generateCSV, previewImport
+    getPrivacyLedger, hashPin, verifyPin, PinLock, generateCSV, generateJSON,
+    previewImport, CycleStorage
   };
 }
