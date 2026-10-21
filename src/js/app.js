@@ -1224,208 +1224,226 @@ function renderProfile() {
 
   return `
     <div class="scrim" data-a="close"></div>
-    <section class="sheet" role="dialog" aria-label="Profile and Settings" style="max-height:92vh;max-height:92dvh;overflow-y:auto">
+    <section class="sheet sheet-settings" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
       <div class="sheet-handle"></div>
-      <div class="row" style="margin-bottom:14px">
-        <div>
-          <span class="article-tag tint-lavender">Preferences &amp; Calibration</span>
-          <h2 style="margin:4px 0 0">Profile &amp; Settings</h2>
-        </div>
-        <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
-      </div>
-
-      <!-- Group 1: Cycle Calibration -->
-      <div class="settings-group">
-        <div class="settings-group-title">
-          ${svgi("layers", 16)} 1. Reproductive Calibration
-        </div>
-
-        <label style="margin-top:0">Tracking Mode</label>
-        <div class="chips">
-          ${[
-            ["natural", "Natural cycle"],
-            ["irregular", "Irregular cycle"],
-            ["contra", "Hormonal contraception"],
-            ["ttc", "Trying to conceive"],
-            ["pregnancy", "Pregnancy"],
-            ["perimenopause", "Perimenopause"],
-            ["none", "No predictions"]
-          ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
-        </div>
-
-        <div class="stepper-wrap" style="margin-top:12px">
-          <div>
-            <b>Usual Cycle Length</b>
-            <p class="mut" style="margin:0;font-size:12px">ACOG normal: 21–35 days</p>
+      <div class="sheet-header">
+        <div class="sheet-header-row">
+          <div class="sheet-title-group">
+            <span class="sheet-badge">${svgi("sparkle", 12)} Preferences &amp; Calibration</span>
+            <h2 id="settingsTitle" class="sheet-title">Profile &amp; Settings</h2>
           </div>
-          <div class="stepper">
-            <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="-1" aria-label="Decrease cycle length">−</button>
-            <input class="stepper-val" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl" aria-label="Cycle length in days">
-            <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="1" aria-label="Increase cycle length">+</button>
-          </div>
-        </div>
-
-        <div class="stepper-wrap">
-          <div>
-            <b>Period Bleeding Duration</b>
-            <p class="mut" style="margin:0;font-size:12px">Typical: 3–7 days</p>
-          </div>
-          <div class="stepper">
-            <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="-1" aria-label="Decrease period duration">−</button>
-            <input class="stepper-val" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl" aria-label="Period duration in days">
-            <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="1" aria-label="Increase period duration">+</button>
-          </div>
-        </div>
-
-        <div class="stepper-wrap">
-          <div>
-            <b>Luteal Phase Length</b>
-            <p class="mut" style="margin:0;font-size:12px">Post-ovulation span (10–16d, baseline 14d)</p>
-          </div>
-          <div class="stepper">
-            <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="-1" aria-label="Decrease luteal length">−</button>
-            <input class="stepper-val" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll" aria-label="Luteal phase length in days">
-            <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="1" aria-label="Increase luteal length">+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Group 2: Tactile Motion & Interactive Toggles -->
-      <div class="settings-group">
-        <div class="settings-group-title">
-          ${svgi("sparkle", 16)} 2. Motion &amp; Interaction Toggles
-        </div>
-
-        <!-- Toggle: Fluid Spring Motion -->
-        <div class="switch-row">
-          <div class="switch-info">
-            <div class="switch-title">Fluid Motion &amp; Animations</div>
-            <p class="switch-desc">Enable smooth view transitions, staggered card reveals, and dynamic SVG chart growth.</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" data-a="togglePref" data-k="motion" ${motionActive ? "checked" : ""} role="switch" aria-checked="${motionActive ? "true" : "false"}" aria-label="Toggle fluid animations">
-            <span class="switch-slider"></span>
-          </label>
-        </div>
-
-        <!-- Toggle: Tactile Haptic Pulses -->
-        <div class="switch-row">
-          <div class="switch-info">
-            <div class="switch-title">Tactile Haptic Feedback</div>
-            <p class="switch-desc">Physical vibration pulses when logging periods, rating moods, and navigating tabs.</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" data-a="togglePref" data-k="haptics" ${hapticsActive ? "checked" : ""} role="switch" aria-checked="${hapticsActive ? "true" : "false"}" aria-label="Toggle haptic feedback">
-            <span class="switch-slider"></span>
-          </label>
-        </div>
-
-        <!-- Toggle: Fertility & Ovulation Windows -->
-        <div class="switch-row">
-          <div class="switch-info">
-            <div class="switch-title">Fertility &amp; Ovulation Indicators</div>
-            <p class="switch-desc">Display estimated fertile window and ovulation peak markers on calendar and cycle ring.</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" data-a="togglePref" data-k="showFertile" ${showFertileActive ? "checked" : ""} role="switch" aria-checked="${showFertileActive ? "true" : "false"}" aria-label="Toggle fertility indicators">
-            <span class="switch-slider"></span>
-          </label>
-        </div>
-
-        <!-- Toggle: Physiological Red Flags -->
-        <div class="switch-row">
-          <div class="switch-info">
-            <div class="switch-title">Clinical Red Flag Alerts</div>
-            <p class="switch-desc">Prompt consultation guidance if period is absent 90+ days or severe pain (8+/10) is logged.</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" data-a="togglePref" data-k="careAlerts" ${careAlertsActive ? "checked" : ""} role="switch" aria-checked="${careAlertsActive ? "true" : "false"}" aria-label="Toggle clinical alerts">
-            <span class="switch-slider"></span>
-          </label>
-        </div>
-
-        <!-- Toggle: Hydration Target -->
-        <div class="switch-row">
-          <div class="switch-info">
-            <div class="switch-title">Daily Hydration Cups Goal</div>
-            <p class="switch-desc">Show 8-cup hydration tracker in the daily wellness logging interface.</p>
-          </div>
-          <label class="switch">
-            <input type="checkbox" data-a="togglePref" data-k="waterGoal" ${waterGoalActive ? "checked" : ""} role="switch" aria-checked="${waterGoalActive ? "true" : "false"}" aria-label="Toggle hydration target">
-            <span class="switch-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Group 3: Appearance & Theme -->
-      <div class="settings-group">
-        <div class="settings-group-title">
-          ${svgi("sun", 16)} 3. Theme &amp; Visual Mode
-        </div>
-        <div class="segmented-picker">
-          ${[["system", "System", "laptop"], ["light", "Light", "sun"], ["dark", "Dark", "moon"]].map(([v, t, icon]) => `
-            <button class="segmented-btn ${S.theme === v ? "active" : ""}" data-a="th" data-v="${v}">
-              ${svgi(icon, 14)} ${t}
-            </button>
-          `).join("")}
-        </div>
-      </div>
-
-      <!-- Group 4: Security & PIN -->
-      <div class="settings-group">
-        <div class="settings-group-title">
-          ${svgi("shieldCheck", 16)} 4. Application Security Lock
-        </div>
-        <div class="row">
-          <div>
-            <b>4-Digit App PIN Lock</b>
-            <p class="mut" style="margin:2px 0 0;font-size:12px">
-              ${pinActive ? "Active · Protected with Salted SHA-256 Web Crypto hash" : "Inactive · Instant access on open"}
-            </p>
-          </div>
-          <button class="chip" data-a="togglePin">${pinActive ? "Disable PIN" : "Set PIN"}</button>
-        </div>
-      </div>
-
-      <!-- Group 5: On-Device Storage & Privacy Ledger -->
-      <div class="settings-group">
-        <div class="settings-group-title">
-          ${svgi("activity", 16)} 5. Privacy Ledger (100% On-Device)
-        </div>
-        <p class="mut" style="font-size:12.5px;margin:0 0 10px">Zero cloud servers. Below is an audit of all active keys and byte allocations in your browser's private storage.</p>
-        <div class="ledger-wrap">
-          <table class="ledger-table">
-            <thead>
-              <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
-            </thead>
-            <tbody>
-              ${ledger.map(item => `
-                <tr>
-                  <td><code>${esc(item.key)}</code></td>
-                  <td>${item.sizeKB} KB</td>
-                  <td>${esc(item.description)}</td>
-                </tr>`
-              ).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Group 6: Data Sovereignty & Backup -->
-      <div class="settings-group">
-        <div class="settings-group-title">
-          ${svgi("download", 16)} 6. Data Sovereignty &amp; Exports
-        </div>
-        <div class="chips" style="display:grid;gap:8px">
-          <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
-          <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
-          <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Consultation Report</button>
-        </div>
-
-        <div style="margin-top:14px;border-top:1px solid var(--border-subtle);padding-top:12px">
-          <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">
-            ${ui.cf == "wipe" ? "⚠️ Tap again to confirm wiping all records" : "Wipe all local data"}
+          <button class="sheet-close-btn" data-a="close" aria-label="Close settings">
+            ${svgi("x", 18)}
           </button>
+        </div>
+      </div>
+
+      <div class="sheet-body custom-scroll">
+        <!-- Group 1: Cycle Calibration -->
+        <div class="settings-group">
+          <div class="settings-group-title">
+            <span>${svgi("layers", 16)} 1. Reproductive Calibration</span>
+            <span class="settings-group-pill pill-calibration">Calibration</span>
+          </div>
+
+          <label style="margin-top:0">Tracking Mode</label>
+          <div class="chips" style="gap:8px">
+            ${[
+              ["natural", "Natural cycle"],
+              ["irregular", "Irregular cycle"],
+              ["contra", "Hormonal contraception"],
+              ["ttc", "Trying to conceive"],
+              ["pregnancy", "Pregnancy"],
+              ["perimenopause", "Perimenopause"],
+              ["none", "No predictions"]
+            ].map(([v, t]) => {
+              const active = S.mode === v;
+              return `<button class="chip-mode${active ? " active" : ""}" aria-pressed="${active}" data-a="setMode" data-v="${v}">
+                <span class="chip-check">${svgi("check", 12)}</span>
+                <span>${t}</span>
+              </button>`;
+            }).join("")}
+          </div>
+
+          <div class="stepper-wrap" style="margin-top:14px">
+            <div>
+              <b>Usual Cycle Length</b>
+              <p class="mut" style="margin:0;font-size:12px">ACOG normal: 21–35 days</p>
+            </div>
+            <div class="stepper">
+              <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="-1" aria-label="Decrease cycle length">−</button>
+              <input class="stepper-val" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl" aria-label="Cycle length in days">
+              <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="1" aria-label="Increase cycle length">+</button>
+            </div>
+          </div>
+
+          <div class="stepper-wrap">
+            <div>
+              <b>Period Bleeding Duration</b>
+              <p class="mut" style="margin:0;font-size:12px">Typical: 3–7 days</p>
+            </div>
+            <div class="stepper">
+              <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="-1" aria-label="Decrease period duration">−</button>
+              <input class="stepper-val" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl" aria-label="Period duration in days">
+              <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="1" aria-label="Increase period duration">+</button>
+            </div>
+          </div>
+
+          <div class="stepper-wrap">
+            <div>
+              <b>Luteal Phase Length</b>
+              <p class="mut" style="margin:0;font-size:12px">Post-ovulation span (10–16d, baseline 14d)</p>
+            </div>
+            <div class="stepper">
+              <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="-1" aria-label="Decrease luteal length">−</button>
+              <input class="stepper-val" type="number" min="10" max="16" value="${Math.max(10, Math.min(16, S.ll || 14))}" data-k="S.ll" aria-label="Luteal phase length in days">
+              <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="1" aria-label="Increase luteal length">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 2: Tactile Motion & Interactive Toggles -->
+        <div class="settings-group">
+          <div class="settings-group-title">
+            <span>${svgi("sparkle", 16)} 2. Motion &amp; Interaction Toggles</span>
+            <span class="settings-group-pill pill-toggles">Tactile</span>
+          </div>
+
+          <!-- Toggle: Fluid Spring Motion -->
+          <div class="switch-row">
+            <div class="switch-info">
+              <div class="switch-title">Fluid Motion &amp; Animations</div>
+              <p class="switch-desc">Enable smooth view transitions, staggered card reveals, and dynamic SVG chart growth.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" data-a="togglePref" data-k="motion" ${motionActive ? "checked" : ""} role="switch" aria-checked="${motionActive ? "true" : "false"}" aria-label="Toggle fluid animations">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <!-- Toggle: Tactile Haptic Pulses -->
+          <div class="switch-row">
+            <div class="switch-info">
+              <div class="switch-title">Tactile Haptic Feedback</div>
+              <p class="switch-desc">Physical vibration pulses when logging periods, rating moods, and navigating tabs.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" data-a="togglePref" data-k="haptics" ${hapticsActive ? "checked" : ""} role="switch" aria-checked="${hapticsActive ? "true" : "false"}" aria-label="Toggle haptic feedback">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <!-- Toggle: Fertility & Ovulation Windows -->
+          <div class="switch-row">
+            <div class="switch-info">
+              <div class="switch-title">Fertility &amp; Ovulation Indicators</div>
+              <p class="switch-desc">Display estimated fertile window and ovulation peak markers on calendar and cycle ring.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" data-a="togglePref" data-k="showFertile" ${showFertileActive ? "checked" : ""} role="switch" aria-checked="${showFertileActive ? "true" : "false"}" aria-label="Toggle fertility indicators">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <!-- Toggle: Physiological Red Flags -->
+          <div class="switch-row">
+            <div class="switch-info">
+              <div class="switch-title">Clinical Red Flag Alerts</div>
+              <p class="switch-desc">Prompt consultation guidance if period is absent 90+ days or severe pain (8+/10) is logged.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" data-a="togglePref" data-k="careAlerts" ${careAlertsActive ? "checked" : ""} role="switch" aria-checked="${careAlertsActive ? "true" : "false"}" aria-label="Toggle clinical alerts">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <!-- Toggle: Hydration Target -->
+          <div class="switch-row">
+            <div class="switch-info">
+              <div class="switch-title">Daily Hydration Cups Goal</div>
+              <p class="switch-desc">Show 8-cup hydration tracker in the daily wellness logging interface.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" data-a="togglePref" data-k="waterGoal" ${waterGoalActive ? "checked" : ""} role="switch" aria-checked="${waterGoalActive ? "true" : "false"}" aria-label="Toggle hydration target">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Group 3: Appearance & Theme -->
+        <div class="settings-group">
+          <div class="settings-group-title">
+            <span>${svgi("sun", 16)} 3. Theme &amp; Visual Mode</span>
+            <span class="settings-group-pill pill-theme">Theme</span>
+          </div>
+          <div class="segmented-picker">
+            ${[["system", "System", "laptop"], ["light", "Light", "sun"], ["dark", "Dark", "moon"]].map(([v, t, icon]) => `
+              <button class="segmented-btn ${S.theme === v ? "active" : ""}" data-a="th" data-v="${v}">
+                ${svgi(icon, 14)} ${t}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+
+        <!-- Group 4: Security & PIN -->
+        <div class="settings-group">
+          <div class="settings-group-title">
+            <span>${svgi("shieldCheck", 16)} 4. Application Security Lock</span>
+            <span class="settings-group-pill pill-security">Security</span>
+          </div>
+          <div class="row">
+            <div>
+              <b>4-Digit App PIN Lock</b>
+              <p class="mut" style="margin:2px 0 0;font-size:12px">
+                ${pinActive ? "Active · Protected with Salted SHA-256 Web Crypto hash" : "Inactive · Instant access on open"}
+              </p>
+            </div>
+            <button class="chip" data-a="togglePin">${pinActive ? "Disable PIN" : "Set PIN"}</button>
+          </div>
+        </div>
+
+        <!-- Group 5: On-Device Storage & Privacy Ledger -->
+        <div class="settings-group">
+          <div class="settings-group-title">
+            <span>${svgi("activity", 16)} 5. Privacy Ledger (100% On-Device)</span>
+            <span class="settings-group-pill pill-ledger">Privacy</span>
+          </div>
+          <p class="mut" style="font-size:12.5px;margin:0 0 10px">Zero cloud servers. Below is an audit of all active keys and byte allocations in your browser's private storage.</p>
+          <div class="ledger-wrap">
+            <table class="ledger-table">
+              <thead>
+                <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
+              </thead>
+              <tbody>
+                ${ledger.map(item => `
+                  <tr>
+                    <td><code>${esc(item.key)}</code></td>
+                    <td>${item.sizeKB} KB</td>
+                    <td>${esc(item.description)}</td>
+                  </tr>`
+                ).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Group 6: Data Sovereignty & Backup -->
+        <div class="settings-group">
+          <div class="settings-group-title">
+            <span>${svgi("download", 16)} 6. Data Sovereignty &amp; Exports</span>
+            <span class="settings-group-pill pill-sovereignty">Export</span>
+          </div>
+          <div class="chips" style="display:grid;gap:8px">
+            <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
+            <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
+            <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Consultation Report</button>
+          </div>
+
+          <div style="margin-top:14px;border-top:1px solid var(--border-subtle);padding-top:12px">
+            <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">
+              ${ui.cf == "wipe" ? "⚠️ Tap again to confirm wiping all records" : "Wipe all local data"}
+            </button>
+          </div>
         </div>
       </div>
     </section>`;
@@ -1938,6 +1956,9 @@ document.addEventListener("input", e => {
   if (!k) return;
   let v = el.value;
   if (el.type === "number" || el.type === "range") v = +v;
+  if (k === "S.cl") v = Math.max(15, Math.min(90, v || 28));
+  if (k === "S.pl") v = Math.max(1, Math.min(14, v || 5));
+  if (k === "S.ll") v = Math.max(10, Math.min(16, v || 14));
   const p = k.split(".");
   let o = G;
   while (p.length > 1) o = o[p.shift()];
@@ -1967,6 +1988,11 @@ document.addEventListener("change", e => {
       haptic(20);
       render();
     }
+  } else if (el.dataset.k && el.dataset.k.startsWith("S.")) {
+    const k = el.dataset.k;
+    if (k === "S.cl") el.value = S.cl;
+    else if (k === "S.pl") el.value = S.pl;
+    else if (k === "S.ll") el.value = S.ll;
   }
 });
 
