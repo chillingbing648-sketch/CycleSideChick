@@ -993,6 +993,115 @@ input[type="range"]::-webkit-slider-thumb:active {
   background: var(--pink);
 }
 
+/* ==========================================================================
+   Data Visualizations & Interactive Health Charts
+   ========================================================================== */
+.chart-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+
+.chart-bar {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, filter 0.2s ease;
+  transform-origin: bottom;
+}
+
+.chart-bar:hover {
+  opacity: 0.88;
+  filter: brightness(1.08);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chart-benchmark-band {
+  fill: var(--tint-sage-bg);
+  opacity: 0.45;
+}
+
+/* Multi-Arc Ring Enhancements */
+.ring-phase-arc {
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* Interactive Phase Guide & Hormone Curves */
+.interactive-phase-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase-pill-interactive {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.phase-pill-interactive:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--pink-glow);
+}
+
+/* Symptom Stacked Severity Bar */
+.symptom-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.symptom-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  display: flex;
+  margin: 0 12px;
+}
+
+.symptom-bar-seg {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
 /* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

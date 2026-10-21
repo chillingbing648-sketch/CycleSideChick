@@ -21,6 +21,18 @@ const assistant = fs.readFileSync(path.join(root, "src/js/assistant.js"), "utf8"
 const ui = fs.readFileSync(path.join(root, "src/js/ui.js"), "utf8");
 const app = fs.readFileSync(path.join(root, "src/js/app.js"), "utf8");
 
+// Embedded assets for 100% self-contained standalone distribution
+const favicon = fs.readFileSync(path.join(root, "public/favicon.svg"), "utf8");
+const faviconDataUri = `data:image/svg+xml;base64,${Buffer.from(favicon).toString("base64")}`;
+
+const infographic = fs.readFileSync(path.join(root, "public/cyclesidechick-infographic.svg"), "utf8");
+const infographicDataUri = `data:image/svg+xml;base64,${Buffer.from(infographic).toString("base64")}`;
+
+// Inline asset paths in bundled app script
+const bundledApp = app
+  .replace(/\.\/public\/cyclesidechick-infographic\.svg/g, infographicDataUri)
+  .replace(/\.\/public\/favicon\.svg/g, faviconDataUri);
+
 const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -28,7 +40,7 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FAF5F7" id="meta-theme">
 <title>CycleSideChick — Cycle &amp; Wellness Companion</title>
-<link rel="icon" id="fv" type="image/svg+xml" href="./public/favicon.svg">
+<link rel="icon" id="fv" type="image/svg+xml" href="${faviconDataUri}">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +69,7 @@ ${assistant}
 
 ${ui}
 
-${app}
+${bundledApp}
 
 // PWA Service Worker Registration
 if ("serviceWorker" in navigator) {

@@ -496,13 +496,31 @@ function renderCalendar() {
   const fe = new Set();
 
   if (S.mode !== "none" && S.mode !== "contra" && S.mode !== "pregnancy") {
-    x.pred.forEach(p => {
-      for (let d = p; d < p + (S.pl || 5); d++) if (d >= T) pr.add(d);
-      if (S.mode !== "irregular" && x.fertileStart && x.fertileEnd) {
-        for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
-      }
-    });
+    // Current ongoing cycle fertile window if active
+    if (x.fertileStart && x.fertileEnd) {
+      for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
+    }
+    // Future cycles with individual fertile windows
+    if (Array.isArray(x.predictedCycles)) {
+      x.predictedCycles.forEach(pc => {
+        for (let d = pc.periodStart; d <= pc.periodEnd; d++) {
+          if (d >= T) pr.add(d);
+        }
+        if (S.mode !== "irregular" && pc.fertileStart && pc.fertileEnd) {
+          for (let d = pc.fertileStart; d <= pc.fertileEnd; d++) {
+            fe.add(d);
+          }
+        }
+      });
+    } else {
+      x.pred.forEach(p => {
+        for (let d = p; d < p + (S.pl || 5); d++) if (d >= T) pr.add(d);
+      });
+    }
   }
+
+  const curDate = new Date();
+  const isCurMonth = y === curDate.getFullYear() && m === curDate.getMonth();
 
   const firstDay = new Date(Date.UTC(y, m, 1));
   const off = (firstDay.getUTCDay() + 6) % 7;
@@ -554,7 +572,8 @@ function renderCalendar() {
         <div class="row">
           <button class="icon" data-a="mo" data-v="-1" aria-label="Previous month">${svgi("arrowLeft", 18)}</button>
           <div style="text-align:center">
-            <h2>${fmt(Date.UTC(y, m, 1) / DAY, { month: "long", year: "numeric" })}</h2>
+            <h2 style="margin:0">${fmt(Date.UTC(y, m, 1) / DAY, { month: "long", year: "numeric" })}</h2>
+            ${!isCurMonth ? `<button class="chip" data-a="jumpToday" style="min-height:24px;padding:2px 8px;font-size:11px;margin-top:4px">${svgi("sun", 12)} Jump to Today</button>` : ""}
           </div>
           <button class="icon" data-a="mo" data-v="1" aria-label="Next month">${svgi("arrowRight", 18)}</button>
         </div>
@@ -590,7 +609,13 @@ function renderCalendar() {
 /* 4. Daily Logging View */
 function renderLog() {
   const d = G.dr;
-  const all = ["Cramps", "Headache", "Bloating", "Fatigue", "Breast tenderness", "Backache", ...(S.custom || [])];
+  const symptomCategories = [
+    { cat: "Pelvic & Body", items: ["Cramps", "Backache", "Breast tenderness"] },
+    { cat: "Head & Energy", items: ["Headache", "Fatigue", "Brain fog"] },
+    { cat: "Digestion & Belly", items: ["Bloating", "Nausea", "Cravings"] },
+    { cat: "Skin & Mood", items: ["Acne", "Mood swings"] }
+  ];
+  const customItems = S.custom || [];
 
   return `
     <div class="view-enter">
@@ -677,20 +702,47 @@ function renderLog() {
       </div>
 
       <div class="card">
-        <h3>Symptoms</h3>
-        <p class="mut">Tap to cycle: Mild → Moderate → Strong → Clear</p>
-        <div class="chips">
-          ${all.map(s => {
-            const v = d.sy[s] || 0;
-            const dots = [1, 2, 3].map(i => `<i class="${i <= v ? "on" : ""}"></i>`).join("");
-            return `
-              <button class="chip chip-sym" data-level="${v}" aria-pressed="${v > 0}" data-a="sym" data-v="${esc(s)}"
-                aria-label="${esc(s)}: ${["not logged", "mild", "moderate", "strong"][v]}">
-                <span>${esc(s)}</span>
-                <span class="dots" aria-hidden="true">${dots}</span>
-              </button>`;
-          }).join("")}
+        <div class="row" style="margin-bottom:4px">
+          <h3 style="margin:0">Symptom Journal</h3>
+          <span class="chip" style="min-height:24px;padding:1px 8px;font-size:11px">Tap: Mild · Mod · Severe</span>
         </div>
+        <p class="mut" style="font-size:12.5px;margin:0 0 12px">Track physical and emotional patterns to uncover cycle-linked trends.</p>
+
+        ${symptomCategories.map(c => `
+          <div style="margin-bottom:10px">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em">${c.cat}</span>
+            <div class="chips" style="margin:6px 0 0">
+              ${c.items.map(s => {
+                const v = d.sy[s] || 0;
+                const dots = [1, 2, 3].map(i => `<i class="${i <= v ? "on" : ""}"></i>`).join("");
+                return `
+                  <button class="chip chip-sym" data-level="${v}" aria-pressed="${v > 0}" data-a="sym" data-v="${esc(s)}"
+                    aria-label="${esc(s)}: ${["not logged", "mild", "moderate", "strong"][v]}">
+                    <span>${esc(s)}</span>
+                    <span class="dots" aria-hidden="true">${dots}</span>
+                  </button>`;
+              }).join("")}
+            </div>
+          </div>
+        `).join("")}
+
+        ${customItems.length ? `
+          <div style="margin-bottom:10px">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em">Personal Symptoms</span>
+            <div class="chips" style="margin:6px 0 0">
+              ${customItems.map(s => {
+                const v = d.sy[s] || 0;
+                const dots = [1, 2, 3].map(i => `<i class="${i <= v ? "on" : ""}"></i>`).join("");
+                return `
+                  <button class="chip chip-sym" data-level="${v}" aria-pressed="${v > 0}" data-a="sym" data-v="${esc(s)}"
+                    aria-label="${esc(s)}: ${["not logged", "mild", "moderate", "strong"][v]}">
+                    <span>${esc(s)}</span>
+                    <span class="dots" aria-hidden="true">${dots}</span>
+                  </button>`;
+              }).join("")}
+            </div>
+          </div>
+        ` : ""}
 
         <div class="row" style="margin-top:12px">
           <input id="cs" placeholder="Add custom symptom..." maxlength="30" aria-label="Custom symptom name">
@@ -711,74 +763,110 @@ function renderLog() {
 function renderInsights() {
   const x = calculateStats(S);
   const ls = x.lens.slice(-8);
-  const durs = vp(S).filter(p => okD(p.e) && N(p.e) >= N(p.s)).map(p => N(p.e) - N(p.s) + 1);
+  const durations = calculatePeriodDurations(S);
+  const variability = calculateVariability(S);
+  const symptomsAgg = aggregateSymptoms(S, 60);
+  const moodsAgg = aggregateMoods(S, 60);
+
+  const avgPeriodDays = durations.length
+    ? (durations.reduce((a, b) => a + b.duration, 0) / durations.length).toFixed(1)
+    : S.pl;
 
   return `
     <div class="view-enter">
-      <h2 style="margin-bottom:14px">Cycle Insights &amp; Health Patterns</h2>
-
-      <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px">
-        <div class="tint-rose" style="padding:14px;border-radius:var(--radius-md);text-align:center">
-          <span style="font-size:11.5px;text-transform:uppercase;font-weight:700">Recency Mean</span>
-          <div style="font-size:24px;font-weight:800;margin-top:2px">${x.avg} <span style="font-size:14px;font-weight:600">days</span></div>
-          <div style="font-size:12px;margin-top:2px">Range: ±${x.pm}d</div>
+      <div class="row" style="margin-bottom:14px">
+        <div>
+          <h2 style="margin:0 0 2px">Cycle Insights &amp; Analytics</h2>
+          <p class="mut" style="margin:0;font-size:13px">Clinical trends, biometric patterns &amp; cycle variability</p>
         </div>
-        <div class="tint-sage" style="padding:14px;border-radius:var(--radius-md);text-align:center">
-          <span style="font-size:11.5px;text-transform:uppercase;font-weight:700">Average Period</span>
-          <div style="font-size:24px;font-weight:800;margin-top:2px">${durs.length ? (durs.reduce((a, b) => a + b) / durs.length).toFixed(1) : S.pl} <span style="font-size:14px;font-weight:600">days</span></div>
-          <div style="font-size:12px;margin-top:2px">${durs.length} periods logged</div>
+        <button class="chip" data-a="openClinician" style="min-height:34px;padding:4px 12px;font-size:12px">
+          ${svgi("copy", 14)} Clinician Summary
+        </button>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div class="card tint-rose" style="padding:16px;text-align:center;margin:0">
+          <span style="font-size:11px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em">Recency Mean Cycle</span>
+          <div style="font-size:26px;font-weight:800;color:var(--plum);margin-top:2px">
+            ${x.avg} <span style="font-size:14px;font-weight:600">days</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Spread: ±${x.pm}d · ${x.confLevel}</div>
+        </div>
+
+        <div class="card tint-sage" style="padding:16px;text-align:center;margin:0">
+          <span style="font-size:11px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em">Avg Period Bleeding</span>
+          <div style="font-size:26px;font-weight:800;color:var(--plum);margin-top:2px">
+            ${avgPeriodDays} <span style="font-size:14px;font-weight:600">days</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${durations.length} recorded periods</div>
         </div>
       </div>
 
-      <div class="card tint-lavender">
+      <!-- Prediction Confidence Status -->
+      <div class="card tint-lavender" style="margin-bottom:14px">
         <div class="row">
           <div style="display:flex;align-items:center;gap:8px">
+            ${svgi("sparkle", 18)}
             <b>Prediction Confidence: ${x.confLevel}</b>
-            <button class="info-btn" data-a="openInfo" data-v="confidence">${svgi("info", 16)}</button>
+            <button class="info-btn" data-a="openInfo" data-v="confidence" aria-label="Prediction confidence info">${svgi("info", 16)}</button>
           </div>
-          <span class="chip" style="min-height:28px;padding:2px 8px;font-size:12px">${MODE_NAMES[S.mode] || S.mode}</span>
+          <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11.5px">${MODE_NAMES[S.mode] || S.mode}</span>
         </div>
-        <p class="mut" style="margin-top:4px;font-size:13px">${x.confReason} Luteal length configured to ${x.ll} days.</p>
+        <p class="mut" style="margin:6px 0 0;font-size:13px;line-height:1.45">
+          ${x.confReason} Luteal length configured to ${x.ll} days.
+        </p>
       </div>
 
-      <!-- Follicular vs Luteal Breakdown -->
-      <div class="card">
-        <h3>Estimated Phase Distribution</h3>
-        <p class="mut" style="font-size:13px">Based on your average ${x.avg}-day cycle and ${x.ll}-day luteal length.</p>
-        <div style="margin-top:12px;display:flex;gap:4px;height:24px;border-radius:var(--radius-pill);overflow:hidden">
-          <div style="flex:${Math.max(1, x.avg - x.ll)};background:var(--tint-sage-border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tint-sage-text)">
-            Follicular (~${Math.max(1, x.avg - x.ll)}d)
+      <!-- Estimated Phase Distribution -->
+      <div class="card" style="margin-bottom:14px">
+        <div class="row" style="margin-bottom:6px">
+          <h3 style="margin:0">Estimated Phase Distribution</h3>
+          <button class="info-btn" data-a="openTour" aria-label="Open 4-phase architecture tour">${svgi("layers", 16)}</button>
+        </div>
+        <p class="mut" style="font-size:13px;margin:0 0 10px">Based on your personalized ${x.avg}-day cycle and ${x.ll}-day luteal phase.</p>
+        <div style="display:flex;gap:4px;height:26px;border-radius:var(--radius-pill);overflow:hidden">
+          <div style="flex:${Math.max(1, S.pl || 5)};background:var(--phase-menstrual);display:grid;place-items:center;font-size:11px;font-weight:700;color:#FFFFFF" title="Menstrual: ${S.pl || 5} days">
+            Menstrual (${S.pl || 5}d)
           </div>
-          <div style="flex:${x.ll};background:var(--tint-peach-border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tint-peach-text)">
+          <div style="flex:${Math.max(1, x.avg - x.ll - (S.pl || 5))};background:var(--phase-follicular);display:grid;place-items:center;font-size:11px;font-weight:700;color:#FFFFFF" title="Follicular: ${Math.max(1, x.avg - x.ll - (S.pl || 5))} days">
+            Follicular (~${Math.max(1, x.avg - x.ll - (S.pl || 5))}d)
+          </div>
+          <div style="flex:${x.ll};background:var(--phase-luteal);display:grid;place-items:center;font-size:11px;font-weight:700;color:#FFFFFF" title="Luteal: ${x.ll} days">
             Luteal (${x.ll}d)
           </div>
         </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-weight:600">
+          <span>Day 1 (Period Start)</span>
+          <span>Ovulation (~Day ${Math.max(1, x.avg - x.ll)})</span>
+          <span>Day ${x.avg}</span>
+        </div>
       </div>
 
-      ${ls.length >= 2 ? `
-        <div class="card">
-          <h3>Recent cycle lengths</h3>
-          <p class="mut">Last ${ls.length} recorded cycles. ${x.outlierDetected ? "Outliers detected; median applied for safety." : "Calculated with recency weighting."}</p>
-          <svg viewBox="0 0 300 130" role="img" aria-label="Cycle lengths chart" width="100%" style="margin-top:12px">
-            <line x1="0" y1="105" x2="300" y2="105" stroke="var(--border)" stroke-width="1"/>
-            ${ls.map((l, i) => {
-              const mx = Math.max(...ls, 35);
-              const barW = 300 / ls.length;
-              const bh = Math.max(10, (l / mx) * 85);
-              const xPos = i * barW + 8;
-              const w = barW - 16;
-              return `
-                <rect x="${xPos}" y="${105 - bh}" width="${w}" height="${bh}" rx="6" fill="var(--pink)"/>
-                <text x="${xPos + w / 2}" y="${98 - bh}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--plum)">${l}</text>
-                <text x="${xPos + w / 2}" y="122" text-anchor="middle" font-size="11" fill="var(--muted)">#${i + 1}</text>`;
-            }).join("")}
-          </svg>
-        </div>` : `
-        <div class="card tint-mint" style="text-align:center;padding:22px">
-          <h3>History Unlocks After 2 Cycles</h3>
-          <p class="mut">Currently ${ls.length} of 2 cycles logged. Predictions personalize automatically as your records grow.</p>
-        </div>`
-      }
+      <!-- Historical Cycle Lengths Chart -->
+      <div class="card chart-card" style="margin-bottom:14px">
+        ${renderCycleLengthChart(x, ls)}
+      </div>
+
+      <!-- Historical Period Duration Chart -->
+      <div class="card chart-card" style="margin-bottom:14px">
+        ${renderPeriodDurationChart(durations, S.pl)}
+      </div>
+
+      <!-- FIGO Clinical Variability Gauge -->
+      <div class="card" style="margin-bottom:14px">
+        ${renderVariabilityGauge(variability)}
+      </div>
+
+      <!-- 60-Day Symptom Heatmap -->
+      <div class="card" style="margin-bottom:14px">
+        ${renderSymptomHeatmap(symptomsAgg)}
+      </div>
+
+      <!-- 60-Day Mood Distribution -->
+      <div class="card" style="margin-bottom:14px">
+        ${renderMoodDistribution(moodsAgg)}
+      </div>
     </div>`;
 }
 
@@ -1000,22 +1088,47 @@ function renderPartnerModal() {
 
 /* 10b. Architecture & Features Infographic Modal */
 function renderTourModal() {
+  ui.tourTab = ui.tourTab || "interactive";
+  const x = calculateStats(S);
+  const T = TD();
+  const day = x.last ? Math.max(1, T - x.last + 1) : 1;
+
   return `
     <div class="scrim" data-a="closeTour"></div>
-    <section class="sheet" role="dialog" aria-label="CycleSideChick Architecture and Core Capabilities" style="max-height:92vh;max-height:92dvh">
+    <section class="sheet" role="dialog" aria-label="Cycle Architecture and Hormone Science Guide" style="max-height:92vh;max-height:92dvh;overflow-y:auto">
       <div class="sheet-handle"></div>
-      <div class="row" style="margin-bottom:12px">
+      <div class="row" style="margin-bottom:10px">
         <div>
-          <span class="article-tag tint-sky">Visual Architecture</span>
-          <h2 style="margin:4px 0 0">System &amp; Feature Overview</h2>
+          <span class="article-tag tint-sky">Body Literacy &amp; Architecture</span>
+          <h2 style="margin:4px 0 0">Cycle Science &amp; Overview</h2>
         </div>
         <button class="icon" data-a="closeTour" aria-label="Close">${svgi("x", 18)}</button>
       </div>
-      <p class="mut" style="margin-bottom:14px;font-size:13px">A visual infographic showing our on-device cycle calculations, clinical safety boundaries, and privacy model.</p>
-      <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:16px">
-        <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+
+      <div class="chips" style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="chip" style="flex:1;justify-content:center;${ui.tourTab === "interactive" ? "background:var(--pink);border-color:var(--pink);color:#FFFFFF;" : ""}" data-a="setTourTab" data-v="interactive">
+          ${svgi("sparkle", 14)} 4-Phase Science
+        </button>
+        <button class="chip" style="flex:1;justify-content:center;${ui.tourTab === "infographic" ? "background:var(--pink);border-color:var(--pink);color:#FFFFFF;" : ""}" data-a="setTourTab" data-v="infographic">
+          ${svgi("insights", 14)} System Infographic
+        </button>
       </div>
-      <button class="btn" data-a="closeTour">Close Overview</button>
+
+      ${ui.tourTab === "interactive" ? `
+        <p class="mut" style="margin-bottom:12px;font-size:13px">
+          Explore the hormonal shifts, physiological changes, and clinical guidance across each phase of your cycle.
+        </p>
+        ${renderInteractivePhaseTour(x, day, S)}
+      ` : `
+        <p class="mut" style="margin-bottom:12px;font-size:13px">
+          A visual infographic detailing our on-device algorithmic calculations, clinical safety boundaries, and privacy architecture.
+        </p>
+        <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:16px">
+          <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+        </div>
+      `}
+
+      <button class="btn" style="margin-top:14px" data-a="closeTour">Done Exploring</button>
     </section>`;
 }
 
@@ -1289,6 +1402,10 @@ const A = {
     ui.tourModal = true;
     haptic(15);
   },
+  setTourTab: v => {
+    ui.tourTab = v;
+    haptic(10);
+  },
   closeTour: () => {
     ui.tourModal = false;
     haptic(10);
@@ -1411,6 +1528,12 @@ const A = {
     if (m > 11) { m = 0; y++; }
     ui.cm = { y, m };
     haptic(10);
+  },
+  jumpToday: () => {
+    const now = new Date();
+    ui.cm = { y: now.getFullYear(), m: now.getMonth() };
+    ui.sel = TD();
+    haptic(15);
   },
   pstart: () => {
     ensurePeriod(ui.sel);

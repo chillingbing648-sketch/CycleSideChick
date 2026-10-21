@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FAF5F7" id="meta-theme">
 <title>CycleSideChick — Cycle &amp; Wellness Companion</title>
-<link rel="icon" id="fv" type="image/svg+xml" href="./public/favicon.svg">
+<link rel="icon" id="fv" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPgogIDxnIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgPGVsbGlwc2UgY3g9IjM2IiBjeT0iMjYiIHJ4PSI5IiByeT0iMjIiIGZpbGw9IiNGN0VERjIiIHRyYW5zZm9ybT0icm90YXRlKC04IDM2IDI2KSIvPgogICAgPGVsbGlwc2UgY3g9IjY0IiBjeT0iMjgiIHJ4PSI5IiByeT0iMjAiIGZpbGw9IiNGN0VERjIiIHRyYW5zZm9ybT0icm90YXRlKDE0IDY0IDI4KSIvPgogICAgPGVsbGlwc2UgY3g9IjUwIiBjeT0iNjgiIHJ4PSIzMSIgcnk9IjI2IiBmaWxsPSIjRjdFREYyIi8+CiAgPC9nPgogIDxlbGxpcHNlIGN4PSIzNiIgY3k9IjI4IiByeD0iNCIgcnk9IjE0IiBmaWxsPSIjQzY4MTk2IiB0cmFuc2Zvcm09InJvdGF0ZSgtOCAzNiAyOCkiLz4KICA8ZWxsaXBzZSBjeD0iNjQiIGN5PSIzMCIgcng9IjQiIHJ5PSIxMiIgZmlsbD0iI0M2ODE5NiIgdHJhbnNmb3JtPSJyb3RhdGUoMTQgNjQgMzApIi8+CiAgPGNpcmNsZSBjeD0iNDAiIGN5PSI2NiIgcj0iMyIgZmlsbD0iIzQ4MTkzMCIvPgogIDxjaXJjbGUgY3g9IjYwIiBjeT0iNjYiIHI9IjMiIGZpbGw9IiM0ODE5MzAiLz4KICA8cGF0aCBkPSJNNTAgODZjLTktNS0xMS0xMC03LTEyIDItMSA1IDAgNyAyIDItMiA1LTMgNy0yIDQgMiAyIDctNyAxMnoiIGZpbGw9IiNEOTQ0N0UiLz4KPC9zdmc+Cg==">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +71,27 @@
   --tint-peach-bg: #FADCCB;
   --tint-peach-text: #773B1B;
   --tint-peach-border: #F3BF9F;
+
+  /* Dedicated Physiological Phase Colors (Light) */
+  --phase-menstrual: #E11D48;
+  --phase-menstrual-bg: #FFE4E6;
+  --phase-menstrual-text: #9F1239;
+  --phase-menstrual-border: #FECDD3;
+
+  --phase-follicular: #059669;
+  --phase-follicular-bg: #D1FAE5;
+  --phase-follicular-text: #065F46;
+  --phase-follicular-border: #A7F3D0;
+
+  --phase-ovulatory: #7C3AED;
+  --phase-ovulatory-bg: #EDE9FE;
+  --phase-ovulatory-text: #5B21B6;
+  --phase-ovulatory-border: #DDD6FE;
+
+  --phase-luteal: #D97706;
+  --phase-luteal-bg: #FEF3C7;
+  --phase-luteal-text: #92400E;
+  --phase-luteal-border: #FDE68A;
 
   /* Shadows & Radii */
   --card-shadow: 0 4px 18px -2px rgba(72, 25, 48, 0.05), 0 1px 3px rgba(72, 25, 48, 0.03);
@@ -142,6 +163,27 @@
     --tint-peach-bg: #3A2A26;
     --tint-peach-text: #F8BC9E;
     --tint-peach-border: #573B32;
+
+    /* Dedicated Physiological Phase Colors (Dark) */
+    --phase-menstrual: #FB7185;
+    --phase-menstrual-bg: #4C0519;
+    --phase-menstrual-text: #FECDD3;
+    --phase-menstrual-border: #881337;
+
+    --phase-follicular: #34D399;
+    --phase-follicular-bg: #064E3B;
+    --phase-follicular-text: #A7F3D0;
+    --phase-follicular-border: #065F46;
+
+    --phase-ovulatory: #A78BFA;
+    --phase-ovulatory-bg: #3B0764;
+    --phase-ovulatory-text: #DDD6FE;
+    --phase-ovulatory-border: #5B21B6;
+
+    --phase-luteal: #FBBF24;
+    --phase-luteal-bg: #451A03;
+    --phase-luteal-text: #FDE68A;
+    --phase-luteal-border: #78350F;
 
     --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
     --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
@@ -1312,6 +1354,115 @@ input[type="range"]::-webkit-slider-thumb:active {
   background: var(--pink);
 }
 
+/* ==========================================================================
+   Data Visualizations & Interactive Health Charts
+   ========================================================================== */
+.chart-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+
+.chart-bar {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, filter 0.2s ease;
+  transform-origin: bottom;
+}
+
+.chart-bar:hover {
+  opacity: 0.88;
+  filter: brightness(1.08);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chart-benchmark-band {
+  fill: var(--tint-sage-bg);
+  opacity: 0.45;
+}
+
+/* Multi-Arc Ring Enhancements */
+.ring-phase-arc {
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* Interactive Phase Guide & Hormone Curves */
+.interactive-phase-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase-pill-interactive {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.phase-pill-interactive:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--pink-glow);
+}
+
+/* Symptom Stacked Severity Bar */
+.symptom-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.symptom-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  display: flex;
+  margin: 0 12px;
+}
+
+.symptom-bar-seg {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
 /* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -1720,7 +1871,7 @@ function calculateStats(S) {
   const last = st.length ? st[st.length - 1] : null;
   const pred = [];
   if (last != null) {
-    for (let k = 1; k <= 3; k++) pred.push(last + A * k);
+    for (let k = 1; k <= 6; k++) pred.push(last + A * k);
   }
 
   // Adjustable luteal length (10-16d, default 14d)
@@ -1729,6 +1880,21 @@ function calculateStats(S) {
   const estOvulation = nextPred ? nextPred - ll : null;
   const fertileStart = estOvulation ? estOvulation - 5 : null;
   const fertileEnd = estOvulation ? estOvulation + 1 : null;
+
+  // Multi-cycle predictions with corresponding fertile windows & ovulation dates (forecast 6 cycles)
+  const predictedCycles = pred.map(p => {
+    const ov = p - ll;
+    return {
+      start: p,
+      periodStart: p,
+      end: p + (S.pl || 5) - 1,
+      periodEnd: p + (S.pl || 5) - 1,
+      ovulation: ov,
+      ovulationDate: ov,
+      fertileStart: ov - 5,
+      fertileEnd: ov + 1
+    };
+  });
 
   return {
     st,
@@ -1742,6 +1908,7 @@ function calculateStats(S) {
     last,
     pred,
     nextPred,
+    predictedCycles,
     ll,
     estOvulation,
     fertileStart,
@@ -2012,13 +2179,174 @@ const CERVICAL_FLUID = {
   eggwhite: { label: "Egg-white / Spinnbarkeit", desc: "Clear, highly stretchy between fingers.", fertile: "Peak (Estimated)" }
 };
 
+/**
+ * Period Duration History
+ * Extracts duration in days for each recorded period.
+ */
+function calculatePeriodDurations(S) {
+  const valid = vp(S);
+  return valid.map(p => {
+    const start = N(p.s);
+    const end = pEnd(p, S);
+    const duration = Math.max(1, end - start + 1);
+    const isConfirmedEnd = okD(p.e) && N(p.e) >= start && N(p.e) <= TD();
+    return {
+      startDate: p.s,
+      endDate: p.e || I(end),
+      duration,
+      isConfirmedEnd,
+      confirmed: isConfirmedEnd
+    };
+  });
+}
+
+/**
+ * Cycle Variability & Regularity (FIGO Standard)
+ * Normal: length 24-38 days, variation <= 7-9 days.
+ */
+function calculateVariability(S) {
+  const x = calculateStats(S);
+  if (x.n < 2) {
+    return {
+      ready: false,
+      hasEnoughData: false,
+      count: x.n,
+      stdDev: x.sd,
+      classification: "Awaiting History",
+      explanation: "Variability and regularity metrics personalize after at least 2 recorded cycles."
+    };
+  }
+
+  const lens = x.lens.slice(-6);
+  const minLen = Math.min(...lens);
+  const maxLen = Math.max(...lens);
+  const spread = maxLen - minLen;
+  const sd = x.sd;
+
+  let classification = "Regular";
+  let explanation = "";
+
+  if (sd <= 3 && spread <= 6) {
+    classification = "Highly Regular";
+    explanation = `Your cycle is very consistent, varying by only ±${Math.round(sd)} days (range: ${minLen}–${maxLen}d).`;
+  } else if (sd <= 6 && spread <= 9) {
+    classification = "Normal Variation";
+    explanation = `Normal physiological variation of ${spread} days across recorded cycles (typical healthy range is ≤7–9 days).`;
+  } else {
+    classification = "Variable Pattern";
+    explanation = `Cycles vary by ${spread} days (${minLen}–${maxLen}d). Occasional variation is common due to stress, travel, illness, or hormonal shifts.`;
+  }
+
+  return {
+    ready: true,
+    hasEnoughData: true,
+    count: lens.length,
+    stdDev: sd,
+    minLen,
+    maxLen,
+    spread,
+    classification,
+    explanation
+  };
+}
+
+/**
+ * Aggregates symptoms across logged history with severity breakdown and phase correlation.
+ */
+function aggregateSymptoms(S, daysWindow = 90) {
+  const counts = {};
+  const severities = {};
+  const phaseDistribution = { follicular: 0, luteal: 0, menstrual: 0 };
+  const T = TD();
+  const cutoff = T - daysWindow;
+  const x = calculateStats(S);
+
+  Object.entries(S.logs || {}).forEach(([dateStr, log]) => {
+    const dn = N(dateStr);
+    if (dn < cutoff || !log.sy) return;
+
+    // Estimate phase for this date if possible
+    let datePhase = "follicular";
+    if (pdset(S).has(dn)) {
+      datePhase = "menstrual";
+    } else if (x.last != null) {
+      const cycleDay = ((dn - x.last) % x.avg + x.avg) % x.avg + 1;
+      if (cycleDay > x.avg - x.ll) datePhase = "luteal";
+    }
+
+    Object.entries(log.sy).forEach(([sym, level]) => {
+      counts[sym] = (counts[sym] || 0) + 1;
+      if (!severities[sym]) severities[sym] = { mild: 0, moderate: 0, severe: 0, total: 0 };
+      severities[sym].total++;
+      if (level === 1) severities[sym].mild++;
+      else if (level === 2) severities[sym].moderate++;
+      else if (level >= 3) severities[sym].severe++;
+
+      if (datePhase in phaseDistribution) {
+        phaseDistribution[datePhase]++;
+      }
+    });
+  });
+
+  const sorted = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count]) => {
+      const lev = severities[name] || { mild: 0, moderate: 0, severe: 0 };
+      return {
+        name,
+        count,
+        levels: lev,
+        mild: lev.mild,
+        moderate: lev.moderate,
+        severe: lev.severe
+      };
+    });
+
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
+  return {
+    symptoms: sorted,
+    list: sorted,
+    totalLogged: total,
+    totalEntries: total,
+    phaseDistribution
+  };
+}
+
+/**
+ * Aggregates mood frequencies over the last 60 days.
+ */
+function aggregateMoods(S, daysWindow = 60) {
+  const counts = [0, 0, 0, 0, 0];
+  let total = 0;
+  const cutoff = TD() - daysWindow;
+
+  Object.entries(S.logs || {}).forEach(([dateStr, log]) => {
+    const dn = N(dateStr);
+    if (dn >= cutoff && log.m != null && log.m >= 0 && log.m < 5) {
+      counts[log.m]++;
+      total++;
+    }
+  });
+
+  return {
+    counts,
+    total,
+    totalLogged: total,
+    percentages: counts.map(c => total ? Math.round((c / total) * 100) : 0),
+    distribution: counts.map((c, i) => ({ moodIndex: i, count: c, percentage: total ? Math.round((c / total) * 100) : 0 })),
+    predominant: total ? counts.indexOf(Math.max(...counts)) : null
+  };
+}
+
 // Export for module environments
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     DAY, N, I, TD, fmt, okD, vp, badP, pEnd, pdset,
     calculateStats, calculatePregnancy, checkCareAlerts,
     getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
-    CERVICAL_FLUID
+    CERVICAL_FLUID, calculatePeriodDurations, calculateVariability,
+    aggregateSymptoms, aggregateMoods
   };
 }
 
@@ -2917,7 +3245,20 @@ const ic = {
   refresh: "M23 4v6h-6 M1 20v-6h6 M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15",
   plus: "M12 5v14M5 12h14",
   minus: "M5 12h14",
-  clock: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-14v6l4 2"
+  clock: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-14v6l4 2",
+  trendUp: "M23 6l-9.5 9.5-5-5L1 18 M17 6h6v6",
+  activity: "M22 12h-4l-3 9L9 3l-3 9H2",
+  layers: "M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5",
+  droplet: "M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z",
+  sun: "M12 1v2 M12 21v2 M4.22 4.22l1.42 1.42 M18.36 18.36l1.42 1.42 M1 12h2 M21 12h2 M4.22 19.78l1.42-1.42 M18.36 5.64l1.42-1.42 M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z",
+  help: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3 M12 17h.01 M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z",
+  bell: "M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0",
+  heart: "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z",
+  filter: "M22 3H2l8 9.46V19l4 2v-8.54L22 3z",
+  chevronDown: "M6 9l6 6 6-6",
+  chevronUp: "M18 15l-6-6-6 6",
+  shieldCheck: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",
+  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
 };
 
 const svgi = (k, sz = 22, cls = "") =>
@@ -3102,40 +3443,70 @@ function phaseArt(phase, sz = 54) {
 
 /**
  * Interactive SVG Cycle Ring
- * Smooth circular progress visualization with distinct period and fertile phases.
+ * Smooth circular progress visualization with distinct physiological phases:
+ * - Menstrual flow arc (Rose)
+ * - Follicular phase arc (Sage)
+ * - Fertile window arc (Lavender) with ovulation star/marker
+ * - Luteal phase arc (Peach)
  */
 function ring(x, day, S) {
-  const R = 62;
+  const R = 66;
   const C = 2 * Math.PI * R;
   const A = x.avg || 28;
   const safeDay = Math.max(1, day);
-  const ang = (Math.min(1, Math.max(0, (safeDay - 1) / A)) * 2 * Math.PI) - Math.PI / 2;
-  const dotX = (80 + R * Math.cos(ang)).toFixed(1);
-  const dotY = (80 + R * Math.sin(ang)).toFixed(1);
+  const frac = Math.min(1, Math.max(0, (safeDay - 1) / A));
+  const ang = (frac * 2 * Math.PI) - Math.PI / 2;
+  const dotX = (85 + R * Math.cos(ang)).toFixed(1);
+  const dotY = (85 + R * Math.sin(ang)).toFixed(1);
 
-  const arc = (fromFrac, toFrac, color, width = 11, dash = "") => {
+  const arc = (fromFrac, toFrac, color, width = 12, dash = "") => {
     const len = Math.max(0, toFrac - fromFrac) * C;
     const off = -fromFrac * C;
-    return `<circle cx="80" cy="80" r="${R}" fill="none" stroke="${color}" stroke-width="${width}" ${dash ? `stroke-dasharray="${dash}"` : `stroke-dasharray="${len} ${C}"`} stroke-dashoffset="${off}" stroke-linecap="round" transform="rotate(-90 80 80)" class="ring-track-arc"/>`;
+    return `<circle cx="85" cy="85" r="${R}" fill="none" stroke="${color}" stroke-width="${width}" ${dash ? `stroke-dasharray="${dash}"` : `stroke-dasharray="${len} ${C}"`} stroke-dashoffset="${off}" stroke-linecap="round" transform="rotate(-90 85 85)" class="ring-track-arc"/>`;
   };
 
   const periodFrac = Math.min(1, (S.pl || 5) / A);
   const showFertile = (S.mode === "natural" || S.mode === "ttc") && x.fertileStart && x.fertileEnd;
   const fertileStartFrac = showFertile ? Math.max(0, (x.fertileStart - (x.nextPred - A)) / A) : 0;
   const fertileEndFrac = showFertile ? Math.min(1, (x.fertileEnd - (x.nextPred - A)) / A) : 0;
+  const ovFrac = showFertile ? Math.max(0, Math.min(1, (A - (x.ll || 14)) / A)) : 0;
+  const ovAng = (ovFrac * 2 * Math.PI) - Math.PI / 2;
+  const ovX = (85 + R * Math.cos(ovAng)).toFixed(1);
+  const ovY = (85 + R * Math.sin(ovAng)).toFixed(1);
+
+  // Follicular and Luteal background segments
+  const follEnd = showFertile ? fertileStartFrac : 0.5;
+  const lutStart = showFertile ? fertileEndFrac : 0.5;
 
   return `
     <div class="ring-wrap" role="img" aria-label="Cycle day ${safeDay} of estimated ${A} days">
-      <svg viewBox="0 0 160 160" class="ring">
+      <svg viewBox="0 0 170 170" class="ring">
         <!-- Background Track -->
-        <circle cx="80" cy="80" r="${R}" fill="none" stroke="var(--border-subtle)" stroke-width="11"/>
+        <circle cx="85" cy="85" r="${R}" fill="none" stroke="var(--border-subtle)" stroke-width="12"/>
+
+        <!-- Follicular Phase Arc -->
+        ${S.mode !== "none" ? arc(periodFrac, follEnd, "var(--tint-sage-border)", 8) : ""}
+
+        <!-- Luteal Phase Arc -->
+        ${S.mode !== "none" ? arc(lutStart, 1, "var(--tint-peach-border)", 8) : ""}
+
         <!-- Fertile Window Arc -->
-        ${showFertile ? arc(fertileStartFrac, fertileEndFrac, "var(--tint-lavender-border)", 11) : ""}
+        ${showFertile ? arc(fertileStartFrac, fertileEndFrac, "var(--tint-lavender-border)", 12) : ""}
+
         <!-- Period Flow Arc -->
-        ${S.mode !== "none" ? arc(0, periodFrac, "var(--pink)", 11) : ""}
+        ${S.mode !== "none" ? arc(0, periodFrac, "var(--pink)", 12) : ""}
+
+        <!-- Ovulation Indicator Star on ring -->
+        ${showFertile ? `
+          <g transform="translate(${ovX - 5}, ${ovY - 5})" aria-label="Estimated ovulation point">
+            <circle cx="5" cy="5" r="5" fill="var(--tint-lavender-bg)" stroke="var(--tint-lavender-text)" stroke-width="1.2"/>
+            <path d="M5 2.5l.8 1.8 1.9.3-1.4 1.3.3 1.9L5 6.9 3.4 7.8l.3-1.9L2.3 4.6l1.9-.3z" fill="var(--tint-lavender-text)"/>
+          </g>
+        ` : ""}
+
         <!-- Current Cycle Day Indicator Pulse -->
-        <circle cx="${dotX}" cy="${dotY}" r="11" fill="var(--pink-glow)" class="ring-pulse-halo"/>
-        <circle cx="${dotX}" cy="${dotY}" r="7.5" fill="var(--surface)" stroke="var(--plum)" stroke-width="3.5" class="ring-tracker-head"/>
+        <circle cx="${dotX}" cy="${dotY}" r="12" fill="var(--pink-glow)" class="ring-pulse-halo"/>
+        <circle cx="${dotX}" cy="${dotY}" r="8" fill="var(--surface-elevated)" stroke="var(--plum)" stroke-width="3.5" class="ring-tracker-head"/>
       </svg>
       <div class="ring-center">
         <span class="ring-cap">Cycle Day</span>
@@ -3145,9 +3516,406 @@ function ring(x, day, S) {
     </div>`;
 }
 
+/**
+ * Responsive Cycle Lengths Historical Chart
+ * Visualizes past cycle lengths with average line and normal physiological zone (21-35 days).
+ */
+function renderCycleLengthChart(x, ls) {
+  if (!ls || ls.length < 2) return "";
+  const W = 320;
+  const H = 140;
+  const padBottom = 26;
+  const padTop = 18;
+  const plotH = H - padBottom - padTop;
+  const maxVal = Math.max(...ls, 38);
+  const minVal = Math.min(...ls, 20);
+  const range = Math.max(15, maxVal - minVal + 4);
+  const scaleY = val => H - padBottom - ((val - minVal + 2) / range) * plotH;
+
+  const y21 = Math.round(scaleY(21));
+  const y35 = Math.round(scaleY(35));
+  const yAvg = Math.round(scaleY(x.avg));
+
+  const barW = Math.min(36, Math.max(18, (W - 30) / ls.length - 10));
+  const step = (W - 20) / ls.length;
+
+  return `
+    <div class="chart-card card" role="region" aria-label="Cycle lengths historical bar chart">
+      <div class="row" style="margin-bottom:6px">
+        <div>
+          <h3 style="margin:0;font-size:15px;color:var(--plum)">Historical Cycle Lengths</h3>
+          <p class="mut" style="margin:2px 0 0;font-size:12px">Last ${ls.length} recorded cycles · Recency average ${x.avg} days</p>
+        </div>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">ACOG 21–35d</span>
+      </div>
+
+      <svg viewBox="0 0 ${W} ${H}" width="100%" class="chart-svg" style="overflow:visible">
+        <!-- Normal Physiological Range Band (21-35 days) -->
+        <rect x="0" y="${Math.min(y21, y35)}" width="${W}" height="${Math.abs(y21 - y35)}" fill="var(--tint-sage-bg)" opacity="0.45" rx="4"/>
+        <text x="${W - 6}" y="${y35 - 3}" text-anchor="end" font-size="9" font-weight="600" fill="var(--tint-sage-text)">Typical upper: 35d</text>
+        <text x="${W - 6}" y="${y21 + 10}" text-anchor="end" font-size="9" font-weight="600" fill="var(--tint-sage-text)">Typical lower: 21d</text>
+
+        <!-- Average Benchmark Line -->
+        <line x1="0" y1="${yAvg}" x2="${W}" y2="${yAvg}" stroke="var(--plum)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+        <text x="6" y="${yAvg - 4}" font-size="9.5" font-weight="700" fill="var(--plum)">Your Avg: ${x.avg}d</text>
+
+        <!-- Base axis line -->
+        <line x1="0" y1="${H - padBottom}" x2="${W}" y2="${H - padBottom}" stroke="var(--border)" stroke-width="1"/>
+
+        <!-- Cycle Bars -->
+        ${ls.map((l, i) => {
+          const xPos = 14 + i * step;
+          const yPos = Math.round(scaleY(l));
+          const barH = Math.max(6, H - padBottom - yPos);
+          const isOutlier = x.outlierDetected && Math.abs(l - x.avg) >= 10;
+          const barColor = isOutlier ? "var(--tint-amber-text)" : "var(--pink)";
+
+          return `
+            <g class="chart-bar-group" tabindex="0" role="graphics-symbol" aria-label="Cycle ${i + 1}: ${l} days">
+              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" rx="5" fill="${barColor}" class="chart-bar"/>
+              <text x="${xPos + barW / 2}" y="${yPos - 4}" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--plum)">${l}</text>
+              <text x="${xPos + barW / 2}" y="${H - 10}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--muted)">C${i + 1}</text>
+              ${isOutlier ? `<circle cx="${xPos + barW / 2}" cy="${yPos - 13}" r="2.5" fill="var(--tint-amber-text)"/>` : ""}
+            </g>`;
+        }).join("")}
+      </svg>
+
+      <div class="chart-legend" style="margin-top:8px">
+        <span><i style="background:var(--pink)"></i> Recorded length</span>
+        <span><i style="background:var(--tint-sage-bg);border:1px solid var(--tint-sage-border)"></i> Normal range (21–35d)</span>
+        <span><i style="border-top:1.5px dashed var(--plum);height:0;width:12px"></i> Your recency mean</span>
+      </div>
+    </div>`;
+}
+
+/**
+ * Period Durations Historical Chart
+ * Visualizes duration of bleeding days per cycle with standard 3-7 day physiological benchmark.
+ */
+function renderPeriodDurationChart(durations, defaultPl = 5) {
+  if (!durations || durations.length < 2) return "";
+  const W = 320;
+  const H = 120;
+  const padBottom = 24;
+  const padTop = 16;
+  const plotH = H - padBottom - padTop;
+  const durs = durations.map(d => d.duration);
+  const maxD = Math.max(...durs, 9);
+  const scaleY = val => H - padBottom - (val / maxD) * plotH;
+
+  const y3 = Math.round(scaleY(3));
+  const y7 = Math.round(scaleY(7));
+  const avgDur = (durs.reduce((a, b) => a + b, 0) / durs.length).toFixed(1);
+  const yAvg = Math.round(scaleY(avgDur));
+  const step = (W - 20) / durs.length;
+  const barW = Math.min(28, Math.max(14, step - 8));
+
+  return `
+    <div class="chart-card card" role="region" aria-label="Period duration history chart">
+      <div class="row" style="margin-bottom:6px">
+        <div>
+          <h3 style="margin:0;font-size:15px;color:var(--plum)">Period Bleeding Duration</h3>
+          <p class="mut" style="margin:2px 0 0;font-size:12px">Average duration: <b>${avgDur} days</b> · ${durations.length} periods recorded</p>
+        </div>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">Normal 3–7d</span>
+      </div>
+
+      <svg viewBox="0 0 ${W} ${H}" width="100%" class="chart-svg" style="overflow:visible">
+        <!-- Normal Duration Band (3-7 days) -->
+        <rect x="0" y="${y7}" width="${W}" height="${Math.abs(y3 - y7)}" fill="var(--tint-rose-bg)" opacity="0.4" rx="4"/>
+        <text x="${W - 6}" y="${y7 - 2}" text-anchor="end" font-size="8.5" font-weight="600" fill="var(--tint-rose-text)">Typical max: 7d</text>
+
+        <!-- Average Line -->
+        <line x1="0" y1="${yAvg}" x2="${W}" y2="${yAvg}" stroke="var(--pink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+        <!-- Base line -->
+        <line x1="0" y1="${H - padBottom}" x2="${W}" y2="${H - padBottom}" stroke="var(--border)" stroke-width="1"/>
+
+        <!-- Duration Bars -->
+        ${durations.map((d, i) => {
+          const xPos = 12 + i * step;
+          const yPos = Math.round(scaleY(d.duration));
+          const h = Math.max(4, H - padBottom - yPos);
+          const isExtended = d.duration > 7;
+          return `
+            <g class="chart-bar-group" tabindex="0" role="graphics-symbol" aria-label="Period ${i + 1}: ${d.duration} days">
+              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${h}" rx="4" fill="${isExtended ? 'var(--tint-amber-text)' : 'var(--tint-rose-text)'}"/>
+              <text x="${xPos + barW / 2}" y="${yPos - 3}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--plum)">${d.duration}d</text>
+              <text x="${xPos + barW / 2}" y="${H - 8}" text-anchor="middle" font-size="9" fill="var(--muted)">#${i + 1}</text>
+            </g>`;
+        }).join("")}
+      </svg>
+
+      <div class="chart-legend" style="margin-top:6px">
+        <span><i style="background:var(--tint-rose-text)"></i> Bleeding days</span>
+        <span><i style="background:var(--tint-rose-bg);border:1px solid var(--tint-rose-border)"></i> Normal bleeding span (3–7d)</span>
+      </div>
+    </div>`;
+}
+
+/**
+ * Clinical Cycle Variability Gauge (FIGO Standard)
+ */
+function renderVariabilityGauge(varData) {
+  if (!varData || !varData.ready) return "";
+
+  const isRegular = varData.classification === "Highly Regular";
+  const isNormal = varData.classification === "Normal Variation";
+  const tintClass = isRegular ? "tint-sage" : isNormal ? "tint-butter" : "tint-amber";
+  const color = isRegular ? "var(--tint-sage-text)" : isNormal ? "var(--tint-butter-text)" : "var(--tint-amber-text)";
+
+  return `
+    <div class="card ${tintClass}" style="padding:16px">
+      <div class="row">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("activity", 20)}
+          <b style="font-size:14.5px;color:${color}">Cycle Regularity: ${varData.classification}</b>
+        </div>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">FIGO Metric</span>
+      </div>
+      <p class="mut" style="margin:6px 0 10px;font-size:13px;line-height:1.5">${varData.explanation}</p>
+
+      <!-- 3-Segment Visual Gauge -->
+      <div style="display:flex;gap:4px;height:10px;border-radius:var(--radius-pill);overflow:hidden;background:var(--border-subtle)">
+        <div style="flex:1;background:var(--tint-sage-border);${isRegular ? 'border:1.5px solid var(--tint-sage-text);' : ''}"></div>
+        <div style="flex:1;background:var(--tint-butter-border);${isNormal ? 'border:1.5px solid var(--tint-butter-text);' : ''}"></div>
+        <div style="flex:1;background:var(--tint-amber-border);${!isRegular && !isNormal ? 'border:1.5px solid var(--tint-amber-text);' : ''}"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10.5px;font-weight:600;color:var(--muted)">
+        <span>≤3d (Steady)</span>
+        <span>4–7d (Natural)</span>
+        <span>≥8d (Variable)</span>
+      </div>
+    </div>`;
+}
+
+/**
+ * Symptom Frequencies & Severity Distribution
+ */
+function renderSymptomHeatmap(symData) {
+  if (!symData || !symData.symptoms || !symData.symptoms.length) {
+    return `
+      <div class="card tint-mint" style="text-align:center;padding:20px 16px">
+        ${svgi("droplet", 28)}
+        <h3 style="margin:8px 0 4px">No Symptoms Logged Yet</h3>
+        <p class="mut" style="font-size:13px;margin:0">Log cramps, headache, energy or mood on the Log tab to reveal symptom patterns.</p>
+      </div>`;
+  }
+
+  const top = symData.symptoms.slice(0, 5);
+  const maxCount = Math.max(...top.map(s => s.count), 1);
+
+  return `
+    <div class="card">
+      <div class="row" style="margin-bottom:8px">
+        <div>
+          <h3 style="margin:0;font-size:15px;color:var(--plum)">Frequent Symptoms</h3>
+          <p class="mut" style="margin:2px 0 0;font-size:12px">Top recorded symptoms &amp; intensity breakdown</p>
+        </div>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">${symData.totalLogged} logs</span>
+      </div>
+
+      <div style="display:grid;gap:10px;margin-top:12px">
+        ${top.map(s => {
+          const mildPct = Math.round((s.levels.mild / s.count) * 100);
+          const modPct = Math.round((s.levels.moderate / s.count) * 100);
+          const sevPct = Math.round((s.levels.severe / s.count) * 100);
+          const barWidthPct = Math.round((s.count / maxCount) * 100);
+
+          return `
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:3px;color:var(--plum)">
+                <span>${esc(s.name)}</span>
+                <span class="mut" style="font-weight:600">${s.count} time${s.count === 1 ? '' : 's'}</span>
+              </div>
+              <div style="height:12px;width:${barWidthPct}%;min-width:40px;display:flex;border-radius:var(--radius-pill);overflow:hidden;background:var(--border-subtle)">
+                ${mildPct > 0 ? `<div style="width:${mildPct}%;background:var(--tint-rose-border)" title="Mild: ${s.levels.mild}"></div>` : ""}
+                ${modPct > 0 ? `<div style="width:${modPct}%;background:var(--pink)" title="Moderate: ${s.levels.moderate}"></div>` : ""}
+                ${sevPct > 0 ? `<div style="width:${sevPct}%;background:var(--tint-rose-text)" title="Severe: ${s.levels.severe}"></div>` : ""}
+              </div>
+            </div>`;
+        }).join("")}
+      </div>
+
+      <div class="chart-legend" style="margin-top:12px">
+        <span><i style="background:var(--tint-rose-border)"></i> Mild</span>
+        <span><i style="background:var(--pink)"></i> Moderate</span>
+        <span><i style="background:var(--tint-rose-text)"></i> Severe</span>
+      </div>
+    </div>`;
+}
+
+/**
+ * Mood Balance & Emotional Pattern Distribution
+ */
+function renderMoodDistribution(moodData) {
+  if (!moodData || !moodData.total) return "";
+
+  return `
+    <div class="card">
+      <div class="row" style="margin-bottom:8px">
+        <div>
+          <h3 style="margin:0;font-size:15px;color:var(--plum)">Mood Distribution (Last 60 Days)</h3>
+          <p class="mut" style="margin:2px 0 0;font-size:12px">${moodData.total} mood check-ins recorded</p>
+        </div>
+      </div>
+
+      <!-- Segmented Bar -->
+      <div style="display:flex;height:14px;border-radius:var(--radius-pill);overflow:hidden;margin:10px 0 12px;background:var(--border-subtle)">
+        ${moodData.percentages.map((pct, i) => {
+          if (pct === 0) return "";
+          const colors = ["var(--tint-butter-border)", "var(--tint-sage-border)", "var(--tint-sky-border)", "var(--tint-lavender-border)", "var(--tint-rose-border)"];
+          return `<div style="width:${pct}%;background:${colors[i]}" title="${MOODS[i].name}: ${pct}%"></div>`;
+        }).join("")}
+      </div>
+
+      <!-- Mood Chips -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${MOODS.map((m, i) => {
+          const count = moodData.counts[i];
+          const pct = moodData.percentages[i];
+          return `
+            <div style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--radius-pill);border:1px solid var(--border);font-size:11.5px;background:var(--surface)">
+              ${face(i, 18)}
+              <span style="font-weight:700;color:var(--plum)">${m.name}</span>
+              <span class="mut">${pct}%</span>
+            </div>`;
+        }).join("")}
+      </div>
+    </div>`;
+}
+
+/**
+ * Interactive 4-Phase Educational Visualizer
+ * Beautiful, accessible guide to Menstrual, Follicular, Ovulatory, and Luteal phases.
+ */
+function renderInteractivePhaseTour(x, day, S) {
+  const currentDay = Math.max(1, day || 1);
+  const A = x.avg || 28;
+  const ll = x.ll || 14;
+  const pLen = S.pl || 5;
+
+  const phases = [
+    {
+      key: "menstrual",
+      name: "1. Menstrual Phase",
+      days: `Days 1–${pLen}`,
+      badge: "Winter • Rest",
+      color: "var(--phase-menstrual)",
+      bg: "var(--phase-menstrual-bg)",
+      text: "var(--phase-menstrual-text)",
+      hormones: "Estrogen & progesterone drop to baseline levels; endometrium sheds.",
+      sensations: "Cramps, lower energy, desire to turn inward and recharge.",
+      tips: "Iron-rich foods, warm ginger tea, heating pads, and restorative sleep."
+    },
+    {
+      key: "follicular",
+      name: "2. Follicular Phase",
+      days: `Days ${pLen + 1}–${A - ll - 5}`,
+      badge: "Spring • Renewal",
+      color: "var(--phase-follicular)",
+      bg: "var(--phase-follicular-bg)",
+      text: "var(--phase-follicular-text)",
+      hormones: "FSH prompts ovarian follicle growth; estrogen steadily climbs.",
+      sensations: "Rising physical stamina, sharp mental clarity, and elevated optimism.",
+      tips: "Fresh vibrant meals, creative planning, social events, and brisk workouts."
+    },
+    {
+      key: "fertile",
+      name: "3. Ovulatory Window",
+      days: `Days ${A - ll - 4}–${A - ll + 1}`,
+      badge: "Summer • Peak Vitality",
+      color: "var(--phase-ovulatory)",
+      bg: "var(--phase-ovulatory-bg)",
+      text: "var(--phase-ovulatory-text)",
+      hormones: "Estrogen peaks triggering an LH surge; egg is released from dominant follicle.",
+      sensations: "Peak sociability, heightened libido, and slippery/egg-white cervical mucus.",
+      tips: "Antioxidant berries, joyful dance or resistance training, and hydration."
+    },
+    {
+      key: "luteal",
+      name: "4. Luteal Phase",
+      days: `Days ${A - ll + 2}–${A}`,
+      badge: "Autumn • Nesting",
+      color: "var(--phase-luteal)",
+      bg: "var(--phase-luteal-bg)",
+      text: "var(--phase-luteal-text)",
+      hormones: "Corpus luteum secretes progesterone; basal body temperature rises slightly.",
+      sensations: "Calm groundedness, nesting focus, followed by potential PMS sensitivity.",
+      tips: "Magnesium (dark chocolate, pumpkin seeds), roasted root veg, and soothing boundaries."
+    }
+  ];
+
+  return `
+    <div class="interactive-phase-guide" role="region" aria-label="Interactive 4-Phase Cycle Architecture">
+      <div class="row" style="margin-bottom:10px">
+        <div>
+          <h3 style="margin:0;font-size:16px;color:var(--plum)">The Four Cycle Phases</h3>
+          <p class="mut" style="margin:2px 0 0;font-size:12.5px">Hormonal rhythms, physiological shifts, and evidence-based self-care</p>
+        </div>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">ACOG Clinical Guide</span>
+      </div>
+
+      <!-- Responsive Phase Hormone SVG Curve -->
+      <div style="background:var(--surface);border-radius:var(--radius-md);border:1px solid var(--border);padding:12px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;font-weight:700">
+          <span style="color:var(--phase-menstrual-text)">Menstrual</span>
+          <span style="color:var(--phase-follicular-text)">Follicular</span>
+          <span style="color:var(--phase-ovulatory-text)">Ovulation</span>
+          <span style="color:var(--phase-luteal-text)">Luteal</span>
+        </div>
+        <svg viewBox="0 0 300 70" width="100%" height="70" aria-label="Hormone levels curve through cycle">
+          <!-- Baseline -->
+          <line x1="0" y1="60" x2="300" y2="60" stroke="var(--border)" stroke-width="1"/>
+
+          <!-- Estrogen Curve (Teal/Green) -->
+          <path d="M0 56 Q50 56 100 40 T150 15 Q180 50 230 35 T300 58" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
+
+          <!-- Progesterone Curve (Amber/Coral) -->
+          <path d="M0 58 Q140 58 160 52 Q210 18 240 22 T300 58" fill="none" stroke="#D97706" stroke-width="2.2" stroke-linecap="round"/>
+
+          <!-- Ovulation Marker Dot -->
+          <circle cx="150" cy="15" r="3.5" fill="#7C3AED"/>
+          <text x="150" y="10" text-anchor="middle" font-size="8" font-weight="700" fill="#7C3AED">LH Surge</text>
+        </svg>
+        <div style="display:flex;justify-content:center;gap:14px;margin-top:4px;font-size:10px;font-weight:600">
+          <span style="color:#059669">• Estrogen</span>
+          <span style="color:#D97706">• Progesterone</span>
+          <span style="color:#7C3AED">✦ Ovulation Peak</span>
+        </div>
+      </div>
+
+      <!-- Phase Cards List -->
+      <div style="display:grid;gap:10px">
+        ${phases.map((p, idx) => `
+          <div class="card card-interactive" style="padding:14px;border-left:4px solid ${p.color};background:var(--surface)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="display:flex;align-items:center;gap:6px">
+                <b style="color:var(--plum);font-size:14px">${p.name}</b>
+                <span class="chip" style="min-height:22px;padding:1px 6px;font-size:10px">${p.days}</span>
+              </div>
+              <span style="font-size:10.5px;font-weight:700;color:${p.color}">${p.badge}</span>
+            </div>
+            <p style="margin:4px 0;font-size:12.5px;line-height:1.45;color:var(--ink)">
+              <b>Hormones:</b> ${p.hormones}
+            </p>
+            <p style="margin:4px 0;font-size:12px;line-height:1.45;color:var(--muted)">
+              <b>Body &amp; Energy:</b> ${p.sensations}
+            </p>
+            <div style="margin-top:6px;font-size:11.5px;color:var(--plum);background:var(--surface-alt);padding:6px 10px;border-radius:var(--radius-sm)">
+              💡 <b>Self-Care Tip:</b> ${p.tips}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>`;
+}
+
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    esc, ic, svgi, bunny, MOODS, face, moods, chip, MODE_NAMES, phaseArt, ring
+    esc, ic, svgi, bunny, MOODS, face, moods, chip, MODE_NAMES, phaseArt, ring,
+    renderCycleLengthChart, renderPeriodDurationChart, renderVariabilityGauge,
+    renderSymptomHeatmap, renderMoodDistribution, renderInteractivePhaseTour
   };
 }
 
@@ -3650,13 +4418,31 @@ function renderCalendar() {
   const fe = new Set();
 
   if (S.mode !== "none" && S.mode !== "contra" && S.mode !== "pregnancy") {
-    x.pred.forEach(p => {
-      for (let d = p; d < p + (S.pl || 5); d++) if (d >= T) pr.add(d);
-      if (S.mode !== "irregular" && x.fertileStart && x.fertileEnd) {
-        for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
-      }
-    });
+    // Current ongoing cycle fertile window if active
+    if (x.fertileStart && x.fertileEnd) {
+      for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
+    }
+    // Future cycles with individual fertile windows
+    if (Array.isArray(x.predictedCycles)) {
+      x.predictedCycles.forEach(pc => {
+        for (let d = pc.periodStart; d <= pc.periodEnd; d++) {
+          if (d >= T) pr.add(d);
+        }
+        if (S.mode !== "irregular" && pc.fertileStart && pc.fertileEnd) {
+          for (let d = pc.fertileStart; d <= pc.fertileEnd; d++) {
+            fe.add(d);
+          }
+        }
+      });
+    } else {
+      x.pred.forEach(p => {
+        for (let d = p; d < p + (S.pl || 5); d++) if (d >= T) pr.add(d);
+      });
+    }
   }
+
+  const curDate = new Date();
+  const isCurMonth = y === curDate.getFullYear() && m === curDate.getMonth();
 
   const firstDay = new Date(Date.UTC(y, m, 1));
   const off = (firstDay.getUTCDay() + 6) % 7;
@@ -3708,7 +4494,8 @@ function renderCalendar() {
         <div class="row">
           <button class="icon" data-a="mo" data-v="-1" aria-label="Previous month">${svgi("arrowLeft", 18)}</button>
           <div style="text-align:center">
-            <h2>${fmt(Date.UTC(y, m, 1) / DAY, { month: "long", year: "numeric" })}</h2>
+            <h2 style="margin:0">${fmt(Date.UTC(y, m, 1) / DAY, { month: "long", year: "numeric" })}</h2>
+            ${!isCurMonth ? `<button class="chip" data-a="jumpToday" style="min-height:24px;padding:2px 8px;font-size:11px;margin-top:4px">${svgi("sun", 12)} Jump to Today</button>` : ""}
           </div>
           <button class="icon" data-a="mo" data-v="1" aria-label="Next month">${svgi("arrowRight", 18)}</button>
         </div>
@@ -3744,7 +4531,13 @@ function renderCalendar() {
 /* 4. Daily Logging View */
 function renderLog() {
   const d = G.dr;
-  const all = ["Cramps", "Headache", "Bloating", "Fatigue", "Breast tenderness", "Backache", ...(S.custom || [])];
+  const symptomCategories = [
+    { cat: "Pelvic & Body", items: ["Cramps", "Backache", "Breast tenderness"] },
+    { cat: "Head & Energy", items: ["Headache", "Fatigue", "Brain fog"] },
+    { cat: "Digestion & Belly", items: ["Bloating", "Nausea", "Cravings"] },
+    { cat: "Skin & Mood", items: ["Acne", "Mood swings"] }
+  ];
+  const customItems = S.custom || [];
 
   return `
     <div class="view-enter">
@@ -3831,20 +4624,47 @@ function renderLog() {
       </div>
 
       <div class="card">
-        <h3>Symptoms</h3>
-        <p class="mut">Tap to cycle: Mild → Moderate → Strong → Clear</p>
-        <div class="chips">
-          ${all.map(s => {
-            const v = d.sy[s] || 0;
-            const dots = [1, 2, 3].map(i => `<i class="${i <= v ? "on" : ""}"></i>`).join("");
-            return `
-              <button class="chip chip-sym" data-level="${v}" aria-pressed="${v > 0}" data-a="sym" data-v="${esc(s)}"
-                aria-label="${esc(s)}: ${["not logged", "mild", "moderate", "strong"][v]}">
-                <span>${esc(s)}</span>
-                <span class="dots" aria-hidden="true">${dots}</span>
-              </button>`;
-          }).join("")}
+        <div class="row" style="margin-bottom:4px">
+          <h3 style="margin:0">Symptom Journal</h3>
+          <span class="chip" style="min-height:24px;padding:1px 8px;font-size:11px">Tap: Mild · Mod · Severe</span>
         </div>
+        <p class="mut" style="font-size:12.5px;margin:0 0 12px">Track physical and emotional patterns to uncover cycle-linked trends.</p>
+
+        ${symptomCategories.map(c => `
+          <div style="margin-bottom:10px">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em">${c.cat}</span>
+            <div class="chips" style="margin:6px 0 0">
+              ${c.items.map(s => {
+                const v = d.sy[s] || 0;
+                const dots = [1, 2, 3].map(i => `<i class="${i <= v ? "on" : ""}"></i>`).join("");
+                return `
+                  <button class="chip chip-sym" data-level="${v}" aria-pressed="${v > 0}" data-a="sym" data-v="${esc(s)}"
+                    aria-label="${esc(s)}: ${["not logged", "mild", "moderate", "strong"][v]}">
+                    <span>${esc(s)}</span>
+                    <span class="dots" aria-hidden="true">${dots}</span>
+                  </button>`;
+              }).join("")}
+            </div>
+          </div>
+        `).join("")}
+
+        ${customItems.length ? `
+          <div style="margin-bottom:10px">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em">Personal Symptoms</span>
+            <div class="chips" style="margin:6px 0 0">
+              ${customItems.map(s => {
+                const v = d.sy[s] || 0;
+                const dots = [1, 2, 3].map(i => `<i class="${i <= v ? "on" : ""}"></i>`).join("");
+                return `
+                  <button class="chip chip-sym" data-level="${v}" aria-pressed="${v > 0}" data-a="sym" data-v="${esc(s)}"
+                    aria-label="${esc(s)}: ${["not logged", "mild", "moderate", "strong"][v]}">
+                    <span>${esc(s)}</span>
+                    <span class="dots" aria-hidden="true">${dots}</span>
+                  </button>`;
+              }).join("")}
+            </div>
+          </div>
+        ` : ""}
 
         <div class="row" style="margin-top:12px">
           <input id="cs" placeholder="Add custom symptom..." maxlength="30" aria-label="Custom symptom name">
@@ -3865,74 +4685,110 @@ function renderLog() {
 function renderInsights() {
   const x = calculateStats(S);
   const ls = x.lens.slice(-8);
-  const durs = vp(S).filter(p => okD(p.e) && N(p.e) >= N(p.s)).map(p => N(p.e) - N(p.s) + 1);
+  const durations = calculatePeriodDurations(S);
+  const variability = calculateVariability(S);
+  const symptomsAgg = aggregateSymptoms(S, 60);
+  const moodsAgg = aggregateMoods(S, 60);
+
+  const avgPeriodDays = durations.length
+    ? (durations.reduce((a, b) => a + b.duration, 0) / durations.length).toFixed(1)
+    : S.pl;
 
   return `
     <div class="view-enter">
-      <h2 style="margin-bottom:14px">Cycle Insights &amp; Health Patterns</h2>
-
-      <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px">
-        <div class="tint-rose" style="padding:14px;border-radius:var(--radius-md);text-align:center">
-          <span style="font-size:11.5px;text-transform:uppercase;font-weight:700">Recency Mean</span>
-          <div style="font-size:24px;font-weight:800;margin-top:2px">${x.avg} <span style="font-size:14px;font-weight:600">days</span></div>
-          <div style="font-size:12px;margin-top:2px">Range: ±${x.pm}d</div>
+      <div class="row" style="margin-bottom:14px">
+        <div>
+          <h2 style="margin:0 0 2px">Cycle Insights &amp; Analytics</h2>
+          <p class="mut" style="margin:0;font-size:13px">Clinical trends, biometric patterns &amp; cycle variability</p>
         </div>
-        <div class="tint-sage" style="padding:14px;border-radius:var(--radius-md);text-align:center">
-          <span style="font-size:11.5px;text-transform:uppercase;font-weight:700">Average Period</span>
-          <div style="font-size:24px;font-weight:800;margin-top:2px">${durs.length ? (durs.reduce((a, b) => a + b) / durs.length).toFixed(1) : S.pl} <span style="font-size:14px;font-weight:600">days</span></div>
-          <div style="font-size:12px;margin-top:2px">${durs.length} periods logged</div>
+        <button class="chip" data-a="openClinician" style="min-height:34px;padding:4px 12px;font-size:12px">
+          ${svgi("copy", 14)} Clinician Summary
+        </button>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div class="card tint-rose" style="padding:16px;text-align:center;margin:0">
+          <span style="font-size:11px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em">Recency Mean Cycle</span>
+          <div style="font-size:26px;font-weight:800;color:var(--plum);margin-top:2px">
+            ${x.avg} <span style="font-size:14px;font-weight:600">days</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Spread: ±${x.pm}d · ${x.confLevel}</div>
+        </div>
+
+        <div class="card tint-sage" style="padding:16px;text-align:center;margin:0">
+          <span style="font-size:11px;text-transform:uppercase;font-weight:700;letter-spacing:0.04em">Avg Period Bleeding</span>
+          <div style="font-size:26px;font-weight:800;color:var(--plum);margin-top:2px">
+            ${avgPeriodDays} <span style="font-size:14px;font-weight:600">days</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${durations.length} recorded periods</div>
         </div>
       </div>
 
-      <div class="card tint-lavender">
+      <!-- Prediction Confidence Status -->
+      <div class="card tint-lavender" style="margin-bottom:14px">
         <div class="row">
           <div style="display:flex;align-items:center;gap:8px">
+            ${svgi("sparkle", 18)}
             <b>Prediction Confidence: ${x.confLevel}</b>
-            <button class="info-btn" data-a="openInfo" data-v="confidence">${svgi("info", 16)}</button>
+            <button class="info-btn" data-a="openInfo" data-v="confidence" aria-label="Prediction confidence info">${svgi("info", 16)}</button>
           </div>
-          <span class="chip" style="min-height:28px;padding:2px 8px;font-size:12px">${MODE_NAMES[S.mode] || S.mode}</span>
+          <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11.5px">${MODE_NAMES[S.mode] || S.mode}</span>
         </div>
-        <p class="mut" style="margin-top:4px;font-size:13px">${x.confReason} Luteal length configured to ${x.ll} days.</p>
+        <p class="mut" style="margin:6px 0 0;font-size:13px;line-height:1.45">
+          ${x.confReason} Luteal length configured to ${x.ll} days.
+        </p>
       </div>
 
-      <!-- Follicular vs Luteal Breakdown -->
-      <div class="card">
-        <h3>Estimated Phase Distribution</h3>
-        <p class="mut" style="font-size:13px">Based on your average ${x.avg}-day cycle and ${x.ll}-day luteal length.</p>
-        <div style="margin-top:12px;display:flex;gap:4px;height:24px;border-radius:var(--radius-pill);overflow:hidden">
-          <div style="flex:${Math.max(1, x.avg - x.ll)};background:var(--tint-sage-border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tint-sage-text)">
-            Follicular (~${Math.max(1, x.avg - x.ll)}d)
+      <!-- Estimated Phase Distribution -->
+      <div class="card" style="margin-bottom:14px">
+        <div class="row" style="margin-bottom:6px">
+          <h3 style="margin:0">Estimated Phase Distribution</h3>
+          <button class="info-btn" data-a="openTour" aria-label="Open 4-phase architecture tour">${svgi("layers", 16)}</button>
+        </div>
+        <p class="mut" style="font-size:13px;margin:0 0 10px">Based on your personalized ${x.avg}-day cycle and ${x.ll}-day luteal phase.</p>
+        <div style="display:flex;gap:4px;height:26px;border-radius:var(--radius-pill);overflow:hidden">
+          <div style="flex:${Math.max(1, S.pl || 5)};background:var(--phase-menstrual);display:grid;place-items:center;font-size:11px;font-weight:700;color:#FFFFFF" title="Menstrual: ${S.pl || 5} days">
+            Menstrual (${S.pl || 5}d)
           </div>
-          <div style="flex:${x.ll};background:var(--tint-peach-border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tint-peach-text)">
+          <div style="flex:${Math.max(1, x.avg - x.ll - (S.pl || 5))};background:var(--phase-follicular);display:grid;place-items:center;font-size:11px;font-weight:700;color:#FFFFFF" title="Follicular: ${Math.max(1, x.avg - x.ll - (S.pl || 5))} days">
+            Follicular (~${Math.max(1, x.avg - x.ll - (S.pl || 5))}d)
+          </div>
+          <div style="flex:${x.ll};background:var(--phase-luteal);display:grid;place-items:center;font-size:11px;font-weight:700;color:#FFFFFF" title="Luteal: ${x.ll} days">
             Luteal (${x.ll}d)
           </div>
         </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);font-weight:600">
+          <span>Day 1 (Period Start)</span>
+          <span>Ovulation (~Day ${Math.max(1, x.avg - x.ll)})</span>
+          <span>Day ${x.avg}</span>
+        </div>
       </div>
 
-      ${ls.length >= 2 ? `
-        <div class="card">
-          <h3>Recent cycle lengths</h3>
-          <p class="mut">Last ${ls.length} recorded cycles. ${x.outlierDetected ? "Outliers detected; median applied for safety." : "Calculated with recency weighting."}</p>
-          <svg viewBox="0 0 300 130" role="img" aria-label="Cycle lengths chart" width="100%" style="margin-top:12px">
-            <line x1="0" y1="105" x2="300" y2="105" stroke="var(--border)" stroke-width="1"/>
-            ${ls.map((l, i) => {
-              const mx = Math.max(...ls, 35);
-              const barW = 300 / ls.length;
-              const bh = Math.max(10, (l / mx) * 85);
-              const xPos = i * barW + 8;
-              const w = barW - 16;
-              return `
-                <rect x="${xPos}" y="${105 - bh}" width="${w}" height="${bh}" rx="6" fill="var(--pink)"/>
-                <text x="${xPos + w / 2}" y="${98 - bh}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--plum)">${l}</text>
-                <text x="${xPos + w / 2}" y="122" text-anchor="middle" font-size="11" fill="var(--muted)">#${i + 1}</text>`;
-            }).join("")}
-          </svg>
-        </div>` : `
-        <div class="card tint-mint" style="text-align:center;padding:22px">
-          <h3>History Unlocks After 2 Cycles</h3>
-          <p class="mut">Currently ${ls.length} of 2 cycles logged. Predictions personalize automatically as your records grow.</p>
-        </div>`
-      }
+      <!-- Historical Cycle Lengths Chart -->
+      <div class="card chart-card" style="margin-bottom:14px">
+        ${renderCycleLengthChart(x, ls)}
+      </div>
+
+      <!-- Historical Period Duration Chart -->
+      <div class="card chart-card" style="margin-bottom:14px">
+        ${renderPeriodDurationChart(durations, S.pl)}
+      </div>
+
+      <!-- FIGO Clinical Variability Gauge -->
+      <div class="card" style="margin-bottom:14px">
+        ${renderVariabilityGauge(variability)}
+      </div>
+
+      <!-- 60-Day Symptom Heatmap -->
+      <div class="card" style="margin-bottom:14px">
+        ${renderSymptomHeatmap(symptomsAgg)}
+      </div>
+
+      <!-- 60-Day Mood Distribution -->
+      <div class="card" style="margin-bottom:14px">
+        ${renderMoodDistribution(moodsAgg)}
+      </div>
     </div>`;
 }
 
@@ -4033,7 +4889,7 @@ function renderCare() {
           <button class="chip" data-a="openTour">Full Infographic</button>
         </div>
         <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);cursor:pointer;margin-top:10px;background:var(--surface)" data-a="openTour" role="button" aria-label="Expand Architecture Infographic">
-          <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDgwIDcyMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDeWNsZVNpZGVDaGljayBBcmNoaXRlY3R1cmUgYW5kIENvcmUgQ2FwYWJpbGl0aWVzIEluZm9ncmFwaGljIj4KICA8dGl0bGU+Q3ljbGVTaWRlQ2hpY2sg4oCUIEFyY2hpdGVjdHVyZSAmYW1wOyBDb3JlIENhcGFiaWxpdGllczwvdGl0bGU+CiAgPGRlc2M+QSBjb21wcmVoZW5zaXZlIHZpc3VhbCBpbmZvZ3JhcGhpYyBpbGx1c3RyYXRpbmcgQ3ljbGVTaWRlQ2hpY2sncyBvbi1kZXZpY2UgcHJpdmFjeSwgc3RhdGlzdGljYWwgY3ljbGUgZW5naW5lIHYyLCBkeW5hbWljIGNhbGVuZGFyLCBkYWlseSBiaW9tZXRyaWMgbG9nZ2luZywgYW5kIGNsaW5pY2lhbiBjYXJlIHJlcG9ydHMuPC9kZXNjPgoKICA8ZGVmcz4KICAgIDwhLS0gVHlwb2dyYXBoeSAmIEFuaW1hdGlvbnMgLS0+CiAgICA8c3R5bGU+CiAgICAgIHRleHQgewogICAgICAgIGZvbnQtZmFtaWx5OiAnTWFucm9wZScsIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgIlNlZ29lIFVJIiwgUm9ib3RvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmOwogICAgICB9CgogICAgICAudGl0bGUgeyBmb250LXdlaWdodDogODAwOyBmb250LXNpemU6IDI4cHg7IGZpbGw6ICM0ODE5MzA7IGxldHRlci1zcGFjaW5nOiAtMC4wMmVtOyB9CiAgICAgIC5zdWJ0aXRsZSB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAucGlsbC10ZXh0IHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxMXB4OyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4wNGVtOyB9CiAgICAgIC5jYXJkLXRpdGxlIHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxNnB4OyBmaWxsOiAjNDgxOTMwOyB9CiAgICAgIC5jYXJkLXN1YiB7IGZvbnQtd2VpZ2h0OiA1MDA7IGZvbnQtc2l6ZTogMTJweDsgZmlsbDogIzc4NjQ3MDsgbGluZS1oZWlnaHQ6IDEuNDsgfQogICAgICAubWV0cmljLW51bSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMjBweDsgZmlsbDogI0Q5NDQ3RTsgfQogICAgICAubWV0cmljLWxibCB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTFweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAubGFiZWwtc20geyBmb250LXdlaWdodDogNjAwOyBmb250LXNpemU6IDExLjVweDsgZmlsbDogIzQ4MTkzMDsgfQogICAgICAuYmFkZ2UtdGV4dCB7IGZvbnQtd2VpZ2h0OiA3MDA7IGZvbnQtc2l6ZTogMTAuNXB4OyB9CgogICAgICBAa2V5ZnJhbWVzIHB1bHNlR2xvdyB7CiAgICAgICAgMCUsIDEwMCUgeyByOiA5cHg7IG9wYWNpdHk6IDAuNzsgfQogICAgICAgIDUwJSB7IHI6IDE0cHg7IG9wYWNpdHk6IDAuMjsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIGZsb2F0U29mdCB7CiAgICAgICAgMCUsIDEwMCUgeyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMHB4KTsgfQogICAgICAgIDUwJSB7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgtM3B4KTsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIHJvdGF0ZVNsb3cgewogICAgICAgIGZyb20geyB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsgfQogICAgICAgIHRvIHsgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTsgfQogICAgICB9CgogICAgICAucHVsc2UtaGFsbyB7IGFuaW1hdGlvbjogcHVsc2VHbG93IDIuNXMgZWFzZS1pbi1vdXQgaW5maW5pdGU7IH0KICAgICAgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IGZsb2F0U29mdCA0cyBlYXNlLWluLW91dCBpbmZpbml0ZTsgfQoKICAgICAgQG1lZGlhIChwcmVmZXJzLXJlZHVjZWQtbW90aW9uOiByZWR1Y2UpIHsKICAgICAgICAucHVsc2UtaGFsbywgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IG5vbmUgIWltcG9ydGFudDsgfQogICAgICB9CiAgICA8L3N0eWxlPgoKICAgIDwhLS0gR3JhZGllbnRzIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZ0dyYWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZBRjVGNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNGNEVDRjAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJjYXJkR3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRkZGRkZGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZERjlGQSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBpbmtHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQjZGQTEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRDk0NDdFIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGF2ZW5kZXJHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNERUM4RUUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjQzVBNEUyIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icmluZ0dsb3ciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMC4yNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dTbSIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSIyIiBzdGREZXZpYXRpb249IjQiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA0Ii8+CiAgICA8L2ZpbHRlcj4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dNZCIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI0IiBzdGREZXZpYXRpb249IjgiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA2Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBDYW52YXMgLS0+CiAgPHJlY3Qgd2lkdGg9IjEwODAiIGhlaWdodD0iNzIwIiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSIxMDc4IiBoZWlnaHQ9IjcxOCIgcng9IjIzIiBmaWxsPSJub25lIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS41Ii8+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBIRUFERVI6IEJyYW5kLCBNaXNzaW9uICYgSW52YXJpYW50IFRydXN0IEJhZGdlcwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4LCAzNikiPgogICAgPCEtLSBCdW5ueSBMb2dvIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMikiPgogICAgICA8Y2lyY2xlIGN4PSIyNiIgY3k9IjI2IiByPSIyNiIgZmlsbD0iI0ZERUJGMiIvPgogICAgICA8ZyBzdHJva2U9IiM0ODE5MzAiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgIDxwYXRoIGQ9Ik0yMSAyNCBDMTggMTIgMTUgNiAxOCA0IEMyMiAyIDI1IDggMjQgMjIiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8cGF0aCBkPSJNMzEgMjQgQzM0IDEyIDM3IDYgMzQgNCBDMzAgMiAyNyA4IDI4IDIyIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGVsbGlwc2UgY3g9IjI2IiBjeT0iMzMiIHJ4PSIxNiIgcnk9IjEzIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTgiIGN5PSIzNSIgcj0iMi41IiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9Im5vbmUiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIzNCIgY3k9IjM1IiByPSIyLjUiIGZpbGw9IiNGQkUzRUEiIHN0cm9rZT0ibm9uZSIvPgogICAgICAgIDxwYXRoIGQ9Ik0yMCAzMSBRMjIgMjkgMjQgMzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgICAgPHBhdGggZD0iTTI4IDMxIFEzMCAyOSAzMiAzMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8cGF0aCBkPSJNMjUgMzQgTDI3IDM0IEwyNiAzNiBaIiBmaWxsPSIjRDk0NDdFIiBzdHJva2U9Im5vbmUiLz4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gSGVhZGVyIFRpdGxlcyAtLT4KICAgIDx0ZXh0IHg9IjY4IiB5PSIyNCIgY2xhc3M9InRpdGxlIj5DeWNsZVNpZGVDaGljazwvdGV4dD4KICAgIDx0ZXh0IHg9IjY4IiB5PSI0NCIgY2xhc3M9InN1YnRpdGxlIj5BIFByaXZhdGUsIEV2aWRlbmNlLUJhc2VkIE1lbnN0cnVhbCAmYW1wOyBSZXByb2R1Y3RpdmUgSGVhbHRoIENvbXBhbmlvbjwvdGV4dD4KCiAgICA8IS0tIFRydXN0IEJhZGdlcyAoUmlnaHQtQWxpZ25lZCkgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OTAsIDgpIj4KICAgICAgPCEtLSBCYWRnZSAxOiAxMDAlIE9uLURldmljZSAtLT4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRDNFREUzIiBzdHJva2U9IiNBN0RDQjkiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8Y2lyY2xlIGN4PSIxNCIgY3k9IjE0IiByPSI0LjUiIGZpbGw9IiMxQTU3M0YiLz4KICAgICAgPHRleHQgeD0iMjQiIHk9IjE4IiBmaWxsPSIjMUE1NzNGIiBjbGFzcz0icGlsbC10ZXh0Ij4xMDAlIE9uLURldmljZTwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMjogWmVybyBUZWxlbWV0cnkgLS0+CiAgICAgIDxyZWN0IHg9IjEzMiIgeT0iMCIgd2lkdGg9IjEyNiIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRERFOEQ1IiBzdHJva2U9IiNCRUQyQjIiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8cGF0aCBkPSJNMTQ0IDE0bDIuNSAyLjUgNS01IiBzdHJva2U9IiMyNjUyMzEiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMTU3IiB5PSIxOCIgZmlsbD0iIzI2NTIzMSIgY2xhc3M9InBpbGwtdGV4dCI+WmVybyBUcmFja2VyczwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMzogQUNPRyAmIE5JQ0UgR3VpZGVsaW5lcyAtLT4KICAgICAgPHJlY3QgeD0iMjY2IiB5PSIwIiB3aWR0aD0iMTE4IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxwYXRoIGQ9Ik0yNzggMTRsMS41IDMgNC0xIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMjg4IiB5PSIxOCIgZmlsbD0iIzUzMkU3NyIgY2xhc3M9InBpbGwtdGV4dCI+QUNPRyAmYW1wOyBOSUNFPC90ZXh0PgoKICAgICAgPCEtLSBCYWRnZSA0OiBPcGVuIFNvdXJjZSBNSVQgLS0+CiAgICAgIDxyZWN0IHg9IjM5MiIgeT0iMCIgd2lkdGg9Ijk2IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDx0ZXh0IHg9IjQ0MCIgeT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxOTRCNzMiIGNsYXNzPSJwaWxsLXRleHQiPk1JVCBMaWNlbnNlPC90ZXh0PgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgIEdSSUQgTEFZT1VUOiA0IEFyY2hpdGVjdHVyYWwgUGlsbGFycwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDE6IEN5Y2xlIEVuZ2luZSB2MiAmIFN0YXRpc3RpY2FsIE1vZGVsaW5nIChUb3AtTGVmdCkKICAgICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OCwgMTA4KSI+CiAgICA8cmVjdCB3aWR0aD0iNDc2IiBoZWlnaHQ9IjI3NiIgcng9IjIwIiBmaWxsPSJ1cmwoI2NhcmRHcmFkKSIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEuMiIgZmlsdGVyPSJ1cmwoI3NoYWRvd1NtKSIvPgoKICAgIDwhLS0gU2VjdGlvbiBIZWFkZXIgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgMjApIj4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0ZCRTNFQSIvPgogICAgICA8cGF0aCBkPSJNMTQgOCBhNiA2IDAgMSAwIDAgMTIgYTYgNiAwIDAgMCAwLTEyem0wIDN2M2wyIDIiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5DeWNsZSBFbmdpbmUgdjI8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIzMiIgY2xhc3M9ImNhcmQtc3ViIj5TdGF0aXN0aWNhbCBwcmVkaWN0aW9ucyB3aXRoIHNjaWVudGlmaWMgaHVtaWxpdHk8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBWZWN0b3IgQ3ljbGUgUmluZyBHcmFwaGljIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAsIDc4KSI+CiAgICAgIDwhLS0gT3V0ZXIgVHJhY2sgQmFja2dyb3VuZCAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg3MiwgMjUsIDQ4LCAwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxMCIvPgoKICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBBcmMgKExhdmVuZGVyKSAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M1QTRFMiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iNjggMzM5IiBzdHJva2UtZGFzaG9mZnNldD0iLTE0MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgNzAgNzApIi8+CgogICAgICA8IS0tIFBlcmlvZCBBcmMgKFJvc2UgUGluaykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDMzOSIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDcwIDcwKSIvPgoKICAgICAgPCEtLSBDdXJyZW50IERheSBJbmRpY2F0b3IgKFB1bHNpbmcgSGFsbykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjExOCIgY3k9IjQyIiByPSIxMSIgZmlsbD0iI0Q5NDQ3RSIgb3BhY2l0eT0iMC4yNSIgY2xhc3M9InB1bHNlLWhhbG8iLz4KICAgICAgPGNpcmNsZSBjeD0iMTE4IiBjeT0iNDIiIHI9IjYuNSIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjMiLz4KCiAgICAgIDwhLS0gQ2VudGVyIFRleHQgLS0+CiAgICAgIDx0ZXh0IHg9IjcwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc4NjQ3MCIgbGV0dGVyLXNwYWNpbmc9IjAuMDRlbSI+Q1lDTEUgREFZPC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiM0ODE5MzAiPjE0PC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+b2YgfjI4IGRheXM8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdGF0aXN0aWNhbCBFbmdpbmUgRmVhdHVyZSBQb2ludHMgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDQsIDc2KSI+CiAgICAgIDwhLS0gSXRlbSAxOiBSZWNlbmN5LVdlaWdodGVkIE1lYW4gLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVjZW5jeS1XZWlnaHRlZCBNZWFuIChMYXN0IDYgQ3ljbGVzKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJpb3JpdGl6ZXMgcmVjZW50IGVuZG9jcmluZSBzaGlmdHMgb3ZlciBvbGQgaGlzdG9yeS48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAyOiBPdXRsaWVyIE1lZGlhbiBGYWxsYmFjayAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgNDIpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjN0E0NDAwIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+T3V0bGllciBNZWRpYW4gU3Vic3RpdHV0aW9uICjiiaUxMGQgR2FwKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJldmVudHMgaXNvbGF0ZWQgc3RyZXNzL3RyYXZlbCBmcm9tIHNrZXdpbmcgbWF0aC48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAzOiBSZWFsaXN0aWMgQ29uZmlkZW5jZSBSYW5nZSAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgODQpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVhbGlzdGljIFJhbmdlICjCsVNELCBDYXBwZWQgYXQgwrE3ZCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkVsaW1pbmF0ZXMgZmFsc2UgY2VydGFpbnR5OyBsYWJlbHMgYWxsIGRhdGVzICJFc3RpbWF0ZWQiLjwvdGV4dD4KICAgICAgPC9nPgoKICAgICAgPCEtLSBJdGVtIDQ6IEFkanVzdGFibGUgTHV0ZWFsIFBoYXNlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxMjYpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjMUE1NzNGIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+Q29uZmlndXJhYmxlIEx1dGVhbCBMZW5ndGggKDEw4oCTMTYgRGF5cyk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkN1c3RvbWl6ZXMgZXN0aW1hdGVkIG92dWxhdGlvbiB0byB1c2VyIGJpb2xvZ3kuPC90ZXh0PgogICAgICA8L2c+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDI6IER5bmFtaWMgQ2FsZW5kYXIgJiBDb25mbGljdCBQcm90ZWN0aW9uIChUb3AtUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCAxMDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRUZFNkY3Ii8+CiAgICAgIDxwYXRoIGQ9Ik05IDEwaDEwTTExIDd2M00xNyA3djNNOCA5aDEyYTEgMSAwIDAgMSAxIDF2OWExIDEgMCAwIDEtMSAxSDhhMSAxIDAgMCAxLTEtMXYtOWExIDEgMCAwIDEgMS0xeiIgc3Ryb2tlPSIjNTMyRTc3IiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIxOCIgY2xhc3M9ImNhcmQtdGl0bGUiPkNhbGVuZGFyICZhbXA7IENvbmZsaWN0IFNoaWVsZDwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkJpb2xvZ2ljYWxseSBndWFyZGVkIGV2ZW50IHRyYWNraW5nICZhbXA7IGZvcmVjYXN0aW5nPC90ZXh0PgogICAgPC9nPgoKICAgIDwhLS0gTWluaSBDYWxlbmRhciBNYXRyaXggVUkgUHJldmlldyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCA3NikiPgogICAgICA8cmVjdCB3aWR0aD0iMjE2IiBoZWlnaHQ9IjE3NCIgcng9IjE0IiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgoKICAgICAgPCEtLSBNb250aCBIZWFkZXIgLS0+CiAgICAgIDx0ZXh0IHg9IjE0IiB5PSIyMiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+T2N0b2JlciAyMDI2PC90ZXh0PgogICAgICA8dGV4dCB4PSIyMDIiIHk9IjIyIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM3ODY0NzAiPkN5Y2xlIERheSAxNDwvdGV4dD4KCiAgICAgIDwhLS0gRGF5IEhlYWRpbmdzIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMzgpIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiPgogICAgICAgIDx0ZXh0IHg9IjAiPk08L3RleHQ+PHRleHQgeD0iMjgiPlQ8L3RleHQ+PHRleHQgeD0iNTYiPlc8L3RleHQ+PHRleHQgeD0iODQiPlQ8L3RleHQ+PHRleHQgeD0iMTEyIj5GPC90ZXh0Pjx0ZXh0IHg9IjE0MCI+UzwvdGV4dD48dGV4dCB4PSIxNjgiPlM8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgQ2VsbHMgU2FtcGxlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgNTIpIj4KICAgICAgICA8IS0tIFJvdyAxOiBQZXJpb2QgRGF5cyAoMS00KSAtLT4KICAgICAgICA8cmVjdCB4PSItMyIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjgiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjRkZGRkZGIj4xPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIyNSIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjM2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRkZGRiI+MjwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNTMiIHk9IjAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMCIgcng9IjYiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNGRkZGRkYiPjM8L3RleHQ+CgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIwIiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRkJFM0VBIi8+CiAgICAgICAgPHRleHQgeD0iOTIiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj40PC90ZXh0PgoKICAgICAgICA8dGV4dCB4PSIxMjAiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj41PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjY8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+NzwvdGV4dD4KCiAgICAgICAgPCEtLSBSb3cgMjogRm9sbGljdWxhciB0byBGZXJ0aWxlICg4LTE0KSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+ODwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIzNiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNjQiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xMDwvdGV4dD4KCiAgICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBDZWxscyAoMTEtMTQpIC0tPgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8dGV4dCB4PSI5MiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjExPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMDkiIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyMCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEyPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMzciIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEzPC90ZXh0PgoKICAgICAgICA8IS0tIFRvZGF5IENpcmNsZSAoMTQpIHdpdGggT3Z1bGF0aW9uIFN0YXIgLS0+CiAgICAgICAgPHJlY3QgeD0iMTY1IiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRDk0NDdFIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8dGV4dCB4PSIxNzYiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjRDk0NDdFIj4xNDwvdGV4dD4KICAgICAgICA8Y2lyY2xlIGN4PSIxODQiIGN5PSIyNyIgcj0iMi41IiBmaWxsPSIjNTMyRTc3Ii8+CgogICAgICAgIDwhLS0gUm93IDM6IFByZWRpY3RlZCBOZXh0IFBlcmlvZCBTYW1wbGUgKDI4LTMwKSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTU8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMzYiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xNjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjE3PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjkyIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTg8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTIwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjE8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgTGVnZW5kIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTM4KSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNzg2NDcwIj4KICAgICAgICA8Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTIiIHk9IjkiPkNvbmZpcm1lZDwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNjgiIHk9IjIuNSIgd2lkdGg9IjciIGhlaWdodD0iNyIgcng9IjIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPHRleHQgeD0iNzkiIHk9IjkiPkVzdC4gRmVydGlsZTwvdGV4dD4KCiAgICAgICAgPGNpcmNsZSBjeD0iMTQwIiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI5Ij5Ub2RheTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gR3VhcmRyYWlscyBJbmZvIEJveCAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgNzYpIj4KICAgICAgPCEtLSAxMC1EYXkgUGVyaW9kIENvbmZsaWN0IFByb3RlY3Rpb24gLS0+CiAgICAgIDxyZWN0IHdpZHRoPSIxOTYiIGhlaWdodD0iNzIiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDEyKSI+CiAgICAgICAgPHBhdGggZD0iTTggMmw2IDN2NWMwIDQtMyA3LTYgOC0zLTEtNi00LTYtOFY1bDYtM3oiIHN0cm9rZT0iIzdBNDQwMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9IiNGQkUwQjAiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+MTAtRGF5IENvbmZsaWN0IEd1YXJkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+UmVqZWN0cyBvciBtZXJnZXMgcGVyaW9kcyAmbHQ7MTBkIGFwYXJ0OzwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPnByb3RlY3RzIGFnYWluc3QgbWlkLWN5Y2xlIGVycm9ycy48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gTXVsdGktTW9kZSBGbGV4aWJpbGl0eSAtLT4KICAgICAgPHJlY3QgeT0iODQiIHdpZHRoPSIxOTYiIGhlaWdodD0iODQiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDk2KSI+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+NiBQaHlzaW9sb2dpY2FsIE1vZGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIE5hdHVyYWwgJmFtcDsgSXJyZWd1bGFyIEN5Y2xlczwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPuKAoiBIb3Jtb25hbCBDb250cmFjZXB0aW9uIChQaWxsL0lVRCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNTYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgVFRDLCBQcmVnbmFuY3kgJmFtcDsgUGVyaW1lbm9wYXVzZTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgIFBJTExBUiAzOiBHcmFudWxhciBMb2dnaW5nICYgV2VsbG5lc3MgQmlvbWFya2VycyAoQm90dG9tLUxlZnQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDQwOCkiPgogICAgPHJlY3Qgd2lkdGg9IjQ3NiIgaGVpZ2h0PSIyNzYiIHJ4PSIyMCIgZmlsbD0idXJsKCNjYXJkR3JhZCkiIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbHRlcj0idXJsKCNzaGFkb3dTbSkiLz4KCiAgICA8IS0tIFNlY3Rpb24gSGVhZGVyIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIwKSI+CiAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNEM0VERTMiLz4KICAgICAgPHBhdGggZD0iTTE0IDdsLTcgNyAzIDMgNy03LTMtM3ogTTE4IDExbC0yLTIgTTYgMThsMy0xLTItMnoiIHN0cm9rZT0iIzFBNTczRiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5Ib2xpc3RpYyBEYWlseSBMb2dnaW5nPC90ZXh0PgogICAgICA8dGV4dCB4PSIzOCIgeT0iMzIiIGNsYXNzPSJjYXJkLXN1YiI+RmxvdywgcGFpbiwgY2VydmljYWwgbXVjdXMsIG1vb2QsIHNsZWVwICZhbXA7IGh5ZHJhdGlvbjwvdGV4dD4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDE6IE1vb2QgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDcyKSI+CiAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPjUgRVhQUkVTSVZFIE1PT0QgU1RBVEVTPC90ZXh0PgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAyMCkiPgogICAgICAgIDwhLS0gUmFkaWFudCAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZGRjNDNCIgc3Ryb2tlPSIjRjdFMTg4IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgMThxMy0yIDYgMCBNMjAgMThxMy0yIDYgMCBNMTYgMjNxNCAzIDggMCIgc3Ryb2tlPSIjNjY0RTAwIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjAiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPlJhZGlhbnQ8L3RleHQ+CgogICAgICAgIDwhLS0gQ2FsbSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSI2OCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0RERThENSIgc3Ryb2tlPSIjQkVEMkIyIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNNjIgMTlxMy0xIDYgMCBNNjggMTlxMy0xIDYgMCBNNjQgMjRxNCAyIDggMCIgc3Ryb2tlPSIjMjY1MjMxIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iNjgiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkNhbG08L3RleHQ+CgogICAgICAgIDwhLS0gT2theSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIxMTYiIGN5PSIyMCIgcj0iMTYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTExIiBjeT0iMTgiIHI9IjEuNSIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjEyMSIgY3k9IjE4IiByPSIxLjUiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICA8cGF0aCBkPSJNMTEyIDI0aDgiIHN0cm9rZT0iIzE5NEI3MyIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICAgIDx0ZXh0IHg9IjExNiIgeT0iNDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzQ4MTkzMCI+T2theTwvdGV4dD4KCiAgICAgICAgPCEtLSBBbnhpb3VzIC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjE2NCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTU5IDE3bDIgMSBNMTY5IDE3bC0yIDEgTTE2MCAyNXEyLTEuNSA0IDB0NCAwIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIxNjQiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkFueGlvdXM8L3RleHQ+CgogICAgICAgIDwhLS0gTG93IC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjIxMiIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZCRTNFQSIgc3Ryb2tlPSIjRjNDNUQzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMjA2IDE5cTMgMSA2IDAgTTIxMiAxOXEzIDEgNiAwIE0yMDggMjVxNC0yIDggMCIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjEyIiB5PSI0NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNDgxOTMwIj5Mb3c8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDI6IEJpb21hcmtlciBDaGlwcyAmIEh5ZHJhdGlvbiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTQpIj4KICAgICAgPCEtLSA4LUdsYXNzIFdhdGVyIFRyYWNrZXIgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIxMCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNzg2NDcwIiBsZXR0ZXItc3BhY2luZz0iMC4wM2VtIj5IWURSQVRJT04gVFJBQ0tFUjwvdGV4dD4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxOCkiPgogICAgICAgICAgPCEtLSA4IGN1cHMgcHJldmlldyAtLT4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOCwgMCkiPgogICAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjRENFQkY2IiBzdHJva2U9IiNCQUQ4RUYiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgICA8cGF0aCBkPSJNMTIgNWwzIDRhNCA0IDAgMSAxLTYgMHoiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICAgIDwvZz4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2LCAwKSI+CiAgICAgICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMiA1bDMgNGE0IDQgMCAxIDEtNiAweiIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgICAgPC9nPgogICAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTIsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjgsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOTYsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgICA8L2c+CgogICAgICA8IS0tIFBhaW4gJiBDZXJ2aWNhbCBGbHVpZCBDaGlwcyAoUmlnaHQgU2lkZSkgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgMCkiPgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPkJJT01BUktFUlM8L3RleHQ+CiAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMTgpIj4KICAgICAgICAgIDwhLS0gUGFpbiAwLTEwIEJhZGdlIC0tPgogICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9Ijg2IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNGQURDQ0IiIHN0cm9rZT0iI0YzQkY5RiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0MyIgeT0iMTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc3M0IxQiI+UGFpbjogMOKAkzEwPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQ2VydmljYWwgRmx1aWQgLS0+CiAgICAgICAgICA8cmVjdCB4PSI5NCIgeT0iMCIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNEM0VERTMiIHN0cm9rZT0iI0E3RENCOSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSIxNDEiIHk9IjE1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxQTU3M0YiPkNlcnZpY2FsIEZsdWlkPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQkJUICYgTEggLS0+CiAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIzMiIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0NyIgeT0iNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+QkJUIFRoZXJtYWw8L3RleHQ+CgogICAgICAgICAgPCEtLSBQaWxsICYgTWVkcyAtLT4KICAgICAgICAgIDxyZWN0IHg9IjEwMiIgeT0iMzIiIHdpZHRoPSI4NiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgPHRleHQgeD0iMTQ1IiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj5QaWxsIEFkaGVyZW5jZTwvdGV4dD4KICAgICAgICA8L2c+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIDMtTGV2ZWwgU3ltcHRvbXMgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIzNCkiPgogICAgICA8dGV4dCB4PSIwIiB5PSIxNCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+My1JbnRlbnNpdHkgU3ltcHRvbSBDaGlwczo8L3RleHQ+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0OCwgMikiPgogICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI4NCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzdEMjM0MiI+Q3JhbXBzPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjYyIiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjY5IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9Ijc2IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgICAgICAgPHJlY3QgeD0iOTIiIHk9IjAiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEwNCIgeT0iMTQiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkhlYWRhY2hlPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjE1OCIgY3k9IjExIiByPSIyLjUiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNjUiIGN5PSIxMSIgcj0iMi41IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDxjaXJjbGUgY3g9IjE3MiIgY3k9IjExIiByPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICBQSUxMQVIgNDogSW5zaWdodHMsIExvY2FsIEFzc2lzdGFudCAmIENsaW5pY2lhbiBDYXJlIChCb3R0b20tUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCA0MDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRkFEQ0NCIi8+CiAgICAgIDxwYXRoIGQ9Ik0xNCA2bDYgNi02IDYtNi02IDYtNnogTTE0IDEwYTIgMiAwIDEgMCAwIDQgMiAyIDAgMCAwIDAtNHoiIHN0cm9rZT0iIzc3M0IxQiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5JbnNpZ2h0cywgTG9jYWwgQUkgJmFtcDsgQ2FyZTwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkNsaW5pY2FsIHJlZC1mbGFnIHRyaWdnZXJzICZhbXA7IHByaXZhdGUgb24tZGV2aWNlIFEmYW1wO0E8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdWItZmVhdHVyZSAxOiBMb2NhbCBIZWFsdGggQXNzaXN0YW50IENhcmQgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgNjYpIj4KICAgICAgPHJlY3Qgd2lkdGg9IjQyOCIgaGVpZ2h0PSI3NCIgcng9IjEyIiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNMTIgMmwxLjggNS40TDE5IDkuNWwtNS4yIDIuMUwxMiAxN2wtMS44LTUuNEw1IDkuNWw1LjItMi4xTDEyIDJ6IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjEyIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTMyRTc3Ij5Pbi1EZXZpY2UgSGVhbHRoIEFzc2lzdGFudDwvdGV4dD4KICAgICAgICA8cmVjdCB4PSIyNTQiIHk9IjAiIHdpZHRoPSI5NCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8dGV4dCB4PSIzMDEiIHk9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+MTAwJSBDbGllbnQtU2lkZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIzNCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5FdmlkZW5jZS1iYXNlZCBhbnN3ZXJzIGNpdGluZyBBQ09HLCBOSFMgJmFtcDsgV0hPIG92ZXIgdXNlciBkYXRhLjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0OCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5aZXJvIHByb21wdCB0cmFuc21pc3Npb247IG5ldmVyIHJlcGxhY2VzIGxpY2Vuc2VkIG1lZGljYWwgYWR2aWNlLjwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gU3ViLWZlYXR1cmUgMjogQ2xpbmljaWFuIFN1bW1hcnkgJiBDYXJlIEFsZXJ0cyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTApIj4KICAgICAgPCEtLSBDYXJlIEFsZXJ0IFByb21wdCAtLT4KICAgICAgPHJlY3Qgd2lkdGg9IjIwNiIgaGVpZ2h0PSIxMDYiIHJ4PSIxMiIgZmlsbD0iI0ZCRTBCMCIgc3Ryb2tlPSIjRjVDNjc5IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDE0KSI+CiAgICAgICAgPHBhdGggZD0iTTEwIDNsOCAxNEgyTDEwIDN6IE0xMCA4djQgTTEwIDE0aC4wMSIgc3Ryb2tlPSIjN0E0NDAwIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjExIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0E0NDAwIj5DbGluaWNhbCBTYWZldHkgQWxlcnRzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIEFic2VuY2UgJmd0OzkwZCAoQW1lbm9ycmhlYSk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgaW50ZXJ2YWxzICZsdDsyMWQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQmxlZWRpbmcgZHVyYXRpb24gJmd0OzdkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFNldmVyZSBwZWx2aWMgcGFpbiAo4omlOC8xMCk8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2xpbmljaWFuIFN1bW1hcnkgRXhwb3J0IC0tPgogICAgICA8cmVjdCB4PSIyMTgiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTA2IiByeD0iMTIiIGZpbGw9IiNGQUY1RjciIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIzMCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNNiAzaDhsNCA0djEwYTEgMSAwIDAgMS0xIDFINmExIDEgMCAwIDEtMS0xVjRhMSAxIDAgMCAxIDEtMXoiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgM3Y0aDQiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM0ODE5MzAiPkNsaW5pY2lhbiBTdW1tYXJ5PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByaW50YWJsZSAmYW1wOyBjb3B5YWJsZSBmb3JtYXQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgJmFtcDsgcGVyaW9kIGRpc3RyaWJ1dGlvbnM8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgU3ltcHRvbSBwaGVub3R5cGUgdGFibGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByZXBhcmVzIE9CL0dZTiB0cmlhZ2U8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBGT09URVI6IFNlY3VyaXR5ICYgU2NpZW50aWZpYyBEaXNjbGFpbWVyCiAgICAgICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDY5NCkiPgogICAgPHRleHQgeD0iMCIgeT0iMCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+Q3ljbGVTaWRlQ2hpY2sgdjIuMC4wIOKAoiAxMDAlIE9uLURldmljZSBTaW5nbGUgUGFnZSAmYW1wOyBPZmZsaW5lIFBXQSDigKIgTWF0aGVtYXRpY2FsIGVzdGltYXRpb25zIGFyZSBhcHByb3hpbWF0aW9ucywgbm90IG1lZGljYWwgZGlhZ25vc2VzLjwvdGV4dD4KICAgIDx0ZXh0IHg9Ijk4NCIgeT0iMCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0Q5NDQ3RSI+Y3ljbGVzaWRlY2hpY2sub3JnPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
         </div>
       </div>
 
@@ -4154,22 +5010,47 @@ function renderPartnerModal() {
 
 /* 10b. Architecture & Features Infographic Modal */
 function renderTourModal() {
+  ui.tourTab = ui.tourTab || "interactive";
+  const x = calculateStats(S);
+  const T = TD();
+  const day = x.last ? Math.max(1, T - x.last + 1) : 1;
+
   return `
     <div class="scrim" data-a="closeTour"></div>
-    <section class="sheet" role="dialog" aria-label="CycleSideChick Architecture and Core Capabilities" style="max-height:92vh;max-height:92dvh">
+    <section class="sheet" role="dialog" aria-label="Cycle Architecture and Hormone Science Guide" style="max-height:92vh;max-height:92dvh;overflow-y:auto">
       <div class="sheet-handle"></div>
-      <div class="row" style="margin-bottom:12px">
+      <div class="row" style="margin-bottom:10px">
         <div>
-          <span class="article-tag tint-sky">Visual Architecture</span>
-          <h2 style="margin:4px 0 0">System &amp; Feature Overview</h2>
+          <span class="article-tag tint-sky">Body Literacy &amp; Architecture</span>
+          <h2 style="margin:4px 0 0">Cycle Science &amp; Overview</h2>
         </div>
         <button class="icon" data-a="closeTour" aria-label="Close">${svgi("x", 18)}</button>
       </div>
-      <p class="mut" style="margin-bottom:14px;font-size:13px">A visual infographic showing our on-device cycle calculations, clinical safety boundaries, and privacy model.</p>
-      <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:16px">
-        <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+
+      <div class="chips" style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="chip" style="flex:1;justify-content:center;${ui.tourTab === "interactive" ? "background:var(--pink);border-color:var(--pink);color:#FFFFFF;" : ""}" data-a="setTourTab" data-v="interactive">
+          ${svgi("sparkle", 14)} 4-Phase Science
+        </button>
+        <button class="chip" style="flex:1;justify-content:center;${ui.tourTab === "infographic" ? "background:var(--pink);border-color:var(--pink);color:#FFFFFF;" : ""}" data-a="setTourTab" data-v="infographic">
+          ${svgi("insights", 14)} System Infographic
+        </button>
       </div>
-      <button class="btn" data-a="closeTour">Close Overview</button>
+
+      ${ui.tourTab === "interactive" ? `
+        <p class="mut" style="margin-bottom:12px;font-size:13px">
+          Explore the hormonal shifts, physiological changes, and clinical guidance across each phase of your cycle.
+        </p>
+        ${renderInteractivePhaseTour(x, day, S)}
+      ` : `
+        <p class="mut" style="margin-bottom:12px;font-size:13px">
+          A visual infographic detailing our on-device algorithmic calculations, clinical safety boundaries, and privacy architecture.
+        </p>
+        <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:16px">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDgwIDcyMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDeWNsZVNpZGVDaGljayBBcmNoaXRlY3R1cmUgYW5kIENvcmUgQ2FwYWJpbGl0aWVzIEluZm9ncmFwaGljIj4KICA8dGl0bGU+Q3ljbGVTaWRlQ2hpY2sg4oCUIEFyY2hpdGVjdHVyZSAmYW1wOyBDb3JlIENhcGFiaWxpdGllczwvdGl0bGU+CiAgPGRlc2M+QSBjb21wcmVoZW5zaXZlIHZpc3VhbCBpbmZvZ3JhcGhpYyBpbGx1c3RyYXRpbmcgQ3ljbGVTaWRlQ2hpY2sncyBvbi1kZXZpY2UgcHJpdmFjeSwgc3RhdGlzdGljYWwgY3ljbGUgZW5naW5lIHYyLCBkeW5hbWljIGNhbGVuZGFyLCBkYWlseSBiaW9tZXRyaWMgbG9nZ2luZywgYW5kIGNsaW5pY2lhbiBjYXJlIHJlcG9ydHMuPC9kZXNjPgoKICA8ZGVmcz4KICAgIDwhLS0gVHlwb2dyYXBoeSAmIEFuaW1hdGlvbnMgLS0+CiAgICA8c3R5bGU+CiAgICAgIHRleHQgewogICAgICAgIGZvbnQtZmFtaWx5OiAnTWFucm9wZScsIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgIlNlZ29lIFVJIiwgUm9ib3RvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmOwogICAgICB9CgogICAgICAudGl0bGUgeyBmb250LXdlaWdodDogODAwOyBmb250LXNpemU6IDI4cHg7IGZpbGw6ICM0ODE5MzA7IGxldHRlci1zcGFjaW5nOiAtMC4wMmVtOyB9CiAgICAgIC5zdWJ0aXRsZSB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAucGlsbC10ZXh0IHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxMXB4OyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4wNGVtOyB9CiAgICAgIC5jYXJkLXRpdGxlIHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxNnB4OyBmaWxsOiAjNDgxOTMwOyB9CiAgICAgIC5jYXJkLXN1YiB7IGZvbnQtd2VpZ2h0OiA1MDA7IGZvbnQtc2l6ZTogMTJweDsgZmlsbDogIzc4NjQ3MDsgbGluZS1oZWlnaHQ6IDEuNDsgfQogICAgICAubWV0cmljLW51bSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMjBweDsgZmlsbDogI0Q5NDQ3RTsgfQogICAgICAubWV0cmljLWxibCB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTFweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAubGFiZWwtc20geyBmb250LXdlaWdodDogNjAwOyBmb250LXNpemU6IDExLjVweDsgZmlsbDogIzQ4MTkzMDsgfQogICAgICAuYmFkZ2UtdGV4dCB7IGZvbnQtd2VpZ2h0OiA3MDA7IGZvbnQtc2l6ZTogMTAuNXB4OyB9CgogICAgICBAa2V5ZnJhbWVzIHB1bHNlR2xvdyB7CiAgICAgICAgMCUsIDEwMCUgeyByOiA5cHg7IG9wYWNpdHk6IDAuNzsgfQogICAgICAgIDUwJSB7IHI6IDE0cHg7IG9wYWNpdHk6IDAuMjsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIGZsb2F0U29mdCB7CiAgICAgICAgMCUsIDEwMCUgeyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMHB4KTsgfQogICAgICAgIDUwJSB7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgtM3B4KTsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIHJvdGF0ZVNsb3cgewogICAgICAgIGZyb20geyB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsgfQogICAgICAgIHRvIHsgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTsgfQogICAgICB9CgogICAgICAucHVsc2UtaGFsbyB7IGFuaW1hdGlvbjogcHVsc2VHbG93IDIuNXMgZWFzZS1pbi1vdXQgaW5maW5pdGU7IH0KICAgICAgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IGZsb2F0U29mdCA0cyBlYXNlLWluLW91dCBpbmZpbml0ZTsgfQoKICAgICAgQG1lZGlhIChwcmVmZXJzLXJlZHVjZWQtbW90aW9uOiByZWR1Y2UpIHsKICAgICAgICAucHVsc2UtaGFsbywgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IG5vbmUgIWltcG9ydGFudDsgfQogICAgICB9CiAgICA8L3N0eWxlPgoKICAgIDwhLS0gR3JhZGllbnRzIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZ0dyYWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZBRjVGNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNGNEVDRjAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJjYXJkR3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRkZGRkZGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZERjlGQSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBpbmtHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQjZGQTEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRDk0NDdFIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGF2ZW5kZXJHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNERUM4RUUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjQzVBNEUyIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icmluZ0dsb3ciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMC4yNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dTbSIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSIyIiBzdGREZXZpYXRpb249IjQiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA0Ii8+CiAgICA8L2ZpbHRlcj4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dNZCIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI0IiBzdGREZXZpYXRpb249IjgiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA2Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBDYW52YXMgLS0+CiAgPHJlY3Qgd2lkdGg9IjEwODAiIGhlaWdodD0iNzIwIiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSIxMDc4IiBoZWlnaHQ9IjcxOCIgcng9IjIzIiBmaWxsPSJub25lIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS41Ii8+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBIRUFERVI6IEJyYW5kLCBNaXNzaW9uICYgSW52YXJpYW50IFRydXN0IEJhZGdlcwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4LCAzNikiPgogICAgPCEtLSBCdW5ueSBMb2dvIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMikiPgogICAgICA8Y2lyY2xlIGN4PSIyNiIgY3k9IjI2IiByPSIyNiIgZmlsbD0iI0ZERUJGMiIvPgogICAgICA8ZyBzdHJva2U9IiM0ODE5MzAiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgIDxwYXRoIGQ9Ik0yMSAyNCBDMTggMTIgMTUgNiAxOCA0IEMyMiAyIDI1IDggMjQgMjIiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8cGF0aCBkPSJNMzEgMjQgQzM0IDEyIDM3IDYgMzQgNCBDMzAgMiAyNyA4IDI4IDIyIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGVsbGlwc2UgY3g9IjI2IiBjeT0iMzMiIHJ4PSIxNiIgcnk9IjEzIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTgiIGN5PSIzNSIgcj0iMi41IiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9Im5vbmUiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIzNCIgY3k9IjM1IiByPSIyLjUiIGZpbGw9IiNGQkUzRUEiIHN0cm9rZT0ibm9uZSIvPgogICAgICAgIDxwYXRoIGQ9Ik0yMCAzMSBRMjIgMjkgMjQgMzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgICAgPHBhdGggZD0iTTI4IDMxIFEzMCAyOSAzMiAzMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8cGF0aCBkPSJNMjUgMzQgTDI3IDM0IEwyNiAzNiBaIiBmaWxsPSIjRDk0NDdFIiBzdHJva2U9Im5vbmUiLz4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gSGVhZGVyIFRpdGxlcyAtLT4KICAgIDx0ZXh0IHg9IjY4IiB5PSIyNCIgY2xhc3M9InRpdGxlIj5DeWNsZVNpZGVDaGljazwvdGV4dD4KICAgIDx0ZXh0IHg9IjY4IiB5PSI0NCIgY2xhc3M9InN1YnRpdGxlIj5BIFByaXZhdGUsIEV2aWRlbmNlLUJhc2VkIE1lbnN0cnVhbCAmYW1wOyBSZXByb2R1Y3RpdmUgSGVhbHRoIENvbXBhbmlvbjwvdGV4dD4KCiAgICA8IS0tIFRydXN0IEJhZGdlcyAoUmlnaHQtQWxpZ25lZCkgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OTAsIDgpIj4KICAgICAgPCEtLSBCYWRnZSAxOiAxMDAlIE9uLURldmljZSAtLT4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRDNFREUzIiBzdHJva2U9IiNBN0RDQjkiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8Y2lyY2xlIGN4PSIxNCIgY3k9IjE0IiByPSI0LjUiIGZpbGw9IiMxQTU3M0YiLz4KICAgICAgPHRleHQgeD0iMjQiIHk9IjE4IiBmaWxsPSIjMUE1NzNGIiBjbGFzcz0icGlsbC10ZXh0Ij4xMDAlIE9uLURldmljZTwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMjogWmVybyBUZWxlbWV0cnkgLS0+CiAgICAgIDxyZWN0IHg9IjEzMiIgeT0iMCIgd2lkdGg9IjEyNiIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRERFOEQ1IiBzdHJva2U9IiNCRUQyQjIiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8cGF0aCBkPSJNMTQ0IDE0bDIuNSAyLjUgNS01IiBzdHJva2U9IiMyNjUyMzEiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMTU3IiB5PSIxOCIgZmlsbD0iIzI2NTIzMSIgY2xhc3M9InBpbGwtdGV4dCI+WmVybyBUcmFja2VyczwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMzogQUNPRyAmIE5JQ0UgR3VpZGVsaW5lcyAtLT4KICAgICAgPHJlY3QgeD0iMjY2IiB5PSIwIiB3aWR0aD0iMTE4IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxwYXRoIGQ9Ik0yNzggMTRsMS41IDMgNC0xIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMjg4IiB5PSIxOCIgZmlsbD0iIzUzMkU3NyIgY2xhc3M9InBpbGwtdGV4dCI+QUNPRyAmYW1wOyBOSUNFPC90ZXh0PgoKICAgICAgPCEtLSBCYWRnZSA0OiBPcGVuIFNvdXJjZSBNSVQgLS0+CiAgICAgIDxyZWN0IHg9IjM5MiIgeT0iMCIgd2lkdGg9Ijk2IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDx0ZXh0IHg9IjQ0MCIgeT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxOTRCNzMiIGNsYXNzPSJwaWxsLXRleHQiPk1JVCBMaWNlbnNlPC90ZXh0PgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgIEdSSUQgTEFZT1VUOiA0IEFyY2hpdGVjdHVyYWwgUGlsbGFycwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDE6IEN5Y2xlIEVuZ2luZSB2MiAmIFN0YXRpc3RpY2FsIE1vZGVsaW5nIChUb3AtTGVmdCkKICAgICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OCwgMTA4KSI+CiAgICA8cmVjdCB3aWR0aD0iNDc2IiBoZWlnaHQ9IjI3NiIgcng9IjIwIiBmaWxsPSJ1cmwoI2NhcmRHcmFkKSIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEuMiIgZmlsdGVyPSJ1cmwoI3NoYWRvd1NtKSIvPgoKICAgIDwhLS0gU2VjdGlvbiBIZWFkZXIgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgMjApIj4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0ZCRTNFQSIvPgogICAgICA8cGF0aCBkPSJNMTQgOCBhNiA2IDAgMSAwIDAgMTIgYTYgNiAwIDAgMCAwLTEyem0wIDN2M2wyIDIiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5DeWNsZSBFbmdpbmUgdjI8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIzMiIgY2xhc3M9ImNhcmQtc3ViIj5TdGF0aXN0aWNhbCBwcmVkaWN0aW9ucyB3aXRoIHNjaWVudGlmaWMgaHVtaWxpdHk8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBWZWN0b3IgQ3ljbGUgUmluZyBHcmFwaGljIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAsIDc4KSI+CiAgICAgIDwhLS0gT3V0ZXIgVHJhY2sgQmFja2dyb3VuZCAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg3MiwgMjUsIDQ4LCAwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxMCIvPgoKICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBBcmMgKExhdmVuZGVyKSAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M1QTRFMiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iNjggMzM5IiBzdHJva2UtZGFzaG9mZnNldD0iLTE0MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgNzAgNzApIi8+CgogICAgICA8IS0tIFBlcmlvZCBBcmMgKFJvc2UgUGluaykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDMzOSIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDcwIDcwKSIvPgoKICAgICAgPCEtLSBDdXJyZW50IERheSBJbmRpY2F0b3IgKFB1bHNpbmcgSGFsbykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjExOCIgY3k9IjQyIiByPSIxMSIgZmlsbD0iI0Q5NDQ3RSIgb3BhY2l0eT0iMC4yNSIgY2xhc3M9InB1bHNlLWhhbG8iLz4KICAgICAgPGNpcmNsZSBjeD0iMTE4IiBjeT0iNDIiIHI9IjYuNSIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjMiLz4KCiAgICAgIDwhLS0gQ2VudGVyIFRleHQgLS0+CiAgICAgIDx0ZXh0IHg9IjcwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc4NjQ3MCIgbGV0dGVyLXNwYWNpbmc9IjAuMDRlbSI+Q1lDTEUgREFZPC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiM0ODE5MzAiPjE0PC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+b2YgfjI4IGRheXM8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdGF0aXN0aWNhbCBFbmdpbmUgRmVhdHVyZSBQb2ludHMgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDQsIDc2KSI+CiAgICAgIDwhLS0gSXRlbSAxOiBSZWNlbmN5LVdlaWdodGVkIE1lYW4gLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVjZW5jeS1XZWlnaHRlZCBNZWFuIChMYXN0IDYgQ3ljbGVzKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJpb3JpdGl6ZXMgcmVjZW50IGVuZG9jcmluZSBzaGlmdHMgb3ZlciBvbGQgaGlzdG9yeS48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAyOiBPdXRsaWVyIE1lZGlhbiBGYWxsYmFjayAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgNDIpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjN0E0NDAwIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+T3V0bGllciBNZWRpYW4gU3Vic3RpdHV0aW9uICjiiaUxMGQgR2FwKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJldmVudHMgaXNvbGF0ZWQgc3RyZXNzL3RyYXZlbCBmcm9tIHNrZXdpbmcgbWF0aC48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAzOiBSZWFsaXN0aWMgQ29uZmlkZW5jZSBSYW5nZSAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgODQpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVhbGlzdGljIFJhbmdlICjCsVNELCBDYXBwZWQgYXQgwrE3ZCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkVsaW1pbmF0ZXMgZmFsc2UgY2VydGFpbnR5OyBsYWJlbHMgYWxsIGRhdGVzICJFc3RpbWF0ZWQiLjwvdGV4dD4KICAgICAgPC9nPgoKICAgICAgPCEtLSBJdGVtIDQ6IEFkanVzdGFibGUgTHV0ZWFsIFBoYXNlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxMjYpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjMUE1NzNGIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+Q29uZmlndXJhYmxlIEx1dGVhbCBMZW5ndGggKDEw4oCTMTYgRGF5cyk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkN1c3RvbWl6ZXMgZXN0aW1hdGVkIG92dWxhdGlvbiB0byB1c2VyIGJpb2xvZ3kuPC90ZXh0PgogICAgICA8L2c+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDI6IER5bmFtaWMgQ2FsZW5kYXIgJiBDb25mbGljdCBQcm90ZWN0aW9uIChUb3AtUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCAxMDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRUZFNkY3Ii8+CiAgICAgIDxwYXRoIGQ9Ik05IDEwaDEwTTExIDd2M00xNyA3djNNOCA5aDEyYTEgMSAwIDAgMSAxIDF2OWExIDEgMCAwIDEtMSAxSDhhMSAxIDAgMCAxLTEtMXYtOWExIDEgMCAwIDEgMS0xeiIgc3Ryb2tlPSIjNTMyRTc3IiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIxOCIgY2xhc3M9ImNhcmQtdGl0bGUiPkNhbGVuZGFyICZhbXA7IENvbmZsaWN0IFNoaWVsZDwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkJpb2xvZ2ljYWxseSBndWFyZGVkIGV2ZW50IHRyYWNraW5nICZhbXA7IGZvcmVjYXN0aW5nPC90ZXh0PgogICAgPC9nPgoKICAgIDwhLS0gTWluaSBDYWxlbmRhciBNYXRyaXggVUkgUHJldmlldyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCA3NikiPgogICAgICA8cmVjdCB3aWR0aD0iMjE2IiBoZWlnaHQ9IjE3NCIgcng9IjE0IiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgoKICAgICAgPCEtLSBNb250aCBIZWFkZXIgLS0+CiAgICAgIDx0ZXh0IHg9IjE0IiB5PSIyMiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+T2N0b2JlciAyMDI2PC90ZXh0PgogICAgICA8dGV4dCB4PSIyMDIiIHk9IjIyIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM3ODY0NzAiPkN5Y2xlIERheSAxNDwvdGV4dD4KCiAgICAgIDwhLS0gRGF5IEhlYWRpbmdzIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMzgpIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiPgogICAgICAgIDx0ZXh0IHg9IjAiPk08L3RleHQ+PHRleHQgeD0iMjgiPlQ8L3RleHQ+PHRleHQgeD0iNTYiPlc8L3RleHQ+PHRleHQgeD0iODQiPlQ8L3RleHQ+PHRleHQgeD0iMTEyIj5GPC90ZXh0Pjx0ZXh0IHg9IjE0MCI+UzwvdGV4dD48dGV4dCB4PSIxNjgiPlM8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgQ2VsbHMgU2FtcGxlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgNTIpIj4KICAgICAgICA8IS0tIFJvdyAxOiBQZXJpb2QgRGF5cyAoMS00KSAtLT4KICAgICAgICA8cmVjdCB4PSItMyIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjgiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjRkZGRkZGIj4xPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIyNSIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjM2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRkZGRiI+MjwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNTMiIHk9IjAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMCIgcng9IjYiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNGRkZGRkYiPjM8L3RleHQ+CgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIwIiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRkJFM0VBIi8+CiAgICAgICAgPHRleHQgeD0iOTIiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj40PC90ZXh0PgoKICAgICAgICA8dGV4dCB4PSIxMjAiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj41PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjY8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+NzwvdGV4dD4KCiAgICAgICAgPCEtLSBSb3cgMjogRm9sbGljdWxhciB0byBGZXJ0aWxlICg4LTE0KSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+ODwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIzNiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNjQiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xMDwvdGV4dD4KCiAgICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBDZWxscyAoMTEtMTQpIC0tPgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8dGV4dCB4PSI5MiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjExPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMDkiIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyMCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEyPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMzciIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEzPC90ZXh0PgoKICAgICAgICA8IS0tIFRvZGF5IENpcmNsZSAoMTQpIHdpdGggT3Z1bGF0aW9uIFN0YXIgLS0+CiAgICAgICAgPHJlY3QgeD0iMTY1IiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRDk0NDdFIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8dGV4dCB4PSIxNzYiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjRDk0NDdFIj4xNDwvdGV4dD4KICAgICAgICA8Y2lyY2xlIGN4PSIxODQiIGN5PSIyNyIgcj0iMi41IiBmaWxsPSIjNTMyRTc3Ii8+CgogICAgICAgIDwhLS0gUm93IDM6IFByZWRpY3RlZCBOZXh0IFBlcmlvZCBTYW1wbGUgKDI4LTMwKSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTU8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMzYiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xNjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjE3PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjkyIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTg8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTIwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjE8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgTGVnZW5kIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTM4KSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNzg2NDcwIj4KICAgICAgICA8Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTIiIHk9IjkiPkNvbmZpcm1lZDwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNjgiIHk9IjIuNSIgd2lkdGg9IjciIGhlaWdodD0iNyIgcng9IjIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPHRleHQgeD0iNzkiIHk9IjkiPkVzdC4gRmVydGlsZTwvdGV4dD4KCiAgICAgICAgPGNpcmNsZSBjeD0iMTQwIiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI5Ij5Ub2RheTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gR3VhcmRyYWlscyBJbmZvIEJveCAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgNzYpIj4KICAgICAgPCEtLSAxMC1EYXkgUGVyaW9kIENvbmZsaWN0IFByb3RlY3Rpb24gLS0+CiAgICAgIDxyZWN0IHdpZHRoPSIxOTYiIGhlaWdodD0iNzIiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDEyKSI+CiAgICAgICAgPHBhdGggZD0iTTggMmw2IDN2NWMwIDQtMyA3LTYgOC0zLTEtNi00LTYtOFY1bDYtM3oiIHN0cm9rZT0iIzdBNDQwMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9IiNGQkUwQjAiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+MTAtRGF5IENvbmZsaWN0IEd1YXJkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+UmVqZWN0cyBvciBtZXJnZXMgcGVyaW9kcyAmbHQ7MTBkIGFwYXJ0OzwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPnByb3RlY3RzIGFnYWluc3QgbWlkLWN5Y2xlIGVycm9ycy48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gTXVsdGktTW9kZSBGbGV4aWJpbGl0eSAtLT4KICAgICAgPHJlY3QgeT0iODQiIHdpZHRoPSIxOTYiIGhlaWdodD0iODQiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDk2KSI+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+NiBQaHlzaW9sb2dpY2FsIE1vZGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIE5hdHVyYWwgJmFtcDsgSXJyZWd1bGFyIEN5Y2xlczwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPuKAoiBIb3Jtb25hbCBDb250cmFjZXB0aW9uIChQaWxsL0lVRCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNTYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgVFRDLCBQcmVnbmFuY3kgJmFtcDsgUGVyaW1lbm9wYXVzZTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgIFBJTExBUiAzOiBHcmFudWxhciBMb2dnaW5nICYgV2VsbG5lc3MgQmlvbWFya2VycyAoQm90dG9tLUxlZnQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDQwOCkiPgogICAgPHJlY3Qgd2lkdGg9IjQ3NiIgaGVpZ2h0PSIyNzYiIHJ4PSIyMCIgZmlsbD0idXJsKCNjYXJkR3JhZCkiIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbHRlcj0idXJsKCNzaGFkb3dTbSkiLz4KCiAgICA8IS0tIFNlY3Rpb24gSGVhZGVyIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIwKSI+CiAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNEM0VERTMiLz4KICAgICAgPHBhdGggZD0iTTE0IDdsLTcgNyAzIDMgNy03LTMtM3ogTTE4IDExbC0yLTIgTTYgMThsMy0xLTItMnoiIHN0cm9rZT0iIzFBNTczRiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5Ib2xpc3RpYyBEYWlseSBMb2dnaW5nPC90ZXh0PgogICAgICA8dGV4dCB4PSIzOCIgeT0iMzIiIGNsYXNzPSJjYXJkLXN1YiI+RmxvdywgcGFpbiwgY2VydmljYWwgbXVjdXMsIG1vb2QsIHNsZWVwICZhbXA7IGh5ZHJhdGlvbjwvdGV4dD4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDE6IE1vb2QgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDcyKSI+CiAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPjUgRVhQUkVTSVZFIE1PT0QgU1RBVEVTPC90ZXh0PgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAyMCkiPgogICAgICAgIDwhLS0gUmFkaWFudCAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZGRjNDNCIgc3Ryb2tlPSIjRjdFMTg4IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgMThxMy0yIDYgMCBNMjAgMThxMy0yIDYgMCBNMTYgMjNxNCAzIDggMCIgc3Ryb2tlPSIjNjY0RTAwIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjAiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPlJhZGlhbnQ8L3RleHQ+CgogICAgICAgIDwhLS0gQ2FsbSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSI2OCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0RERThENSIgc3Ryb2tlPSIjQkVEMkIyIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNNjIgMTlxMy0xIDYgMCBNNjggMTlxMy0xIDYgMCBNNjQgMjRxNCAyIDggMCIgc3Ryb2tlPSIjMjY1MjMxIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iNjgiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkNhbG08L3RleHQ+CgogICAgICAgIDwhLS0gT2theSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIxMTYiIGN5PSIyMCIgcj0iMTYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTExIiBjeT0iMTgiIHI9IjEuNSIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjEyMSIgY3k9IjE4IiByPSIxLjUiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICA8cGF0aCBkPSJNMTEyIDI0aDgiIHN0cm9rZT0iIzE5NEI3MyIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICAgIDx0ZXh0IHg9IjExNiIgeT0iNDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzQ4MTkzMCI+T2theTwvdGV4dD4KCiAgICAgICAgPCEtLSBBbnhpb3VzIC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjE2NCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTU5IDE3bDIgMSBNMTY5IDE3bC0yIDEgTTE2MCAyNXEyLTEuNSA0IDB0NCAwIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIxNjQiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkFueGlvdXM8L3RleHQ+CgogICAgICAgIDwhLS0gTG93IC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjIxMiIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZCRTNFQSIgc3Ryb2tlPSIjRjNDNUQzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMjA2IDE5cTMgMSA2IDAgTTIxMiAxOXEzIDEgNiAwIE0yMDggMjVxNC0yIDggMCIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjEyIiB5PSI0NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNDgxOTMwIj5Mb3c8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDI6IEJpb21hcmtlciBDaGlwcyAmIEh5ZHJhdGlvbiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTQpIj4KICAgICAgPCEtLSA4LUdsYXNzIFdhdGVyIFRyYWNrZXIgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIxMCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNzg2NDcwIiBsZXR0ZXItc3BhY2luZz0iMC4wM2VtIj5IWURSQVRJT04gVFJBQ0tFUjwvdGV4dD4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxOCkiPgogICAgICAgICAgPCEtLSA4IGN1cHMgcHJldmlldyAtLT4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOCwgMCkiPgogICAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjRENFQkY2IiBzdHJva2U9IiNCQUQ4RUYiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgICA8cGF0aCBkPSJNMTIgNWwzIDRhNCA0IDAgMSAxLTYgMHoiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICAgIDwvZz4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2LCAwKSI+CiAgICAgICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMiA1bDMgNGE0IDQgMCAxIDEtNiAweiIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgICAgPC9nPgogICAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTIsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjgsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOTYsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgICA8L2c+CgogICAgICA8IS0tIFBhaW4gJiBDZXJ2aWNhbCBGbHVpZCBDaGlwcyAoUmlnaHQgU2lkZSkgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgMCkiPgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPkJJT01BUktFUlM8L3RleHQ+CiAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMTgpIj4KICAgICAgICAgIDwhLS0gUGFpbiAwLTEwIEJhZGdlIC0tPgogICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9Ijg2IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNGQURDQ0IiIHN0cm9rZT0iI0YzQkY5RiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0MyIgeT0iMTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc3M0IxQiI+UGFpbjogMOKAkzEwPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQ2VydmljYWwgRmx1aWQgLS0+CiAgICAgICAgICA8cmVjdCB4PSI5NCIgeT0iMCIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNEM0VERTMiIHN0cm9rZT0iI0E3RENCOSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSIxNDEiIHk9IjE1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxQTU3M0YiPkNlcnZpY2FsIEZsdWlkPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQkJUICYgTEggLS0+CiAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIzMiIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0NyIgeT0iNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+QkJUIFRoZXJtYWw8L3RleHQ+CgogICAgICAgICAgPCEtLSBQaWxsICYgTWVkcyAtLT4KICAgICAgICAgIDxyZWN0IHg9IjEwMiIgeT0iMzIiIHdpZHRoPSI4NiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgPHRleHQgeD0iMTQ1IiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj5QaWxsIEFkaGVyZW5jZTwvdGV4dD4KICAgICAgICA8L2c+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIDMtTGV2ZWwgU3ltcHRvbXMgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIzNCkiPgogICAgICA8dGV4dCB4PSIwIiB5PSIxNCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+My1JbnRlbnNpdHkgU3ltcHRvbSBDaGlwczo8L3RleHQ+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0OCwgMikiPgogICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI4NCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzdEMjM0MiI+Q3JhbXBzPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjYyIiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjY5IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9Ijc2IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgICAgICAgPHJlY3QgeD0iOTIiIHk9IjAiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEwNCIgeT0iMTQiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkhlYWRhY2hlPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjE1OCIgY3k9IjExIiByPSIyLjUiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNjUiIGN5PSIxMSIgcj0iMi41IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDxjaXJjbGUgY3g9IjE3MiIgY3k9IjExIiByPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICBQSUxMQVIgNDogSW5zaWdodHMsIExvY2FsIEFzc2lzdGFudCAmIENsaW5pY2lhbiBDYXJlIChCb3R0b20tUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCA0MDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRkFEQ0NCIi8+CiAgICAgIDxwYXRoIGQ9Ik0xNCA2bDYgNi02IDYtNi02IDYtNnogTTE0IDEwYTIgMiAwIDEgMCAwIDQgMiAyIDAgMCAwIDAtNHoiIHN0cm9rZT0iIzc3M0IxQiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5JbnNpZ2h0cywgTG9jYWwgQUkgJmFtcDsgQ2FyZTwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkNsaW5pY2FsIHJlZC1mbGFnIHRyaWdnZXJzICZhbXA7IHByaXZhdGUgb24tZGV2aWNlIFEmYW1wO0E8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdWItZmVhdHVyZSAxOiBMb2NhbCBIZWFsdGggQXNzaXN0YW50IENhcmQgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgNjYpIj4KICAgICAgPHJlY3Qgd2lkdGg9IjQyOCIgaGVpZ2h0PSI3NCIgcng9IjEyIiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNMTIgMmwxLjggNS40TDE5IDkuNWwtNS4yIDIuMUwxMiAxN2wtMS44LTUuNEw1IDkuNWw1LjItMi4xTDEyIDJ6IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjEyIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTMyRTc3Ij5Pbi1EZXZpY2UgSGVhbHRoIEFzc2lzdGFudDwvdGV4dD4KICAgICAgICA8cmVjdCB4PSIyNTQiIHk9IjAiIHdpZHRoPSI5NCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8dGV4dCB4PSIzMDEiIHk9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+MTAwJSBDbGllbnQtU2lkZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIzNCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5FdmlkZW5jZS1iYXNlZCBhbnN3ZXJzIGNpdGluZyBBQ09HLCBOSFMgJmFtcDsgV0hPIG92ZXIgdXNlciBkYXRhLjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0OCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5aZXJvIHByb21wdCB0cmFuc21pc3Npb247IG5ldmVyIHJlcGxhY2VzIGxpY2Vuc2VkIG1lZGljYWwgYWR2aWNlLjwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gU3ViLWZlYXR1cmUgMjogQ2xpbmljaWFuIFN1bW1hcnkgJiBDYXJlIEFsZXJ0cyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTApIj4KICAgICAgPCEtLSBDYXJlIEFsZXJ0IFByb21wdCAtLT4KICAgICAgPHJlY3Qgd2lkdGg9IjIwNiIgaGVpZ2h0PSIxMDYiIHJ4PSIxMiIgZmlsbD0iI0ZCRTBCMCIgc3Ryb2tlPSIjRjVDNjc5IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDE0KSI+CiAgICAgICAgPHBhdGggZD0iTTEwIDNsOCAxNEgyTDEwIDN6IE0xMCA4djQgTTEwIDE0aC4wMSIgc3Ryb2tlPSIjN0E0NDAwIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjExIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0E0NDAwIj5DbGluaWNhbCBTYWZldHkgQWxlcnRzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIEFic2VuY2UgJmd0OzkwZCAoQW1lbm9ycmhlYSk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgaW50ZXJ2YWxzICZsdDsyMWQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQmxlZWRpbmcgZHVyYXRpb24gJmd0OzdkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFNldmVyZSBwZWx2aWMgcGFpbiAo4omlOC8xMCk8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2xpbmljaWFuIFN1bW1hcnkgRXhwb3J0IC0tPgogICAgICA8cmVjdCB4PSIyMTgiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTA2IiByeD0iMTIiIGZpbGw9IiNGQUY1RjciIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIzMCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNNiAzaDhsNCA0djEwYTEgMSAwIDAgMS0xIDFINmExIDEgMCAwIDEtMS0xVjRhMSAxIDAgMCAxIDEtMXoiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgM3Y0aDQiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM0ODE5MzAiPkNsaW5pY2lhbiBTdW1tYXJ5PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByaW50YWJsZSAmYW1wOyBjb3B5YWJsZSBmb3JtYXQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgJmFtcDsgcGVyaW9kIGRpc3RyaWJ1dGlvbnM8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgU3ltcHRvbSBwaGVub3R5cGUgdGFibGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByZXBhcmVzIE9CL0dZTiB0cmlhZ2U8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBGT09URVI6IFNlY3VyaXR5ICYgU2NpZW50aWZpYyBEaXNjbGFpbWVyCiAgICAgICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDY5NCkiPgogICAgPHRleHQgeD0iMCIgeT0iMCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+Q3ljbGVTaWRlQ2hpY2sgdjIuMC4wIOKAoiAxMDAlIE9uLURldmljZSBTaW5nbGUgUGFnZSAmYW1wOyBPZmZsaW5lIFBXQSDigKIgTWF0aGVtYXRpY2FsIGVzdGltYXRpb25zIGFyZSBhcHByb3hpbWF0aW9ucywgbm90IG1lZGljYWwgZGlhZ25vc2VzLjwvdGV4dD4KICAgIDx0ZXh0IHg9Ijk4NCIgeT0iMCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0Q5NDQ3RSI+Y3ljbGVzaWRlY2hpY2sub3JnPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+        </div>
+      `}
+
+      <button class="btn" style="margin-top:14px" data-a="closeTour">Done Exploring</button>
     </section>`;
 }
 
@@ -4443,6 +5324,10 @@ const A = {
     ui.tourModal = true;
     haptic(15);
   },
+  setTourTab: v => {
+    ui.tourTab = v;
+    haptic(10);
+  },
   closeTour: () => {
     ui.tourModal = false;
     haptic(10);
@@ -4565,6 +5450,12 @@ const A = {
     if (m > 11) { m = 0; y++; }
     ui.cm = { y, m };
     haptic(10);
+  },
+  jumpToday: () => {
+    const now = new Date();
+    ui.cm = { y: now.getFullYear(), m: now.getMonth() };
+    ui.sel = TD();
+    haptic(15);
   },
   pstart: () => {
     ensurePeriod(ui.sel);

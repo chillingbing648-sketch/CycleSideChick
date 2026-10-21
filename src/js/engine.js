@@ -117,7 +117,7 @@ function calculateStats(S) {
   const last = st.length ? st[st.length - 1] : null;
   const pred = [];
   if (last != null) {
-    for (let k = 1; k <= 3; k++) pred.push(last + A * k);
+    for (let k = 1; k <= 6; k++) pred.push(last + A * k);
   }
 
   // Adjustable luteal length (10-16d, default 14d)
@@ -126,6 +126,21 @@ function calculateStats(S) {
   const estOvulation = nextPred ? nextPred - ll : null;
   const fertileStart = estOvulation ? estOvulation - 5 : null;
   const fertileEnd = estOvulation ? estOvulation + 1 : null;
+
+  // Multi-cycle predictions with corresponding fertile windows & ovulation dates (forecast 6 cycles)
+  const predictedCycles = pred.map(p => {
+    const ov = p - ll;
+    return {
+      start: p,
+      periodStart: p,
+      end: p + (S.pl || 5) - 1,
+      periodEnd: p + (S.pl || 5) - 1,
+      ovulation: ov,
+      ovulationDate: ov,
+      fertileStart: ov - 5,
+      fertileEnd: ov + 1
+    };
+  });
 
   return {
     st,
@@ -139,6 +154,7 @@ function calculateStats(S) {
     last,
     pred,
     nextPred,
+    predictedCycles,
     ll,
     estOvulation,
     fertileStart,
@@ -409,12 +425,173 @@ const CERVICAL_FLUID = {
   eggwhite: { label: "Egg-white / Spinnbarkeit", desc: "Clear, highly stretchy between fingers.", fertile: "Peak (Estimated)" }
 };
 
+/**
+ * Period Duration History
+ * Extracts duration in days for each recorded period.
+ */
+function calculatePeriodDurations(S) {
+  const valid = vp(S);
+  return valid.map(p => {
+    const start = N(p.s);
+    const end = pEnd(p, S);
+    const duration = Math.max(1, end - start + 1);
+    const isConfirmedEnd = okD(p.e) && N(p.e) >= start && N(p.e) <= TD();
+    return {
+      startDate: p.s,
+      endDate: p.e || I(end),
+      duration,
+      isConfirmedEnd,
+      confirmed: isConfirmedEnd
+    };
+  });
+}
+
+/**
+ * Cycle Variability & Regularity (FIGO Standard)
+ * Normal: length 24-38 days, variation <= 7-9 days.
+ */
+function calculateVariability(S) {
+  const x = calculateStats(S);
+  if (x.n < 2) {
+    return {
+      ready: false,
+      hasEnoughData: false,
+      count: x.n,
+      stdDev: x.sd,
+      classification: "Awaiting History",
+      explanation: "Variability and regularity metrics personalize after at least 2 recorded cycles."
+    };
+  }
+
+  const lens = x.lens.slice(-6);
+  const minLen = Math.min(...lens);
+  const maxLen = Math.max(...lens);
+  const spread = maxLen - minLen;
+  const sd = x.sd;
+
+  let classification = "Regular";
+  let explanation = "";
+
+  if (sd <= 3 && spread <= 6) {
+    classification = "Highly Regular";
+    explanation = `Your cycle is very consistent, varying by only ±${Math.round(sd)} days (range: ${minLen}–${maxLen}d).`;
+  } else if (sd <= 6 && spread <= 9) {
+    classification = "Normal Variation";
+    explanation = `Normal physiological variation of ${spread} days across recorded cycles (typical healthy range is ≤7–9 days).`;
+  } else {
+    classification = "Variable Pattern";
+    explanation = `Cycles vary by ${spread} days (${minLen}–${maxLen}d). Occasional variation is common due to stress, travel, illness, or hormonal shifts.`;
+  }
+
+  return {
+    ready: true,
+    hasEnoughData: true,
+    count: lens.length,
+    stdDev: sd,
+    minLen,
+    maxLen,
+    spread,
+    classification,
+    explanation
+  };
+}
+
+/**
+ * Aggregates symptoms across logged history with severity breakdown and phase correlation.
+ */
+function aggregateSymptoms(S, daysWindow = 90) {
+  const counts = {};
+  const severities = {};
+  const phaseDistribution = { follicular: 0, luteal: 0, menstrual: 0 };
+  const T = TD();
+  const cutoff = T - daysWindow;
+  const x = calculateStats(S);
+
+  Object.entries(S.logs || {}).forEach(([dateStr, log]) => {
+    const dn = N(dateStr);
+    if (dn < cutoff || !log.sy) return;
+
+    // Estimate phase for this date if possible
+    let datePhase = "follicular";
+    if (pdset(S).has(dn)) {
+      datePhase = "menstrual";
+    } else if (x.last != null) {
+      const cycleDay = ((dn - x.last) % x.avg + x.avg) % x.avg + 1;
+      if (cycleDay > x.avg - x.ll) datePhase = "luteal";
+    }
+
+    Object.entries(log.sy).forEach(([sym, level]) => {
+      counts[sym] = (counts[sym] || 0) + 1;
+      if (!severities[sym]) severities[sym] = { mild: 0, moderate: 0, severe: 0, total: 0 };
+      severities[sym].total++;
+      if (level === 1) severities[sym].mild++;
+      else if (level === 2) severities[sym].moderate++;
+      else if (level >= 3) severities[sym].severe++;
+
+      if (datePhase in phaseDistribution) {
+        phaseDistribution[datePhase]++;
+      }
+    });
+  });
+
+  const sorted = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count]) => {
+      const lev = severities[name] || { mild: 0, moderate: 0, severe: 0 };
+      return {
+        name,
+        count,
+        levels: lev,
+        mild: lev.mild,
+        moderate: lev.moderate,
+        severe: lev.severe
+      };
+    });
+
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
+  return {
+    symptoms: sorted,
+    list: sorted,
+    totalLogged: total,
+    totalEntries: total,
+    phaseDistribution
+  };
+}
+
+/**
+ * Aggregates mood frequencies over the last 60 days.
+ */
+function aggregateMoods(S, daysWindow = 60) {
+  const counts = [0, 0, 0, 0, 0];
+  let total = 0;
+  const cutoff = TD() - daysWindow;
+
+  Object.entries(S.logs || {}).forEach(([dateStr, log]) => {
+    const dn = N(dateStr);
+    if (dn >= cutoff && log.m != null && log.m >= 0 && log.m < 5) {
+      counts[log.m]++;
+      total++;
+    }
+  });
+
+  return {
+    counts,
+    total,
+    totalLogged: total,
+    percentages: counts.map(c => total ? Math.round((c / total) * 100) : 0),
+    distribution: counts.map((c, i) => ({ moodIndex: i, count: c, percentage: total ? Math.round((c / total) * 100) : 0 })),
+    predominant: total ? counts.indexOf(Math.max(...counts)) : null
+  };
+}
+
 // Export for module environments
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     DAY, N, I, TD, fmt, okD, vp, badP, pEnd, pdset,
     calculateStats, calculatePregnancy, checkCareAlerts,
     getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
-    CERVICAL_FLUID
+    CERVICAL_FLUID, calculatePeriodDurations, calculateVariability,
+    aggregateSymptoms, aggregateMoods
   };
 }

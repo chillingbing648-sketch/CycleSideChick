@@ -19,6 +19,7 @@ const {
   N, I, TD, fmt, okD, vp, badP, pEnd, pdset,
   calculateStats, calculatePregnancy, checkCareAlerts,
   getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
+  calculatePeriodDurations, calculateVariability, aggregateSymptoms, aggregateMoods,
   CERVICAL_FLUID
 } = require("../src/js/engine.js");
 
@@ -238,6 +239,100 @@ it("Generates valid JSON backup and detects duplicate period imports", () => {
   assert.strictEqual(preview.valid, true, "Import format must be valid");
   assert.strictEqual(preview.dupPeriods, 1, "Duplicate periods must be identified");
   assert.strictEqual(preview.newPeriods, 0, "No new periods in identical backup");
+});
+
+// 12. Multi-Cycle Predictions with Distinct Fertile Windows
+it("Generates 6 future predicted cycles with distinct fertile windows and ovulation dates", () => {
+  const S = {
+    cl: 28,
+    pl: 5,
+    ll: 14,
+    mode: "natural",
+    periods: [{ s: "2026-09-01", e: "2026-09-05" }]
+  };
+  const stats = calculateStats(S);
+  assert(Array.isArray(stats.predictedCycles), "predictedCycles must be an array");
+  assert.strictEqual(stats.predictedCycles.length, 6, "Must forecast 6 cycles");
+  
+  const c1 = stats.predictedCycles[0];
+  const c2 = stats.predictedCycles[1];
+  assert(c1.periodStart < c2.periodStart, "Cycles must advance chronologically");
+  assert.strictEqual(c2.periodStart - c1.periodStart, 28, "Cycle intervals must match average length");
+  assert(c1.ovulationDate < c1.periodEnd || c1.ovulationDate > c1.periodEnd, "Ovulation date must be defined");
+  assert.strictEqual(c1.fertileEnd - c1.fertileStart, 6, "Fertile window difference must be 6 (spanning 7 calendar days)");
+});
+
+// 13. Historical Period Durations
+it("Extracts period durations and differentiates confirmed vs inferred end dates", () => {
+  const S = {
+    pl: 5,
+    periods: [
+      { s: "2026-07-01", e: "2026-07-06" }, // 6 days confirmed
+      { s: "2026-08-01", e: null }           // Inferred using default pl 5d
+    ]
+  };
+  const durs = calculatePeriodDurations(S);
+  assert.strictEqual(durs.length, 2, "Must return 2 durations");
+  assert.strictEqual(durs[0].duration, 6, "First duration should be 6 days");
+  assert.strictEqual(durs[0].confirmed, true, "First duration should be confirmed");
+  assert.strictEqual(durs[1].duration, 5, "Second duration should default to pl (5 days)");
+  assert.strictEqual(durs[1].confirmed, false, "Second duration should be inferred");
+});
+
+// 14. FIGO Clinical Cycle Variability
+it("Calculates standard deviation, spread, and FIGO regularity classifications", () => {
+  // Regular history (<7 days variation)
+  const regularS = {
+    cl: 28,
+    periods: [
+      { s: "2026-04-01", e: null },
+      { s: "2026-04-29", e: null }, // 28d
+      { s: "2026-05-28", e: null }, // 29d
+      { s: "2026-06-25", e: null }  // 28d
+    ]
+  };
+  const regVar = calculateVariability(regularS);
+  assert.strictEqual(regVar.hasEnoughData, true);
+  assert.strictEqual(regVar.classification, "Highly Regular");
+
+  // Variable history (>=9 days variation)
+  const varS = {
+    cl: 28,
+    periods: [
+      { s: "2026-04-01", e: null },
+      { s: "2026-04-24", e: null }, // 23d
+      { s: "2026-05-30", e: null }, // 36d (13d spread)
+      { s: "2026-06-25", e: null }  // 26d
+    ]
+  };
+  const irVar = calculateVariability(varS);
+  assert.strictEqual(irVar.classification, "Variable Pattern");
+  assert(irVar.spread >= 9, "Spread must be >= 9");
+});
+
+// 15. Symptom and Mood Aggregation
+it("Aggregates symptoms and mood percentages over a time window", () => {
+  const S = {
+    cl: 28,
+    pl: 5,
+    ll: 14,
+    periods: [{ s: "2026-10-01", e: "2026-10-05" }],
+    logs: {
+      "2026-10-02": { sy: { Cramps: 3, Fatigue: 2 }, m: 3 }, // Menstrual
+      "2026-10-10": { sy: { Fatigue: 1 }, m: 0 },             // Follicular
+      "2026-10-18": { sy: { Bloating: 2 }, m: 3 }             // Luteal
+    }
+  };
+  const syms = aggregateSymptoms(S, 60);
+  assert(syms.totalEntries >= 3, "Total logged symptom entries should be tracked");
+  const cramps = syms.list.find(s => s.name === "Cramps");
+  assert(cramps !== undefined, "Cramps must be in aggregated list");
+  assert.strictEqual(cramps.count, 1);
+  assert.strictEqual(cramps.severe, 1);
+
+  const moods = aggregateMoods(S, 60);
+  assert.strictEqual(moods.totalLogged, 3, "Total logged moods must equal 3");
+  assert(moods.distribution.length > 0, "Distribution must contain mood entries");
 });
 
 console.log("==================================================");

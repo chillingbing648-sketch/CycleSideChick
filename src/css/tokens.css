@@ -59,6 +59,27 @@
   --tint-peach-text: #773B1B;
   --tint-peach-border: #F3BF9F;
 
+  /* Dedicated Physiological Phase Colors (Light) */
+  --phase-menstrual: #E11D48;
+  --phase-menstrual-bg: #FFE4E6;
+  --phase-menstrual-text: #9F1239;
+  --phase-menstrual-border: #FECDD3;
+
+  --phase-follicular: #059669;
+  --phase-follicular-bg: #D1FAE5;
+  --phase-follicular-text: #065F46;
+  --phase-follicular-border: #A7F3D0;
+
+  --phase-ovulatory: #7C3AED;
+  --phase-ovulatory-bg: #EDE9FE;
+  --phase-ovulatory-text: #5B21B6;
+  --phase-ovulatory-border: #DDD6FE;
+
+  --phase-luteal: #D97706;
+  --phase-luteal-bg: #FEF3C7;
+  --phase-luteal-text: #92400E;
+  --phase-luteal-border: #FDE68A;
+
   /* Shadows & Radii */
   --card-shadow: 0 4px 18px -2px rgba(72, 25, 48, 0.05), 0 1px 3px rgba(72, 25, 48, 0.03);
   --card-shadow-hover: 0 8px 24px -4px rgba(72, 25, 48, 0.08);
@@ -129,6 +150,27 @@
     --tint-peach-bg: #3A2A26;
     --tint-peach-text: #F8BC9E;
     --tint-peach-border: #573B32;
+
+    /* Dedicated Physiological Phase Colors (Dark) */
+    --phase-menstrual: #FB7185;
+    --phase-menstrual-bg: #4C0519;
+    --phase-menstrual-text: #FECDD3;
+    --phase-menstrual-border: #881337;
+
+    --phase-follicular: #34D399;
+    --phase-follicular-bg: #064E3B;
+    --phase-follicular-text: #A7F3D0;
+    --phase-follicular-border: #065F46;
+
+    --phase-ovulatory: #A78BFA;
+    --phase-ovulatory-bg: #3B0764;
+    --phase-ovulatory-text: #DDD6FE;
+    --phase-ovulatory-border: #5B21B6;
+
+    --phase-luteal: #FBBF24;
+    --phase-luteal-bg: #451A03;
+    --phase-luteal-text: #FDE68A;
+    --phase-luteal-border: #78350F;
 
     --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
     --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
