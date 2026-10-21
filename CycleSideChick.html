@@ -10,8 +10,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<!-- Google Identity Services (GIS) Client Library -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* ==========================================================================
    CycleSideChick — Design Tokens & Soft Semantic Color System
@@ -1597,726 +1595,12 @@ input[type="range"]::-webkit-slider-thumb:active {
   }
 }
 
-/* 8. Mandatory Google Authentication Gate */
-.auth-gate-view {
-  max-width: 440px;
-  margin: 0 auto;
-  padding: 36px 20px 48px;
-  text-align: center;
-}
-
-.auth-header {
-  margin-bottom: 24px;
-}
-
-.auth-card {
-  text-align: left;
-  padding: 22px 20px;
-  margin-bottom: 16px;
-}
-
-.g-signin-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 48px;
-  margin: 18px 0 14px;
-  width: 100%;
-}
-
-.auth-status-spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 2.5px solid var(--border);
-  border-top-color: var(--pink);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.auth-user-badge {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: var(--radius-md);
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-}
-
-.auth-user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border);
-  object-fit: cover;
-  background: var(--surface);
-  flex-shrink: 0;
-}
-
-.auth-user-info {
-  flex: 1;
-  min-width: 0;
-  text-align: left;
-}
-
-.auth-user-name {
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--plum);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.auth-user-email {
-  font-size: 12px;
-  color: var(--muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
-/**
- * CycleSideChick — Authentication Configuration
- * OAuth 2.0 Web Client Configuration for Google Identity Services (GIS).
- *
- * Privacy Guarantees:
- * - Basic profile scopes only (openid, email, profile).
- * - No access to Google Drive, Gmail, Contacts, Calendar, or Fitness APIs.
- * - Zero health records or cycle data are ever sent to Google or remote servers.
- */
-
-(function (root, factory) {
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = factory();
-  } else {
-    root.CSC_CONFIG = factory();
-  }
-})(typeof globalThis !== "undefined" ? globalThis : this, function () {
-  "use strict";
-
-  // Production Client ID placeholder.
-  // Deployers can configure their OAuth 2.0 Client ID via:
-  // 1. Injected window.CSC_GOOGLE_CLIENT_ID
-  // 2. <meta name="google-signin-client_id" content="..."> in index.html
-  // 3. Local browser override in localStorage["csc.oauth_client_id"] (useful for local development)
-  // 4. Default fallback below
-  const DEFAULT_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
-
-  function getMetaClientId() {
-    if (typeof document !== "undefined" && document.querySelector) {
-      const meta = document.querySelector('meta[name="google-signin-client_id"]');
-      if (meta && meta.content && meta.content.trim()) {
-        return meta.content.trim();
-      }
-    }
-    return null;
-  }
-
-  function getStoredCustomClientId() {
-    try {
-      if (typeof localStorage !== "undefined") {
-        const stored = localStorage.getItem("csc.oauth_client_id");
-        if (stored && stored.trim()) {
-          return stored.trim();
-        }
-      }
-    } catch (e) {}
-    return null;
-  }
-
-  function resolveClientId() {
-    // 1. Runtime window global
-    if (typeof window !== "undefined" && window.CSC_GOOGLE_CLIENT_ID && typeof window.CSC_GOOGLE_CLIENT_ID === "string") {
-      const id = window.CSC_GOOGLE_CLIENT_ID.trim();
-      if (id && !id.startsWith("YOUR_GOOGLE_CLIENT_ID")) return id;
-    }
-
-    // 2. Meta tag
-    const metaId = getMetaClientId();
-    if (metaId && !metaId.startsWith("YOUR_GOOGLE_CLIENT_ID")) return metaId;
-
-    // 3. Stored override for dev testing
-    const customId = getStoredCustomClientId();
-    if (customId && !customId.startsWith("YOUR_GOOGLE_CLIENT_ID")) return customId;
-
-    // 4. Default placeholder
-    return DEFAULT_CLIENT_ID;
-  }
-
-  const config = {
-    // Current active client ID
-    get GOOGLE_CLIENT_ID() {
-      return resolveClientId();
-    },
-
-    // Default placeholder reference
-    DEFAULT_CLIENT_ID,
-
-    // Optional backend verification endpoint (null for 100% static GitHub Pages hosting)
-    BACKEND_VERIFY_URL: (typeof window !== "undefined" && window.CSC_BACKEND_VERIFY_URL) || null,
-
-    // Authorized Origins Reference for Google Cloud Console Setup
-    AUTHORIZED_ORIGINS: [
-      "https://chillingbing648-sketch.github.io",
-      "http://localhost:8080",
-      "http://127.0.0.1:8080",
-      "http://localhost:3000",
-      "http://localhost:5000",
-      "http://127.0.0.1:5500"
-    ],
-
-    /**
-     * Checks if a valid, non-placeholder Client ID is configured
-     */
-    isClientIdConfigured() {
-      const id = this.GOOGLE_CLIENT_ID;
-      return Boolean(id && typeof id === "string" && !id.startsWith("YOUR_GOOGLE_CLIENT_ID") && id.includes(".apps.googleusercontent.com"));
-    },
-
-    /**
-     * Set a custom Client ID in local browser storage (for quick dev/staging setup)
-     */
-    setCustomClientId(newId) {
-      if (!newId || typeof newId !== "string") return false;
-      const clean = newId.trim();
-      try {
-        if (typeof localStorage !== "undefined") {
-          localStorage.setItem("csc.oauth_client_id", clean);
-          return true;
-        }
-      } catch (e) {}
-      return false;
-    },
-
-    /**
-     * Clears custom local override
-     */
-    clearCustomClientId() {
-      try {
-        if (typeof localStorage !== "undefined") {
-          localStorage.removeItem("csc.oauth_client_id");
-          return true;
-        }
-      } catch (e) {}
-      return false;
-    }
-  };
-
-  return config;
-});
-
-
-/**
- * CycleSideChick — Authentication Module (Google Identity Services)
- * Architecture: Zero-cloud, privacy-first identity gate.
- *
- * Privacy Guarantees:
- * - Google Identity Services (GIS) is used strictly for identity verification.
- * - Zero health records, cycle history, or symptom logs are ever transmitted to Google or any remote server.
- * - Session state is held in sessionStorage (ephemeral to current browser tab) and never merged with health data.
- * - Local health data (csc.v1) remains strictly on-device in localStorage and is never overwritten on auth changes.
- */
-
-(function (root, factory) {
-  if (typeof module !== "undefined" && module.exports) {
-    const config = require("./config.js");
-    module.exports = factory(config);
-  } else {
-    root.CycleAuth = factory(root.CSC_CONFIG);
-  }
-})(typeof globalThis !== "undefined" ? globalThis : this, function (CSC_CONFIG) {
-  "use strict";
-
-  const SESSION_KEY = "csc.auth_session";
-  const GIS_SCRIPT_URL = "https://accounts.google.com/gsi/client";
-  const TOKEN_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
-
-  // Auth States
-  const STATES = {
-    INITIALIZING: "initializing",
-    UNAUTHENTICATED: "unauthenticated",
-    AUTHENTICATING: "authenticating",
-    AUTHENTICATED: "authenticated",
-    ERROR: "error"
-  };
-
-  let currentState = STATES.INITIALIZING;
-  let activeUser = null;
-  let lastError = null;
-  let gisInitialized = false;
-  let listeners = [];
-
-  /**
-   * Safe Base64URL decoder supporting UTF-8
-   */
-  function base64UrlDecode(str) {
-    if (typeof str !== "string") return null;
-    let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
-    while (base64.length % 4 !== 0) {
-      base64 += "=";
-    }
-    try {
-      if (typeof atob === "function") {
-        const binary = atob(base64);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-          bytes[i] = binary.charCodeAt(i);
-        }
-        if (typeof TextDecoder !== "undefined") {
-          return new TextDecoder().decode(bytes);
-        }
-        return decodeURIComponent(escape(binary));
-      }
-      if (typeof Buffer !== "undefined") {
-        return Buffer.from(base64, "base64").toString("utf8");
-      }
-    } catch (e) {
-      return null;
-    }
-    return null;
-  }
-
-  /**
-   * Safely parse JWT token into { header, payload, signature }
-   */
-  function parseJwt(token) {
-    if (!token || typeof token !== "string") return null;
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-
-    try {
-      const headerJson = base64UrlDecode(parts[0]);
-      const payloadJson = base64UrlDecode(parts[1]);
-      if (!headerJson || !payloadJson) return null;
-
-      const header = JSON.parse(headerJson);
-      const payload = JSON.parse(payloadJson);
-      return { header, payload, signature: parts[2] };
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /**
-   * Validate JWT claims according to Google Identity Services specification:
-   * - iss must be https://accounts.google.com or accounts.google.com
-   * - aud must match the configured Google Client ID
-   * - exp must be in the future
-   * - sub must be a valid non-empty subject identifier
-   */
-  function validateJwtClaims(payload, expectedClientId) {
-    if (!payload || typeof payload !== "object") {
-      return { valid: false, error: "Invalid token payload structure" };
-    }
-
-    // 1. Issuer verification
-    const validIssuers = ["https://accounts.google.com", "accounts.google.com"];
-    if (!validIssuers.includes(payload.iss)) {
-      return { valid: false, error: `Invalid token issuer: expected Google, got ${payload.iss}` };
-    }
-
-    // 2. Audience verification (must match our OAuth Web Client ID)
-    if (expectedClientId) {
-      if (payload.aud !== expectedClientId) {
-        return { valid: false, error: "Token audience does not match configured Google Client ID" };
-      }
-    }
-
-    // 3. Expiration verification (with 60-second clock skew grace period)
-    const nowSec = Math.floor(Date.now() / 1000);
-    if (!payload.exp || typeof payload.exp !== "number") {
-      return { valid: false, error: "Token missing expiration claim" };
-    }
-    if (payload.exp + 60 < nowSec) {
-      return { valid: false, error: "Google ID token has expired" };
-    }
-
-    // 4. Not Before claim verification if present
-    if (payload.nbf && typeof payload.nbf === "number" && payload.nbf - 60 > nowSec) {
-      return { valid: false, error: "Token is not yet valid (nbf in future)" };
-    }
-
-    // 5. Subject verification
-    if (!payload.sub || typeof payload.sub !== "string") {
-      return { valid: false, error: "Token missing valid user subject ID" };
-    }
-
-    return { valid: true };
-  }
-
-  /**
-   * Sanitize user profile fields to prevent any potential DOM injection
-   */
-  function sanitizeUser(raw) {
-    if (!raw || typeof raw !== "object") return null;
-    return {
-      sub: String(raw.sub || ""),
-      email: String(raw.email || ""),
-      name: String(raw.name || raw.email || "CycleSideChick User"),
-      picture: typeof raw.picture === "string" && raw.picture.startsWith("https://") ? raw.picture : null,
-      emailVerified: Boolean(raw.email_verified || raw.emailVerified)
-    };
-  }
-
-  /**
-   * Ephemeral Session Management (sessionStorage)
-   * Ensures auth session expires when browser tab closes and never leaks into persistent csc.v1 health data.
-   */
-  function getStoredSession() {
-    try {
-      if (typeof sessionStorage === "undefined") return null;
-      const raw = sessionStorage.getItem(SESSION_KEY);
-      if (!raw) return null;
-      const session = JSON.parse(raw);
-
-      if (!session || !session.exp || !session.user) {
-        sessionStorage.removeItem(SESSION_KEY);
-        return null;
-      }
-
-      // Check expiration
-      const nowSec = Math.floor(Date.now() / 1000);
-      if (session.exp <= nowSec) {
-        sessionStorage.removeItem(SESSION_KEY);
-        return null;
-      }
-
-      return session;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function saveSession(credential, payload) {
-    try {
-      if (typeof sessionStorage === "undefined") return false;
-      const user = sanitizeUser(payload);
-      const sessionData = {
-        credential,
-        user,
-        exp: payload.exp,
-        authenticatedAt: Date.now()
-      };
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function clearStoredSession() {
-    try {
-      if (typeof sessionStorage !== "undefined") {
-        sessionStorage.removeItem(SESSION_KEY);
-      }
-    } catch (e) {}
-  }
-
-  function notifyListeners() {
-    const info = {
-      state: currentState,
-      user: activeUser,
-      error: lastError,
-      isAuthenticated: currentState === STATES.AUTHENTICATED
-    };
-    listeners.forEach(fn => {
-      try { fn(info); } catch (e) { console.error("Auth listener error:", e); }
-    });
-  }
-
-  function setState(newState, user = null, error = null) {
-    currentState = newState;
-    activeUser = user;
-    lastError = error;
-    notifyListeners();
-  }
-
-  /**
-   * Verify token with Google's tokeninfo API or custom backend if configured.
-   * This provides cryptographic confirmation directly from Google's infrastructure.
-   */
-  async function verifyCredential(credential, expectedClientId) {
-    // 1. First parse and perform strict local structural & claim checks
-    const parsed = parseJwt(credential);
-    if (!parsed) {
-      return { ok: false, error: "Malformed Google ID token format" };
-    }
-
-    const claimCheck = validateJwtClaims(parsed.payload, expectedClientId);
-    if (!claimCheck.valid) {
-      return { ok: false, error: claimCheck.error };
-    }
-
-    // 2. If a backend verification endpoint is configured, forward to backend
-    if (CSC_CONFIG && CSC_CONFIG.BACKEND_VERIFY_URL) {
-      try {
-        const resp = await fetch(CSC_CONFIG.BACKEND_VERIFY_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ credential })
-        });
-        if (!resp.ok) {
-          const errData = await resp.json().catch(() => ({}));
-          return { ok: false, error: errData.error || "Backend verification rejected token" };
-        }
-        const backendResult = await resp.json();
-        return { ok: true, payload: backendResult.payload || parsed.payload };
-      } catch (err) {
-        return { ok: false, error: `Backend verification network error: ${err.message}` };
-      }
-    }
-
-    // 3. For client-side / static GitHub Pages hosting, verify via Google's tokeninfo endpoint
-    if (typeof fetch !== "undefined") {
-      try {
-        const url = `${TOKEN_INFO_URL}?id_token=${encodeURIComponent(credential)}`;
-        const resp = await fetch(url, { method: "GET" });
-        if (resp.ok) {
-          const verified = await resp.json();
-          // Confirm aud and iss match
-          if (expectedClientId && verified.aud !== expectedClientId) {
-            return { ok: false, error: "Verified token audience does not match configured client ID" };
-          }
-          return { ok: true, payload: { ...parsed.payload, ...verified } };
-        } else {
-          const errData = await resp.json().catch(() => ({}));
-          return { ok: false, error: errData.error_description || "Google tokeninfo verification failed" };
-        }
-      } catch (networkErr) {
-        // If offline or fetch failed, report offline / network verification warning
-        console.warn("Google tokeninfo unreachable (offline or network blocked):", networkErr);
-        // Fall back to the cryptographically verified JWT claims structure if token is fresh
-        return { ok: true, payload: parsed.payload, unverifiedNotice: true };
-      }
-    }
-
-    return { ok: true, payload: parsed.payload };
-  }
-
-  /**
-   * Process a credential response from Google Identity Services
-   */
-  async function handleCredentialResponse(response) {
-    if (!response || !response.credential) {
-      setState(STATES.ERROR, null, "No credential returned from Google Sign-In");
-      return;
-    }
-
-    setState(STATES.AUTHENTICATING, null, null);
-
-    const clientId = CSC_CONFIG.GOOGLE_CLIENT_ID;
-    const verification = await verifyCredential(response.credential, clientId);
-
-    if (!verification.ok) {
-      setState(STATES.ERROR, null, verification.error);
-      return;
-    }
-
-    const payload = verification.payload;
-    const user = sanitizeUser(payload);
-    saveSession(response.credential, payload);
-
-    setState(STATES.AUTHENTICATED, user, null);
-  }
-
-  /**
-   * Dynamically loads the official Google Identity Services library with timeout
-   */
-  function loadGisScript(timeoutMs = 9000) {
-    return new Promise((resolve, reject) => {
-      if (typeof window === "undefined") {
-        return reject(new Error("GIS requires browser environment"));
-      }
-
-      if (window.google && window.google.accounts && window.google.accounts.id) {
-        return resolve(window.google.accounts.id);
-      }
-
-      // Check if script tag is already in DOM
-      let script = document.querySelector(`script[src="${GIS_SCRIPT_URL}"]`);
-      let timer = null;
-
-      const cleanup = () => {
-        if (timer) clearTimeout(timer);
-      };
-
-      timer = setTimeout(() => {
-        cleanup();
-        reject(new Error("Timed out loading Google Identity Services library. Please check your internet connection or ad-blocker."));
-      }, timeoutMs);
-
-      const checkInterval = setInterval(() => {
-        if (window.google && window.google.accounts && window.google.accounts.id) {
-          clearInterval(checkInterval);
-          cleanup();
-          resolve(window.google.accounts.id);
-        }
-      }, 100);
-
-      if (!script) {
-        script = document.createElement("script");
-        script.src = GIS_SCRIPT_URL;
-        script.async = true;
-        script.defer = true;
-        script.onerror = () => {
-          clearInterval(checkInterval);
-          cleanup();
-          reject(new Error("Failed to load Google Identity Services library. Please check network connection or privacy blockers."));
-        };
-        document.head.appendChild(script);
-      }
-    });
-  }
-
-  /**
-   * Initialize Google Identity Services client
-   */
-  async function initGis() {
-    const clientId = CSC_CONFIG.GOOGLE_CLIENT_ID;
-
-    if (!CSC_CONFIG.isClientIdConfigured()) {
-      if (currentState !== STATES.AUTHENTICATED) {
-        setState(STATES.ERROR, null, "Google OAuth 2.0 Web Client ID is not configured. Please set a valid Client ID.");
-      }
-      return false;
-    }
-
-    try {
-      const googleId = await loadGisScript();
-      googleId.initialize({
-        client_id: clientId,
-        callback: handleCredentialResponse,
-        auto_select: false,
-        cancel_on_tap_outside: true,
-        context: "signin",
-        ux_mode: "popup"
-      });
-      gisInitialized = true;
-      return true;
-    } catch (err) {
-      if (currentState !== STATES.AUTHENTICATED) {
-        setState(STATES.ERROR, null, err.message);
-      }
-      return false;
-    }
-  }
-
-  /**
-   * Render official Sign in with Google button into a target container
-   */
-  function renderButton(containerElement, options = {}) {
-    if (!containerElement) return false;
-    if (typeof window === "undefined" || !window.google || !window.google.accounts || !window.google.accounts.id) {
-      return false;
-    }
-
-    try {
-      const defaultOptions = {
-        type: "standard",
-        shape: "pill",
-        theme: "outline",
-        text: "signin_with",
-        size: "large",
-        logo_alignment: "left",
-        width: 280
-      };
-      window.google.accounts.id.renderButton(containerElement, { ...defaultOptions, ...options });
-      return true;
-    } catch (e) {
-      console.error("GIS renderButton failed:", e);
-      return false;
-    }
-  }
-
-  /**
-   * Sign out current user
-   * Clears session, disables auto-select, does NOT delete local health records.
-   */
-  function signOut() {
-    clearStoredSession();
-    if (typeof window !== "undefined" && window.google && window.google.accounts && window.google.accounts.id) {
-      try {
-        window.google.accounts.id.disableAutoSelect();
-      } catch (e) {}
-    }
-    setState(STATES.UNAUTHENTICATED, null, null);
-  }
-
-  /**
-   * Bootstraps the authentication lifecycle:
-   * 1. Checks existing valid session in sessionStorage
-   * 2. If valid, restores user
-   * 3. If invalid/missing, transitions to UNAUTHENTICATED
-   */
-  function init() {
-    const existingSession = getStoredSession();
-    if (existingSession) {
-      const user = sanitizeUser(existingSession.user);
-      setState(STATES.AUTHENTICATED, user, null);
-      // Initialize GIS in background for sign-out or session renewal
-      initGis().catch(() => {});
-      return;
-    }
-
-    setState(STATES.UNAUTHENTICATED, null, null);
-    initGis().catch(() => {});
-  }
-
-  const CycleAuth = {
-    STATES,
-    init,
-    initGis,
-    getState: () => currentState,
-    getUser: () => activeUser,
-    getError: () => lastError,
-    isAuthenticated: () => currentState === STATES.AUTHENTICATED && activeUser !== null,
-    isAuthenticating: () => currentState === STATES.AUTHENTICATING,
-    renderButton,
-    signOut,
-    onAuthStateChanged: cb => {
-      if (typeof cb === "function") {
-        listeners.push(cb);
-        // Immediately fire with current state
-        cb({
-          state: currentState,
-          user: activeUser,
-          error: lastError,
-          isAuthenticated: currentState === STATES.AUTHENTICATED
-        });
-      }
-      return () => {
-        listeners = listeners.filter(fn => fn !== cb);
-      };
-    },
-    // Expose helpers for tests and validation
-    parseJwt,
-    validateJwtClaims,
-    verifyCredential,
-    handleCredentialResponse,
-    sanitizeUser,
-    getStoredSession,
-    saveSession,
-    clearStoredSession
-  };
-
-  return CycleAuth;
-});
-
-
 /**
  * CycleSideChick — Cycle Engine v2
  * High-accuracy, evidence-based, on-device cycle calculations.
@@ -2840,7 +2124,6 @@ function getPrivacyLedger() {
           if (k === KEY) desc = "Cycle history, symptom logs, personal settings (Schema v2)";
           else if (k.includes("backup")) desc = "Local recovery safety backup";
           else if (k.includes("pin")) desc = "Salted cryptographic PIN hash for app lock";
-          else if (k.includes("oauth")) desc = "Custom OAuth client ID configuration";
 
           items.push({
             key: k,
@@ -4002,17 +3285,6 @@ function updateScrollLock() {
 
 function afterRender(ctx) {
   updateScrollLock();
-
-  // Mount Google Sign-In button if on the Authentication Gate
-  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) {
-    const container = document.getElementById("g-signin-container");
-    if (container && typeof CSC_CONFIG !== "undefined" && CSC_CONFIG.isClientIdConfigured()) {
-      CycleAuth.renderButton(container, {
-        width: Math.min(320, container.clientWidth || 280)
-      });
-    }
-  }
-
   if (ctx && ctx.prevTab === ui.tab && scrollPositions[ui.tab] != null) {
     window.scrollTo({ top: scrollPositions[ui.tab], behavior: "instant" });
   }
@@ -4959,90 +4231,6 @@ function renderInfoModal() {
     </section>`;
 }
 
-/* 11.5 Mandatory Google Authentication Gate Screen */
-function renderAuthGate() {
-  const isAuth = typeof CycleAuth !== "undefined" && CycleAuth.isAuthenticated();
-  const isAuthenticating = typeof CycleAuth !== "undefined" && CycleAuth.isAuthenticating();
-  const authError = typeof CycleAuth !== "undefined" ? CycleAuth.getError() : null;
-  const isConfigured = typeof CSC_CONFIG !== "undefined" && CSC_CONFIG.isClientIdConfigured();
-
-  return `
-    <div class="auth-gate-view view-enter" role="region" aria-label="Sign In to CycleSideChick">
-      <div class="auth-header">
-        <div style="margin-bottom:14px">${bunny(72)}</div>
-        <h1 class="wm" style="font-size:28px;margin-bottom:6px">CycleSideChick</h1>
-        <p class="mut" style="font-size:15px;font-weight:600;color:var(--plum);margin:0">
-          Your private, evidence-based cycle and wellness companion.
-        </p>
-      </div>
-
-      <div class="card auth-card">
-        <h2 style="font-size:18px;margin:0 0 6px;color:var(--plum)">Sign in with Google</h2>
-        <p class="mut" style="font-size:13.5px;line-height:1.5;margin:0 0 16px">
-          Authentication is required to unlock CycleSideChick in this browser.
-        </p>
-
-        ${isAuthenticating ? `
-          <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 0;color:var(--plum);font-weight:600;font-size:14px;">
-            <div class="auth-status-spinner"></div>
-            <span>Verifying Google identity...</span>
-          </div>
-        ` : `
-          <div id="g-signin-container" class="g-signin-wrapper" aria-label="Google Sign In Button">
-            ${!isConfigured ? `
-              <div class="card tint-amber" style="width:100%;margin:0;padding:14px;border-radius:var(--radius-md);">
-                <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:var(--tint-amber-text);font-size:13.5px;margin-bottom:6px;">
-                  ${svgi("info", 18)} <span>OAuth Client ID Setup Required</span>
-                </div>
-                <p style="margin:0 0 10px;font-size:12.5px;color:var(--tint-amber-text);line-height:1.45;">
-                  Configure your Google Cloud OAuth 2.0 Web Client ID in <code>src/js/config.js</code> or enter a Client ID below to test immediately:
-                </p>
-                <div style="display:flex;flex-direction:column;gap:8px;">
-                  <input type="text" id="dev-client-id-input" placeholder="your-client-id.apps.googleusercontent.com" style="font-size:12.5px;padding:9px 12px;width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);">
-                  <button class="btn" style="min-height:38px;padding:8px 14px;font-size:13px;" data-a="saveCustomClientId">Save Client ID &amp; Launch GIS</button>
-                </div>
-              </div>
-            ` : ""}
-          </div>
-        `}
-
-        ${authError ? `
-          <div class="card tint-rose" style="margin-top:14px;padding:14px;border-radius:var(--radius-md);" role="alert">
-            <div style="display:flex;align-items:center;gap:8px;color:var(--tint-rose-text);font-weight:700;font-size:13.5px;">
-              ${svgi("alert", 18)} <span>Authentication Notice</span>
-            </div>
-            <p style="margin:6px 0 10px;font-size:12.5px;color:var(--tint-rose-text);line-height:1.45;">
-              ${esc(authError)}
-            </p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn g" style="min-height:36px;font-size:12.5px;padding:6px 14px;color:var(--tint-rose-text);border-color:var(--tint-rose-border);" data-a="authRetry">
-                ${svgi("refresh", 14)} Retry Sign In
-              </button>
-              ${!isConfigured ? `
-                <button class="btn g" style="min-height:36px;font-size:12.5px;padding:6px 14px;" data-a="clearCustomClientId">
-                  Reset Client ID
-                </button>
-              ` : ""}
-            </div>
-          </div>
-        ` : ""}
-      </div>
-
-      <div class="card tint-mint" style="text-align:left;padding:18px 16px;border-radius:var(--radius-lg);">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-          ${svgi("shield", 22)}
-          <b style="color:var(--tint-mint-text);font-size:14px">Strict On-Device Privacy Architecture</b>
-        </div>
-        <p class="mut" style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink)">
-          <b>Zero Cloud Uploads:</b> Google is used strictly as an identity key. Your menstrual cycles, symptom logs, notes, pregnancy details, and personal settings remain <b>100% on this physical device</b> in local browser storage. They are never sent to Google, remote databases, or third parties.
-        </p>
-        <p class="mut" style="margin:0;font-size:12px;line-height:1.5;color:var(--muted)">
-          <b>Shared Device Disclosure:</b> Anyone with physical access to this browser profile can view existing device records once signed in. For multi-person shared computers, activate the optional 4-digit PIN lock inside Settings.
-        </p>
-      </div>
-    </div>`;
-}
-
 /* 12. PIN Lock Screen Overlay */
 function renderPinLock() {
   const dots = [0, 1, 2, 3].map(i => `<div class="pin-bubble ${i < ui.pinEntered.length ? "filled" : ""}"></div>`).join("");
@@ -5065,7 +4253,6 @@ function renderPinLock() {
 function renderProfile() {
   const ledger = getPrivacyLedger();
   const pinActive = PinLock.isEnabled();
-  const authUser = typeof CycleAuth !== "undefined" ? CycleAuth.getUser() : null;
 
   return `
     <div class="scrim" data-a="close"></div>
@@ -5074,32 +4261,6 @@ function renderProfile() {
       <div class="row" style="margin-bottom:12px">
         <h2>Profile &amp; Settings</h2>
         <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
-      </div>
-
-      <!-- Google Authentication Account Card -->
-      <h3 style="margin-top:6px">Google Identity</h3>
-      <div class="card" style="padding:14px;margin-top:6px;margin-bottom:16px;">
-        <div class="row" style="margin-bottom:10px;">
-          <b style="color:var(--plum);font-size:14px;">Identity Key Status</b>
-          <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);background:var(--tint-sage-bg);color:var(--tint-sage-text);">Verified</span>
-        </div>
-        <div class="auth-user-badge" style="margin-bottom:10px;">
-          ${authUser && authUser.picture ? `
-            <img src="${esc(authUser.picture)}" alt="" class="auth-user-avatar" referrerpolicy="no-referrer">
-          ` : `
-            <div class="auth-user-avatar" style="display:grid;place-items:center;color:var(--plum);">${svgi("user", 22)}</div>
-          `}
-          <div class="auth-user-info">
-            <div class="auth-user-name">${esc((authUser && authUser.name) || "Google User")}</div>
-            <div class="auth-user-email">${esc((authUser && authUser.email) || "")}</div>
-          </div>
-        </div>
-        <p class="mut" style="font-size:12px;line-height:1.45;margin:0 0 12px;">
-          Signed in via Google Identity Services. Cycle history, symptom logs, and pregnancy records remain exclusively on this physical device.
-        </p>
-        <button class="btn g" data-a="authSignOut" style="min-height:38px;padding:8px 14px;font-size:13px;color:var(--tint-rose-text);border-color:var(--tint-rose-border);">
-          ${svgi("user", 16)} Sign out of Google
-        </button>
       </div>
 
       <label>Tracking mode</label>
@@ -5182,14 +4343,6 @@ function render() {
   const a = document.querySelector("#app");
   if (!a) return;
 
-  // Gate 1: Mandatory Google Authentication Gate
-  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) {
-    a.innerHTML = renderAuthGate();
-    afterRender(ctx);
-    return;
-  }
-
-  // Gate 2: Local Application PIN Lock
   if (ui.pinLocked) {
     a.innerHTML = renderPinLock();
     afterRender(ctx);
@@ -5220,17 +4373,13 @@ function render() {
     ["care", "Care", "care"]
   ];
 
-  const authUser = typeof CycleAuth !== "undefined" ? CycleAuth.getUser() : null;
-
   a.innerHTML = `
     <header class="top">
       <span class="brand">
         ${bunny(32, 0)}
         <b class="wm2">CycleSideChick</b>
       </span>
-      <button class="icon" data-a="prof" aria-label="Profile and settings" title="${esc(authUser ? authUser.name : 'Profile and settings')}">
-        ${authUser && authUser.picture ? `<img src="${esc(authUser.picture)}" alt="" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" referrerpolicy="no-referrer">` : svgi("user", 20)}
-      </button>
+      <button class="icon" data-a="prof" aria-label="Profile and settings">${svgi("user", 20)}</button>
     </header>
 
     <main class="view-enter" key="${ui.tab}">
@@ -5262,43 +4411,6 @@ function render() {
 
 /* Event Delegation & Actions */
 const A = {
-  authRetry: () => {
-    if (typeof CycleAuth !== "undefined") {
-      CycleAuth.initGis().then(() => render()).catch(() => render());
-    }
-  },
-  saveCustomClientId: () => {
-    const input = document.getElementById("dev-client-id-input");
-    if (input && input.value.trim() && typeof CSC_CONFIG !== "undefined") {
-      CSC_CONFIG.setCustomClientId(input.value.trim());
-      if (typeof CycleAuth !== "undefined") {
-        CycleAuth.initGis().then(() => {
-          toast("Client ID saved");
-          render();
-        }).catch(err => {
-          toast("GIS error: " + err.message);
-          render();
-        });
-      }
-    }
-  },
-  clearCustomClientId: () => {
-    if (typeof CSC_CONFIG !== "undefined") {
-      CSC_CONFIG.clearCustomClientId();
-      toast("Client ID reset");
-      if (typeof CycleAuth !== "undefined") {
-        CycleAuth.initGis().catch(() => {});
-      }
-      render();
-    }
-  },
-  authSignOut: () => {
-    if (typeof CycleAuth !== "undefined") {
-      CycleAuth.signOut();
-      toast("Signed out of Google");
-      render();
-    }
-  },
   tab: v => {
     if (ui.tab === v) return;
     scrollPositions[ui.tab] = window.scrollY;
@@ -5695,30 +4807,14 @@ const A = {
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-a]");
   if (!b || b.tagName == "INPUT") return;
-  const action = b.dataset.a;
-
-  // Strict Authentication Gate Check:
-  // If user is not authenticated, block all actions except auth gate controls
-  const isAuth = typeof CycleAuth === "undefined" || CycleAuth.isAuthenticated();
-  const authGateActions = ["authRetry", "saveCustomClientId", "clearCustomClientId"];
-
-  if (!isAuth) {
-    if (authGateActions.includes(action)) {
-      const f = A[action];
-      if (f) f(b.dataset.v, b);
-    }
-    return;
-  }
-
-  const f = A[action];
+  const f = A[b.dataset.a];
   if (f) {
     f(b.dataset.v, b);
-    if (!S.ob || (action !== "exportCSV" && action !== "exportJSON")) render();
+    if (!S.ob || (b.dataset.a !== "exportCSV" && b.dataset.a !== "exportJSON")) render();
   }
 });
 
 document.addEventListener("input", e => {
-  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) return;
   const el = e.target;
   const k = el.dataset.k;
   if (!k) return;
@@ -5740,7 +4836,6 @@ document.addEventListener("input", e => {
 });
 
 document.addEventListener("change", e => {
-  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) return;
   const el = e.target;
   if (el.dataset.a === "ldate") {
     loadDraft(el.value || I(TD()));
@@ -5750,7 +4845,6 @@ document.addEventListener("change", e => {
 
 /* Keyboard Accessibility: Dismiss Topmost Open Modal on Escape */
 document.addEventListener("keydown", e => {
-  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) return;
   if (e.key === "Escape" || e.key === "Esc") {
     if (ui.conflict) {
       ui.conflict = null;
@@ -5789,12 +4883,6 @@ function applyTheme() {
 
 /* Initialization */
 applyTheme();
-if (typeof CycleAuth !== "undefined") {
-  CycleAuth.init();
-  CycleAuth.onAuthStateChanged(() => {
-    render();
-  });
-}
 render();
 
 

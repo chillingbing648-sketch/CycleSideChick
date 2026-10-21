@@ -2,7 +2,7 @@
  * CycleSideChick — Service Worker (Offline Cache & PWA Support)
  */
 
-const CACHE_NAME = "cyclesidechick-v2.1.0";
+const CACHE_NAME = "cyclesidechick-v2.0.0";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
@@ -14,8 +14,6 @@ const ASSETS_TO_CACHE = [
   "./src/css/base.css",
   "./src/css/components.css",
   "./src/css/views.css",
-  "./src/js/config.js",
-  "./src/js/auth.js",
   "./src/js/engine.js",
   "./src/js/storage.js",
   "./src/js/content.js",
@@ -44,22 +42,11 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
-
-  const url = event.request.url;
-  // Bypass Service Worker caching for Google Identity Services and OAuth token APIs
-  if (
-    url.includes("accounts.google.com") ||
-    url.includes("oauth2.googleapis.com") ||
-    url.includes("www.googleapis.com")
-  ) {
-    return;
-  }
-
   event.respondWith(
     caches.match(event.request).then(cached => {
       return cached || fetch(event.request).then(response => {
         return caches.open(CACHE_NAME).then(cache => {
-          if (event.request.url.startsWith("http") && response.status === 200) {
+          if (event.request.url.startsWith("http")) {
             cache.put(event.request, response.clone());
           }
           return response;

@@ -14,8 +14,6 @@ const base = fs.readFileSync(path.join(root, "src/css/base.css"), "utf8");
 const comp = fs.readFileSync(path.join(root, "src/css/components.css"), "utf8");
 const views = fs.readFileSync(path.join(root, "src/css/views.css"), "utf8");
 
-const config = fs.readFileSync(path.join(root, "src/js/config.js"), "utf8");
-const auth = fs.readFileSync(path.join(root, "src/js/auth.js"), "utf8");
 const engine = fs.readFileSync(path.join(root, "src/js/engine.js"), "utf8");
 const storage = fs.readFileSync(path.join(root, "src/js/storage.js"), "utf8");
 const content = fs.readFileSync(path.join(root, "src/js/content.js"), "utf8");
@@ -35,8 +33,6 @@ const html = `<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<!-- Google Identity Services (GIS) Client Library -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 ${tokens}
 
@@ -51,10 +47,6 @@ ${views}
 <div id="app"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
-${config}
-
-${auth}
-
 ${engine}
 
 ${storage}

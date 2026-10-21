@@ -99,7 +99,6 @@ function getPrivacyLedger() {
           if (k === KEY) desc = "Cycle history, symptom logs, personal settings (Schema v2)";
           else if (k.includes("backup")) desc = "Local recovery safety backup";
           else if (k.includes("pin")) desc = "Salted cryptographic PIN hash for app lock";
-          else if (k.includes("oauth")) desc = "Custom OAuth client ID configuration";
 
           items.push({
             key: k,
