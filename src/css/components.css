@@ -1102,15 +1102,356 @@ input[type="range"]::-webkit-slider-thumb:active {
   transition: width 0.4s ease;
 }
 
+/* ==========================================================================
+   Apple-Style Tactile Toggle Switches & Steppers
+   ========================================================================== */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--dur-fast) ease;
+}
+.switch-row:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+.switch-info {
+  flex: 1;
+  padding-right: 14px;
+}
+.switch-title {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--plum);
+  margin: 0 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.switch-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  flex-shrink: 0;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--border);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--dur-med) var(--ease-out-expo), box-shadow var(--dur-med) var(--ease-out-expo);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  transition: transform var(--dur-med) var(--ease-spring), width var(--dur-fast) ease;
+}
+.switch:active .switch-slider::before {
+  width: 28px;
+}
+.switch input:checked + .switch-slider {
+  background-color: var(--pink);
+  box-shadow: 0 0 12px var(--pink-glow);
+}
+.switch input:checked + .switch-slider::before {
+  transform: translateX(20px);
+}
+.switch input:focus-visible + .switch-slider {
+  outline: 2px solid var(--plum);
+  outline-offset: 2px;
+}
+
+/* Stepper Controls */
+.stepper-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.stepper-wrap:last-child {
+  border-bottom: none;
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.stepper-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--plum);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease, transform 0.12s var(--ease-spring);
+}
+.stepper-btn:hover {
+  background: var(--surface);
+}
+.stepper-btn:active {
+  transform: scale(0.88);
+}
+.stepper-val {
+  width: 48px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--plum);
+}
+.stepper-val:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Settings Grouped List Cards */
+.settings-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+}
+.settings-group-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Segmented Theme Picker */
+.segmented-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--surface-alt);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+}
+.segmented-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--dur-fast) var(--ease-out-expo);
+}
+.segmented-btn:hover {
+  color: var(--plum);
+}
+.segmented-btn.active {
+  background: var(--surface);
+  color: var(--plum);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Motion Keyframes & Microinteractions
+   ========================================================================== */
+@keyframes viewEnterUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardCascade {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes barRise {
+  0% {
+    transform: scaleY(0);
+    opacity: 0.25;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pillPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes daySelect {
+  0% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scrimFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+  }
+}
+
+@keyframes sheetSlideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.view-enter {
+  animation: viewEnterUp var(--dur-med) var(--ease-out-expo) both;
+}
+
+/* Staggered Card Entrance */
+.view-enter .card {
+  animation: cardCascade var(--dur-med) var(--ease-out-expo) both;
+}
+.view-enter .card:nth-child(1) { animation-delay: 20ms; }
+.view-enter .card:nth-child(2) { animation-delay: 60ms; }
+.view-enter .card:nth-child(3) { animation-delay: 100ms; }
+.view-enter .card:nth-child(4) { animation-delay: 140ms; }
+.view-enter .card:nth-child(5) { animation-delay: 180ms; }
+.view-enter .card:nth-child(6) { animation-delay: 220ms; }
+.view-enter .card:nth-child(7) { animation-delay: 260ms; }
+
+/* Day selection pop */
+.day.s {
+  animation: daySelect var(--dur-fast) var(--ease-spring);
+}
+
+/* Modal sheets */
+.sheet {
+  animation: sheetSlideUp 0.32s var(--ease-out-expo) both;
+}
+
+.scrim {
+  animation: scrimFadeIn 0.24s ease both;
+}
+
+/* Navigation button spring active indicator */
+.nav-btn {
+  position: relative;
+  transition: transform var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) ease;
+}
+.nav-btn:active {
+  transform: scale(0.92);
+}
+.nav-btn[aria-current="page"] {
+  color: var(--pink);
+  font-weight: 800;
+}
+.nav-btn[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  width: 16px;
+  height: 3.5px;
+  border-radius: var(--radius-pill);
+  background: var(--pink);
+  animation: pillPop var(--dur-med) var(--ease-spring);
+}
+.nav-btn-center .nav-center-icon {
+  transition: transform var(--dur-med) var(--ease-spring), box-shadow var(--dur-med) ease;
+}
+.nav-btn-center:hover .nav-center-icon {
+  transform: translateY(-2px) scale(1.05);
+}
+.nav-btn-center:active .nav-center-icon {
+  transform: translateY(1px) scale(0.93);
+}
+
 /* Respect Reduced Motion */
+:root[data-motion="reduced"],
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .view-enter, .ring-pulse-halo, .phase-art-wrap {
+  .view-enter, .view-enter .card, .ring-pulse-halo, .phase-art-wrap, .chart-bar, .sheet, .scrim, .day.s, .nav-btn[aria-current="page"]::after {
     animation: none !important;
+    transition: none !important;
   }
 }

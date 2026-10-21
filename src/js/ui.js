@@ -52,7 +52,8 @@ const ic = {
   chevronDown: "M6 9l6 6 6-6",
   chevronUp: "M18 15l-6-6-6 6",
   shieldCheck: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",
-  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  laptop: "M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"
 };
 
 const svgi = (k, sz = 22, cls = "") =>
@@ -366,7 +367,7 @@ function renderCycleLengthChart(x, ls) {
 
           return `
             <g class="chart-bar-group" tabindex="0" role="graphics-symbol" aria-label="Cycle ${i + 1}: ${l} days">
-              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" rx="5" fill="${barColor}" class="chart-bar"/>
+              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" rx="5" fill="${barColor}" class="chart-bar" style="animation: barRise 0.45s var(--ease-out-expo) ${i * 45}ms both; transform-origin: bottom;"/>
               <text x="${xPos + barW / 2}" y="${yPos - 4}" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--plum)">${l}</text>
               <text x="${xPos + barW / 2}" y="${H - 10}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--muted)">C${i + 1}</text>
               ${isOutlier ? `<circle cx="${xPos + barW / 2}" cy="${yPos - 13}" r="2.5" fill="var(--tint-amber-text)"/>` : ""}
@@ -433,7 +434,7 @@ function renderPeriodDurationChart(durations, defaultPl = 5) {
           const isExtended = d.duration > 7;
           return `
             <g class="chart-bar-group" tabindex="0" role="graphics-symbol" aria-label="Period ${i + 1}: ${d.duration} days">
-              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${h}" rx="4" fill="${isExtended ? 'var(--tint-amber-text)' : 'var(--tint-rose-text)'}"/>
+              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${h}" rx="4" fill="${isExtended ? 'var(--tint-amber-text)' : 'var(--tint-rose-text)'}" class="chart-bar" style="animation: barRise 0.45s var(--ease-out-expo) ${i * 45}ms both; transform-origin: bottom;"/>
               <text x="${xPos + barW / 2}" y="${yPos - 3}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--plum)">${d.duration}d</text>
               <text x="${xPos + barW / 2}" y="${H - 8}" text-anchor="middle" font-size="9" fill="var(--muted)">#${i + 1}</text>
             </g>`;

@@ -24,7 +24,7 @@ const {
 } = require("../src/js/engine.js");
 
 const {
-  generateJSON, previewImport
+  generateJSON, previewImport, defState, migrateState
 } = require("../src/js/storage.js");
 
 console.log("==================================================");
@@ -333,6 +333,29 @@ it("Aggregates symptoms and mood percentages over a time window", () => {
   const moods = aggregateMoods(S, 60);
   assert.strictEqual(moods.totalLogged, 3, "Total logged moods must equal 3");
   assert(moods.distribution.length > 0, "Distribution must contain mood entries");
+});
+
+// 16. Preferences & Safe Migration
+it("Initializes motion, haptics, and view toggles with safe migration", () => {
+  const d = defState();
+  assert.strictEqual(d.motion, 1, "Motion must be enabled by default");
+  assert.strictEqual(d.haptics, 1, "Haptics must be enabled by default");
+  assert.strictEqual(d.showFertile, 1, "Fertile window indicators enabled by default");
+  assert.strictEqual(d.careAlerts, 1, "Care alerts enabled by default");
+  assert.strictEqual(d.waterGoal, 1, "Water goal enabled by default");
+
+  // Legacy state without motion fields
+  const legacy = {
+    _v: 1,
+    cl: 29,
+    pl: 4,
+    periods: [{ s: "2026-08-01", e: "2026-08-05" }]
+  };
+  const migrated = migrateState(legacy);
+  assert.strictEqual(migrated.cl, 29, "Preserves custom cycle length");
+  assert.strictEqual(migrated.periods.length, 1, "Preserves existing period records");
+  assert.strictEqual(migrated.motion, 1, "Backfills motion toggle safely");
+  assert.strictEqual(migrated.haptics, 1, "Backfills haptics toggle safely");
 });
 
 console.log("==================================================");

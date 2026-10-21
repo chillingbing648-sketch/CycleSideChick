@@ -24,6 +24,11 @@ const defState = () => ({
   logs: {},
   custom: [],
   theme: "system",
+  motion: 1, // 1: fluid spring motion enabled, 0: reduced motion
+  haptics: 1, // 1: tactile haptics enabled, 0: disabled
+  showFertile: 1, // 1: show fertile window approximations, 0: hidden
+  careAlerts: 1, // 1: show clinical alerts, 0: hidden
+  waterGoal: 1, // 1: show hydration tracker, 0: hidden
   rp: 2,
   rt: "20:00",
   rk: { prep: 1, log: 1 },

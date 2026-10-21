@@ -65,6 +65,7 @@ const loadDraft = d => {
 loadDraft(I(TD()));
 
 function haptic(pattern = 15) {
+  if (S && S.haptics === 0) return;
   try {
     if ('vibrate' in navigator && typeof navigator.vibrate === 'function') {
       navigator.vibrate(pattern);
@@ -360,7 +361,7 @@ function renderHome() {
   if (pdset(S).has(T)) {
     phaseKey = "menstrual";
     phasePill = `<span class="phase-pill tint-rose">🌸 Recorded Period Day</span>`;
-  } else if ((S.mode === "natural" || S.mode === "ttc") && x.fertileStart && T >= x.fertileStart && T <= x.fertileEnd) {
+  } else if (S.showFertile !== 0 && (S.mode === "natural" || S.mode === "ttc") && x.fertileStart && T >= x.fertileStart && T <= x.fertileEnd) {
     phaseKey = "fertile";
     phasePill = `<span class="phase-pill tint-lavender">✨ Estimated Fertile Window</span>`;
   } else if (day < x.avg - x.ll) {
@@ -496,8 +497,8 @@ function renderCalendar() {
   const fe = new Set();
 
   if (S.mode !== "none" && S.mode !== "contra" && S.mode !== "pregnancy") {
-    // Current ongoing cycle fertile window if active
-    if (x.fertileStart && x.fertileEnd) {
+    // Current ongoing cycle fertile window if active and enabled
+    if (S.showFertile !== 0 && x.fertileStart && x.fertileEnd) {
       for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
     }
     // Future cycles with individual fertile windows
@@ -506,7 +507,7 @@ function renderCalendar() {
         for (let d = pc.periodStart; d <= pc.periodEnd; d++) {
           if (d >= T) pr.add(d);
         }
-        if (S.mode !== "irregular" && pc.fertileStart && pc.fertileEnd) {
+        if (S.showFertile !== 0 && S.mode !== "irregular" && pc.fertileStart && pc.fertileEnd) {
           for (let d = pc.fertileStart; d <= pc.fertileEnd; d++) {
             fe.add(d);
           }
@@ -656,18 +657,20 @@ function renderLog() {
             .map(([v, l]) => chip(l, d.en === v, `data-a="energy" data-v="${v}"`)).join("")}
         </div>
 
-        <div class="row" style="margin-top:16px">
-          <label style="margin:0">Hydration (8 glasses goal)</label>
-          <span style="font-size:13px;font-weight:700;color:var(--tint-sky-text)">${d.water || 0} / 8 glasses</span>
-        </div>
-        <div class="water-cups-row">
-          ${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `
-            <button class="water-cup-btn ${n <= (d.water || 0) ? "filled" : ""}" data-a="setWater" data-v="${n}" aria-label="${n} glasses of water">
-              ${svgi("water", 16)}
-              <span style="font-size:11px">${n}</span>
-            </button>`
-          ).join("")}
-        </div>
+        ${S.waterGoal !== 0 ? `
+          <div class="row" style="margin-top:16px">
+            <label style="margin:0">Hydration (8 glasses goal)</label>
+            <span style="font-size:13px;font-weight:700;color:var(--tint-sky-text)">${d.water || 0} / 8 glasses</span>
+          </div>
+          <div class="water-cups-row">
+            ${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `
+              <button class="water-cup-btn ${n <= (d.water || 0) ? "filled" : ""}" data-a="setWater" data-v="${n}" aria-label="${n} glasses of water">
+                ${svgi("water", 16)}
+                <span style="font-size:11px">${n}</span>
+              </button>`
+            ).join("")}
+          </div>
+        ` : ""}
 
         <div class="row" style="margin-top:16px">
           <label for="sl" style="margin:0">Sleep duration</label>
@@ -880,7 +883,7 @@ function renderCare() {
     <div class="view-enter">
       <h2 style="margin-bottom:14px">Care, Insights &amp; Guidance</h2>
 
-      ${careAlerts.length ? `
+      ${careAlerts.length && S.careAlerts !== 0 ? `
         <div class="card tint-amber">
           <div class="row">
             <div style="display:flex;align-items:center;gap:8px">
@@ -1213,85 +1216,217 @@ function renderProfile() {
   const ledger = getPrivacyLedger();
   const pinActive = PinLock.isEnabled();
 
+  const motionActive = S.motion !== 0;
+  const hapticsActive = S.haptics !== 0;
+  const showFertileActive = S.showFertile !== 0;
+  const careAlertsActive = S.careAlerts !== 0;
+  const waterGoalActive = S.waterGoal !== 0;
+
   return `
     <div class="scrim" data-a="close"></div>
-    <section class="sheet" role="dialog" aria-label="Profile and Settings">
+    <section class="sheet" role="dialog" aria-label="Profile and Settings" style="max-height:92vh;max-height:92dvh;overflow-y:auto">
       <div class="sheet-handle"></div>
-      <div class="row" style="margin-bottom:12px">
-        <h2>Profile &amp; Settings</h2>
+      <div class="row" style="margin-bottom:14px">
+        <div>
+          <span class="article-tag tint-lavender">Preferences &amp; Calibration</span>
+          <h2 style="margin:4px 0 0">Profile &amp; Settings</h2>
+        </div>
         <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
       </div>
 
-      <label>Tracking mode</label>
-      <div class="chips">
-        ${[
-          ["natural", "Natural cycle"],
-          ["irregular", "Irregular cycle"],
-          ["contra", "Hormonal contraception"],
-          ["ttc", "Trying to conceive"],
-          ["pregnancy", "Pregnancy"],
-          ["perimenopause", "Perimenopause"],
-          ["none", "No predictions"]
-        ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
+      <!-- Group 1: Cycle Calibration -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("layers", 16)} 1. Reproductive Calibration
+        </div>
+
+        <label style="margin-top:0">Tracking Mode</label>
+        <div class="chips">
+          ${[
+            ["natural", "Natural cycle"],
+            ["irregular", "Irregular cycle"],
+            ["contra", "Hormonal contraception"],
+            ["ttc", "Trying to conceive"],
+            ["pregnancy", "Pregnancy"],
+            ["perimenopause", "Perimenopause"],
+            ["none", "No predictions"]
+          ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
+        </div>
+
+        <div class="stepper-wrap" style="margin-top:12px">
+          <div>
+            <b>Usual Cycle Length</b>
+            <p class="mut" style="margin:0;font-size:12px">ACOG normal: 21–35 days</p>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="-1" aria-label="Decrease cycle length">−</button>
+            <input class="stepper-val" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl" aria-label="Cycle length in days">
+            <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="1" aria-label="Increase cycle length">+</button>
+          </div>
+        </div>
+
+        <div class="stepper-wrap">
+          <div>
+            <b>Period Bleeding Duration</b>
+            <p class="mut" style="margin:0;font-size:12px">Typical: 3–7 days</p>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="-1" aria-label="Decrease period duration">−</button>
+            <input class="stepper-val" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl" aria-label="Period duration in days">
+            <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="1" aria-label="Increase period duration">+</button>
+          </div>
+        </div>
+
+        <div class="stepper-wrap">
+          <div>
+            <b>Luteal Phase Length</b>
+            <p class="mut" style="margin:0;font-size:12px">Post-ovulation span (10–16d, baseline 14d)</p>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="-1" aria-label="Decrease luteal length">−</button>
+            <input class="stepper-val" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll" aria-label="Luteal phase length in days">
+            <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="1" aria-label="Increase luteal length">+</button>
+          </div>
+        </div>
       </div>
 
-      <label for="pc" style="margin-top:14px">Usual cycle length (days)</label>
-      <input id="pc" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl">
+      <!-- Group 2: Tactile Motion & Interactive Toggles -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("sparkle", 16)} 2. Motion &amp; Interaction Toggles
+        </div>
 
-      <label for="pp">Usual period duration (days)</label>
-      <input id="pp" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl">
+        <!-- Toggle: Fluid Spring Motion -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Fluid Motion &amp; Animations</div>
+            <p class="switch-desc">Enable smooth view transitions, staggered card reveals, and dynamic SVG chart growth.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="motion" ${motionActive ? "checked" : ""} role="switch" aria-checked="${motionActive ? "true" : "false"}" aria-label="Toggle fluid animations">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
 
-      <label for="pll">Adjustable luteal length (10–16 days)</label>
-      <input id="pll" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll">
+        <!-- Toggle: Tactile Haptic Pulses -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Tactile Haptic Feedback</div>
+            <p class="switch-desc">Physical vibration pulses when logging periods, rating moods, and navigating tabs.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="haptics" ${hapticsActive ? "checked" : ""} role="switch" aria-checked="${hapticsActive ? "true" : "false"}" aria-label="Toggle haptic feedback">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
 
-      <label style="margin-top:18px">Appearance</label>
-      <div class="chips">
-        ${[["system", "System"], ["light", "Light"], ["dark", "Dark"]]
-          .map(([v, t]) => chip(t, S.theme == v, `data-a="th" data-v="${v}"`)).join("")}
+        <!-- Toggle: Fertility & Ovulation Windows -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Fertility &amp; Ovulation Indicators</div>
+            <p class="switch-desc">Display estimated fertile window and ovulation peak markers on calendar and cycle ring.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="showFertile" ${showFertileActive ? "checked" : ""} role="switch" aria-checked="${showFertileActive ? "true" : "false"}" aria-label="Toggle fertility indicators">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- Toggle: Physiological Red Flags -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Clinical Red Flag Alerts</div>
+            <p class="switch-desc">Prompt consultation guidance if period is absent 90+ days or severe pain (8+/10) is logged.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="careAlerts" ${careAlertsActive ? "checked" : ""} role="switch" aria-checked="${careAlertsActive ? "true" : "false"}" aria-label="Toggle clinical alerts">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- Toggle: Hydration Target -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Daily Hydration Cups Goal</div>
+            <p class="switch-desc">Show 8-cup hydration tracker in the daily wellness logging interface.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="waterGoal" ${waterGoalActive ? "checked" : ""} role="switch" aria-checked="${waterGoalActive ? "true" : "false"}" aria-label="Toggle hydration target">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
       </div>
 
-      <!-- PIN App Lock -->
-      <h3 style="margin-top:22px">Application Security Lock</h3>
-      <div class="card" style="padding:14px;margin-top:8px">
+      <!-- Group 3: Appearance & Theme -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("sun", 16)} 3. Theme &amp; Visual Mode
+        </div>
+        <div class="segmented-picker">
+          ${[["system", "System", "laptop"], ["light", "Light", "sun"], ["dark", "Dark", "moon"]].map(([v, t, icon]) => `
+            <button class="segmented-btn ${S.theme === v ? "active" : ""}" data-a="th" data-v="${v}">
+              ${svgi(icon, 14)} ${t}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+
+      <!-- Group 4: Security & PIN -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("shieldCheck", 16)} 4. Application Security Lock
+        </div>
         <div class="row">
           <div>
             <b>4-Digit App PIN Lock</b>
-            <p class="mut" style="margin:2px 0 0;font-size:12.5px">${pinActive ? "Enabled (Salted SHA-256 Web Crypto hash)" : "Disabled (Open immediately)"}</p>
+            <p class="mut" style="margin:2px 0 0;font-size:12px">
+              ${pinActive ? "Active · Protected with Salted SHA-256 Web Crypto hash" : "Inactive · Instant access on open"}
+            </p>
           </div>
           <button class="chip" data-a="togglePin">${pinActive ? "Disable PIN" : "Set PIN"}</button>
         </div>
       </div>
 
-      <!-- Privacy Ledger -->
-      <h3 style="margin-top:22px">Privacy Ledger (On-Device Storage)</h3>
-      <p class="mut" style="font-size:13px">All data is stored strictly in your browser. Below is an audit of active storage keys and byte counts.</p>
-      <div class="ledger-wrap">
-        <table class="ledger-table">
-          <thead>
-            <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
-          </thead>
-          <tbody>
-            ${ledger.map(item => `
-              <tr>
-                <td><code>${esc(item.key)}</code></td>
-                <td>${item.sizeKB} KB</td>
-                <td>${esc(item.description)}</td>
-              </tr>`
-            ).join("")}
-          </tbody>
-        </table>
+      <!-- Group 5: On-Device Storage & Privacy Ledger -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("activity", 16)} 5. Privacy Ledger (100% On-Device)
+        </div>
+        <p class="mut" style="font-size:12.5px;margin:0 0 10px">Zero cloud servers. Below is an audit of all active keys and byte allocations in your browser's private storage.</p>
+        <div class="ledger-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              ${ledger.map(item => `
+                <tr>
+                  <td><code>${esc(item.key)}</code></td>
+                  <td>${item.sizeKB} KB</td>
+                  <td>${esc(item.description)}</td>
+                </tr>`
+              ).join("")}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- Export & Backup -->
-      <h3 style="margin-top:20px">Data Sovereignty &amp; Backup</h3>
-      <div class="chips" style="display:grid;gap:8px">
-        <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
-        <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
-        <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Summary</button>
-      </div>
+      <!-- Group 6: Data Sovereignty & Backup -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("download", 16)} 6. Data Sovereignty &amp; Exports
+        </div>
+        <div class="chips" style="display:grid;gap:8px">
+          <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
+          <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
+          <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Consultation Report</button>
+        </div>
 
-      <div class="chips" style="display:grid;gap:8px;margin-top:14px">
-        <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">${ui.cf == "wipe" ? "Tap again to confirm deleting all data" : "Delete all records"}</button>
+        <div style="margin-top:14px;border-top:1px solid var(--border-subtle);padding-top:12px">
+          <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">
+            ${ui.cf == "wipe" ? "⚠️ Tap again to confirm wiping all records" : "Wipe all local data"}
+          </button>
+        </div>
       </div>
     </section>`;
 }
@@ -1397,6 +1532,20 @@ const A = {
   closeInfo: () => {
     ui.infoTopic = null;
     haptic(10);
+  },
+  step: (v, el) => {
+    const delta = +el.dataset.v || 0;
+    const key = el.dataset.k;
+    if (key === "S.cl") {
+      S.cl = Math.max(15, Math.min(90, (S.cl || 28) + delta));
+    } else if (key === "S.pl") {
+      S.pl = Math.max(1, Math.min(14, (S.pl || 5) + delta));
+    } else if (key === "S.ll") {
+      S.ll = Math.max(10, Math.min(16, (S.ll || 14) + delta));
+    }
+    saveState(S);
+    haptic(12);
+    render();
   },
   openTour: () => {
     ui.tourModal = true;
@@ -1809,6 +1958,15 @@ document.addEventListener("change", e => {
   if (el.dataset.a === "ldate") {
     loadDraft(el.value || I(TD()));
     render();
+  } else if (el.dataset.a === "togglePref") {
+    const key = el.dataset.k;
+    if (key && (key in S)) {
+      S[key] = el.checked ? 1 : 0;
+      saveState(S);
+      applyTheme();
+      haptic(20);
+      render();
+    }
   }
 });
 
@@ -1846,6 +2004,10 @@ function applyTheme() {
   const isDark = S.theme === "dark" || (S.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   if (S.theme == "light" || S.theme == "dark") r.dataset.theme = S.theme;
   else r.removeAttribute("data-theme");
+
+  if (S.motion === 0) r.dataset.motion = "reduced";
+  else r.removeAttribute("data-motion");
+
   const meta = document.querySelector("#meta-theme");
   if (meta) meta.content = isDark ? "#17151B" : "#FAF5F7";
 }

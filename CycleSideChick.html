@@ -104,6 +104,15 @@
   --radius-sm: 12px;
   --radius-pill: 9999px;
 
+  /* Motion & Interaction System Tokens (Apple iOS Easing & Springs) */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-instant: 100ms;
+  --dur-fast: 180ms;
+  --dur-med: 280ms;
+  --dur-slow: 420ms;
+
   color-scheme: light;
 }
 
@@ -212,6 +221,17 @@
   }
   .card, .chip, .mood, .day {
     border-width: 2px !important;
+  }
+}
+
+/* User-Controlled & OS-Controlled Reduced Motion */
+:root[data-motion="reduced"],
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -1463,16 +1483,357 @@ input[type="range"]::-webkit-slider-thumb:active {
   transition: width 0.4s ease;
 }
 
+/* ==========================================================================
+   Apple-Style Tactile Toggle Switches & Steppers
+   ========================================================================== */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--dur-fast) ease;
+}
+.switch-row:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+.switch-info {
+  flex: 1;
+  padding-right: 14px;
+}
+.switch-title {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--plum);
+  margin: 0 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.switch-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  flex-shrink: 0;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--border);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--dur-med) var(--ease-out-expo), box-shadow var(--dur-med) var(--ease-out-expo);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
+  transition: transform var(--dur-med) var(--ease-spring), width var(--dur-fast) ease;
+}
+.switch:active .switch-slider::before {
+  width: 28px;
+}
+.switch input:checked + .switch-slider {
+  background-color: var(--pink);
+  box-shadow: 0 0 12px var(--pink-glow);
+}
+.switch input:checked + .switch-slider::before {
+  transform: translateX(20px);
+}
+.switch input:focus-visible + .switch-slider {
+  outline: 2px solid var(--plum);
+  outline-offset: 2px;
+}
+
+/* Stepper Controls */
+.stepper-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.stepper-wrap:last-child {
+  border-bottom: none;
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.stepper-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--plum);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease, transform 0.12s var(--ease-spring);
+}
+.stepper-btn:hover {
+  background: var(--surface);
+}
+.stepper-btn:active {
+  transform: scale(0.88);
+}
+.stepper-val {
+  width: 48px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--plum);
+}
+.stepper-val:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Settings Grouped List Cards */
+.settings-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+}
+.settings-group-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Segmented Theme Picker */
+.segmented-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--surface-alt);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+}
+.segmented-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--dur-fast) var(--ease-out-expo);
+}
+.segmented-btn:hover {
+  color: var(--plum);
+}
+.segmented-btn.active {
+  background: var(--surface);
+  color: var(--plum);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Motion Keyframes & Microinteractions
+   ========================================================================== */
+@keyframes viewEnterUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardCascade {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes barRise {
+  0% {
+    transform: scaleY(0);
+    opacity: 0.25;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pillPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes daySelect {
+  0% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scrimFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+  }
+}
+
+@keyframes sheetSlideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.view-enter {
+  animation: viewEnterUp var(--dur-med) var(--ease-out-expo) both;
+}
+
+/* Staggered Card Entrance */
+.view-enter .card {
+  animation: cardCascade var(--dur-med) var(--ease-out-expo) both;
+}
+.view-enter .card:nth-child(1) { animation-delay: 20ms; }
+.view-enter .card:nth-child(2) { animation-delay: 60ms; }
+.view-enter .card:nth-child(3) { animation-delay: 100ms; }
+.view-enter .card:nth-child(4) { animation-delay: 140ms; }
+.view-enter .card:nth-child(5) { animation-delay: 180ms; }
+.view-enter .card:nth-child(6) { animation-delay: 220ms; }
+.view-enter .card:nth-child(7) { animation-delay: 260ms; }
+
+/* Day selection pop */
+.day.s {
+  animation: daySelect var(--dur-fast) var(--ease-spring);
+}
+
+/* Modal sheets */
+.sheet {
+  animation: sheetSlideUp 0.32s var(--ease-out-expo) both;
+}
+
+.scrim {
+  animation: scrimFadeIn 0.24s ease both;
+}
+
+/* Navigation button spring active indicator */
+.nav-btn {
+  position: relative;
+  transition: transform var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) ease;
+}
+.nav-btn:active {
+  transform: scale(0.92);
+}
+.nav-btn[aria-current="page"] {
+  color: var(--pink);
+  font-weight: 800;
+}
+.nav-btn[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  width: 16px;
+  height: 3.5px;
+  border-radius: var(--radius-pill);
+  background: var(--pink);
+  animation: pillPop var(--dur-med) var(--ease-spring);
+}
+.nav-btn-center .nav-center-icon {
+  transition: transform var(--dur-med) var(--ease-spring), box-shadow var(--dur-med) ease;
+}
+.nav-btn-center:hover .nav-center-icon {
+  transform: translateY(-2px) scale(1.05);
+}
+.nav-btn-center:active .nav-center-icon {
+  transform: translateY(1px) scale(0.93);
+}
+
 /* Respect Reduced Motion */
+:root[data-motion="reduced"],
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .view-enter, .ring-pulse-halo, .phase-art-wrap {
+  .view-enter, .view-enter .card, .ring-pulse-halo, .phase-art-wrap, .chart-bar, .sheet, .scrim, .day.s, .nav-btn[aria-current="page"]::after {
     animation: none !important;
+    transition: none !important;
   }
 }
 
@@ -2377,6 +2738,11 @@ const defState = () => ({
   logs: {},
   custom: [],
   theme: "system",
+  motion: 1, // 1: fluid spring motion enabled, 0: reduced motion
+  haptics: 1, // 1: tactile haptics enabled, 0: disabled
+  showFertile: 1, // 1: show fertile window approximations, 0: hidden
+  careAlerts: 1, // 1: show clinical alerts, 0: hidden
+  waterGoal: 1, // 1: show hydration tracker, 0: hidden
   rp: 2,
   rt: "20:00",
   rk: { prep: 1, log: 1 },
@@ -3258,7 +3624,8 @@ const ic = {
   chevronDown: "M6 9l6 6 6-6",
   chevronUp: "M18 15l-6-6-6 6",
   shieldCheck: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",
-  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  laptop: "M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"
 };
 
 const svgi = (k, sz = 22, cls = "") =>
@@ -3572,7 +3939,7 @@ function renderCycleLengthChart(x, ls) {
 
           return `
             <g class="chart-bar-group" tabindex="0" role="graphics-symbol" aria-label="Cycle ${i + 1}: ${l} days">
-              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" rx="5" fill="${barColor}" class="chart-bar"/>
+              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" rx="5" fill="${barColor}" class="chart-bar" style="animation: barRise 0.45s var(--ease-out-expo) ${i * 45}ms both; transform-origin: bottom;"/>
               <text x="${xPos + barW / 2}" y="${yPos - 4}" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--plum)">${l}</text>
               <text x="${xPos + barW / 2}" y="${H - 10}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--muted)">C${i + 1}</text>
               ${isOutlier ? `<circle cx="${xPos + barW / 2}" cy="${yPos - 13}" r="2.5" fill="var(--tint-amber-text)"/>` : ""}
@@ -3639,7 +4006,7 @@ function renderPeriodDurationChart(durations, defaultPl = 5) {
           const isExtended = d.duration > 7;
           return `
             <g class="chart-bar-group" tabindex="0" role="graphics-symbol" aria-label="Period ${i + 1}: ${d.duration} days">
-              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${h}" rx="4" fill="${isExtended ? 'var(--tint-amber-text)' : 'var(--tint-rose-text)'}"/>
+              <rect x="${xPos}" y="${yPos}" width="${barW}" height="${h}" rx="4" fill="${isExtended ? 'var(--tint-amber-text)' : 'var(--tint-rose-text)'}" class="chart-bar" style="animation: barRise 0.45s var(--ease-out-expo) ${i * 45}ms both; transform-origin: bottom;"/>
               <text x="${xPos + barW / 2}" y="${yPos - 3}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--plum)">${d.duration}d</text>
               <text x="${xPos + barW / 2}" y="${H - 8}" text-anchor="middle" font-size="9" fill="var(--muted)">#${i + 1}</text>
             </g>`;
@@ -3987,6 +4354,7 @@ const loadDraft = d => {
 loadDraft(I(TD()));
 
 function haptic(pattern = 15) {
+  if (S && S.haptics === 0) return;
   try {
     if ('vibrate' in navigator && typeof navigator.vibrate === 'function') {
       navigator.vibrate(pattern);
@@ -4282,7 +4650,7 @@ function renderHome() {
   if (pdset(S).has(T)) {
     phaseKey = "menstrual";
     phasePill = `<span class="phase-pill tint-rose">🌸 Recorded Period Day</span>`;
-  } else if ((S.mode === "natural" || S.mode === "ttc") && x.fertileStart && T >= x.fertileStart && T <= x.fertileEnd) {
+  } else if (S.showFertile !== 0 && (S.mode === "natural" || S.mode === "ttc") && x.fertileStart && T >= x.fertileStart && T <= x.fertileEnd) {
     phaseKey = "fertile";
     phasePill = `<span class="phase-pill tint-lavender">✨ Estimated Fertile Window</span>`;
   } else if (day < x.avg - x.ll) {
@@ -4418,8 +4786,8 @@ function renderCalendar() {
   const fe = new Set();
 
   if (S.mode !== "none" && S.mode !== "contra" && S.mode !== "pregnancy") {
-    // Current ongoing cycle fertile window if active
-    if (x.fertileStart && x.fertileEnd) {
+    // Current ongoing cycle fertile window if active and enabled
+    if (S.showFertile !== 0 && x.fertileStart && x.fertileEnd) {
       for (let d = x.fertileStart; d <= x.fertileEnd; d++) fe.add(d);
     }
     // Future cycles with individual fertile windows
@@ -4428,7 +4796,7 @@ function renderCalendar() {
         for (let d = pc.periodStart; d <= pc.periodEnd; d++) {
           if (d >= T) pr.add(d);
         }
-        if (S.mode !== "irregular" && pc.fertileStart && pc.fertileEnd) {
+        if (S.showFertile !== 0 && S.mode !== "irregular" && pc.fertileStart && pc.fertileEnd) {
           for (let d = pc.fertileStart; d <= pc.fertileEnd; d++) {
             fe.add(d);
           }
@@ -4578,18 +4946,20 @@ function renderLog() {
             .map(([v, l]) => chip(l, d.en === v, `data-a="energy" data-v="${v}"`)).join("")}
         </div>
 
-        <div class="row" style="margin-top:16px">
-          <label style="margin:0">Hydration (8 glasses goal)</label>
-          <span style="font-size:13px;font-weight:700;color:var(--tint-sky-text)">${d.water || 0} / 8 glasses</span>
-        </div>
-        <div class="water-cups-row">
-          ${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `
-            <button class="water-cup-btn ${n <= (d.water || 0) ? "filled" : ""}" data-a="setWater" data-v="${n}" aria-label="${n} glasses of water">
-              ${svgi("water", 16)}
-              <span style="font-size:11px">${n}</span>
-            </button>`
-          ).join("")}
-        </div>
+        ${S.waterGoal !== 0 ? `
+          <div class="row" style="margin-top:16px">
+            <label style="margin:0">Hydration (8 glasses goal)</label>
+            <span style="font-size:13px;font-weight:700;color:var(--tint-sky-text)">${d.water || 0} / 8 glasses</span>
+          </div>
+          <div class="water-cups-row">
+            ${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `
+              <button class="water-cup-btn ${n <= (d.water || 0) ? "filled" : ""}" data-a="setWater" data-v="${n}" aria-label="${n} glasses of water">
+                ${svgi("water", 16)}
+                <span style="font-size:11px">${n}</span>
+              </button>`
+            ).join("")}
+          </div>
+        ` : ""}
 
         <div class="row" style="margin-top:16px">
           <label for="sl" style="margin:0">Sleep duration</label>
@@ -4802,7 +5172,7 @@ function renderCare() {
     <div class="view-enter">
       <h2 style="margin-bottom:14px">Care, Insights &amp; Guidance</h2>
 
-      ${careAlerts.length ? `
+      ${careAlerts.length && S.careAlerts !== 0 ? `
         <div class="card tint-amber">
           <div class="row">
             <div style="display:flex;align-items:center;gap:8px">
@@ -5135,85 +5505,217 @@ function renderProfile() {
   const ledger = getPrivacyLedger();
   const pinActive = PinLock.isEnabled();
 
+  const motionActive = S.motion !== 0;
+  const hapticsActive = S.haptics !== 0;
+  const showFertileActive = S.showFertile !== 0;
+  const careAlertsActive = S.careAlerts !== 0;
+  const waterGoalActive = S.waterGoal !== 0;
+
   return `
     <div class="scrim" data-a="close"></div>
-    <section class="sheet" role="dialog" aria-label="Profile and Settings">
+    <section class="sheet" role="dialog" aria-label="Profile and Settings" style="max-height:92vh;max-height:92dvh;overflow-y:auto">
       <div class="sheet-handle"></div>
-      <div class="row" style="margin-bottom:12px">
-        <h2>Profile &amp; Settings</h2>
+      <div class="row" style="margin-bottom:14px">
+        <div>
+          <span class="article-tag tint-lavender">Preferences &amp; Calibration</span>
+          <h2 style="margin:4px 0 0">Profile &amp; Settings</h2>
+        </div>
         <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
       </div>
 
-      <label>Tracking mode</label>
-      <div class="chips">
-        ${[
-          ["natural", "Natural cycle"],
-          ["irregular", "Irregular cycle"],
-          ["contra", "Hormonal contraception"],
-          ["ttc", "Trying to conceive"],
-          ["pregnancy", "Pregnancy"],
-          ["perimenopause", "Perimenopause"],
-          ["none", "No predictions"]
-        ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
+      <!-- Group 1: Cycle Calibration -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("layers", 16)} 1. Reproductive Calibration
+        </div>
+
+        <label style="margin-top:0">Tracking Mode</label>
+        <div class="chips">
+          ${[
+            ["natural", "Natural cycle"],
+            ["irregular", "Irregular cycle"],
+            ["contra", "Hormonal contraception"],
+            ["ttc", "Trying to conceive"],
+            ["pregnancy", "Pregnancy"],
+            ["perimenopause", "Perimenopause"],
+            ["none", "No predictions"]
+          ].map(([v, t]) => chip(t, S.mode === v, `data-a="setMode" data-v="${v}"`)).join("")}
+        </div>
+
+        <div class="stepper-wrap" style="margin-top:12px">
+          <div>
+            <b>Usual Cycle Length</b>
+            <p class="mut" style="margin:0;font-size:12px">ACOG normal: 21–35 days</p>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="-1" aria-label="Decrease cycle length">−</button>
+            <input class="stepper-val" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl" aria-label="Cycle length in days">
+            <button class="stepper-btn" data-a="step" data-k="S.cl" data-v="1" aria-label="Increase cycle length">+</button>
+          </div>
+        </div>
+
+        <div class="stepper-wrap">
+          <div>
+            <b>Period Bleeding Duration</b>
+            <p class="mut" style="margin:0;font-size:12px">Typical: 3–7 days</p>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="-1" aria-label="Decrease period duration">−</button>
+            <input class="stepper-val" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl" aria-label="Period duration in days">
+            <button class="stepper-btn" data-a="step" data-k="S.pl" data-v="1" aria-label="Increase period duration">+</button>
+          </div>
+        </div>
+
+        <div class="stepper-wrap">
+          <div>
+            <b>Luteal Phase Length</b>
+            <p class="mut" style="margin:0;font-size:12px">Post-ovulation span (10–16d, baseline 14d)</p>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="-1" aria-label="Decrease luteal length">−</button>
+            <input class="stepper-val" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll" aria-label="Luteal phase length in days">
+            <button class="stepper-btn" data-a="step" data-k="S.ll" data-v="1" aria-label="Increase luteal length">+</button>
+          </div>
+        </div>
       </div>
 
-      <label for="pc" style="margin-top:14px">Usual cycle length (days)</label>
-      <input id="pc" type="number" min="15" max="90" value="${S.cl}" data-k="S.cl">
+      <!-- Group 2: Tactile Motion & Interactive Toggles -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("sparkle", 16)} 2. Motion &amp; Interaction Toggles
+        </div>
 
-      <label for="pp">Usual period duration (days)</label>
-      <input id="pp" type="number" min="1" max="14" value="${S.pl}" data-k="S.pl">
+        <!-- Toggle: Fluid Spring Motion -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Fluid Motion &amp; Animations</div>
+            <p class="switch-desc">Enable smooth view transitions, staggered card reveals, and dynamic SVG chart growth.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="motion" ${motionActive ? "checked" : ""} role="switch" aria-checked="${motionActive ? "true" : "false"}" aria-label="Toggle fluid animations">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
 
-      <label for="pll">Adjustable luteal length (10–16 days)</label>
-      <input id="pll" type="number" min="10" max="16" value="${S.ll || 14}" data-k="S.ll">
+        <!-- Toggle: Tactile Haptic Pulses -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Tactile Haptic Feedback</div>
+            <p class="switch-desc">Physical vibration pulses when logging periods, rating moods, and navigating tabs.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="haptics" ${hapticsActive ? "checked" : ""} role="switch" aria-checked="${hapticsActive ? "true" : "false"}" aria-label="Toggle haptic feedback">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
 
-      <label style="margin-top:18px">Appearance</label>
-      <div class="chips">
-        ${[["system", "System"], ["light", "Light"], ["dark", "Dark"]]
-          .map(([v, t]) => chip(t, S.theme == v, `data-a="th" data-v="${v}"`)).join("")}
+        <!-- Toggle: Fertility & Ovulation Windows -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Fertility &amp; Ovulation Indicators</div>
+            <p class="switch-desc">Display estimated fertile window and ovulation peak markers on calendar and cycle ring.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="showFertile" ${showFertileActive ? "checked" : ""} role="switch" aria-checked="${showFertileActive ? "true" : "false"}" aria-label="Toggle fertility indicators">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- Toggle: Physiological Red Flags -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Clinical Red Flag Alerts</div>
+            <p class="switch-desc">Prompt consultation guidance if period is absent 90+ days or severe pain (8+/10) is logged.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="careAlerts" ${careAlertsActive ? "checked" : ""} role="switch" aria-checked="${careAlertsActive ? "true" : "false"}" aria-label="Toggle clinical alerts">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- Toggle: Hydration Target -->
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">Daily Hydration Cups Goal</div>
+            <p class="switch-desc">Show 8-cup hydration tracker in the daily wellness logging interface.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-a="togglePref" data-k="waterGoal" ${waterGoalActive ? "checked" : ""} role="switch" aria-checked="${waterGoalActive ? "true" : "false"}" aria-label="Toggle hydration target">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
       </div>
 
-      <!-- PIN App Lock -->
-      <h3 style="margin-top:22px">Application Security Lock</h3>
-      <div class="card" style="padding:14px;margin-top:8px">
+      <!-- Group 3: Appearance & Theme -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("sun", 16)} 3. Theme &amp; Visual Mode
+        </div>
+        <div class="segmented-picker">
+          ${[["system", "System", "laptop"], ["light", "Light", "sun"], ["dark", "Dark", "moon"]].map(([v, t, icon]) => `
+            <button class="segmented-btn ${S.theme === v ? "active" : ""}" data-a="th" data-v="${v}">
+              ${svgi(icon, 14)} ${t}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+
+      <!-- Group 4: Security & PIN -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("shieldCheck", 16)} 4. Application Security Lock
+        </div>
         <div class="row">
           <div>
             <b>4-Digit App PIN Lock</b>
-            <p class="mut" style="margin:2px 0 0;font-size:12.5px">${pinActive ? "Enabled (Salted SHA-256 Web Crypto hash)" : "Disabled (Open immediately)"}</p>
+            <p class="mut" style="margin:2px 0 0;font-size:12px">
+              ${pinActive ? "Active · Protected with Salted SHA-256 Web Crypto hash" : "Inactive · Instant access on open"}
+            </p>
           </div>
           <button class="chip" data-a="togglePin">${pinActive ? "Disable PIN" : "Set PIN"}</button>
         </div>
       </div>
 
-      <!-- Privacy Ledger -->
-      <h3 style="margin-top:22px">Privacy Ledger (On-Device Storage)</h3>
-      <p class="mut" style="font-size:13px">All data is stored strictly in your browser. Below is an audit of active storage keys and byte counts.</p>
-      <div class="ledger-wrap">
-        <table class="ledger-table">
-          <thead>
-            <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
-          </thead>
-          <tbody>
-            ${ledger.map(item => `
-              <tr>
-                <td><code>${esc(item.key)}</code></td>
-                <td>${item.sizeKB} KB</td>
-                <td>${esc(item.description)}</td>
-              </tr>`
-            ).join("")}
-          </tbody>
-        </table>
+      <!-- Group 5: On-Device Storage & Privacy Ledger -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("activity", 16)} 5. Privacy Ledger (100% On-Device)
+        </div>
+        <p class="mut" style="font-size:12.5px;margin:0 0 10px">Zero cloud servers. Below is an audit of all active keys and byte allocations in your browser's private storage.</p>
+        <div class="ledger-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr><th>Storage Key</th><th>Size</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              ${ledger.map(item => `
+                <tr>
+                  <td><code>${esc(item.key)}</code></td>
+                  <td>${item.sizeKB} KB</td>
+                  <td>${esc(item.description)}</td>
+                </tr>`
+              ).join("")}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- Export & Backup -->
-      <h3 style="margin-top:20px">Data Sovereignty &amp; Backup</h3>
-      <div class="chips" style="display:grid;gap:8px">
-        <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
-        <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
-        <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Summary</button>
-      </div>
+      <!-- Group 6: Data Sovereignty & Backup -->
+      <div class="settings-group">
+        <div class="settings-group-title">
+          ${svgi("download", 16)} 6. Data Sovereignty &amp; Exports
+        </div>
+        <div class="chips" style="display:grid;gap:8px">
+          <button class="btn g" data-a="exportCSV">${svgi("download", 18)} Download CSV Spreadsheet</button>
+          <button class="btn g" data-a="exportJSON">${svgi("download", 18)} Download JSON Backup File</button>
+          <button class="btn g" data-a="openClinician">${svgi("copy", 18)} Clinician Consultation Report</button>
+        </div>
 
-      <div class="chips" style="display:grid;gap:8px;margin-top:14px">
-        <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">${ui.cf == "wipe" ? "Tap again to confirm deleting all data" : "Delete all records"}</button>
+        <div style="margin-top:14px;border-top:1px solid var(--border-subtle);padding-top:12px">
+          <button class="btn g" style="color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="wipe">
+            ${ui.cf == "wipe" ? "⚠️ Tap again to confirm wiping all records" : "Wipe all local data"}
+          </button>
+        </div>
       </div>
     </section>`;
 }
@@ -5319,6 +5821,20 @@ const A = {
   closeInfo: () => {
     ui.infoTopic = null;
     haptic(10);
+  },
+  step: (v, el) => {
+    const delta = +el.dataset.v || 0;
+    const key = el.dataset.k;
+    if (key === "S.cl") {
+      S.cl = Math.max(15, Math.min(90, (S.cl || 28) + delta));
+    } else if (key === "S.pl") {
+      S.pl = Math.max(1, Math.min(14, (S.pl || 5) + delta));
+    } else if (key === "S.ll") {
+      S.ll = Math.max(10, Math.min(16, (S.ll || 14) + delta));
+    }
+    saveState(S);
+    haptic(12);
+    render();
   },
   openTour: () => {
     ui.tourModal = true;
@@ -5731,6 +6247,15 @@ document.addEventListener("change", e => {
   if (el.dataset.a === "ldate") {
     loadDraft(el.value || I(TD()));
     render();
+  } else if (el.dataset.a === "togglePref") {
+    const key = el.dataset.k;
+    if (key && (key in S)) {
+      S[key] = el.checked ? 1 : 0;
+      saveState(S);
+      applyTheme();
+      haptic(20);
+      render();
+    }
   }
 });
 
@@ -5768,6 +6293,10 @@ function applyTheme() {
   const isDark = S.theme === "dark" || (S.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   if (S.theme == "light" || S.theme == "dark") r.dataset.theme = S.theme;
   else r.removeAttribute("data-theme");
+
+  if (S.motion === 0) r.dataset.motion = "reduced";
+  else r.removeAttribute("data-motion");
+
   const meta = document.querySelector("#meta-theme");
   if (meta) meta.content = isDark ? "#17151B" : "#FAF5F7";
 }
@@ -5777,10 +6306,12 @@ applyTheme();
 render();
 
 
-// PWA Service Worker Registration
+// PWA Service Worker Registration with automatic update checking
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(err => {
+    navigator.serviceWorker.register("./sw.js").then(reg => {
+      reg.update().catch(() => {});
+    }).catch(err => {
       console.warn("ServiceWorker skipped:", err);
     });
   });

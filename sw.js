@@ -2,7 +2,7 @@
  * CycleSideChick — Service Worker (Offline Cache & PWA Support)
  */
 
-const CACHE_NAME = "cyclesidechick-v2.0.0";
+const CACHE_NAME = "cyclesidechick-v2.1.0";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
@@ -40,19 +40,28 @@ self.addEventListener("activate", event => {
   );
 });
 
+// Network-first for fresh updates, falling back to cache when offline
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
+
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(response => {
-        return caches.open(CACHE_NAME).then(cache => {
-          if (event.request.url.startsWith("http")) {
-            cache.put(event.request, response.clone());
-          }
-          return response;
+    fetch(event.request)
+      .then(response => {
+        if (response && response.status === 200) {
+          const resClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            if (event.request.url.startsWith("http")) {
+              cache.put(event.request, resClone);
+            }
+          });
+        }
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request).then(cached => {
+          return cached || (event.request.mode === "navigate" ? caches.match("./index.html") : null);
         });
-      }).catch(() => caches.match("./index.html"));
-    })
+      })
   );
 });
 
