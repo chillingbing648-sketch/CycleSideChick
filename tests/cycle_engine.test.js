@@ -21,16 +21,16 @@ const {
   getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
   calculatePeriodDurations, calculateVariability, aggregateSymptoms, aggregateMoods,
   CERVICAL_FLUID
-} = require("../src/js/engine.js");
+} = require("../src/core/engine.js");
 
 const {
   generateJSON, generateCSV, previewImport, defState, migrateState, DEFAULT_CARE_KIT
-} = require("../src/js/storage.js");
+} = require("../src/core/storage.js");
 
 const {
   REASSURANCE_MESSAGES, getReassuranceMessage, FULL_CYCLE_CARE_GUIDES,
   CYCLE_EXPLAINED_CARDS, getCareSuggestions
-} = require("../src/js/content.js");
+} = require("../src/core/content.js");
 
 console.log("==================================================");
 console.log("RUNNING CYCLESIDECHICK CYCLE ENGINE UNIT TESTS");

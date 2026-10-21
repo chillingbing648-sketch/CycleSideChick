@@ -123,7 +123,106 @@
 }
 
 /* Layered Dark Mode — Layered surfaces (#17151B, #211D26, #2A2330) */
-:root[data-theme="dark"],
+:root[data-theme="dark"] {
+  --bg: #17151B;
+  --surface: #211D26;
+  --surface-alt: #2A2330;
+  --surface-elevated: #2E2736;
+  --surface-soft: #2E2537;
+  --plum: #F6EDF3;
+  --ink: #EBE0EA;
+  --muted: #A694A3;
+  --subtle: #796877;
+  --border: #352B3B;
+  --border-subtle: rgba(246, 237, 243, 0.09);
+
+  --pink: #EB6FA1;
+  --pink-hover: #F286B2;
+  --pink-light: #341B28;
+  --pink-border: #5C2B42;
+  --pink-glow: rgba(235, 111, 161, 0.28);
+  --rose: #9C657A;
+  --nav-bg: rgba(33, 29, 38, 0.94);
+
+  /* Soft Semantic Tints — Dark (All reach >= 4.5:1 text contrast) */
+  --tint-rose-bg: #2E2029;
+  --tint-rose-text: #F8BAC9;
+  --tint-rose-border: #4D3342;
+
+  --tint-lavender-bg: #2A2330;
+  --tint-lavender-text: #DCCBF0;
+  --tint-lavender-border: #463753;
+
+  --tint-butter-bg: #3A3322;
+  --tint-butter-text: #FEE685;
+  --tint-butter-border: #594D2C;
+
+  --tint-amber-bg: #3F3120;
+  --tint-amber-text: #FED085;
+  --tint-amber-border: #5F472A;
+
+  --tint-sage-bg: #25302A;
+  --tint-sage-text: #B7E1C3;
+  --tint-sage-border: #384F41;
+
+  --tint-mint-bg: #223229;
+  --tint-mint-text: #AEE2CF;
+  --tint-mint-border: #335041;
+
+  --tint-sky-bg: #212C38;
+  --tint-sky-text: #B0D7F5;
+  --tint-sky-border: #33485E;
+
+  --tint-peach-bg: #3A2A26;
+  --tint-peach-text: #F8BC9E;
+  --tint-peach-border: #573B32;
+
+  /* Dedicated Physiological Phase Colors (Dark) */
+  --phase-menstrual: #FB7185;
+  --phase-menstrual-bg: #4C0519;
+  --phase-menstrual-text: #FECDD3;
+  --phase-menstrual-border: #881337;
+
+  --phase-follicular: #34D399;
+  --phase-follicular-bg: #064E3B;
+  --phase-follicular-text: #A7F3D0;
+  --phase-follicular-border: #065F46;
+
+  --phase-ovulatory: #A78BFA;
+  --phase-ovulatory-bg: #3B0764;
+  --phase-ovulatory-text: #DDD6FE;
+  --phase-ovulatory-border: #5B21B6;
+
+  --phase-luteal: #FBBF24;
+  --phase-luteal-bg: #451A03;
+  --phase-luteal-text: #FDE68A;
+  --phase-luteal-border: #78350F;
+
+  --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
+  --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+
+  /* Cohesive Soft Pastel System — Dark */
+  --pastel-rose: #542D3D;
+  --pastel-berry: #EB6FA1;
+  --pastel-lavender: #3B2E4C;
+  --pastel-peach: #4A332B;
+  --pastel-buttercream: #473E26;
+  --pastel-sage: #2C3E33;
+  --pastel-blue: #2A3B4D;
+  --pastel-ivory: #1E1A23;
+  --pastel-plum: #F8EDF4;
+
+  --modal-bg: #1E1A23;
+  --modal-card-bg: #27212E;
+  --modal-card-border: rgba(248, 237, 244, 0.1);
+  --modal-header-border: rgba(248, 237, 244, 0.08);
+  --scrollbar-thumb: rgba(242, 134, 178, 0.35);
+  --scrollbar-thumb-hover: rgba(242, 134, 178, 0.65);
+
+  color-scheme: dark;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #17151B;
@@ -146,7 +245,6 @@
     --rose: #9C657A;
     --nav-bg: rgba(33, 29, 38, 0.94);
 
-    /* Soft Semantic Tints — Dark (All reach >= 4.5:1 text contrast) */
     --tint-rose-bg: #2E2029;
     --tint-rose-text: #F8BAC9;
     --tint-rose-border: #4D3342;
@@ -179,7 +277,6 @@
     --tint-peach-text: #F8BC9E;
     --tint-peach-border: #573B32;
 
-    /* Dedicated Physiological Phase Colors (Dark) */
     --phase-menstrual: #FB7185;
     --phase-menstrual-bg: #4C0519;
     --phase-menstrual-text: #FECDD3;
@@ -204,7 +301,6 @@
     --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
     --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
 
-    /* Cohesive Soft Pastel System — Dark */
     --pastel-rose: #542D3D;
     --pastel-berry: #EB6FA1;
     --pastel-lavender: #3B2E4C;
@@ -234,7 +330,12 @@
     --ink: #000000;
     --muted: #482B3C;
   }
-  :root[data-theme="dark"],
+  :root[data-theme="dark"] {
+    --border: #DFCBD8;
+    --border-subtle: #DFCBD8;
+    --ink: #FFFFFF;
+    --muted: #EADCE6;
+  }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --border: #DFCBD8;
@@ -249,7 +350,15 @@
 }
 
 /* User-Controlled & OS-Controlled Reduced Motion */
-:root[data-motion="reduced"],
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.001ms !important;

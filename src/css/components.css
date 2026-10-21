@@ -953,7 +953,12 @@ input[type="range"]::-webkit-slider-thumb:active {
   box-shadow: 0 2px 10px rgba(217, 75, 134, 0.2);
 }
 
-:root[data-theme="dark"] .chip-mode[aria-pressed="true"],
+:root[data-theme="dark"] .chip-mode[aria-pressed="true"] {
+  background: #472635;
+  border-color: #EB6FA1;
+  color: #FCE8F0;
+  box-shadow: 0 2px 12px rgba(235, 111, 161, 0.24);
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .chip-mode[aria-pressed="true"] {
     background: #472635;
@@ -974,7 +979,10 @@ input[type="range"]::-webkit-slider-thumb:active {
   color: #FFFFFF;
 }
 
-:root[data-theme="dark"] .chip-check,
+:root[data-theme="dark"] .chip-check {
+  background: #EB6FA1;
+  color: #211D26;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .chip-check {
     background: #EB6FA1;
@@ -1041,7 +1049,10 @@ input[type="range"]::-webkit-slider-thumb:active {
   max-width: 90%;
 }
 
-:root[data-theme="dark"] #toast,
+:root[data-theme="dark"] #toast {
+  background: #FFFFFF;
+  color: #120F16;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) #toast {
     background: #FFFFFF;
@@ -1508,7 +1519,36 @@ input[type="range"]::-webkit-slider-thumb:active {
   border: 1px solid #F0C4AC;
 }
 
-:root[data-theme="dark"] .pill-calibration,
+:root[data-theme="dark"] .pill-calibration {
+  background: #472635;
+  color: #FCE8F0;
+  border-color: #EB6FA1;
+}
+:root[data-theme="dark"] .pill-toggles {
+  background: #36294C;
+  color: #F2EEFA;
+  border-color: #A993D6;
+}
+:root[data-theme="dark"] .pill-theme {
+  background: #3E351F;
+  color: #FFF6DA;
+  border-color: #D4BD59;
+}
+:root[data-theme="dark"] .pill-security {
+  background: #203144;
+  color: #EBF4FC;
+  border-color: #79A3CD;
+}
+:root[data-theme="dark"] .pill-ledger {
+  background: #1F362B;
+  color: #E6F5EC;
+  border-color: #70AD8B;
+}
+:root[data-theme="dark"] .pill-sovereignty {
+  background: #412A1F;
+  color: #FDEEE4;
+  border-color: #D99577;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .pill-calibration {
     background: #472635;
@@ -1677,7 +1717,26 @@ input[type="range"]::-webkit-slider-thumb:active {
 .view-enter .card:nth-child(7) { animation-delay: 260ms; }
 
 /* Respect Reduced Motion */
-:root[data-motion="reduced"],
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] ::before,
+:root[data-motion="reduced"] ::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+:root[data-motion="reduced"] .view-enter,
+:root[data-motion="reduced"] .view-enter .card,
+:root[data-motion="reduced"] .ring-pulse-halo,
+:root[data-motion="reduced"] .phase-art-wrap,
+:root[data-motion="reduced"] .chart-bar,
+:root[data-motion="reduced"] .sheet,
+:root[data-motion="reduced"] .scrim,
+:root[data-motion="reduced"] .day.s,
+:root[data-motion="reduced"] .nav-btn[aria-current="page"]::after {
+  animation: none !important;
+  transition: none !important;
+}
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.001ms !important;

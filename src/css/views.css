@@ -314,7 +314,10 @@
   justify-content: space-between;
   gap: 12px;
 }
-:root[data-theme="dark"] .reassurance-box,
+:root[data-theme="dark"] .reassurance-box {
+  background: #25202E;
+  border-left-color: #EB6FA1;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .reassurance-box {
     background: #25202E;
@@ -391,7 +394,11 @@
   box-shadow: 0 2px 8px rgba(217, 75, 134, 0.22);
   font-weight: 700;
 }
-:root[data-theme="dark"] .checkin-btn.active,
+:root[data-theme="dark"] .checkin-btn.active {
+  background: #472635;
+  border-color: #EB6FA1;
+  color: #FCE8F0;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .checkin-btn.active {
     background: #472635;
@@ -414,7 +421,11 @@
   border: 1px solid #B0D6BE;
   user-select: none;
 }
-:root[data-theme="dark"] .gentle-progress-badge,
+:root[data-theme="dark"] .gentle-progress-badge {
+  background: #1F362B;
+  color: #E6F5EC;
+  border-color: #70AD8B;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .gentle-progress-badge {
     background: #1F362B;
@@ -474,7 +485,10 @@
   border-color: var(--pastel-berry);
   background: var(--pastel-ivory);
 }
-:root[data-theme="dark"] .care-kit-item.favorited,
+:root[data-theme="dark"] .care-kit-item.favorited {
+  background: #2B2130;
+  border-color: #EB6FA1;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .care-kit-item.favorited {
     background: #2B2130;
@@ -524,7 +538,10 @@
   justify-content: space-between;
   gap: 10px;
 }
-:root[data-theme="dark"] .journal-prompt-box,
+:root[data-theme="dark"] .journal-prompt-box {
+  background: #36294C;
+  border-color: #A993D6;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .journal-prompt-box {
     background: #36294C;
@@ -615,7 +632,11 @@
   color: var(--pastel-plum);
   font-weight: 700;
 }
-:root[data-theme="dark"] .journal-tag-chip.active,
+:root[data-theme="dark"] .journal-tag-chip.active {
+  background: #472635;
+  border-color: #EB6FA1;
+  color: #FCE8F0;
+}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .journal-tag-chip.active {
     background: #472635;
