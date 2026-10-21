@@ -54,6 +54,22 @@ CycleSideChick was engineered to provide **structural immunity** against these t
 - **CycleSideChick Mitigation:**
   - **Zero Runtime Dependencies:** CycleSideChick runs pure vanilla HTML, modern CSS, and ES JavaScript. There are zero runtime npm dependencies in production.
 
+### Threat 8: Authentication Provider Surveillance
+- **Attack Vector:** The OAuth identity provider (Google) attempts to link authentication events to reproductive health logs or search queries.
+- **Risk Level:** High.
+- **CycleSideChick Mitigation:**
+  - **Strict Architectural Separation:** Google Identity Services (GIS) is used strictly for identity confirmation before granting browser access.
+  - **Scope Minimization:** Only basic identity claims (`openid`, `email`, `profile`) are requested. No access is requested to Gmail, Drive, Calendar, or Google Fit.
+  - **Zero Health Telemetry:** All cycle records, symptom logs, notes, and wellness data reside strictly in `localStorage["csc.v1"]`. Health data is never transmitted to Google, attached to OAuth state, or written to tokens.
+
+### Threat 9: Static Client-Side Execution Boundaries
+- **Attack Vector:** A user or attacker with access to browser developer tools modifies client-side JavaScript to bypass the authentication gate.
+- **Risk Level:** Low / Technical Limitation of Static Hosting.
+- **CycleSideChick Mitigation & Transparent Disclosure:**
+  - On static GitHub Pages hosting, all code executes client-side. The client validates JWT signatures and claims via Google's official `tokeninfo` verification endpoint.
+  - Static frontends cannot securely store server-side secrets or enforce zero-trust backend authorization without a backend. Deployers requiring server-grade access verification can configure a private backend endpoint (`CSC_CONFIG.BACKEND_VERIFY_URL`).
+  - To protect physical device access, CycleSideChick supports an independent salted SHA-256 PIN Lock.
+
 ---
 
 ## 3. Residual Risks & User Guidance

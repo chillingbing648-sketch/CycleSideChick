@@ -131,6 +131,17 @@ function updateScrollLock() {
 
 function afterRender(ctx) {
   updateScrollLock();
+
+  // Mount Google Sign-In button if on the Authentication Gate
+  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) {
+    const container = document.getElementById("g-signin-container");
+    if (container && typeof CSC_CONFIG !== "undefined" && CSC_CONFIG.isClientIdConfigured()) {
+      CycleAuth.renderButton(container, {
+        width: Math.min(320, container.clientWidth || 280)
+      });
+    }
+  }
+
   if (ctx && ctx.prevTab === ui.tab && scrollPositions[ui.tab] != null) {
     window.scrollTo({ top: scrollPositions[ui.tab], behavior: "instant" });
   }
@@ -1077,6 +1088,90 @@ function renderInfoModal() {
     </section>`;
 }
 
+/* 11.5 Mandatory Google Authentication Gate Screen */
+function renderAuthGate() {
+  const isAuth = typeof CycleAuth !== "undefined" && CycleAuth.isAuthenticated();
+  const isAuthenticating = typeof CycleAuth !== "undefined" && CycleAuth.isAuthenticating();
+  const authError = typeof CycleAuth !== "undefined" ? CycleAuth.getError() : null;
+  const isConfigured = typeof CSC_CONFIG !== "undefined" && CSC_CONFIG.isClientIdConfigured();
+
+  return `
+    <div class="auth-gate-view view-enter" role="region" aria-label="Sign In to CycleSideChick">
+      <div class="auth-header">
+        <div style="margin-bottom:14px">${bunny(72)}</div>
+        <h1 class="wm" style="font-size:28px;margin-bottom:6px">CycleSideChick</h1>
+        <p class="mut" style="font-size:15px;font-weight:600;color:var(--plum);margin:0">
+          Your private, evidence-based cycle and wellness companion.
+        </p>
+      </div>
+
+      <div class="card auth-card">
+        <h2 style="font-size:18px;margin:0 0 6px;color:var(--plum)">Sign in with Google</h2>
+        <p class="mut" style="font-size:13.5px;line-height:1.5;margin:0 0 16px">
+          Authentication is required to unlock CycleSideChick in this browser.
+        </p>
+
+        ${isAuthenticating ? `
+          <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 0;color:var(--plum);font-weight:600;font-size:14px;">
+            <div class="auth-status-spinner"></div>
+            <span>Verifying Google identity...</span>
+          </div>
+        ` : `
+          <div id="g-signin-container" class="g-signin-wrapper" aria-label="Google Sign In Button">
+            ${!isConfigured ? `
+              <div class="card tint-amber" style="width:100%;margin:0;padding:14px;border-radius:var(--radius-md);">
+                <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:var(--tint-amber-text);font-size:13.5px;margin-bottom:6px;">
+                  ${svgi("info", 18)} <span>OAuth Client ID Setup Required</span>
+                </div>
+                <p style="margin:0 0 10px;font-size:12.5px;color:var(--tint-amber-text);line-height:1.45;">
+                  Configure your Google Cloud OAuth 2.0 Web Client ID in <code>src/js/config.js</code> or enter a Client ID below to test immediately:
+                </p>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <input type="text" id="dev-client-id-input" placeholder="your-client-id.apps.googleusercontent.com" style="font-size:12.5px;padding:9px 12px;width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);">
+                  <button class="btn" style="min-height:38px;padding:8px 14px;font-size:13px;" data-a="saveCustomClientId">Save Client ID &amp; Launch GIS</button>
+                </div>
+              </div>
+            ` : ""}
+          </div>
+        `}
+
+        ${authError ? `
+          <div class="card tint-rose" style="margin-top:14px;padding:14px;border-radius:var(--radius-md);" role="alert">
+            <div style="display:flex;align-items:center;gap:8px;color:var(--tint-rose-text);font-weight:700;font-size:13.5px;">
+              ${svgi("alert", 18)} <span>Authentication Notice</span>
+            </div>
+            <p style="margin:6px 0 10px;font-size:12.5px;color:var(--tint-rose-text);line-height:1.45;">
+              ${esc(authError)}
+            </p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn g" style="min-height:36px;font-size:12.5px;padding:6px 14px;color:var(--tint-rose-text);border-color:var(--tint-rose-border);" data-a="authRetry">
+                ${svgi("refresh", 14)} Retry Sign In
+              </button>
+              ${!isConfigured ? `
+                <button class="btn g" style="min-height:36px;font-size:12.5px;padding:6px 14px;" data-a="clearCustomClientId">
+                  Reset Client ID
+                </button>
+              ` : ""}
+            </div>
+          </div>
+        ` : ""}
+      </div>
+
+      <div class="card tint-mint" style="text-align:left;padding:18px 16px;border-radius:var(--radius-lg);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          ${svgi("shield", 22)}
+          <b style="color:var(--tint-mint-text);font-size:14px">Strict On-Device Privacy Architecture</b>
+        </div>
+        <p class="mut" style="margin:0 0 10px;font-size:12.5px;line-height:1.55;color:var(--ink)">
+          <b>Zero Cloud Uploads:</b> Google is used strictly as an identity key. Your menstrual cycles, symptom logs, notes, pregnancy details, and personal settings remain <b>100% on this physical device</b> in local browser storage. They are never sent to Google, remote databases, or third parties.
+        </p>
+        <p class="mut" style="margin:0;font-size:12px;line-height:1.5;color:var(--muted)">
+          <b>Shared Device Disclosure:</b> Anyone with physical access to this browser profile can view existing device records once signed in. For multi-person shared computers, activate the optional 4-digit PIN lock inside Settings.
+        </p>
+      </div>
+    </div>`;
+}
+
 /* 12. PIN Lock Screen Overlay */
 function renderPinLock() {
   const dots = [0, 1, 2, 3].map(i => `<div class="pin-bubble ${i < ui.pinEntered.length ? "filled" : ""}"></div>`).join("");
@@ -1099,6 +1194,7 @@ function renderPinLock() {
 function renderProfile() {
   const ledger = getPrivacyLedger();
   const pinActive = PinLock.isEnabled();
+  const authUser = typeof CycleAuth !== "undefined" ? CycleAuth.getUser() : null;
 
   return `
     <div class="scrim" data-a="close"></div>
@@ -1107,6 +1203,32 @@ function renderProfile() {
       <div class="row" style="margin-bottom:12px">
         <h2>Profile &amp; Settings</h2>
         <button class="icon" data-a="close" aria-label="Close settings">${svgi("x", 18)}</button>
+      </div>
+
+      <!-- Google Authentication Account Card -->
+      <h3 style="margin-top:6px">Google Identity</h3>
+      <div class="card" style="padding:14px;margin-top:6px;margin-bottom:16px;">
+        <div class="row" style="margin-bottom:10px;">
+          <b style="color:var(--plum);font-size:14px;">Identity Key Status</b>
+          <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);background:var(--tint-sage-bg);color:var(--tint-sage-text);">Verified</span>
+        </div>
+        <div class="auth-user-badge" style="margin-bottom:10px;">
+          ${authUser && authUser.picture ? `
+            <img src="${esc(authUser.picture)}" alt="" class="auth-user-avatar" referrerpolicy="no-referrer">
+          ` : `
+            <div class="auth-user-avatar" style="display:grid;place-items:center;color:var(--plum);">${svgi("user", 22)}</div>
+          `}
+          <div class="auth-user-info">
+            <div class="auth-user-name">${esc((authUser && authUser.name) || "Google User")}</div>
+            <div class="auth-user-email">${esc((authUser && authUser.email) || "")}</div>
+          </div>
+        </div>
+        <p class="mut" style="font-size:12px;line-height:1.45;margin:0 0 12px;">
+          Signed in via Google Identity Services. Cycle history, symptom logs, and pregnancy records remain exclusively on this physical device.
+        </p>
+        <button class="btn g" data-a="authSignOut" style="min-height:38px;padding:8px 14px;font-size:13px;color:var(--tint-rose-text);border-color:var(--tint-rose-border);">
+          ${svgi("user", 16)} Sign out of Google
+        </button>
       </div>
 
       <label>Tracking mode</label>
@@ -1189,6 +1311,14 @@ function render() {
   const a = document.querySelector("#app");
   if (!a) return;
 
+  // Gate 1: Mandatory Google Authentication Gate
+  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) {
+    a.innerHTML = renderAuthGate();
+    afterRender(ctx);
+    return;
+  }
+
+  // Gate 2: Local Application PIN Lock
   if (ui.pinLocked) {
     a.innerHTML = renderPinLock();
     afterRender(ctx);
@@ -1219,13 +1349,17 @@ function render() {
     ["care", "Care", "care"]
   ];
 
+  const authUser = typeof CycleAuth !== "undefined" ? CycleAuth.getUser() : null;
+
   a.innerHTML = `
     <header class="top">
       <span class="brand">
         ${bunny(32, 0)}
         <b class="wm2">CycleSideChick</b>
       </span>
-      <button class="icon" data-a="prof" aria-label="Profile and settings">${svgi("user", 20)}</button>
+      <button class="icon" data-a="prof" aria-label="Profile and settings" title="${esc(authUser ? authUser.name : 'Profile and settings')}">
+        ${authUser && authUser.picture ? `<img src="${esc(authUser.picture)}" alt="" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" referrerpolicy="no-referrer">` : svgi("user", 20)}
+      </button>
     </header>
 
     <main class="view-enter" key="${ui.tab}">
@@ -1257,6 +1391,43 @@ function render() {
 
 /* Event Delegation & Actions */
 const A = {
+  authRetry: () => {
+    if (typeof CycleAuth !== "undefined") {
+      CycleAuth.initGis().then(() => render()).catch(() => render());
+    }
+  },
+  saveCustomClientId: () => {
+    const input = document.getElementById("dev-client-id-input");
+    if (input && input.value.trim() && typeof CSC_CONFIG !== "undefined") {
+      CSC_CONFIG.setCustomClientId(input.value.trim());
+      if (typeof CycleAuth !== "undefined") {
+        CycleAuth.initGis().then(() => {
+          toast("Client ID saved");
+          render();
+        }).catch(err => {
+          toast("GIS error: " + err.message);
+          render();
+        });
+      }
+    }
+  },
+  clearCustomClientId: () => {
+    if (typeof CSC_CONFIG !== "undefined") {
+      CSC_CONFIG.clearCustomClientId();
+      toast("Client ID reset");
+      if (typeof CycleAuth !== "undefined") {
+        CycleAuth.initGis().catch(() => {});
+      }
+      render();
+    }
+  },
+  authSignOut: () => {
+    if (typeof CycleAuth !== "undefined") {
+      CycleAuth.signOut();
+      toast("Signed out of Google");
+      render();
+    }
+  },
   tab: v => {
     if (ui.tab === v) return;
     scrollPositions[ui.tab] = window.scrollY;
@@ -1653,14 +1824,30 @@ const A = {
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-a]");
   if (!b || b.tagName == "INPUT") return;
-  const f = A[b.dataset.a];
+  const action = b.dataset.a;
+
+  // Strict Authentication Gate Check:
+  // If user is not authenticated, block all actions except auth gate controls
+  const isAuth = typeof CycleAuth === "undefined" || CycleAuth.isAuthenticated();
+  const authGateActions = ["authRetry", "saveCustomClientId", "clearCustomClientId"];
+
+  if (!isAuth) {
+    if (authGateActions.includes(action)) {
+      const f = A[action];
+      if (f) f(b.dataset.v, b);
+    }
+    return;
+  }
+
+  const f = A[action];
   if (f) {
     f(b.dataset.v, b);
-    if (!S.ob || (b.dataset.a !== "exportCSV" && b.dataset.a !== "exportJSON")) render();
+    if (!S.ob || (action !== "exportCSV" && action !== "exportJSON")) render();
   }
 });
 
 document.addEventListener("input", e => {
+  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) return;
   const el = e.target;
   const k = el.dataset.k;
   if (!k) return;
@@ -1682,6 +1869,7 @@ document.addEventListener("input", e => {
 });
 
 document.addEventListener("change", e => {
+  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) return;
   const el = e.target;
   if (el.dataset.a === "ldate") {
     loadDraft(el.value || I(TD()));
@@ -1691,6 +1879,7 @@ document.addEventListener("change", e => {
 
 /* Keyboard Accessibility: Dismiss Topmost Open Modal on Escape */
 document.addEventListener("keydown", e => {
+  if (typeof CycleAuth !== "undefined" && !CycleAuth.isAuthenticated()) return;
   if (e.key === "Escape" || e.key === "Esc") {
     if (ui.conflict) {
       ui.conflict = null;
@@ -1729,4 +1918,10 @@ function applyTheme() {
 
 /* Initialization */
 applyTheme();
+if (typeof CycleAuth !== "undefined") {
+  CycleAuth.init();
+  CycleAuth.onAuthStateChanged(() => {
+    render();
+  });
+}
 render();

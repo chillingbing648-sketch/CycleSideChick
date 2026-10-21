@@ -3,8 +3,9 @@
 > **A credible, evidence-based, privacy-first alternative to commercial cycle trackers. 100% on-device, zero trackers, zero telemetry, zero accounts required.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![CI Tests](https://img.shields.io/badge/tests-12%20passing-brightgreen.svg)](./tests/)
-[![Telemetry](https://img.shields.io/badge/telemetry-zero%20external%20calls-success.svg)](./docs/PRIVACY.md)
+[![CI Tests](https://img.shields.io/badge/tests-26%20passing-brightgreen.svg)](./tests/)
+[![Auth](https://img.shields.io/badge/auth-Google%20GIS%20verified-4285F4.svg)](./docs/GOOGLE_OAUTH_SETUP.md)
+[![Privacy](https://img.shields.io/badge/health%20data-100%25%20on--device-success.svg)](./docs/PRIVACY.md)
 [![PWA](https://img.shields.io/badge/PWA-offline%20ready-ff69b4.svg)](./manifest.webmanifest)
 [![Clinical Grounding](https://img.shields.io/badge/clinical-ACOG%20%7C%20NICE%20%7C%20WHO-purple.svg)](./docs/CLINICAL_SOURCES.md)
 
@@ -136,6 +137,7 @@ cyclesidechick/
 ├── docs/
 │   ├── CLINICAL_SOURCES.md      # ACOG, NICE, WHO, FSRH, NAMS citations
 │   ├── FEATURE_MATRIX.md        # Comprehensive competitor gap analysis
+│   ├── GOOGLE_OAUTH_SETUP.md    # Google Cloud OAuth 2.0 Web Client configuration guide
 │   ├── PRIVACY.md               # Privacy architecture and zero-telemetry guarantee
 │   └── THREAT_MODEL.md          # Formal threat modeling and security boundaries
 ├── public/
@@ -145,8 +147,10 @@ cyclesidechick/
 │   │   ├── tokens.css           # 8 semantic tints, dark theme, typography tokens
 │   │   ├── base.css             # Resets, accessibility focus, touch targets
 │   │   ├── components.css       # Cards, cycle ring SVG, week strip, buttons
-│   │   └── views.css            # Assistant, library, PIN keypad, print styles
+│   │   └── views.css            # Auth gate, assistant, library, PIN keypad, print styles
 │   └── js/
+│       ├── config.js            # OAuth 2.0 client configuration & authorized origins
+│       ├── auth.js              # Google Identity Services (GIS) auth controller & session
 │       ├── engine.js            # Cycle calculations, statistical models, red flags
 │       ├── storage.js           # LocalStorage v2 migration, crypto PIN, CSV I/O
 │       ├── content.js           # 22 peer-reviewed health articles with sources
@@ -154,7 +158,8 @@ cyclesidechick/
 │       ├── ui.js                # Shared DOM components, avatars, icons
 │       └── app.js               # Main tab controller & state-preserving DOM router
 ├── tests/
-│   ├── cycle_engine.test.js     # Comprehensive unit tests
+│   ├── auth.test.js             # GIS token validation, session isolation & security tests
+│   ├── cycle_engine.test.js     # Comprehensive cycle calculation unit tests
 │   └── test_runner.js           # Automated test harness
 ├── index.html                   # Modern modular PWA entry point
 ├── manifest.webmanifest         # Standalone PWA manifest
