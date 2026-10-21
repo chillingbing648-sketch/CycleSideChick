@@ -17,5 +17,8 @@
     "flo-alternative"
   ],
   "author": "CycleSideChick Contributors",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer-core": "^25.15.0"
+  }
 }
