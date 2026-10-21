@@ -74,104 +74,143 @@
   --radius-xl: 28px;
   --radius-pill: 9999px;
 
-  /* Base Light Theme — Soft vertical wash, never pure #FFFFFF */
-  --bg-gradient: linear-gradient(180deg, #FFF1F6 0%, #FAF5F7 35%, #F8F2F5 100%);
-  --bg: #FAF5F7;
-  --surface: #FDF9FA;
-  --surface-alt: #F6EDF2;
+  /* ==========================================================================
+     CycleSideChick Reference Palette (Soft Neomorphic Blush, Coral, Berry Pink)
+     ========================================================================== */
+  --bg: #F8F5F8;
+  --bg-gradient: linear-gradient(180deg, #FBF8FA 0%, #F8F5F8 45%, #F5F0F4 100%);
+  --surface: #FFFFFF;
+  --surface-warm: #FFFDFB;
+  --surface-alt: #F6F1F5;
   --surface-raised: #FFFFFF;
   --surface-floating: #FFFFFF;
-  --surface-soft: #FFF4F8;
+  --surface-soft: #FBF7FA;
   --surface-elevated: #FFFFFF;
+  --surface-groove: #EFECEF;
 
-  /* Ink & Neutrals (Plum-tinted OKLCH) */
-  --plum: #481930;
-  --ink: #281822;
-  --muted: #786470;
-  --subtle: #A2909C;
-  --border: #ECDBE3;
-  --border-subtle: rgba(72, 25, 48, 0.08);
+  /* Ink & Typography (Charcoal Plum #2D232C Hierarchy) */
+  --plum: #2D232C;
+  --ink: #2D232C;
+  --text: #2D232C;
+  --muted: #7E727D;
+  --text-muted: #7E727D;
+  --subtle: #A396A2;
+  --text-subtle: #A396A2;
+  --border: #F0E8EE;
+  --border-subtle: rgba(45, 35, 44, 0.06);
+  --border-strong: #E2D5DF;
 
-  /* Primary Berry Accent */
-  --pink: #D9447E;
-  --pink-hover: #C5356E;
-  --pink-light: #FDEBF2;
-  --pink-border: #F7BFD5;
-  --pink-glow: rgba(217, 68, 126, 0.22);
-  --primary-gradient: linear-gradient(135deg, #EE5A93, #D9447E 55%, #B8326B);
-  --primary-glow: 0 4px 18px rgba(217, 68, 126, 0.32);
-  --rose: #C68196;
+  /* Reference Vibrant Coral & Berry Gradients */
+  --coral: #FF6E7F;
+  --coral-light: #FFE8EC;
+  --coral-gradient: linear-gradient(135deg, #FF7F8E, #FF5C75);
+  --berry: #FF4088;
+  --berry-hover: #E52E74;
+  --berry-active: #C91C60;
+  --berry-light: #FFEBF3;
+  --berry-border: #FFCCE0;
+  --berry-glow: rgba(255, 64, 136, 0.35);
+  --berry-gradient: linear-gradient(135deg, #FF5B99, #E52E74);
+  --primary-gradient: var(--berry-gradient);
+  --primary-glow: 0 6px 20px rgba(255, 64, 136, 0.32);
 
-  /* Plum-Tinted Dual Elevation Shadows (ambient + key) */
-  --elev-1: 0 1px 3px rgba(72, 25, 48, 0.05), 0 4px 12px rgba(72, 25, 48, 0.04);
-  --elev-2: 0 3px 6px rgba(72, 25, 48, 0.06), 0 8px 24px rgba(72, 25, 48, 0.06);
-  --elev-3: 0 6px 16px rgba(72, 25, 48, 0.08), 0 16px 36px rgba(72, 25, 48, 0.08);
-  --elev-4: 0 12px 28px rgba(72, 25, 48, 0.12), 0 24px 54px rgba(72, 25, 48, 0.12);
-  --elev-5: 0 18px 36px rgba(72, 25, 48, 0.16), 0 32px 72px rgba(72, 25, 48, 0.16);
+  /* User Restored Soft Pastels */
+  --ivory: #FFFAF7;
+  --blush: #F8DCE7;
+  --rose: #E98BAF;
+  --pink: var(--berry);
+  --pink-hover: var(--berry-hover);
+  --pink-light: var(--berry-light);
+  --pink-border: var(--berry-border);
+  --pink-glow: var(--berry-glow);
+  --lavender: #E9E1FA;
+  --peach: #FFE5D6;
+  --buttercream: #FFF3CE;
+  --sage: #DCEFE3;
+  --sky: #DDEBFA;
+
+  /* Pillowy Neomorphic & Frosted Shadows */
+  --elev-1: 0 2px 8px rgba(45, 35, 44, 0.04), 0 1px 3px rgba(45, 35, 44, 0.02);
+  --elev-2: 0 8px 24px rgba(220, 60, 110, 0.07), 0 2px 6px rgba(45, 35, 44, 0.03);
+  --elev-3: 0 14px 34px rgba(220, 60, 110, 0.10), 0 4px 12px rgba(45, 35, 44, 0.04);
+  --elev-4: 0 18px 44px rgba(220, 60, 110, 0.12), 0 6px 18px rgba(45, 35, 44, 0.05);
+  --elev-5: 0 24px 56px rgba(220, 60, 110, 0.16), 0 8px 24px rgba(45, 35, 44, 0.06);
+  --groove-shadow: inset 0 3px 8px rgba(45, 35, 44, 0.07), inset 0 -2px 6px rgba(255, 255, 255, 0.95);
 
   --card-shadow: var(--elev-1);
   --card-shadow-hover: var(--elev-2);
   --sheet-shadow: var(--elev-4);
 
-  /* Frosted Glass */
-  --glass-bg: rgba(253, 249, 250, 0.85);
-  --glass-border: rgba(236, 219, 227, 0.6);
+  /* Frosted Glass with Soft Translucency */
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-blur: blur(24px) saturate(180%);
+  --nav-bg: var(--glass-bg);
+  --elev-5: 0 16px 36px rgba(81, 40, 63, 0.10), 0 32px 64px rgba(81, 40, 63, 0.08);
+
+  --card-shadow: var(--elev-1);
+  --card-shadow-hover: var(--elev-2);
+  --sheet-shadow: var(--elev-4);
+
+  /* Frosted Glass with Warm Ivory tint */
+  --glass-bg: rgba(255, 250, 247, 0.88);
+  --glass-border: rgba(243, 224, 234, 0.7);
   --glass-blur: blur(20px) saturate(160%);
   --nav-bg: var(--glass-bg);
 
-  /* Soft Semantic Tints — Light */
-  --tint-rose-bg: #FBE3EA;
-  --tint-rose-text: #7D2342;
-  --tint-rose-border: #F3C5D3;
+  /* Soft Semantic Tints — Balanced Warm Pastel Palette */
+  --tint-rose-bg: #FDF1F5;
+  --tint-rose-text: #B32D60;
+  --tint-rose-border: #F8DCE7;
 
-  --tint-lavender-bg: #EFE6F7;
-  --tint-lavender-text: #532E77;
-  --tint-lavender-border: #DEC8EE;
+  --tint-lavender-bg: #F5F1FD;
+  --tint-lavender-text: #59398E;
+  --tint-lavender-border: #E9E1FA;
 
-  --tint-butter-bg: #FFF3C4;
-  --tint-butter-text: #664E00;
-  --tint-butter-border: #F7E188;
+  --tint-butter-bg: #FFFDF0;
+  --tint-butter-text: #7A5F00;
+  --tint-butter-border: #FFF3CE;
 
-  --tint-amber-bg: #FBE0B0;
-  --tint-amber-text: #7A4400;
-  --tint-amber-border: #F5C679;
+  --tint-amber-bg: #FFF5EA;
+  --tint-amber-text: #8A461C;
+  --tint-amber-border: #FFE5D6;
 
-  --tint-sage-bg: #DDE8D5;
-  --tint-sage-text: #265231;
-  --tint-sage-border: #BED2B2;
+  --tint-sage-bg: #F3FAF5;
+  --tint-sage-text: #245C3B;
+  --tint-sage-border: #DCEFE3;
 
-  --tint-mint-bg: #D3EDE3;
-  --tint-mint-text: #1A573F;
-  --tint-mint-border: #A7DCB9;
+  --tint-mint-bg: #F0FAF5;
+  --tint-mint-text: #1C5A3E;
+  --tint-mint-border: #DCEFE3;
 
-  --tint-sky-bg: #DCEBF6;
-  --tint-sky-text: #194B73;
-  --tint-sky-border: #BAD8EF;
+  --tint-sky-bg: #F2F7FD;
+  --tint-sky-text: #20558A;
+  --tint-sky-border: #DDEBFA;
 
-  --tint-peach-bg: #FADCCB;
-  --tint-peach-text: #773B1B;
-  --tint-peach-border: #F3BF9F;
+  --tint-peach-bg: #FFF5EE;
+  --tint-peach-text: #8A461C;
+  --tint-peach-border: #FFE5D6;
 
-  /* Dedicated Physiological Phase Colors (Light) */
-  --phase-menstrual: #E11D48;
-  --phase-menstrual-bg: #FFE4E6;
-  --phase-menstrual-text: #9F1239;
-  --phase-menstrual-border: #FECDD3;
+  /* Dedicated Physiological Phase Colors (Pastel Harmony) */
+  --phase-menstrual: #D94B86;
+  --phase-menstrual-bg: #FDF1F5;
+  --phase-menstrual-text: #9E1F52;
+  --phase-menstrual-border: #F8DCE7;
 
-  --phase-follicular: #059669;
-  --phase-follicular-bg: #D1FAE5;
-  --phase-follicular-text: #065F46;
-  --phase-follicular-border: #A7F3D0;
+  --phase-follicular: #2E8B57;
+  --phase-follicular-bg: #F3FAF5;
+  --phase-follicular-text: #1E5736;
+  --phase-follicular-border: #DCEFE3;
 
-  --phase-ovulatory: #7C3AED;
-  --phase-ovulatory-bg: #EDE9FE;
-  --phase-ovulatory-text: #5B21B6;
-  --phase-ovulatory-border: #DDD6FE;
+  --phase-ovulatory: #7C4DFF;
+  --phase-ovulatory-bg: #F5F1FD;
+  --phase-ovulatory-text: #4E27A8;
+  --phase-ovulatory-border: #E9E1FA;
 
   --phase-luteal: #D97706;
-  --phase-luteal-bg: #FEF3C7;
-  --phase-luteal-text: #92400E;
-  --phase-luteal-border: #FDE68A;
+  --phase-luteal-bg: #FFF5EE;
+  --phase-luteal-text: #7D4118;
+  --phase-luteal-border: #FFE5D6;
 
   /* Motion Tokens */
   --dur-instant: 90ms;
@@ -295,103 +334,6 @@
   color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg-gradient: linear-gradient(180deg, #181321 0%, #14111A 35%, #100D16 100%);
-    --bg: #14111A;
-    --surface: #1E1926;
-    --surface-alt: #262030;
-    --surface-raised: #2D253A;
-    --surface-floating: #342C42;
-    --surface-soft: #231C2D;
-    --surface-elevated: #2D253A;
-
-    --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
-    --plum: #F8EDF5;
-    --ink: #ECE0EB;
-    --muted: #A896A6;
-    --subtle: #7A6978;
-    --border: #3A2F42;
-    --border-subtle: rgba(248, 237, 245, 0.08);
-
-    --pink: #EB6FA1;
-    --pink-hover: #F286B2;
-    --pink-light: #341928;
-    --pink-border: #5C2B42;
-    --pink-glow: rgba(235, 111, 161, 0.28);
-    --rose: #9C657A;
-
-    --elev-1: 0 2px 6px rgba(0, 0, 0, 0.35), var(--inner-highlight);
-    --elev-2: 0 4px 14px rgba(0, 0, 0, 0.45), var(--inner-highlight);
-    --elev-3: 0 8px 24px rgba(0, 0, 0, 0.55), var(--inner-highlight);
-    --elev-4: 0 14px 38px rgba(0, 0, 0, 0.65), var(--inner-highlight);
-    --elev-5: 0 22px 54px rgba(0, 0, 0, 0.75), var(--inner-highlight);
-
-    --card-shadow: var(--elev-1);
-    --card-shadow-hover: var(--elev-2);
-    --sheet-shadow: var(--elev-4);
-
-    --glass-bg: rgba(30, 25, 38, 0.85);
-    --glass-border: rgba(58, 47, 66, 0.7);
-    --nav-bg: var(--glass-bg);
-
-    --tint-rose-bg: #321E2B;
-    --tint-rose-text: #F8BAC9;
-    --tint-rose-border: #542D45;
-
-    --tint-lavender-bg: #2C2237;
-    --tint-lavender-text: #DCCBF0;
-    --tint-lavender-border: #4B375F;
-
-    --tint-butter-bg: #3D341E;
-    --tint-butter-text: #FEE685;
-    --tint-butter-border: #615128;
-
-    --tint-amber-bg: #42301B;
-    --tint-amber-text: #FED085;
-    --tint-amber-border: #644521;
-
-    --tint-sage-bg: #223228;
-    --tint-sage-text: #B7E1C3;
-    --tint-sage-border: #33503D;
-
-    --tint-mint-bg: #1F332A;
-    --tint-mint-text: #AEE2CF;
-    --tint-mint-border: #2D5241;
-
-    --tint-sky-bg: #1F2E3E;
-    --tint-sky-text: #B0D7F5;
-    --tint-sky-border: #2E4B69;
-
-    --tint-peach-bg: #3C2721;
-    --tint-peach-text: #F8BC9E;
-    --tint-peach-border: #5F392D;
-
-    --phase-menstrual: #FB7185;
-    --phase-menstrual-bg: #4C0519;
-    --phase-menstrual-text: #FECDD3;
-    --phase-menstrual-border: #881337;
-
-    --phase-follicular: #34D399;
-    --phase-follicular-bg: #064E3B;
-    --phase-follicular-text: #A7F3D0;
-    --phase-follicular-border: #065F46;
-
-    --phase-ovulatory: #A78BFA;
-    --phase-ovulatory-bg: #3B0764;
-    --phase-ovulatory-text: #DDD6FE;
-    --phase-ovulatory-border: #5B21B6;
-
-    --phase-luteal: #FBBF24;
-    --phase-luteal-bg: #451A03;
-    --phase-luteal-text: #FDE68A;
-    --phase-luteal-border: #78350F;
-
-    color-scheme: dark;
-  }
-}
-
 /* 3. High Contrast Accessibility */
 @media (prefers-contrast: more) {
   :root {
@@ -405,14 +347,6 @@
     --border-subtle: #DFCBD8;
     --ink: #FFFFFF;
     --muted: #EADCE6;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --border: #DFCBD8;
-      --border-subtle: #DFCBD8;
-      --ink: #FFFFFF;
-      --muted: #EADCE6;
-    }
   }
 }
 

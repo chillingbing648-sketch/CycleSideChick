@@ -144,13 +144,13 @@
 
 /* Variants */
 .c-btn--primary {
-  background: linear-gradient(135deg, var(--berry) 0%, var(--plum) 100%);
+  background: var(--primary-gradient);
   color: #FFFFFF;
-  box-shadow: var(--elev-1), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(217, 75, 134, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
 }
 .c-btn--primary:hover:not(:disabled) {
-  box-shadow: var(--elev-2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-  filter: brightness(1.04);
+  box-shadow: 0 6px 18px rgba(217, 75, 134, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+  filter: brightness(1.05);
 }
 
 .c-btn--secondary {

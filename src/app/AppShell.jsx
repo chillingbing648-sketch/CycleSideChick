@@ -97,21 +97,23 @@ export function AppShell() {
 
       {/* Main Content Pane */}
       <div className="v-main-content">
-        {/* Mobile / Tablet Header (<1024px) */}
-        <header className="top">
-          <span className="brand" onClick={() => actions.setTab("home")} style={{ cursor: "pointer" }}>
-            <BunnyMascot size={32} showLabel={false} />
-            <b className="wm2">CycleSideChick</b>
-          </span>
-          <button
-            type="button"
-            className="icon"
-            onClick={() => actions.openProfile()}
-            aria-label="Profile and settings"
-          >
-            <Icon name="user" size={20} />
-          </button>
-        </header>
+        {/* Mobile / Tablet Header (<1024px) for non-home views */}
+        {ui.tab !== "home" && (
+          <header className="top">
+            <span className="brand" onClick={() => actions.setTab("home")} style={{ cursor: "pointer" }}>
+              <BunnyMascot size={32} showLabel={false} />
+              <b className="wm2">CycleSideChick</b>
+            </span>
+            <button
+              type="button"
+              className="icon"
+              onClick={() => actions.openProfile()}
+              aria-label="Profile and settings"
+            >
+              <Icon name="user" size={20} />
+            </button>
+          </header>
+        )}
 
         {/* Main View Router */}
         <main className="view-enter" key={ui.tab}>

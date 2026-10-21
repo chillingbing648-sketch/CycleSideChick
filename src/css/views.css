@@ -745,57 +745,372 @@
 
 .v-nav-bar {
   position: fixed;
-  bottom: 0;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-top: 1px solid var(--border-subtle);
+  width: calc(100% - 32px);
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 9999px;
+  box-shadow: 0 12px 32px rgba(45, 35, 44, 0.08), 0 2px 6px rgba(45, 35, 44, 0.03);
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding: 6px 8px;
   z-index: var(--z-nav);
+  box-sizing: border-box;
 }
 
 .v-nav-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 6px;
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   min-width: 44px;
   min-height: 44px;
-  padding: 4px 8px;
-  border-radius: var(--radius-md);
+  padding: 0 12px;
+  border-radius: 9999px;
   position: relative;
-  transition: color var(--dur-fast) var(--ease-out-expo),
-              transform var(--dur-fast) var(--ease-spring);
+  transition: all var(--dur-fast) var(--ease-spring);
 }
 .v-nav-item:active {
   transform: scale(0.92);
 }
 .v-nav-item.active {
+  background: var(--berry-gradient);
+  color: #FFFFFF;
+  padding: 0 18px;
+  box-shadow: 0 4px 14px rgba(255, 60, 120, 0.38);
+}
+.v-nav-item.active span {
+  display: inline;
+  font-weight: 700;
+}
+.v-nav-item:not(.active) span {
+  display: none;
+}
+
+/* ==========================================================================
+   Reference Home Dashboard Styles (Soft Pastel, Neomorphic & Pillowy)
+   ========================================================================== */
+.v-home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 120px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.v-home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 4px;
+}
+.v-home-greeting {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--plum);
+  display: block;
+}
+.v-home-title {
+  font-family: var(--font-body);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--plum);
+  margin: 2px 0 0;
+  letter-spacing: -0.02em;
+}
+.v-home-avatar-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--plum);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  box-shadow: var(--elev-1);
+}
+.v-home-avatar-btn:hover {
+  border-color: var(--berry);
+  transform: scale(1.06);
+}
+
+/* Week Strip */
+.v-home-week-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  padding: 2px 0;
+  user-select: none;
+}
+.v-week-day-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.v-week-day-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.v-week-day-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--plum);
+}
+.v-week-day-cell--period .v-week-day-num {
+  color: var(--coral);
+}
+.v-week-day-cell--today {
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(45, 35, 44, 0.08);
+  border-color: rgba(255, 64, 136, 0.18);
+}
+.v-week-day-cell--today .v-week-day-num {
+  color: var(--berry);
+  font-weight: 800;
+}
+
+/* Central Wheel & Mood Log Row */
+.v-hero-wheel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  padding: 8px 0;
+}
+.v-hero-ring-col {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.v-reference-ring-wrap {
+  width: 100%;
+  max-width: 250px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.v-reference-ring-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Vertical Mood Log */
+.v-mood-log-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 76px;
+}
+.v-mood-track-wrapper {
+  position: relative;
+  height: 190px;
+  display: flex;
+  align-items: center;
+}
+.v-mood-track-groove {
+  width: 26px;
+  height: 100%;
+  background: #EFECEF;
+  border-radius: 9999px;
+  position: relative;
+  box-shadow: inset 0 2px 6px rgba(45, 35, 44, 0.08), inset 0 -1px 2px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+.v-mood-thumb {
+  position: absolute;
+  left: 3px;
+  width: 20px;
+  height: 36px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #FF7288 0%, #FF3D7C 100%);
+  box-shadow: 0 4px 12px rgba(255, 60, 120, 0.45);
+  transition: top 0.3s cubic-bezier(0.34, 1.35, 0.64, 1);
+  pointer-events: none;
+}
+.v-mood-faces-list {
+  position: absolute;
+  left: 38px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+.v-mood-face-btn {
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0.55;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.v-mood-face-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+.v-mood-face-btn.active {
+  opacity: 1;
+  transform: scale(1.25);
+}
+.v-mood-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Vital Status Cards */
+.v-vital-status-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border-radius: 24px;
+  box-shadow: var(--elev-1);
+  border: 1px solid var(--border);
+}
+.v-vital-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.v-vital-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.v-vital-icon--sparkle {
+  background: #FFF1F5;
   color: var(--berry);
 }
-.v-nav-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: 2px;
-  width: 16px;
-  height: 3px;
-  border-radius: var(--radius-full);
-  background: var(--berry);
+.v-vital-icon--droplet {
+  background: #FFEBEF;
+  color: var(--coral);
+}
+.v-vital-icon--heart {
+  background: #FFF0F6;
+  color: var(--berry);
+}
+.v-vital-text {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.v-vital-text b {
+  color: var(--plum);
+  font-weight: 700;
+}
+
+/* Cycle History */
+.v-history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.v-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+.v-history-title {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--plum);
+  margin: 0;
+}
+.v-history-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.v-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.v-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--elev-1);
+  border: 1px solid var(--border);
+}
+.v-history-bar-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #EFECEF;
+  padding: 3px 6px;
+  border-radius: 9999px;
+}
+.v-history-capsule {
+  height: 14px;
+  border-radius: 9999px;
+}
+.v-history-capsule--coral {
+  background: var(--coral-gradient);
+}
+.v-history-capsule--berry {
+  background: var(--berry-gradient);
+}
+.v-history-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.v-history-days {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--plum);
+}
+.v-history-range {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+.v-support-card {
+  padding: 16px;
+  border-radius: 20px;
 }
 
 /* --- Home View --- */

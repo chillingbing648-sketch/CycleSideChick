@@ -568,6 +568,18 @@ export const actions = {
     notify();
   },
 
+  quickSetMood(mood) {
+    const today = I(TD());
+    if (!S.logs) S.logs = {};
+    if (!S.logs[today]) S.logs[today] = {};
+    S.logs[today].m = mood;
+    dr.m = mood;
+    persistState();
+    haptic(20);
+    const moodNames = ["Distressed", "Sensitive", "Neutral", "Good", "Great"];
+    toast(`Mood logged: ${moodNames[mood] || "Updated"}`);
+  },
+
   setEnergy(level) {
     dr.en = dr.en === level ? "" : level;
     haptic(15);

@@ -128,14 +128,14 @@ export function haptic(pattern = 15) {
 export function applyThemeToDOM() {
   if (typeof document === "undefined") return;
   const r = document.documentElement;
-  const isDark = S.theme === "dark" || (S.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const isDark = S.theme === "dark";
 
-  if (S.theme === "light" || S.theme === "dark") r.dataset.theme = S.theme;
+  if (isDark) r.dataset.theme = "dark";
   else r.removeAttribute("data-theme");
 
   if (S.motion === 0) r.dataset.motion = "reduced";
   else r.removeAttribute("data-motion");
 
   const meta = document.querySelector("#meta-theme");
-  if (meta) meta.content = isDark ? "#17151B" : "#FAF5F7";
+  if (meta) meta.content = isDark ? "#17151B" : "#FFFAF7";
 }

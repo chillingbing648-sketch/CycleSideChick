@@ -1,25 +1,32 @@
 /**
- * CycleSideChick — Cycle Ring SVG Component
- * Smooth draw-in animation, phase ambient glow, accessible SVG ring.
+ * CycleSideChick — Reference Cycle Wheel Component
+ * Faithfully matches the soft, neomorphic, coral-and-berry reference design.
+ * Features:
+ * - Recessed neomorphic circular trough with dual embossed bevels
+ * - Smooth gradient rounded arcs (Coral Salmon & Berry Magenta)
+ * - Tactile floating pink "+" pill button riding the current cycle day angle
+ * - Center white elevated disk with crisp typography ("Day", number, phase name)
  */
 
 import React, { useEffect, useState } from "react";
+import { actions } from "../../app/actions.js";
+import { TD, I } from "../../core/engine.js";
 
-export function CycleRing({ stats, day, S }) {
-  const R = 66;
+export function CycleRing({ stats, day, S, phaseName = "Luteal Phase" }) {
+  const R = 78; // Radius of mid-track
   const C = 2 * Math.PI * R;
   const A = stats.avg || 28;
   const safeDay = Math.max(1, day);
   const frac = Math.min(1, Math.max(0, (safeDay - 1) / A));
   const ang = frac * 2 * Math.PI - Math.PI / 2;
-  const dotX = (85 + R * Math.cos(ang)).toFixed(1);
-  const dotY = (85 + R * Math.sin(ang)).toFixed(1);
+  const dotX = (110 + R * Math.cos(ang)).toFixed(1);
+  const dotY = (110 + R * Math.sin(ang)).toFixed(1);
 
   // Animated count-up effect on mount
   const [displayDay, setDisplayDay] = useState(1);
   useEffect(() => {
     let start = 1;
-    const duration = 600;
+    const duration = 500;
     const stepTime = Math.max(16, duration / Math.max(1, safeDay));
     const timer = setInterval(() => {
       start++;
@@ -33,23 +40,23 @@ export function CycleRing({ stats, day, S }) {
     return () => clearInterval(timer);
   }, [safeDay]);
 
-  const arc = (fromFrac, toFrac, color, width = 12, dash = "") => {
+  const arc = (fromFrac, toFrac, strokeUrl, width = 18) => {
     const len = Math.max(0, toFrac - fromFrac) * C;
     const off = -fromFrac * C;
     return (
       <circle
-        cx="85"
-        cy="85"
+        cx="110"
+        cy="110"
         r={R}
         fill="none"
-        stroke={color}
+        stroke={strokeUrl}
         strokeWidth={width}
-        strokeDasharray={dash || `${len} ${C}`}
+        strokeDasharray={`${len} ${C}`}
         strokeDashoffset={off}
         strokeLinecap="round"
-        transform="rotate(-90 85 85)"
+        transform="rotate(-90 110 110)"
         style={{
-          transition: "stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1), stroke-dasharray 0.9s cubic-bezier(0.16, 1, 0.3, 1)"
+          transition: "stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke-dasharray 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
         }}
       />
     );
@@ -57,51 +64,119 @@ export function CycleRing({ stats, day, S }) {
 
   const periodFrac = Math.min(1, (S.pl || 5) / A);
   const showFertile = (S.mode === "natural" || S.mode === "ttc") && stats.fertileStart && stats.fertileEnd && S.showFertile !== 0;
-  const fertileStartFrac = showFertile ? Math.max(0, (stats.fertileStart - (stats.nextPred - A)) / A) : 0;
-  const fertileEndFrac = showFertile ? Math.min(1, (stats.fertileEnd - (stats.nextPred - A)) / A) : 0;
-  const ovFrac = showFertile ? Math.max(0, Math.min(1, (A - (stats.ll || 14)) / A)) : 0;
-  const ovAng = ovFrac * 2 * Math.PI - Math.PI / 2;
-  const ovX = (85 + R * Math.cos(ovAng)).toFixed(1);
-  const ovY = (85 + R * Math.sin(ovAng)).toFixed(1);
-
-  const follEnd = showFertile ? fertileStartFrac : 0.5;
-  const lutStart = showFertile ? fertileEndFrac : 0.5;
+  const fertileStartFrac = showFertile ? Math.max(0, (stats.fertileStart - (stats.nextPred - A)) / A) : 0.38;
+  const fertileEndFrac = showFertile ? Math.min(1, (stats.fertileEnd - (stats.nextPred - A)) / A) : 0.62;
 
   return (
-    <div className="ring-wrap" role="img" aria-label={`Cycle day ${safeDay} of estimated ${A} days`}>
-      <svg viewBox="0 0 170 170" className="ring">
-        {/* Background Track */}
-        <circle cx="85" cy="85" r={R} fill="none" stroke="var(--border-subtle)" strokeWidth="12" />
+    <div
+      className="v-reference-ring-wrap"
+      role="img"
+      aria-label={`Cycle day ${safeDay} of ~${A} days, currently in ${phaseName}`}
+    >
+      <svg viewBox="0 0 220 220" className="v-reference-ring-svg">
+        <defs>
+          {/* Coral / Salmon Gradient (Top Arc) */}
+          <linearGradient id="coralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FF7A8B" />
+            <stop offset="100%" stopColor="#FF5774" />
+          </linearGradient>
 
-        {/* Follicular Phase Arc */}
-        {S.mode !== "none" && arc(periodFrac, follEnd, "var(--tint-sage-border)", 8)}
+          {/* Berry / Magenta Gradient (Bottom / Fertile Arc & Button) */}
+          <linearGradient id="berryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FF5C9A" />
+            <stop offset="100%" stopColor="#E22A71" />
+          </linearGradient>
 
-        {/* Luteal Phase Arc */}
-        {S.mode !== "none" && arc(lutStart, 1, "var(--tint-peach-border)", 8)}
+          {/* Soft outer glow for the plus button */}
+          <filter id="plusGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#FF3377" floodOpacity="0.4" />
+          </filter>
 
-        {/* Fertile Window Arc */}
-        {showFertile && arc(fertileStartFrac, fertileEndFrac, "var(--tint-lavender-border)", 12)}
+          {/* Recessed bevel filter for outer circular groove */}
+          <filter id="grooveBevel" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#2D232C" floodOpacity="0.08" />
+          </filter>
 
-        {/* Period Flow Arc */}
-        {S.mode !== "none" && arc(0, periodFrac, "var(--berry)", 12)}
+          {/* Soft elevation for central disk */}
+          <filter id="centerShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#2D232C" floodOpacity="0.07" />
+          </filter>
+        </defs>
 
-        {/* Ovulation Indicator Point on ring */}
-        {showFertile && (
-          <g transform={`translate(${ovX - 5}, ${ovY - 5})`} aria-label="Estimated ovulation point">
-            <circle cx="5" cy="5" r="5" fill="var(--tint-lavender-bg)" stroke="var(--tint-lavender-text)" strokeWidth="1.2" />
-            <path d="M5 2.5l.8 1.8 1.9.3-1.4 1.3.3 1.9L5 6.9 3.4 7.8l.3-1.9L2.3 4.6l1.9-.3z" fill="var(--tint-lavender-text)" />
-          </g>
-        )}
+        {/* Outer Circular Dish (White Rim) */}
+        <circle cx="110" cy="110" r="102" fill="#FFFFFF" filter="url(#grooveBevel)" />
 
-        {/* Current Cycle Day Indicator Pulse */}
-        <circle cx={dotX} cy={dotY} r="12" fill="var(--berry-glow)" opacity="0.3" />
-        <circle cx={dotX} cy={dotY} r="8" fill="var(--surface)" stroke="var(--plum)" strokeWidth="3.5" />
+        {/* Recessed Circular Trough Groove */}
+        <circle cx="110" cy="110" r={R} fill="none" stroke="#EFECEF" strokeWidth="22" />
+        <circle cx="110" cy="110" r={R + 11} fill="none" stroke="rgba(45,35,44,0.04)" strokeWidth="1" />
+        <circle cx="110" cy="110" r={R - 11} fill="none" stroke="rgba(45,35,44,0.04)" strokeWidth="1" />
+
+        {/* Top Arc (Period / Coral Flow Arc) */}
+        {S.mode !== "none" && arc(0, periodFrac, "url(#coralGrad)", 18)}
+
+        {/* Bottom Arc (Fertile / Ovulation / Berry Window Arc) */}
+        {showFertile && arc(fertileStartFrac, fertileEndFrac, "url(#berryGrad)", 18)}
+
+        {/* Secondary Phase Arc if not overlapping */}
+        {!showFertile && arc(0.45, 0.75, "url(#berryGrad)", 18)}
+
+        {/* Center White Elevated Disk */}
+        <circle cx="110" cy="110" r="58" fill="#FFFFFF" filter="url(#centerShadow)" />
+
+        {/* Center Content Typography */}
+        <text
+          x="110"
+          y="88"
+          textAnchor="middle"
+          fill="#847683"
+          fontSize="12.5"
+          fontWeight="500"
+          fontFamily="var(--font-body)"
+        >
+          Day
+        </text>
+
+        <text
+          x="110"
+          y="126"
+          textAnchor="middle"
+          fill="#2D232C"
+          fontSize="40"
+          fontWeight="800"
+          fontFamily="var(--font-body)"
+        >
+          {displayDay}
+        </text>
+
+        <text
+          x="110"
+          y="145"
+          textAnchor="middle"
+          fill="#2D232C"
+          fontSize="13"
+          fontWeight="600"
+          fontFamily="var(--font-body)"
+        >
+          {phaseName}
+        </text>
+
+        {/* Floating Interactive Pink "+" Pill Button at Current Day Angle */}
+        <g
+          transform={`translate(${dotX}, ${dotY})`}
+          onClick={() => actions.goLog(I(TD()))}
+          style={{ cursor: "pointer" }}
+          aria-label="Tap to quick log symptoms for today"
+        >
+          <circle cx="0" cy="0" r="16" fill="url(#berryGrad)" filter="url(#plusGlow)" />
+          {/* Inner white plus icon */}
+          <path
+            d="M-5 0h10M0 -5v10"
+            stroke="#FFFFFF"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          />
+        </g>
       </svg>
-      <div className="ring-center">
-        <span className="ring-cap">Cycle Day</span>
-        <span className="ring-num">{displayDay}</span>
-        <span className="ring-sub">{S.mode === "none" ? "Logged Day" : `of ~${A} days`}</span>
-      </div>
     </div>
   );
 }
