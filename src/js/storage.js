@@ -9,6 +9,17 @@ const PIN_SALT_KEY = "csc.pin.salt";
 const PIN_HASH_KEY = "csc.pin.hash";
 const SCHEMA_VERSION = 2;
 
+const DEFAULT_CARE_KIT = [
+  { id: "heat", title: "Warm compress or heating pad", icon: "flame", desc: "Soothing warmth for pelvis or lower back used safely", isFav: 1, isDefault: 1 },
+  { id: "tea", title: "Soothing warm tea or drink", icon: "cup", desc: "Chamomile, peppermint, ginger, or nourishing warm water", isFav: 1, isDefault: 1 },
+  { id: "rest", title: "Rest & permission to slow down", icon: "moon", desc: "A cozy horizontal pause without guilt or pressure", isFav: 1, isDefault: 1 },
+  { id: "clothes", title: "Loose, comfortable clothing", icon: "heart", desc: "Soft breathable layers and gentle non-binding waistbands", isFav: 1, isDefault: 1 },
+  { id: "stretch", title: "Gentle stretching or restorative yoga", icon: "activity", desc: "Child's pose, cat-cow, or slow mindful breathing", isFav: 0, isDefault: 1 },
+  { id: "music", title: "Calming playlist or soundscape", icon: "sparkle", desc: "Lo-fi beats, gentle ambient rainfall, or comfort songs", isFav: 0, isDefault: 1 },
+  { id: "talk", title: "Connect with a trusted friend", icon: "user", desc: "Texting or sharing space with someone who validates you", isFav: 0, isDefault: 1 },
+  { id: "fresh-air", title: "Step outside for natural light & fresh air", icon: "sun", desc: "A few slow, deep breaths in the open air", isFav: 0, isDefault: 1 }
+];
+
 const defState = () => ({
   _v: SCHEMA_VERSION,
   ob: 0,
@@ -34,7 +45,20 @@ const defState = () => ({
   rk: { prep: 1, log: 1 },
   dis: {},
   sent: {},
-  discreetNotif: 0
+  discreetNotif: 0,
+  // Care, Comfort & Journal State
+  journal: {},
+  careKit: [...DEFAULT_CARE_KIT],
+  careDismissed: {},
+  careSaved: {},
+  careCheckin: {},
+  careReminders: {
+    period: 1,
+    checkin: 1,
+    prep: 1,
+    journal: 0,
+    routine: 0
+  }
 });
 
 /**
@@ -53,6 +77,14 @@ function migrateState(data) {
     data.periods = Array.isArray(data.periods) ? data.periods : [];
     data.logs = (data.logs && typeof data.logs === "object") ? data.logs : {};
     data.custom = Array.isArray(data.custom) ? data.custom : [];
+  }
+  if (!data.journal || typeof data.journal !== "object") data.journal = {};
+  if (!Array.isArray(data.careKit) || data.careKit.length === 0) data.careKit = [...DEFAULT_CARE_KIT];
+  if (!data.careDismissed || typeof data.careDismissed !== "object") data.careDismissed = {};
+  if (!data.careSaved || typeof data.careSaved !== "object") data.careSaved = {};
+  if (!data.careCheckin || typeof data.careCheckin !== "object") data.careCheckin = {};
+  if (!data.careReminders || typeof data.careReminders !== "object") {
+    data.careReminders = { period: 1, checkin: 1, prep: 1, journal: 0, routine: 0 };
   }
   return { ...defState(), ...data };
 }
@@ -209,10 +241,10 @@ function generateCSV(S) {
   const headers = [
     "Date", "Entry_Type", "Bleeding_Flow", "Mood", "Pain_0_10",
     "Energy", "Sleep_Hours", "Sleep_Quality", "Hydration_Glasses", "Cervical_Mucus", "Medications",
-    "BBT", "LH_Test", "Symptoms", "Notes"
+    "BBT", "LH_Test", "Symptoms", "Notes", "Journal_Reflection", "Journal_Gratitude", "Journal_Helped"
   ];
   const rows = [];
-  const dates = new Set([...Object.keys(S.logs || {})]);
+  const dates = new Set([...Object.keys(S.logs || {}), ...Object.keys(S.journal || {})]);
 
   (S.periods || []).forEach(p => {
     if (p.s) dates.add(p.s);
@@ -223,16 +255,17 @@ function generateCSV(S) {
 
   sortedDates.forEach(d => {
     const l = (S.logs && S.logs[d]) || {};
+    const j = (S.journal && S.journal[d]) || {};
     const symList = Object.entries(l.sy || {}).map(([k, v]) => `${k}:${["mild", "mod", "sev"][v - 1] || v}`).join("; ");
     const medsList = Array.isArray(l.med) ? l.med.join("; ") : (l.med || "");
 
     const row = [
       d,
-      l.f && l.f !== "none" ? "Bleeding / Period" : "Daily Log",
+      l.f && l.f !== "none" ? "Bleeding / Period" : (j.text ? "Journal & Health" : "Daily Log"),
       l.f || "",
-      l.m != null ? l.m : "",
+      l.m != null ? l.m : (j.mood || ""),
       l.p != null ? l.p : "",
-      l.en || "",
+      l.en || (j.energy ? String(j.energy) : ""),
       l.sl != null ? l.sl : "",
       l.sq || "",
       l.water || 0,
@@ -241,7 +274,10 @@ function generateCSV(S) {
       l.bbt || "",
       l.lh || "",
       `"${symList.replace(/"/g, '""')}"`,
-      `"${(l.note || "").replace(/"/g, '""')}"`
+      `"${(l.note || "").replace(/"/g, '""')}"`,
+      `"${(j.text || "").replace(/"/g, '""')}"`,
+      `"${(j.gratitude || "").replace(/"/g, '""')}"`,
+      `"${(j.helped || "").replace(/"/g, '""')}"`
     ];
     rows.push(row.join(","));
   });
@@ -329,7 +365,7 @@ const CycleStorage = {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    KEY, SCHEMA_VERSION, defState, migrateState, loadState, saveState,
+    KEY, SCHEMA_VERSION, DEFAULT_CARE_KIT, defState, migrateState, loadState, saveState,
     getPrivacyLedger, hashPin, verifyPin, PinLock, generateCSV, generateJSON,
     previewImport, CycleStorage
   };

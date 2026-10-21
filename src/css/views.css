@@ -247,6 +247,442 @@
   margin-bottom: 14px;
 }
 
+/* 8. Care & Comfort Experience, Reassurance, and My Journal */
+
+/* Hub Segmented Navigation */
+.care-hub-nav {
+  display: flex;
+  gap: 6px;
+  background: var(--surface-alt);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.care-hub-nav::-webkit-scrollbar { display: none; }
+
+.care-tab-btn {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all var(--dur-fast) var(--ease-out-expo);
+}
+.care-tab-btn:hover {
+  color: var(--plum);
+}
+.care-tab-btn.active {
+  background: var(--surface);
+  color: var(--plum);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Care Corner & Reassurance Box */
+.care-corner-card {
+  background: var(--surface-soft, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.reassurance-box {
+  background: var(--pastel-ivory);
+  border: 1px solid var(--modal-card-border, var(--border));
+  border-left: 4px solid var(--pastel-berry);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin: 10px 0 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+:root[data-theme="dark"] .reassurance-box,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .reassurance-box {
+    background: #25202E;
+    border-left-color: #EB6FA1;
+  }
+}
+
+.reassurance-quote {
+  font-size: 14px;
+  line-height: 1.5;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--plum);
+  margin: 0;
+  flex: 1;
+}
+
+.reassurance-refresh-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.reassurance-refresh-btn:hover {
+  color: var(--plum);
+  transform: rotate(45deg);
+}
+.reassurance-refresh-btn:active {
+  transform: rotate(180deg) scale(0.9);
+}
+
+/* Check-in Feelings Grid */
+.checkin-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.checkin-row::-webkit-scrollbar { display: none; }
+
+.checkin-btn {
+  flex: 0 0 auto;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  background: var(--surface);
+  color: var(--plum);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all var(--dur-fast) var(--ease-spring);
+}
+.checkin-btn:hover {
+  border-color: var(--pastel-berry);
+  background: var(--surface-alt);
+  transform: translateY(-1px);
+}
+.checkin-btn.active {
+  background: var(--pastel-rose);
+  border-color: var(--pastel-berry);
+  color: var(--pastel-plum);
+  box-shadow: 0 2px 8px rgba(217, 75, 134, 0.22);
+  font-weight: 700;
+}
+:root[data-theme="dark"] .checkin-btn.active,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .checkin-btn.active {
+    background: #472635;
+    border-color: #EB6FA1;
+    color: #FCE8F0;
+  }
+}
+
+/* Pressure-Free Care Progress Indicator */
+.gentle-progress-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--pastel-sage);
+  color: #1E4633;
+  border: 1px solid #B0D6BE;
+  user-select: none;
+}
+:root[data-theme="dark"] .gentle-progress-badge,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .gentle-progress-badge {
+    background: #1F362B;
+    color: #E6F5EC;
+    border-color: #70AD8B;
+  }
+}
+
+/* Care Suggestion Cards */
+.care-suggestion-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.care-suggestion-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover);
+}
+.care-suggestion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.care-suggestion-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+/* Personal Care Kit */
+.care-kit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.care-kit-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all var(--dur-fast) ease;
+}
+.care-kit-item.favorited {
+  border-color: var(--pastel-berry);
+  background: var(--pastel-ivory);
+}
+:root[data-theme="dark"] .care-kit-item.favorited,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .care-kit-item.favorited {
+    background: #2B2130;
+    border-color: #EB6FA1;
+  }
+}
+.care-kit-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.care-kit-fav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  transition: color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.care-kit-fav-btn.active {
+  color: #D9447E;
+}
+.care-kit-fav-btn:hover {
+  transform: scale(1.15);
+}
+
+/* Journal View & Editor */
+.journal-editor-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+}
+.journal-prompt-box {
+  background: var(--pastel-lavender);
+  border: 1px solid rgba(81, 40, 63, 0.1);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+:root[data-theme="dark"] .journal-prompt-box,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .journal-prompt-box {
+    background: #36294C;
+    border-color: #A993D6;
+  }
+}
+.journal-prompt-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--plum);
+  margin: 0;
+}
+.journal-insert-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--plum);
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.journal-insert-btn:hover {
+  background: var(--surface-alt);
+}
+
+.journal-textarea {
+  width: 100%;
+  min-height: 120px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--plum);
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  font-family: inherit;
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.journal-textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px var(--pink-glow);
+  background: var(--surface);
+}
+
+.journal-field-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--plum);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 14px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.journal-tag-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 12px;
+}
+.journal-tag-chip {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--dur-fast) ease;
+}
+.journal-tag-chip:hover {
+  border-color: var(--plum);
+  color: var(--plum);
+}
+.journal-tag-chip.active {
+  background: var(--pastel-rose);
+  border-color: var(--pastel-berry);
+  color: var(--pastel-plum);
+  font-weight: 700;
+}
+:root[data-theme="dark"] .journal-tag-chip.active,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .journal-tag-chip.active {
+    background: #472635;
+    border-color: #EB6FA1;
+    color: #FCE8F0;
+  }
+}
+
+.journal-entry-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+.journal-entry-card:hover {
+  border-color: var(--pastel-berry);
+  transform: translateY(-1px);
+}
+
+.journal-saved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--phase-follicular);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Full-Cycle Educational & Explainer Cards */
+.cycle-guide-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.cycle-guide-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover);
+}
+.cycle-guide-card h3 {
+  margin: 6px 0 8px;
+  color: var(--plum);
+}
+.cycle-guide-card p {
+  line-height: 1.55;
+  font-size: 13.5px;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.cycle-guide-source {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* 7. Print Styles for Clinician Report */
 @media print {
   body {

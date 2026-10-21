@@ -2408,6 +2408,442 @@ input[type="range"]::-webkit-slider-thumb:active {
   margin-bottom: 14px;
 }
 
+/* 8. Care & Comfort Experience, Reassurance, and My Journal */
+
+/* Hub Segmented Navigation */
+.care-hub-nav {
+  display: flex;
+  gap: 6px;
+  background: var(--surface-alt);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.care-hub-nav::-webkit-scrollbar { display: none; }
+
+.care-tab-btn {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all var(--dur-fast) var(--ease-out-expo);
+}
+.care-tab-btn:hover {
+  color: var(--plum);
+}
+.care-tab-btn.active {
+  background: var(--surface);
+  color: var(--plum);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Care Corner & Reassurance Box */
+.care-corner-card {
+  background: var(--surface-soft, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.reassurance-box {
+  background: var(--pastel-ivory);
+  border: 1px solid var(--modal-card-border, var(--border));
+  border-left: 4px solid var(--pastel-berry);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin: 10px 0 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+:root[data-theme="dark"] .reassurance-box,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .reassurance-box {
+    background: #25202E;
+    border-left-color: #EB6FA1;
+  }
+}
+
+.reassurance-quote {
+  font-size: 14px;
+  line-height: 1.5;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--plum);
+  margin: 0;
+  flex: 1;
+}
+
+.reassurance-refresh-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.reassurance-refresh-btn:hover {
+  color: var(--plum);
+  transform: rotate(45deg);
+}
+.reassurance-refresh-btn:active {
+  transform: rotate(180deg) scale(0.9);
+}
+
+/* Check-in Feelings Grid */
+.checkin-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.checkin-row::-webkit-scrollbar { display: none; }
+
+.checkin-btn {
+  flex: 0 0 auto;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  background: var(--surface);
+  color: var(--plum);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all var(--dur-fast) var(--ease-spring);
+}
+.checkin-btn:hover {
+  border-color: var(--pastel-berry);
+  background: var(--surface-alt);
+  transform: translateY(-1px);
+}
+.checkin-btn.active {
+  background: var(--pastel-rose);
+  border-color: var(--pastel-berry);
+  color: var(--pastel-plum);
+  box-shadow: 0 2px 8px rgba(217, 75, 134, 0.22);
+  font-weight: 700;
+}
+:root[data-theme="dark"] .checkin-btn.active,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .checkin-btn.active {
+    background: #472635;
+    border-color: #EB6FA1;
+    color: #FCE8F0;
+  }
+}
+
+/* Pressure-Free Care Progress Indicator */
+.gentle-progress-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--pastel-sage);
+  color: #1E4633;
+  border: 1px solid #B0D6BE;
+  user-select: none;
+}
+:root[data-theme="dark"] .gentle-progress-badge,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .gentle-progress-badge {
+    background: #1F362B;
+    color: #E6F5EC;
+    border-color: #70AD8B;
+  }
+}
+
+/* Care Suggestion Cards */
+.care-suggestion-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.care-suggestion-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover);
+}
+.care-suggestion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.care-suggestion-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+/* Personal Care Kit */
+.care-kit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.care-kit-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all var(--dur-fast) ease;
+}
+.care-kit-item.favorited {
+  border-color: var(--pastel-berry);
+  background: var(--pastel-ivory);
+}
+:root[data-theme="dark"] .care-kit-item.favorited,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .care-kit-item.favorited {
+    background: #2B2130;
+    border-color: #EB6FA1;
+  }
+}
+.care-kit-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.care-kit-fav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  transition: color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-spring);
+}
+.care-kit-fav-btn.active {
+  color: #D9447E;
+}
+.care-kit-fav-btn:hover {
+  transform: scale(1.15);
+}
+
+/* Journal View & Editor */
+.journal-editor-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+}
+.journal-prompt-box {
+  background: var(--pastel-lavender);
+  border: 1px solid rgba(81, 40, 63, 0.1);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin: 10px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+:root[data-theme="dark"] .journal-prompt-box,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .journal-prompt-box {
+    background: #36294C;
+    border-color: #A993D6;
+  }
+}
+.journal-prompt-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--plum);
+  margin: 0;
+}
+.journal-insert-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--plum);
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.journal-insert-btn:hover {
+  background: var(--surface-alt);
+}
+
+.journal-textarea {
+  width: 100%;
+  min-height: 120px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--plum);
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  font-family: inherit;
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.journal-textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px var(--pink-glow);
+  background: var(--surface);
+}
+
+.journal-field-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--plum);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 14px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.journal-tag-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 12px;
+}
+.journal-tag-chip {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--dur-fast) ease;
+}
+.journal-tag-chip:hover {
+  border-color: var(--plum);
+  color: var(--plum);
+}
+.journal-tag-chip.active {
+  background: var(--pastel-rose);
+  border-color: var(--pastel-berry);
+  color: var(--pastel-plum);
+  font-weight: 700;
+}
+:root[data-theme="dark"] .journal-tag-chip.active,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .journal-tag-chip.active {
+    background: #472635;
+    border-color: #EB6FA1;
+    color: #FCE8F0;
+  }
+}
+
+.journal-entry-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+.journal-entry-card:hover {
+  border-color: var(--pastel-berry);
+  transform: translateY(-1px);
+}
+
+.journal-saved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--phase-follicular);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Full-Cycle Educational & Explainer Cards */
+.cycle-guide-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.cycle-guide-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover);
+}
+.cycle-guide-card h3 {
+  margin: 6px 0 8px;
+  color: var(--plum);
+}
+.cycle-guide-card p {
+  line-height: 1.55;
+  font-size: 13.5px;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.cycle-guide-source {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* 7. Print Styles for Clinician Report */
 @media print {
   body {
@@ -3044,6 +3480,17 @@ const PIN_SALT_KEY = "csc.pin.salt";
 const PIN_HASH_KEY = "csc.pin.hash";
 const SCHEMA_VERSION = 2;
 
+const DEFAULT_CARE_KIT = [
+  { id: "heat", title: "Warm compress or heating pad", icon: "flame", desc: "Soothing warmth for pelvis or lower back used safely", isFav: 1, isDefault: 1 },
+  { id: "tea", title: "Soothing warm tea or drink", icon: "cup", desc: "Chamomile, peppermint, ginger, or nourishing warm water", isFav: 1, isDefault: 1 },
+  { id: "rest", title: "Rest & permission to slow down", icon: "moon", desc: "A cozy horizontal pause without guilt or pressure", isFav: 1, isDefault: 1 },
+  { id: "clothes", title: "Loose, comfortable clothing", icon: "heart", desc: "Soft breathable layers and gentle non-binding waistbands", isFav: 1, isDefault: 1 },
+  { id: "stretch", title: "Gentle stretching or restorative yoga", icon: "activity", desc: "Child's pose, cat-cow, or slow mindful breathing", isFav: 0, isDefault: 1 },
+  { id: "music", title: "Calming playlist or soundscape", icon: "sparkle", desc: "Lo-fi beats, gentle ambient rainfall, or comfort songs", isFav: 0, isDefault: 1 },
+  { id: "talk", title: "Connect with a trusted friend", icon: "user", desc: "Texting or sharing space with someone who validates you", isFav: 0, isDefault: 1 },
+  { id: "fresh-air", title: "Step outside for natural light & fresh air", icon: "sun", desc: "A few slow, deep breaths in the open air", isFav: 0, isDefault: 1 }
+];
+
 const defState = () => ({
   _v: SCHEMA_VERSION,
   ob: 0,
@@ -3069,7 +3516,20 @@ const defState = () => ({
   rk: { prep: 1, log: 1 },
   dis: {},
   sent: {},
-  discreetNotif: 0
+  discreetNotif: 0,
+  // Care, Comfort & Journal State
+  journal: {},
+  careKit: [...DEFAULT_CARE_KIT],
+  careDismissed: {},
+  careSaved: {},
+  careCheckin: {},
+  careReminders: {
+    period: 1,
+    checkin: 1,
+    prep: 1,
+    journal: 0,
+    routine: 0
+  }
 });
 
 /**
@@ -3088,6 +3548,14 @@ function migrateState(data) {
     data.periods = Array.isArray(data.periods) ? data.periods : [];
     data.logs = (data.logs && typeof data.logs === "object") ? data.logs : {};
     data.custom = Array.isArray(data.custom) ? data.custom : [];
+  }
+  if (!data.journal || typeof data.journal !== "object") data.journal = {};
+  if (!Array.isArray(data.careKit) || data.careKit.length === 0) data.careKit = [...DEFAULT_CARE_KIT];
+  if (!data.careDismissed || typeof data.careDismissed !== "object") data.careDismissed = {};
+  if (!data.careSaved || typeof data.careSaved !== "object") data.careSaved = {};
+  if (!data.careCheckin || typeof data.careCheckin !== "object") data.careCheckin = {};
+  if (!data.careReminders || typeof data.careReminders !== "object") {
+    data.careReminders = { period: 1, checkin: 1, prep: 1, journal: 0, routine: 0 };
   }
   return { ...defState(), ...data };
 }
@@ -3244,10 +3712,10 @@ function generateCSV(S) {
   const headers = [
     "Date", "Entry_Type", "Bleeding_Flow", "Mood", "Pain_0_10",
     "Energy", "Sleep_Hours", "Sleep_Quality", "Hydration_Glasses", "Cervical_Mucus", "Medications",
-    "BBT", "LH_Test", "Symptoms", "Notes"
+    "BBT", "LH_Test", "Symptoms", "Notes", "Journal_Reflection", "Journal_Gratitude", "Journal_Helped"
   ];
   const rows = [];
-  const dates = new Set([...Object.keys(S.logs || {})]);
+  const dates = new Set([...Object.keys(S.logs || {}), ...Object.keys(S.journal || {})]);
 
   (S.periods || []).forEach(p => {
     if (p.s) dates.add(p.s);
@@ -3258,16 +3726,17 @@ function generateCSV(S) {
 
   sortedDates.forEach(d => {
     const l = (S.logs && S.logs[d]) || {};
+    const j = (S.journal && S.journal[d]) || {};
     const symList = Object.entries(l.sy || {}).map(([k, v]) => `${k}:${["mild", "mod", "sev"][v - 1] || v}`).join("; ");
     const medsList = Array.isArray(l.med) ? l.med.join("; ") : (l.med || "");
 
     const row = [
       d,
-      l.f && l.f !== "none" ? "Bleeding / Period" : "Daily Log",
+      l.f && l.f !== "none" ? "Bleeding / Period" : (j.text ? "Journal & Health" : "Daily Log"),
       l.f || "",
-      l.m != null ? l.m : "",
+      l.m != null ? l.m : (j.mood || ""),
       l.p != null ? l.p : "",
-      l.en || "",
+      l.en || (j.energy ? String(j.energy) : ""),
       l.sl != null ? l.sl : "",
       l.sq || "",
       l.water || 0,
@@ -3276,7 +3745,10 @@ function generateCSV(S) {
       l.bbt || "",
       l.lh || "",
       `"${symList.replace(/"/g, '""')}"`,
-      `"${(l.note || "").replace(/"/g, '""')}"`
+      `"${(l.note || "").replace(/"/g, '""')}"`,
+      `"${(j.text || "").replace(/"/g, '""')}"`,
+      `"${(j.gratitude || "").replace(/"/g, '""')}"`,
+      `"${(j.helped || "").replace(/"/g, '""')}"`
     ];
     rows.push(row.join(","));
   });
@@ -3364,7 +3836,7 @@ const CycleStorage = {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    KEY, SCHEMA_VERSION, defState, migrateState, loadState, saveState,
+    KEY, SCHEMA_VERSION, DEFAULT_CARE_KIT, defState, migrateState, loadState, saveState,
     getPrivacyLedger, hashPin, verifyPin, PinLock, generateCSV, generateJSON,
     previewImport, CycleStorage
   };
@@ -3708,9 +4180,294 @@ function getRecommendedArticles(loggedSymptoms = {}, mode = "natural") {
   return unique.slice(0, 4);
 }
 
+/* ==========================================================================
+   Care, Comfort & Compassionate Companion System
+   ========================================================================== */
+
+const REASSURANCE_MESSAGES = [
+  "You don't have to be productive every single day. Rest is allowed.",
+  "Your experience is your own. There's no single right way to feel during your cycle.",
+  "Small acts of care count, even when that's all you can manage today.",
+  "You can listen to your body without having to explain everything it feels.",
+  "Your cycle is information about your body, not a measure of your worth.",
+  "It's okay to feel different today than you did last week. Hormones naturally ebb and flow.",
+  "Giving yourself grace is a valid and powerful form of wellness.",
+  "You deserve comfort, quiet, and spaces where you don't have to be 'on'.",
+  "There is nothing wrong with you for needing more downtime right now.",
+  "Every cycle is unique. Comparing yourself to rigid averages only creates unnecessary worry.",
+  "Be proud of the small ways you showed up for yourself today.",
+  "Resting before you reach complete exhaustion is a learned, compassionate skill.",
+  "Your feelings don't need a medical justification to be real and valid.",
+  "Breathe in ease, exhale expectation. You are doing enough.",
+  "Your comfort matters just as much as your commitments.",
+  "Cycles are living rhythms, not factory schedules. Variance is completely natural."
+];
+
+function getReassuranceMessage(idx = 0) {
+  const i = Math.abs(idx) % REASSURANCE_MESSAGES.length;
+  return REASSURANCE_MESSAGES[i];
+}
+
+const FULL_CYCLE_CARE_GUIDES = {
+  menstrual: {
+    key: "menstrual",
+    phaseName: "Menstrual Phase",
+    theme: "Comfort & Gentleness",
+    badgeColor: "tint-rose",
+    focus: "Nourishment, warmth, and permission to slow down",
+    suggestions: [
+      "Warm compresses or a heating pad used safely across pelvis or lower back",
+      "Restorative stretching, gentle walking, or cozy horizontal rest as comfortable",
+      "Hydration and regular, warm, nourishing iron-rich meals (lentils, leafy greens, broths)",
+      "Comfortable, non-binding waistbands and soft breathable clothing",
+      "Keeping period supplies accessible and prepared"
+    ],
+    journalPrompt: "What would make today a little easier?",
+    biology: "Estrogen and progesterone are at baseline levels as the endometrium sheds. Natural prostaglandins can cause muscle contractions and cramping.",
+    selfCareTip: "Honor your body's request for deeper sleep and slower mornings."
+  },
+  follicular: {
+    key: "follicular",
+    phaseName: "Follicular Phase",
+    theme: "Fresh Starts & Exploration",
+    badgeColor: "tint-sage",
+    focus: "Curiosity, renewal, and exploring routines that feel good",
+    suggestions: [
+      "Explore routines, creative interests, and light planning that feel inspiring",
+      "Optional movement, social catch-ups, or hobbies without pressure to perform",
+      "Fresh, colorful meals with fiber, healthy fats, and probiotic fermented foods",
+      "Take note of changing energy and mood without assuming every day will be high-energy"
+    ],
+    journalPrompt: "What would I like to make room for this week?",
+    biology: "FSH prompts ovarian follicle growth, and estrogen steadily rises, supporting natural vitality for many (though individual experience varies widely).",
+    selfCareTip: "Notice what brings you genuine curiosity this week without forcing productivity."
+  },
+  fertile: {
+    key: "fertile",
+    phaseName: "Around Ovulation",
+    theme: "Body Awareness & Presence",
+    badgeColor: "tint-lavender",
+    focus: "Listening to sensations and understanding natural cycle variability",
+    suggestions: [
+      "Notice cervical fluid changes (becoming clearer, more slippery or egg-white)",
+      "Observe any subtle pelvic sensations (mittelschmerz) or shifts in sociability",
+      "Support energy with antioxidant-rich berries, seeds, and steady hydration",
+      "Remember: calendar predictions are mathematical estimates, never contraceptive guarantees"
+    ],
+    journalPrompt: "What changes, if any, have I noticed in my body?",
+    biology: "Estrogen peaks to trigger an LH surge, prompting the release of an egg. Ovulation timing naturally shifts from cycle to cycle.",
+    selfCareTip: "Enjoy natural vitality while honoring your personal boundaries."
+  },
+  luteal: {
+    key: "luteal",
+    phaseName: "Luteal Phase",
+    theme: "Support & Preparation",
+    badgeColor: "tint-peach",
+    focus: "Grounded nesting, stress support, and thoughtful preparation",
+    suggestions: [
+      "Assemble a gentle period-preparation checklist (supplies, cozy layers, heat wrap)",
+      "Prioritize winding-down evening routines and steady blood sugar meals with magnesium",
+      "Notice recurring mood, appetite, skin, or energy patterns with self-compassion",
+      "Set gentle personal boundaries and decline optional social demands if drained"
+    ],
+    journalPrompt: "What support would feel helpful over the next few days?",
+    biology: "The corpus luteum secretes progesterone, calming the nervous system but potentially creating sensitivity as levels shift before menstruation.",
+    selfCareTip: "Give yourself permission to turn inward and protect your evening peace."
+  },
+  uncertain: {
+    key: "uncertain",
+    phaseName: "Everyday Wellbeing",
+    theme: "Unconditional Self-Kindness",
+    badgeColor: "tint-sky",
+    focus: "Body trust, self-compassion, and unconditional everyday care",
+    suggestions: [
+      "When cycle history is new or irregular, we never guess your phase with false certainty",
+      "Practice everyday comfort: staying hydrated, gentle stretching, and nourishing meals",
+      "Check in with how your body feels today rather than what a calendar expects",
+      "Keep logging dates and symptoms—your personal patterns will emerge naturally over time"
+    ],
+    journalPrompt: "How am I treating myself today, and what kindness can I offer my body right now?",
+    biology: "Cycles naturally fluctuate in response to stress, travel, illness, sleep, or individual physiology. Your wellbeing does not depend on a rigid calendar label.",
+    selfCareTip: "Offer your body gentleness today. You do not need a label to practice self-care."
+  }
+};
+
+const CYCLE_EXPLAINED_CARDS = [
+  {
+    id: "phase-biology",
+    category: "Endocrine Science",
+    badgeColor: "tint-lavender",
+    title: "How Cycle Phases Really Work",
+    summary: "The rhythmic dance between the brain and ovaries across four distinct hormonal stages.",
+    content: "The menstrual cycle is guided by communication between the hypothalamus, pituitary gland, and ovaries (the HPO axis). Estrogen prompts uterine lining growth and follicular maturation; progesterone stabilizes the lining and supports nervous system calm. Cycle length and phase lengths vary naturally month to month.",
+    source: "American College of Obstetricians and Gynecologists (ACOG)"
+  },
+  {
+    id: "bodily-changes",
+    category: "Physiology",
+    badgeColor: "tint-rose",
+    title: "Bodily Sensations & Unique Variations",
+    summary: "Why cramping, cervical fluid shifts, and energy changes feel different for everyone.",
+    content: "Menstrual cramps result from localized prostaglandins causing uterine muscle contractions. Cervical mucus shifts from creamy to slippery and egg-white around ovulation. Because hormone receptor sensitivity differs, there is no single 'normal' way to feel. Listening to your own patterns is the most accurate benchmark.",
+    source: "National Health Service (NHS)"
+  },
+  {
+    id: "tracking-limits",
+    category: "Self-Advocacy",
+    badgeColor: "tint-sky",
+    title: "What Tracking Can & Cannot Tell You",
+    summary: "Understanding the difference between mathematical calendar forecasts and clinical certainty.",
+    content: "Period tracker dates are mathematical models based on past history and population averages. They are helpful for noticing trends, planning ahead, and self-advocacy with doctors. However, calendar estimates cannot confirm exact ovulation or reliably prevent pregnancy without clinical biomarkers.",
+    source: "American Society for Reproductive Medicine (ASRM)"
+  },
+  {
+    id: "myths-debunked",
+    category: "Health Literacy",
+    badgeColor: "tint-butter",
+    title: "Common Cycle Misconceptions",
+    summary: "Debunking the rigid 28-day cycle myth and unrealistic expectations.",
+    content: "Only about 13% of people have exact 28-day cycles; normal adult cycles range from 21 to 35 days. Ovulation does not always happen on day 14. PMS is not 'imaginary'—it reflects biological sensitivities to shifting neurosteroids. Recognizing this removes unnecessary guilt and self-blame.",
+    source: "World Health Organization (WHO) Reproductive Health"
+  },
+  {
+    id: "clinical-guidance",
+    category: "Safety & Care",
+    badgeColor: "tint-amber",
+    title: "When Symptoms Deserve Medical Care",
+    summary: "Clear clinical red flags to discuss with a physician or gynecologist.",
+    content: "Consult a healthcare provider if: bleeding regularly soaks through 2+ pads/tampons per hour; period pain reaches severe levels (8+/10) that resist OTC medication or disrupt basic life; bleeding lasts more than 7–8 days consecutively; or your period is absent for 90+ days without pregnancy. Severe pain is never something you must silently endure.",
+    source: "ACOG Clinical Practice Guidelines"
+  }
+];
+
+function getCareSuggestions(S, dateStr) {
+  const L = (S.logs && S.logs[dateStr]) || {};
+  const dismissed = S.careDismissed || {};
+  const checkin = (S.careCheckin && S.careCheckin[dateStr]) || {};
+  const syms = Object.keys(L.sy || {}).map(s => s.toLowerCase());
+  const pain = +(L.p || 0);
+  const mood = L.m;
+  const feeling = checkin.feeling || "";
+
+  const allSuggestions = [];
+
+  // Rule 1: Cramps / Pelvic Pain
+  if (syms.includes("cramps") || pain >= 4) {
+    allSuggestions.push({
+      id: "care-cramps-warmth",
+      category: "Warmth & Comfort",
+      categoryColor: "rose",
+      icon: "flame",
+      title: "Soothing Pelvic Warmth",
+      desc: "Warmth increases local blood flow and relaxes uterine smooth muscle. A heating pad, hot water bottle, or warm bath used safely can ease cramp tension.",
+      actionLabel: "Add to Care Kit",
+      kitId: "heat"
+    });
+  }
+
+  // Rule 2: Fatigue / Low Energy
+  if (syms.includes("fatigue") || L.en === "low" || feeling === "tired") {
+    allSuggestions.push({
+      id: "care-fatigue-rest",
+      category: "Rest & Recovery",
+      categoryColor: "lavender",
+      icon: "moon",
+      title: "Permission to Slow Down",
+      desc: "Fatigue is your body's clear request to conserve energy. Postpone optional demands today and grant yourself a 20-minute horizontal pause without guilt.",
+      actionLabel: "Add to Care Kit",
+      kitId: "rest"
+    });
+  }
+
+  // Rule 3: Stress / Overwhelm
+  if (syms.includes("stress") || feeling === "stressed" || mood === 3) {
+    allSuggestions.push({
+      id: "care-stress-breath",
+      category: "Mindfulness & Calm",
+      categoryColor: "sage",
+      icon: "sparkle",
+      title: "2-Minute Gentle Breath Reset",
+      desc: "When overwhelmed, taking slow 4-second breaths activates the parasympathetic nervous system. Soften your jaw, drop your shoulders, and inhale gently.",
+      actionLabel: "Add to Care Kit",
+      kitId: "stretch"
+    });
+  }
+
+  // Rule 4: Headache
+  if (syms.includes("headache")) {
+    allSuggestions.push({
+      id: "care-headache-hydration",
+      category: "Nourishment & Ease",
+      categoryColor: "sky",
+      icon: "water",
+      title: "Cool Compress & Hydration",
+      desc: "Hormonal shifts and tension can trigger headaches. Sip a tall glass of cool water, dim overhead screens, and rest a damp cool cloth across your forehead.",
+      actionLabel: "Add to Care Kit",
+      kitId: "tea"
+    });
+  }
+
+  // Rule 5: Bloating / Digestive Sensitivity
+  if (syms.includes("bloating")) {
+    allSuggestions.push({
+      id: "care-bloating-comfort",
+      category: "Gentle Digestion",
+      categoryColor: "butter",
+      icon: "heart",
+      title: "Loose Clothing & Warm Peppermint",
+      desc: "Progesterone can slow digestion and cause fluid retention. Switch into soft, non-binding waistbands and enjoy a warm cup of herbal tea.",
+      actionLabel: "Add to Care Kit",
+      kitId: "clothes"
+    });
+  }
+
+  // Rule 6: Sensitive / Tender Feelings
+  if (feeling === "sensitive" || feeling === "tender" || mood === 4) {
+    allSuggestions.push({
+      id: "care-sensitive-space",
+      category: "Emotional Care",
+      categoryColor: "peach",
+      icon: "user",
+      title: "Emotional Buffer & Validating Space",
+      desc: "Your feelings are real and deserve gentle room. Protect your energy, listen to comforting music, and consider reaching out to someone who validates you.",
+      actionLabel: "Add to Care Kit",
+      kitId: "talk"
+    });
+  }
+
+  // Rule 7: General / Everyday Wellbeing Default
+  allSuggestions.push({
+    id: "care-daily-nourish",
+    category: "Everyday Care",
+    categoryColor: "sage",
+    icon: "sun",
+    title: "Small Act of Everyday Kindness",
+    desc: "Pause for one slow, deep breath. Drink a glass of water, gently roll your shoulders back, and remind yourself that you are doing the best you can.",
+    actionLabel: "Add to Care Kit",
+    kitId: "fresh-air"
+  });
+
+  allSuggestions.push({
+    id: "care-journal-prompt",
+    category: "Self-Reflection",
+    categoryColor: "lavender",
+    icon: "book",
+    title: "Quiet Moment in My Journal",
+    desc: "Writing for just two minutes helps externalize busy thoughts. Capture one feeling or one thing you are grateful for today.",
+    actionLabel: "Open My Journal",
+    kitId: "journal"
+  });
+
+  // Filter out dismissed suggestions
+  const filtered = allSuggestions.filter(s => !dismissed[s.id]);
+  return filtered.slice(0, 3);
+}
+
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    ARTICLES, searchArticles, getArticlesByTag, getRecommendedArticles
+    ARTICLES, searchArticles, getArticlesByTag, getRecommendedArticles,
+    REASSURANCE_MESSAGES, getReassuranceMessage, FULL_CYCLE_CARE_GUIDES,
+    CYCLE_EXPLAINED_CARDS, getCareSuggestions
   };
 }
 
@@ -3946,7 +4703,12 @@ const ic = {
   chevronUp: "M18 15l-6-6-6 6",
   shieldCheck: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4",
   star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
-  laptop: "M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"
+  laptop: "M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16",
+  edit: "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7 M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z",
+  feather: "M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z M16 8L2 22 M17.5 15H9",
+  cup: "M18 8h1a4 4 0 0 1 0 8h-1 M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z M6 1v3 M10 1v3 M14 1v3",
+  smile: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M8 14s1.5 2 4 2 4-2 4-2 M9 9h.01 M15 9h.01",
+  bookmark: "M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
 };
 
 const svgi = (k, sz = 22, cls = "") =>
@@ -4640,7 +5402,23 @@ const ui = {
   pinLocked: false,
   pinEntered: "",
   pinSettingUp: false,
-  pinSetupFirst: ""
+  pinSetupFirst: "",
+  // Care, Comfort & Journal State
+  careTab: "care", // "care" | "journal" | "guide"
+  journalDate: typeof TD === "function" && typeof I === "function" ? I(TD()) : "",
+  journalSearch: "",
+  journalMoodFilter: "",
+  journalTagFilter: "",
+  journalNotice: "",
+  journalDraftTags: [],
+  journalDraftMood: "",
+  careReassuranceIdx: 0,
+  careKitFilter: "all", // "all" | "fav"
+  careCustomModal: false,
+  customCareTitle: "",
+  customCareDesc: "",
+  customCareIcon: "heart",
+  deleteJournalConfirm: null
 };
 
 /* Setup and State Migration */
@@ -4650,6 +5428,7 @@ ui.corrupt = loaded.corrupt;
 ui.pinLocked = PinLock.isEnabled();
 
 G.S = S;
+G.ui = ui;
 G.ob = { step: 0, last: "", cl: S.cl || 28, pl: S.pl || 5, reg: S.reg || "unknown", mode: S.mode || "natural", goals: S.goals || [], rem: S.rem || 0 };
 
 // Draft record for daily logging
@@ -4730,7 +5509,9 @@ function hasOpenModal() {
     ui.clinicianModal ||
     ui.conflict ||
     ui.infoTopic ||
-    ui.tourModal
+    ui.tourModal ||
+    ui.careCustomModal ||
+    ui.deleteJournalConfirm
   );
 }
 
@@ -4879,6 +5660,7 @@ function renderHome() {
           <button class="btn" style="max-width:240px" data-a="goLog" data-v="${I(T)}">Log daily pregnancy signs</button>
         </div>
       </div>
+      ${renderCareCorner(T, "pregnancy", S)}
       ${renderMoodCard(L)}`;
   }
 
@@ -4907,6 +5689,7 @@ function renderHome() {
           <button class="btn" style="max-width:240px" data-a="goLog" data-v="${I(T)}">Log symptoms &amp; hot flashes</button>
         </div>
       </div>
+      ${renderCareCorner(T, "perimenopause", S)}
       ${renderMoodCard(L)}`;
   }
 
@@ -4945,7 +5728,7 @@ function renderHome() {
   // Missing data empty state
   if (x.last == null) {
     return `
-      ${renderGreeting(T)}
+      ${renderGreeting(T, "uncertain")}
       ${clinicalPrompt}
       <div class="card" style="text-align:center;padding:28px 20px">
         <div class="phase-art-wrap" style="margin-bottom:12px">${bunny(64)}</div>
@@ -4955,6 +5738,7 @@ function renderHome() {
         <button class="btn" data-a="startToday">My period started today</button>
         <button class="btn g" style="margin-top:10px" data-a="tab" data-v="calendar">Pick past date on calendar</button>
       </div>
+      ${renderCareCorner(T, "uncertain", S)}
       ${renderMoodCard(L)}`;
   }
 
@@ -5013,7 +5797,7 @@ function renderHome() {
     </div>` : "";
 
   return `
-    ${renderGreeting(T)}
+    ${renderGreeting(T, phaseKey)}
     ${clinicalPrompt}
 
     <div class="week-strip" role="region" aria-label="Current Week">
@@ -5048,6 +5832,7 @@ function renderHome() {
       </div>
     </div>
 
+    ${renderCareCorner(T, phaseKey, S)}
     ${compCard}
     ${renderMoodCard(L)}
 
@@ -5060,13 +5845,115 @@ function renderHome() {
     </div>`;
 }
 
-function renderGreeting(T) {
+function renderGreeting(T, phaseKey = "follicular") {
   const h = new Date().getHours();
-  const greeting = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+  const timeGreeting = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+
+  let gentleWish = "Take a slow breath and move at your own pace today.";
+  if (phaseKey === "menstrual") {
+    gentleWish = "May today bring you warmth, gentleness, and rest without guilt.";
+  } else if (phaseKey === "fertile") {
+    gentleWish = "Staying gently tuned into your body's natural vitality.";
+  } else if (phaseKey === "luteal") {
+    gentleWish = "You deserve quiet space and gentle boundaries today.";
+  } else if (phaseKey === "pregnancy") {
+    gentleWish = "Nourishing yourself and your growing little one.";
+  } else if (phaseKey === "perimenopause") {
+    gentleWish = "Honoring your body's unique transition with grace.";
+  }
+
   return `
-    <div style="margin-bottom:12px">
-      <p class="mut" style="margin:0;font-weight:600">${fmt(T, { weekday: "long", month: "long", day: "numeric" })}</p>
-      <h2>${greeting}</h2>
+    <div style="margin-bottom:14px">
+      <p class="mut" style="margin:0;font-weight:600;font-size:13px">${fmt(T, { weekday: "long", month: "long", day: "numeric" })}</p>
+      <h2 style="margin:2px 0 4px">${timeGreeting}</h2>
+      <p class="mut" style="margin:0;font-size:13.5px;color:var(--plum);font-weight:500">${gentleWish}</p>
+    </div>`;
+}
+
+function renderCareCorner(T, phaseKey, S) {
+  const dStr = I(T);
+  const reassurance = getReassuranceMessage(ui.careReassuranceIdx + (T % 16));
+  const suggestions = getCareSuggestions(S, dStr);
+  const checkin = (S.careCheckin && S.careCheckin[dStr]) || {};
+  const currentFeeling = checkin.feeling || "";
+
+  // Calculate pressure-free care moments today
+  let careMoments = 0;
+  if (currentFeeling) careMoments++;
+  if (S.logs && S.logs[dStr] && (S.logs[dStr].water || S.logs[dStr].m != null)) careMoments++;
+  if (S.journal && S.journal[dStr] && S.journal[dStr].text) careMoments++;
+  if (Object.keys(S.careSaved || {}).length > 0) careMoments++;
+
+  const feelings = [
+    ["grounded", "🌿 Grounded"],
+    ["tired", "☁️ Low Energy"],
+    ["sensitive", "🌸 Sensitive"],
+    ["energized", "☀️ Energized"],
+    ["peaceful", "🕊️ Peaceful"],
+    ["stressed", "🌧️ Stressed"]
+  ];
+
+  const topSuggestion = suggestions[0];
+
+  return `
+    <div class="care-corner-card">
+      <div class="row" style="margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("heart", 18, "tint-rose-text")}
+          <b style="color:var(--plum);font-size:15px">Your Little Care Corner</b>
+        </div>
+        ${careMoments > 0 ? `
+          <span class="gentle-progress-badge">
+            ${svgi("sparkle", 12)} ${careMoments} moment${careMoments > 1 ? "s" : ""} of care today
+          </span>` : ""
+        }
+      </div>
+
+      <div class="reassurance-box">
+        <p class="reassurance-quote">“${reassurance}”</p>
+        <button class="reassurance-refresh-btn" data-a="nextReassurance" aria-label="Next gentle thought">
+          ${svgi("refresh", 14)}
+        </button>
+      </div>
+
+      <div style="margin:8px 0 4px">
+        <label style="margin:0 0 6px;font-size:12.5px;font-weight:700">How are you feeling today?</label>
+        <div class="checkin-row">
+          ${feelings.map(([k, label]) => `
+            <button class="checkin-btn ${currentFeeling === k ? "active" : ""}" data-a="careCheckin" data-v="${k}">
+              ${label}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+
+      ${topSuggestion ? `
+        <div class="care-suggestion-card" style="margin-top:10px">
+          <div class="care-suggestion-header">
+            <span class="article-tag tint-${topSuggestion.categoryColor}">${topSuggestion.category}</span>
+            <span class="mut" style="font-size:11.5px">💡 Gentle Idea</span>
+          </div>
+          <b style="font-size:14px;color:var(--plum);display:block;margin-bottom:4px">${topSuggestion.title}</b>
+          <p style="margin:0;font-size:13px;line-height:1.45">${topSuggestion.desc}</p>
+          <div class="care-suggestion-actions">
+            <button class="chip" data-a="saveCareSuggestion" data-v="${topSuggestion.id}">
+              ${svgi("star", 12)} ${S.careSaved && S.careSaved[topSuggestion.id] ? "Saved" : "Save Idea"}
+            </button>
+            <button class="chip" data-a="dismissCareSuggestion" data-v="${topSuggestion.id}" style="color:var(--muted)">
+              ${svgi("x", 12)} Dismiss
+            </button>
+          </div>
+        </div>` : ""
+      }
+
+      <div class="chips" style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn g" style="flex:1;min-height:38px;font-size:13px" data-a="openJournal" data-v="${dStr}">
+          ${svgi("feather", 14)} Open My Journal
+        </button>
+        <button class="btn g" style="flex:1;min-height:38px;font-size:13px" data-a="tab" data-v="care">
+          ${svgi("heart", 14)} Care &amp; Comfort Hub
+        </button>
+      </div>
     </div>`;
 }
 
@@ -5483,118 +6370,696 @@ function renderInsights() {
     </div>`;
 }
 
-/* 6. Care & Assistant View */
+/* 6. Care, Comfort & Companion Hub */
+function getPhaseForDate(dStr, S, x) {
+  if (!x || x.last == null) return "uncertain";
+  const dNum = N(dStr);
+  if (pdset(S).has(dNum)) return "menstrual";
+  if (S.showFertile !== 0 && (S.mode === "natural" || S.mode === "ttc") && x.fertileStart && dNum >= x.fertileStart && dNum <= x.fertileEnd) return "fertile";
+  const dayInCycle = dNum - x.last + 1;
+  if (dayInCycle >= (x.avg - x.ll)) return "luteal";
+  return "follicular";
+}
+
 function renderCare() {
+  const T = TD();
   const x = calculateStats(S);
-  const careAlerts = checkCareAlerts(S);
-  const searchResults = searchArticles(ui.articleSearch);
+  const phaseKey = getPhaseForDate(I(T), S, x);
 
   return `
     <div class="view-enter">
-      <h2 style="margin-bottom:14px">Care, Insights &amp; Guidance</h2>
+      <div class="row" style="margin-bottom:12px">
+        <div>
+          <span class="article-tag tint-lavender">Gentle Companion</span>
+          <h2 style="margin:4px 0 0">Care, Comfort &amp; Journal</h2>
+        </div>
+      </div>
 
-      ${careAlerts.length && S.careAlerts !== 0 ? `
-        <div class="card tint-amber">
-          <div class="row">
-            <div style="display:flex;align-items:center;gap:8px">
-              ${svgi("alert", 20)}
-              <b>Clinical Red Flags to Discuss</b>
-            </div>
-          </div>
-          <div style="margin-top:8px;font-size:13.5px;line-height:1.5">
-            ${careAlerts.map(a => `<div style="margin-bottom:6px">• ${a}</div>`).join("")}
-          </div>
-          <button class="btn" style="margin-top:10px;background:var(--plum)" data-a="openClinician">Open Clinician Report</button>
-        </div>` : ""
+      <!-- Segmented Hub Navigation -->
+      <div class="care-hub-nav" role="tablist" aria-label="Care Sections">
+        <button class="care-tab-btn ${ui.careTab === "care" ? "active" : ""}" data-a="setCareTab" data-v="care" role="tab" aria-selected="${ui.careTab === "care"}">
+          ${svgi("heart", 14)} Care &amp; Comfort
+        </button>
+        <button class="care-tab-btn ${ui.careTab === "journal" ? "active" : ""}" data-a="setCareTab" data-v="journal" role="tab" aria-selected="${ui.careTab === "journal"}">
+          ${svgi("feather", 14)} My Journal
+        </button>
+        <button class="care-tab-btn ${ui.careTab === "guide" ? "active" : ""}" data-a="setCareTab" data-v="guide" role="tab" aria-selected="${ui.careTab === "guide"}">
+          ${svgi("book", 14)} Cycle Guide &amp; Library
+        </button>
+      </div>
+
+      ${ui.careTab === "journal"
+        ? renderJournalTab(T, phaseKey, S, x)
+        : ui.careTab === "guide"
+        ? renderCycleGuideTab(T, phaseKey, S, x)
+        : renderCareComfortTab(T, phaseKey, S, x)
       }
+    </div>`;
+}
 
-      <!-- Local Health Assistant -->
-      <div class="card tint-lavender assistant-box">
-        <div class="row">
-          <div style="display:flex;align-items:center;gap:8px">
-            ${svgi("sparkle", 20)}
-            <b>Local Health Assistant</b>
-          </div>
-          <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">100% On-Device</span>
-        </div>
-        <p class="mut" style="margin:2px 0 8px;font-size:13px">Ask questions about your cycle, symptoms, or health patterns. All data stays strictly on your device.</p>
+/* Sub-View: Care & Comfort Dashboard (Pillars 1 & 2) */
+function renderCareComfortTab(T, phaseKey, S, x) {
+  const dStr = I(T);
+  const reassurance = getReassuranceMessage(ui.careReassuranceIdx + (T % 16));
+  const suggestions = getCareSuggestions(S, dStr);
+  const checkin = (S.careCheckin && S.careCheckin[dStr]) || {};
+  const currentFeeling = checkin.feeling || "";
 
-        <div class="assistant-prompt-list">
-          ${ASSISTANT_TOPICS.map(t =>
-            `<button class="assistant-prompt-chip" data-a="askAssistant" data-v="${t.id}">${t.question}</button>`
-          ).join("")}
-        </div>
+  // Pressure-free care counter
+  let careMoments = 0;
+  if (currentFeeling) careMoments++;
+  if (S.logs && S.logs[dStr] && (S.logs[dStr].water || S.logs[dStr].m != null)) careMoments++;
+  if (S.journal && S.journal[dStr] && S.journal[dStr].text) careMoments++;
+  if (Object.keys(S.careSaved || {}).length > 0) careMoments++;
 
-        <div class="row">
-          <input id="assistantQueryInput" placeholder="Type a symptom or question..." value="${esc(ui.assistantQuery)}">
-          <button class="chip" style="flex:none;min-height:48px" data-a="submitAssistant">Ask</button>
-        </div>
+  const feelings = [
+    ["grounded", "🌿 Grounded"],
+    ["tired", "☁️ Low Energy"],
+    ["sensitive", "🌸 Sensitive"],
+    ["energized", "☀️ Energized"],
+    ["peaceful", "🕊️ Peaceful"],
+    ["stressed", "🌧️ Stressed"]
+  ];
 
-        ${ui.assistantResult ? `
-          <div class="assistant-response-card">
-            <h4 style="margin:0;color:var(--plum)">${esc(ui.assistantResult.title)}</h4>
-            ${ui.assistantResult.context ? `<p style="margin:0;font-size:13px;font-weight:600;color:var(--plum)">${esc(ui.assistantResult.context)}</p>` : ""}
-            <p style="margin:0;font-size:14px;line-height:1.55">${esc(ui.assistantResult.body)}</p>
-            <div class="assistant-source-badge">Source: ${esc(ui.assistantResult.source)}</div>
-            <div class="tint-amber" style="padding:10px;border-radius:var(--radius-sm);font-size:12.5px;margin-top:4px">
-              <b>Clinician Guidance:</b> ${esc(ui.assistantResult.clinicianAdvice)}
-            </div>
-            <button class="btn g" style="min-height:36px;font-size:13px;margin-top:6px" data-a="openClinician">View Clinician Report</button>
-          </div>` : ""
+  // Personal Care Kit items & filtering
+  const allKit = S.careKit || DEFAULT_CARE_KIT;
+  const favCount = allKit.filter(k => k.isFav).length;
+  const displayedKit = ui.careKitFilter === "fav" ? allKit.filter(k => k.isFav) : allKit;
+
+  // Active guide for current phase
+  const curGuide = FULL_CYCLE_CARE_GUIDES[phaseKey] || FULL_CYCLE_CARE_GUIDES.uncertain;
+
+  return `
+    <!-- 1. Warm Reassurance & Daily Check-in Hero -->
+    <div class="care-corner-card">
+      <div class="row" style="margin-bottom:8px">
+        <span class="article-tag tint-rose">${curGuide.phaseName}</span>
+        ${careMoments > 0 ? `
+          <span class="gentle-progress-badge">
+            ${svgi("sparkle", 12)} ${careMoments} moment${careMoments > 1 ? "s" : ""} of care today
+          </span>` : ""
         }
       </div>
 
-      <!-- Educational Content Library -->
-      <div class="card">
-        <div class="row" style="margin-bottom:8px">
-          <h3>Evidence-Based Library</h3>
-          <span class="mut" style="font-size:12px">${ARTICLES.length} articles</span>
-        </div>
-        <input class="library-search" id="libSearch" placeholder="Search articles by keyword or symptom..." value="${esc(ui.articleSearch)}" data-a="searchLib">
+      <div class="reassurance-box">
+        <p class="reassurance-quote">“${reassurance}”</p>
+        <button class="reassurance-refresh-btn" data-a="nextReassurance" aria-label="Next gentle thought">
+          ${svgi("refresh", 14)}
+        </button>
+      </div>
 
-        <div style="margin-top:12px">
-          ${searchResults.slice(0, 6).map(a => `
-            <div class="article-card" data-a="readArticle" data-v="${a.id}">
-              <h3>${esc(a.title)}</h3>
-              <p class="mut" style="margin:0">${esc(a.summary)}</p>
-              <div class="article-meta">
-                <span class="article-tag tint-sage">${esc(a.category)}</span>
-                <span>${esc(a.readTime)}</span>
-                <span style="margin-left:auto">${svgi("arrowRight", 14)}</span>
+      <div style="margin:10px 0 4px">
+        <label style="margin:0 0 6px;font-size:12.5px;font-weight:700">How are you feeling today?</label>
+        <div class="checkin-row">
+          ${feelings.map(([k, label]) => `
+            <button class="checkin-btn ${currentFeeling === k ? "active" : ""}" data-a="careCheckin" data-v="${k}">
+              ${label}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. What Might Help Me Today? Care Tool -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("sparkle", 18, "tint-lavender-text")}
+          <h3 style="margin:0">What Might Help Me Today?</h3>
+        </div>
+        <span class="mut" style="font-size:12px">Personalized Ideas</span>
+      </div>
+      <p class="mut" style="font-size:12.5px;margin:0 0 12px">Transparent, rule-based ideas tailored to what you logged today. Tap save or add directly to your Care Kit.</p>
+
+      ${suggestions.length ? suggestions.map(s => `
+        <div class="care-suggestion-card">
+          <div class="care-suggestion-header">
+            <span class="article-tag tint-${s.categoryColor}">${s.category}</span>
+            <span class="mut" style="font-size:11.5px">💡 Gentle Idea</span>
+          </div>
+          <b style="font-size:14px;color:var(--plum);display:block;margin-bottom:4px">${s.title}</b>
+          <p style="margin:0;font-size:13px;line-height:1.45">${s.desc}</p>
+          <div class="care-suggestion-actions">
+            <button class="chip" data-a="saveCareSuggestion" data-v="${s.id}">
+              ${svgi("star", 12)} ${S.careSaved && S.careSaved[s.id] ? "Saved in Ideas" : "Save Idea"}
+            </button>
+            <button class="chip" data-a="addCareKitSuggestion" data-v="${s.kitId}">
+              ${svgi("heart", 12)} Add to Care Kit
+            </button>
+            <button class="chip" data-a="dismissCareSuggestion" data-v="${s.id}" style="color:var(--muted)">
+              ${svgi("x", 12)} Dismiss
+            </button>
+          </div>
+        </div>
+      `).join("") : `
+        <div style="text-align:center;padding:16px;background:var(--surface-alt);border-radius:var(--radius-md)">
+          <p class="mut" style="margin:0;font-size:13px">You've reviewed your suggestions for today. Feel free to explore your Personal Care Kit below!</p>
+        </div>`
+      }
+    </div>
+
+    <!-- 3. What Helps Me — Personal Care Kit -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("heart", 18, "tint-rose-text")}
+          <h3 style="margin:0">“What Helps Me” Personal Care Kit</h3>
+        </div>
+        <button class="chip" data-a="openCustomCareModal">${svgi("plus", 14)} Add Item</button>
+      </div>
+      <p class="mut" style="font-size:12.5px;margin:0 0 12px">Your personal collection of comfort strategies, rituals, and soothing tools.</p>
+
+      <!-- Filter Tabs -->
+      <div class="chips" style="gap:8px;margin-bottom:10px">
+        <button class="chip ${ui.careKitFilter !== "fav" ? "active" : ""}" data-a="setCareKitFilter" data-v="all">
+          All Strategies (${allKit.length})
+        </button>
+        <button class="chip ${ui.careKitFilter === "fav" ? "active" : ""}" data-a="setCareKitFilter" data-v="fav">
+          ⭐ Favorites (${favCount})
+        </button>
+      </div>
+
+      <div class="care-kit-grid">
+        ${displayedKit.map(item => `
+          <div class="care-kit-item ${item.isFav ? "favorited" : ""}">
+            <div class="care-kit-top">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="color:var(--pink)">${svgi(item.icon || "heart", 16)}</span>
+                <b style="font-size:13.5px;color:var(--plum)">${esc(item.title)}</b>
               </div>
-            </div>`
-          ).join("")}
-        </div>
-      </div>
-
-      <!-- Architecture & Capabilities Infographic -->
-      <div class="card tint-sky" style="padding:16px">
-        <div class="row" style="margin-bottom:8px">
-          <div style="display:flex;align-items:center;gap:10px">
-            ${svgi("insights", 22)}
-            <div>
-              <b style="color:var(--plum);font-size:15px">Architecture &amp; Features</b>
-              <p class="mut" style="margin:2px 0 0;font-size:12px">Visual guide to on-device algorithms &amp; privacy</p>
+              <button class="care-kit-fav-btn ${item.isFav ? "active" : ""}" data-a="toggleCareKitFav" data-v="${item.id}" aria-label="Toggle favorite">
+                ${svgi("star", 15)}
+              </button>
             </div>
+            <p class="mut" style="margin:0;font-size:12px;line-height:1.4">${esc(item.desc)}</p>
+            ${item.isCustom ? `
+              <div style="display:flex;justify-content:flex-end;margin-top:4px">
+                <button class="chip" style="min-height:24px;padding:2px 6px;font-size:11px;color:var(--muted)" data-a="deleteCustomCareItem" data-v="${item.id}">
+                  ${svgi("trash", 11)} Remove
+                </button>
+              </div>` : ""
+            }
           </div>
-          <button class="chip" data-a="openTour">Full Infographic</button>
+        `).join("")}
+      </div>
+    </div>
+
+    <!-- 4. Full-Cycle Care Guide -->
+    <div class="card">
+      <div class="row" style="margin-bottom:6px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("layers", 18)}
+          <h3 style="margin:0">Full-Cycle Care Guide</h3>
         </div>
-        <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);cursor:pointer;margin-top:10px;background:var(--surface)" data-a="openTour" role="button" aria-label="Expand Architecture Infographic">
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDgwIDcyMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDeWNsZVNpZGVDaGljayBBcmNoaXRlY3R1cmUgYW5kIENvcmUgQ2FwYWJpbGl0aWVzIEluZm9ncmFwaGljIj4KICA8dGl0bGU+Q3ljbGVTaWRlQ2hpY2sg4oCUIEFyY2hpdGVjdHVyZSAmYW1wOyBDb3JlIENhcGFiaWxpdGllczwvdGl0bGU+CiAgPGRlc2M+QSBjb21wcmVoZW5zaXZlIHZpc3VhbCBpbmZvZ3JhcGhpYyBpbGx1c3RyYXRpbmcgQ3ljbGVTaWRlQ2hpY2sncyBvbi1kZXZpY2UgcHJpdmFjeSwgc3RhdGlzdGljYWwgY3ljbGUgZW5naW5lIHYyLCBkeW5hbWljIGNhbGVuZGFyLCBkYWlseSBiaW9tZXRyaWMgbG9nZ2luZywgYW5kIGNsaW5pY2lhbiBjYXJlIHJlcG9ydHMuPC9kZXNjPgoKICA8ZGVmcz4KICAgIDwhLS0gVHlwb2dyYXBoeSAmIEFuaW1hdGlvbnMgLS0+CiAgICA8c3R5bGU+CiAgICAgIHRleHQgewogICAgICAgIGZvbnQtZmFtaWx5OiAnTWFucm9wZScsIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgIlNlZ29lIFVJIiwgUm9ib3RvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmOwogICAgICB9CgogICAgICAudGl0bGUgeyBmb250LXdlaWdodDogODAwOyBmb250LXNpemU6IDI4cHg7IGZpbGw6ICM0ODE5MzA7IGxldHRlci1zcGFjaW5nOiAtMC4wMmVtOyB9CiAgICAgIC5zdWJ0aXRsZSB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAucGlsbC10ZXh0IHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxMXB4OyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4wNGVtOyB9CiAgICAgIC5jYXJkLXRpdGxlIHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxNnB4OyBmaWxsOiAjNDgxOTMwOyB9CiAgICAgIC5jYXJkLXN1YiB7IGZvbnQtd2VpZ2h0OiA1MDA7IGZvbnQtc2l6ZTogMTJweDsgZmlsbDogIzc4NjQ3MDsgbGluZS1oZWlnaHQ6IDEuNDsgfQogICAgICAubWV0cmljLW51bSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMjBweDsgZmlsbDogI0Q5NDQ3RTsgfQogICAgICAubWV0cmljLWxibCB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTFweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAubGFiZWwtc20geyBmb250LXdlaWdodDogNjAwOyBmb250LXNpemU6IDExLjVweDsgZmlsbDogIzQ4MTkzMDsgfQogICAgICAuYmFkZ2UtdGV4dCB7IGZvbnQtd2VpZ2h0OiA3MDA7IGZvbnQtc2l6ZTogMTAuNXB4OyB9CgogICAgICBAa2V5ZnJhbWVzIHB1bHNlR2xvdyB7CiAgICAgICAgMCUsIDEwMCUgeyByOiA5cHg7IG9wYWNpdHk6IDAuNzsgfQogICAgICAgIDUwJSB7IHI6IDE0cHg7IG9wYWNpdHk6IDAuMjsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIGZsb2F0U29mdCB7CiAgICAgICAgMCUsIDEwMCUgeyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMHB4KTsgfQogICAgICAgIDUwJSB7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgtM3B4KTsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIHJvdGF0ZVNsb3cgewogICAgICAgIGZyb20geyB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsgfQogICAgICAgIHRvIHsgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTsgfQogICAgICB9CgogICAgICAucHVsc2UtaGFsbyB7IGFuaW1hdGlvbjogcHVsc2VHbG93IDIuNXMgZWFzZS1pbi1vdXQgaW5maW5pdGU7IH0KICAgICAgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IGZsb2F0U29mdCA0cyBlYXNlLWluLW91dCBpbmZpbml0ZTsgfQoKICAgICAgQG1lZGlhIChwcmVmZXJzLXJlZHVjZWQtbW90aW9uOiByZWR1Y2UpIHsKICAgICAgICAucHVsc2UtaGFsbywgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IG5vbmUgIWltcG9ydGFudDsgfQogICAgICB9CiAgICA8L3N0eWxlPgoKICAgIDwhLS0gR3JhZGllbnRzIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZ0dyYWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZBRjVGNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNGNEVDRjAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJjYXJkR3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRkZGRkZGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZERjlGQSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBpbmtHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQjZGQTEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRDk0NDdFIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGF2ZW5kZXJHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNERUM4RUUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjQzVBNEUyIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icmluZ0dsb3ciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMC4yNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dTbSIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSIyIiBzdGREZXZpYXRpb249IjQiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA0Ii8+CiAgICA8L2ZpbHRlcj4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dNZCIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI0IiBzdGREZXZpYXRpb249IjgiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA2Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBDYW52YXMgLS0+CiAgPHJlY3Qgd2lkdGg9IjEwODAiIGhlaWdodD0iNzIwIiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSIxMDc4IiBoZWlnaHQ9IjcxOCIgcng9IjIzIiBmaWxsPSJub25lIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS41Ii8+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBIRUFERVI6IEJyYW5kLCBNaXNzaW9uICYgSW52YXJpYW50IFRydXN0IEJhZGdlcwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4LCAzNikiPgogICAgPCEtLSBCdW5ueSBMb2dvIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMikiPgogICAgICA8Y2lyY2xlIGN4PSIyNiIgY3k9IjI2IiByPSIyNiIgZmlsbD0iI0ZERUJGMiIvPgogICAgICA8ZyBzdHJva2U9IiM0ODE5MzAiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgIDxwYXRoIGQ9Ik0yMSAyNCBDMTggMTIgMTUgNiAxOCA0IEMyMiAyIDI1IDggMjQgMjIiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8cGF0aCBkPSJNMzEgMjQgQzM0IDEyIDM3IDYgMzQgNCBDMzAgMiAyNyA4IDI4IDIyIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGVsbGlwc2UgY3g9IjI2IiBjeT0iMzMiIHJ4PSIxNiIgcnk9IjEzIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTgiIGN5PSIzNSIgcj0iMi41IiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9Im5vbmUiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIzNCIgY3k9IjM1IiByPSIyLjUiIGZpbGw9IiNGQkUzRUEiIHN0cm9rZT0ibm9uZSIvPgogICAgICAgIDxwYXRoIGQ9Ik0yMCAzMSBRMjIgMjkgMjQgMzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgICAgPHBhdGggZD0iTTI4IDMxIFEzMCAyOSAzMiAzMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8cGF0aCBkPSJNMjUgMzQgTDI3IDM0IEwyNiAzNiBaIiBmaWxsPSIjRDk0NDdFIiBzdHJva2U9Im5vbmUiLz4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gSGVhZGVyIFRpdGxlcyAtLT4KICAgIDx0ZXh0IHg9IjY4IiB5PSIyNCIgY2xhc3M9InRpdGxlIj5DeWNsZVNpZGVDaGljazwvdGV4dD4KICAgIDx0ZXh0IHg9IjY4IiB5PSI0NCIgY2xhc3M9InN1YnRpdGxlIj5BIFByaXZhdGUsIEV2aWRlbmNlLUJhc2VkIE1lbnN0cnVhbCAmYW1wOyBSZXByb2R1Y3RpdmUgSGVhbHRoIENvbXBhbmlvbjwvdGV4dD4KCiAgICA8IS0tIFRydXN0IEJhZGdlcyAoUmlnaHQtQWxpZ25lZCkgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OTAsIDgpIj4KICAgICAgPCEtLSBCYWRnZSAxOiAxMDAlIE9uLURldmljZSAtLT4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRDNFREUzIiBzdHJva2U9IiNBN0RDQjkiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8Y2lyY2xlIGN4PSIxNCIgY3k9IjE0IiByPSI0LjUiIGZpbGw9IiMxQTU3M0YiLz4KICAgICAgPHRleHQgeD0iMjQiIHk9IjE4IiBmaWxsPSIjMUE1NzNGIiBjbGFzcz0icGlsbC10ZXh0Ij4xMDAlIE9uLURldmljZTwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMjogWmVybyBUZWxlbWV0cnkgLS0+CiAgICAgIDxyZWN0IHg9IjEzMiIgeT0iMCIgd2lkdGg9IjEyNiIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRERFOEQ1IiBzdHJva2U9IiNCRUQyQjIiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8cGF0aCBkPSJNMTQ0IDE0bDIuNSAyLjUgNS01IiBzdHJva2U9IiMyNjUyMzEiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMTU3IiB5PSIxOCIgZmlsbD0iIzI2NTIzMSIgY2xhc3M9InBpbGwtdGV4dCI+WmVybyBUcmFja2VyczwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMzogQUNPRyAmIE5JQ0UgR3VpZGVsaW5lcyAtLT4KICAgICAgPHJlY3QgeD0iMjY2IiB5PSIwIiB3aWR0aD0iMTE4IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxwYXRoIGQ9Ik0yNzggMTRsMS41IDMgNC0xIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMjg4IiB5PSIxOCIgZmlsbD0iIzUzMkU3NyIgY2xhc3M9InBpbGwtdGV4dCI+QUNPRyAmYW1wOyBOSUNFPC90ZXh0PgoKICAgICAgPCEtLSBCYWRnZSA0OiBPcGVuIFNvdXJjZSBNSVQgLS0+CiAgICAgIDxyZWN0IHg9IjM5MiIgeT0iMCIgd2lkdGg9Ijk2IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDx0ZXh0IHg9IjQ0MCIgeT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxOTRCNzMiIGNsYXNzPSJwaWxsLXRleHQiPk1JVCBMaWNlbnNlPC90ZXh0PgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgIEdSSUQgTEFZT1VUOiA0IEFyY2hpdGVjdHVyYWwgUGlsbGFycwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDE6IEN5Y2xlIEVuZ2luZSB2MiAmIFN0YXRpc3RpY2FsIE1vZGVsaW5nIChUb3AtTGVmdCkKICAgICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OCwgMTA4KSI+CiAgICA8cmVjdCB3aWR0aD0iNDc2IiBoZWlnaHQ9IjI3NiIgcng9IjIwIiBmaWxsPSJ1cmwoI2NhcmRHcmFkKSIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEuMiIgZmlsdGVyPSJ1cmwoI3NoYWRvd1NtKSIvPgoKICAgIDwhLS0gU2VjdGlvbiBIZWFkZXIgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgMjApIj4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0ZCRTNFQSIvPgogICAgICA8cGF0aCBkPSJNMTQgOCBhNiA2IDAgMSAwIDAgMTIgYTYgNiAwIDAgMCAwLTEyem0wIDN2M2wyIDIiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5DeWNsZSBFbmdpbmUgdjI8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIzMiIgY2xhc3M9ImNhcmQtc3ViIj5TdGF0aXN0aWNhbCBwcmVkaWN0aW9ucyB3aXRoIHNjaWVudGlmaWMgaHVtaWxpdHk8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBWZWN0b3IgQ3ljbGUgUmluZyBHcmFwaGljIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAsIDc4KSI+CiAgICAgIDwhLS0gT3V0ZXIgVHJhY2sgQmFja2dyb3VuZCAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg3MiwgMjUsIDQ4LCAwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxMCIvPgoKICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBBcmMgKExhdmVuZGVyKSAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M1QTRFMiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iNjggMzM5IiBzdHJva2UtZGFzaG9mZnNldD0iLTE0MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgNzAgNzApIi8+CgogICAgICA8IS0tIFBlcmlvZCBBcmMgKFJvc2UgUGluaykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDMzOSIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDcwIDcwKSIvPgoKICAgICAgPCEtLSBDdXJyZW50IERheSBJbmRpY2F0b3IgKFB1bHNpbmcgSGFsbykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjExOCIgY3k9IjQyIiByPSIxMSIgZmlsbD0iI0Q5NDQ3RSIgb3BhY2l0eT0iMC4yNSIgY2xhc3M9InB1bHNlLWhhbG8iLz4KICAgICAgPGNpcmNsZSBjeD0iMTE4IiBjeT0iNDIiIHI9IjYuNSIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjMiLz4KCiAgICAgIDwhLS0gQ2VudGVyIFRleHQgLS0+CiAgICAgIDx0ZXh0IHg9IjcwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc4NjQ3MCIgbGV0dGVyLXNwYWNpbmc9IjAuMDRlbSI+Q1lDTEUgREFZPC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiM0ODE5MzAiPjE0PC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+b2YgfjI4IGRheXM8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdGF0aXN0aWNhbCBFbmdpbmUgRmVhdHVyZSBQb2ludHMgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDQsIDc2KSI+CiAgICAgIDwhLS0gSXRlbSAxOiBSZWNlbmN5LVdlaWdodGVkIE1lYW4gLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVjZW5jeS1XZWlnaHRlZCBNZWFuIChMYXN0IDYgQ3ljbGVzKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJpb3JpdGl6ZXMgcmVjZW50IGVuZG9jcmluZSBzaGlmdHMgb3ZlciBvbGQgaGlzdG9yeS48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAyOiBPdXRsaWVyIE1lZGlhbiBGYWxsYmFjayAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgNDIpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjN0E0NDAwIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+T3V0bGllciBNZWRpYW4gU3Vic3RpdHV0aW9uICjiiaUxMGQgR2FwKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJldmVudHMgaXNvbGF0ZWQgc3RyZXNzL3RyYXZlbCBmcm9tIHNrZXdpbmcgbWF0aC48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAzOiBSZWFsaXN0aWMgQ29uZmlkZW5jZSBSYW5nZSAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgODQpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVhbGlzdGljIFJhbmdlICjCsVNELCBDYXBwZWQgYXQgwrE3ZCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkVsaW1pbmF0ZXMgZmFsc2UgY2VydGFpbnR5OyBsYWJlbHMgYWxsIGRhdGVzICJFc3RpbWF0ZWQiLjwvdGV4dD4KICAgICAgPC9nPgoKICAgICAgPCEtLSBJdGVtIDQ6IEFkanVzdGFibGUgTHV0ZWFsIFBoYXNlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxMjYpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjMUE1NzNGIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+Q29uZmlndXJhYmxlIEx1dGVhbCBMZW5ndGggKDEw4oCTMTYgRGF5cyk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkN1c3RvbWl6ZXMgZXN0aW1hdGVkIG92dWxhdGlvbiB0byB1c2VyIGJpb2xvZ3kuPC90ZXh0PgogICAgICA8L2c+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDI6IER5bmFtaWMgQ2FsZW5kYXIgJiBDb25mbGljdCBQcm90ZWN0aW9uIChUb3AtUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCAxMDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRUZFNkY3Ii8+CiAgICAgIDxwYXRoIGQ9Ik05IDEwaDEwTTExIDd2M00xNyA3djNNOCA5aDEyYTEgMSAwIDAgMSAxIDF2OWExIDEgMCAwIDEtMSAxSDhhMSAxIDAgMCAxLTEtMXYtOWExIDEgMCAwIDEgMS0xeiIgc3Ryb2tlPSIjNTMyRTc3IiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIxOCIgY2xhc3M9ImNhcmQtdGl0bGUiPkNhbGVuZGFyICZhbXA7IENvbmZsaWN0IFNoaWVsZDwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkJpb2xvZ2ljYWxseSBndWFyZGVkIGV2ZW50IHRyYWNraW5nICZhbXA7IGZvcmVjYXN0aW5nPC90ZXh0PgogICAgPC9nPgoKICAgIDwhLS0gTWluaSBDYWxlbmRhciBNYXRyaXggVUkgUHJldmlldyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCA3NikiPgogICAgICA8cmVjdCB3aWR0aD0iMjE2IiBoZWlnaHQ9IjE3NCIgcng9IjE0IiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgoKICAgICAgPCEtLSBNb250aCBIZWFkZXIgLS0+CiAgICAgIDx0ZXh0IHg9IjE0IiB5PSIyMiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+T2N0b2JlciAyMDI2PC90ZXh0PgogICAgICA8dGV4dCB4PSIyMDIiIHk9IjIyIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM3ODY0NzAiPkN5Y2xlIERheSAxNDwvdGV4dD4KCiAgICAgIDwhLS0gRGF5IEhlYWRpbmdzIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMzgpIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiPgogICAgICAgIDx0ZXh0IHg9IjAiPk08L3RleHQ+PHRleHQgeD0iMjgiPlQ8L3RleHQ+PHRleHQgeD0iNTYiPlc8L3RleHQ+PHRleHQgeD0iODQiPlQ8L3RleHQ+PHRleHQgeD0iMTEyIj5GPC90ZXh0Pjx0ZXh0IHg9IjE0MCI+UzwvdGV4dD48dGV4dCB4PSIxNjgiPlM8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgQ2VsbHMgU2FtcGxlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgNTIpIj4KICAgICAgICA8IS0tIFJvdyAxOiBQZXJpb2QgRGF5cyAoMS00KSAtLT4KICAgICAgICA8cmVjdCB4PSItMyIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjgiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjRkZGRkZGIj4xPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIyNSIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjM2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRkZGRiI+MjwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNTMiIHk9IjAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMCIgcng9IjYiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNGRkZGRkYiPjM8L3RleHQ+CgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIwIiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRkJFM0VBIi8+CiAgICAgICAgPHRleHQgeD0iOTIiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj40PC90ZXh0PgoKICAgICAgICA8dGV4dCB4PSIxMjAiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj41PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjY8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+NzwvdGV4dD4KCiAgICAgICAgPCEtLSBSb3cgMjogRm9sbGljdWxhciB0byBGZXJ0aWxlICg4LTE0KSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+ODwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIzNiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNjQiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xMDwvdGV4dD4KCiAgICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBDZWxscyAoMTEtMTQpIC0tPgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8dGV4dCB4PSI5MiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjExPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMDkiIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyMCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEyPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMzciIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEzPC90ZXh0PgoKICAgICAgICA8IS0tIFRvZGF5IENpcmNsZSAoMTQpIHdpdGggT3Z1bGF0aW9uIFN0YXIgLS0+CiAgICAgICAgPHJlY3QgeD0iMTY1IiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRDk0NDdFIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8dGV4dCB4PSIxNzYiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjRDk0NDdFIj4xNDwvdGV4dD4KICAgICAgICA8Y2lyY2xlIGN4PSIxODQiIGN5PSIyNyIgcj0iMi41IiBmaWxsPSIjNTMyRTc3Ii8+CgogICAgICAgIDwhLS0gUm93IDM6IFByZWRpY3RlZCBOZXh0IFBlcmlvZCBTYW1wbGUgKDI4LTMwKSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTU8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMzYiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xNjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjE3PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjkyIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTg8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTIwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjE8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgTGVnZW5kIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTM4KSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNzg2NDcwIj4KICAgICAgICA8Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTIiIHk9IjkiPkNvbmZpcm1lZDwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNjgiIHk9IjIuNSIgd2lkdGg9IjciIGhlaWdodD0iNyIgcng9IjIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPHRleHQgeD0iNzkiIHk9IjkiPkVzdC4gRmVydGlsZTwvdGV4dD4KCiAgICAgICAgPGNpcmNsZSBjeD0iMTQwIiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI5Ij5Ub2RheTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gR3VhcmRyYWlscyBJbmZvIEJveCAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgNzYpIj4KICAgICAgPCEtLSAxMC1EYXkgUGVyaW9kIENvbmZsaWN0IFByb3RlY3Rpb24gLS0+CiAgICAgIDxyZWN0IHdpZHRoPSIxOTYiIGhlaWdodD0iNzIiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDEyKSI+CiAgICAgICAgPHBhdGggZD0iTTggMmw2IDN2NWMwIDQtMyA3LTYgOC0zLTEtNi00LTYtOFY1bDYtM3oiIHN0cm9rZT0iIzdBNDQwMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9IiNGQkUwQjAiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+MTAtRGF5IENvbmZsaWN0IEd1YXJkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+UmVqZWN0cyBvciBtZXJnZXMgcGVyaW9kcyAmbHQ7MTBkIGFwYXJ0OzwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPnByb3RlY3RzIGFnYWluc3QgbWlkLWN5Y2xlIGVycm9ycy48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gTXVsdGktTW9kZSBGbGV4aWJpbGl0eSAtLT4KICAgICAgPHJlY3QgeT0iODQiIHdpZHRoPSIxOTYiIGhlaWdodD0iODQiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDk2KSI+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+NiBQaHlzaW9sb2dpY2FsIE1vZGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIE5hdHVyYWwgJmFtcDsgSXJyZWd1bGFyIEN5Y2xlczwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPuKAoiBIb3Jtb25hbCBDb250cmFjZXB0aW9uIChQaWxsL0lVRCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNTYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgVFRDLCBQcmVnbmFuY3kgJmFtcDsgUGVyaW1lbm9wYXVzZTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgIFBJTExBUiAzOiBHcmFudWxhciBMb2dnaW5nICYgV2VsbG5lc3MgQmlvbWFya2VycyAoQm90dG9tLUxlZnQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDQwOCkiPgogICAgPHJlY3Qgd2lkdGg9IjQ3NiIgaGVpZ2h0PSIyNzYiIHJ4PSIyMCIgZmlsbD0idXJsKCNjYXJkR3JhZCkiIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbHRlcj0idXJsKCNzaGFkb3dTbSkiLz4KCiAgICA8IS0tIFNlY3Rpb24gSGVhZGVyIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIwKSI+CiAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNEM0VERTMiLz4KICAgICAgPHBhdGggZD0iTTE0IDdsLTcgNyAzIDMgNy03LTMtM3ogTTE4IDExbC0yLTIgTTYgMThsMy0xLTItMnoiIHN0cm9rZT0iIzFBNTczRiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5Ib2xpc3RpYyBEYWlseSBMb2dnaW5nPC90ZXh0PgogICAgICA8dGV4dCB4PSIzOCIgeT0iMzIiIGNsYXNzPSJjYXJkLXN1YiI+RmxvdywgcGFpbiwgY2VydmljYWwgbXVjdXMsIG1vb2QsIHNsZWVwICZhbXA7IGh5ZHJhdGlvbjwvdGV4dD4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDE6IE1vb2QgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDcyKSI+CiAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPjUgRVhQUkVTSVZFIE1PT0QgU1RBVEVTPC90ZXh0PgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAyMCkiPgogICAgICAgIDwhLS0gUmFkaWFudCAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZGRjNDNCIgc3Ryb2tlPSIjRjdFMTg4IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgMThxMy0yIDYgMCBNMjAgMThxMy0yIDYgMCBNMTYgMjNxNCAzIDggMCIgc3Ryb2tlPSIjNjY0RTAwIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjAiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPlJhZGlhbnQ8L3RleHQ+CgogICAgICAgIDwhLS0gQ2FsbSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSI2OCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0RERThENSIgc3Ryb2tlPSIjQkVEMkIyIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNNjIgMTlxMy0xIDYgMCBNNjggMTlxMy0xIDYgMCBNNjQgMjRxNCAyIDggMCIgc3Ryb2tlPSIjMjY1MjMxIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iNjgiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkNhbG08L3RleHQ+CgogICAgICAgIDwhLS0gT2theSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIxMTYiIGN5PSIyMCIgcj0iMTYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTExIiBjeT0iMTgiIHI9IjEuNSIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjEyMSIgY3k9IjE4IiByPSIxLjUiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICA8cGF0aCBkPSJNMTEyIDI0aDgiIHN0cm9rZT0iIzE5NEI3MyIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICAgIDx0ZXh0IHg9IjExNiIgeT0iNDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzQ4MTkzMCI+T2theTwvdGV4dD4KCiAgICAgICAgPCEtLSBBbnhpb3VzIC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjE2NCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTU5IDE3bDIgMSBNMTY5IDE3bC0yIDEgTTE2MCAyNXEyLTEuNSA0IDB0NCAwIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIxNjQiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkFueGlvdXM8L3RleHQ+CgogICAgICAgIDwhLS0gTG93IC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjIxMiIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZCRTNFQSIgc3Ryb2tlPSIjRjNDNUQzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMjA2IDE5cTMgMSA2IDAgTTIxMiAxOXEzIDEgNiAwIE0yMDggMjVxNC0yIDggMCIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjEyIiB5PSI0NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNDgxOTMwIj5Mb3c8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDI6IEJpb21hcmtlciBDaGlwcyAmIEh5ZHJhdGlvbiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTQpIj4KICAgICAgPCEtLSA4LUdsYXNzIFdhdGVyIFRyYWNrZXIgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIxMCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNzg2NDcwIiBsZXR0ZXItc3BhY2luZz0iMC4wM2VtIj5IWURSQVRJT04gVFJBQ0tFUjwvdGV4dD4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxOCkiPgogICAgICAgICAgPCEtLSA4IGN1cHMgcHJldmlldyAtLT4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOCwgMCkiPgogICAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjRENFQkY2IiBzdHJva2U9IiNCQUQ4RUYiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgICA8cGF0aCBkPSJNMTIgNWwzIDRhNCA0IDAgMSAxLTYgMHoiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICAgIDwvZz4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2LCAwKSI+CiAgICAgICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMiA1bDMgNGE0IDQgMCAxIDEtNiAweiIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgICAgPC9nPgogICAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTIsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjgsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOTYsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgICA8L2c+CgogICAgICA8IS0tIFBhaW4gJiBDZXJ2aWNhbCBGbHVpZCBDaGlwcyAoUmlnaHQgU2lkZSkgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgMCkiPgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPkJJT01BUktFUlM8L3RleHQ+CiAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMTgpIj4KICAgICAgICAgIDwhLS0gUGFpbiAwLTEwIEJhZGdlIC0tPgogICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9Ijg2IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNGQURDQ0IiIHN0cm9rZT0iI0YzQkY5RiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0MyIgeT0iMTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc3M0IxQiI+UGFpbjogMOKAkzEwPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQ2VydmljYWwgRmx1aWQgLS0+CiAgICAgICAgICA8cmVjdCB4PSI5NCIgeT0iMCIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNEM0VERTMiIHN0cm9rZT0iI0E3RENCOSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSIxNDEiIHk9IjE1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxQTU3M0YiPkNlcnZpY2FsIEZsdWlkPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQkJUICYgTEggLS0+CiAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIzMiIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0NyIgeT0iNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+QkJUIFRoZXJtYWw8L3RleHQ+CgogICAgICAgICAgPCEtLSBQaWxsICYgTWVkcyAtLT4KICAgICAgICAgIDxyZWN0IHg9IjEwMiIgeT0iMzIiIHdpZHRoPSI4NiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgPHRleHQgeD0iMTQ1IiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj5QaWxsIEFkaGVyZW5jZTwvdGV4dD4KICAgICAgICA8L2c+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIDMtTGV2ZWwgU3ltcHRvbXMgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIzNCkiPgogICAgICA8dGV4dCB4PSIwIiB5PSIxNCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+My1JbnRlbnNpdHkgU3ltcHRvbSBDaGlwczo8L3RleHQ+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0OCwgMikiPgogICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI4NCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzdEMjM0MiI+Q3JhbXBzPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjYyIiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjY5IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9Ijc2IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgICAgICAgPHJlY3QgeD0iOTIiIHk9IjAiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEwNCIgeT0iMTQiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkhlYWRhY2hlPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjE1OCIgY3k9IjExIiByPSIyLjUiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNjUiIGN5PSIxMSIgcj0iMi41IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDxjaXJjbGUgY3g9IjE3MiIgY3k9IjExIiByPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICBQSUxMQVIgNDogSW5zaWdodHMsIExvY2FsIEFzc2lzdGFudCAmIENsaW5pY2lhbiBDYXJlIChCb3R0b20tUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCA0MDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRkFEQ0NCIi8+CiAgICAgIDxwYXRoIGQ9Ik0xNCA2bDYgNi02IDYtNi02IDYtNnogTTE0IDEwYTIgMiAwIDEgMCAwIDQgMiAyIDAgMCAwIDAtNHoiIHN0cm9rZT0iIzc3M0IxQiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5JbnNpZ2h0cywgTG9jYWwgQUkgJmFtcDsgQ2FyZTwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkNsaW5pY2FsIHJlZC1mbGFnIHRyaWdnZXJzICZhbXA7IHByaXZhdGUgb24tZGV2aWNlIFEmYW1wO0E8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdWItZmVhdHVyZSAxOiBMb2NhbCBIZWFsdGggQXNzaXN0YW50IENhcmQgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgNjYpIj4KICAgICAgPHJlY3Qgd2lkdGg9IjQyOCIgaGVpZ2h0PSI3NCIgcng9IjEyIiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNMTIgMmwxLjggNS40TDE5IDkuNWwtNS4yIDIuMUwxMiAxN2wtMS44LTUuNEw1IDkuNWw1LjItMi4xTDEyIDJ6IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjEyIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTMyRTc3Ij5Pbi1EZXZpY2UgSGVhbHRoIEFzc2lzdGFudDwvdGV4dD4KICAgICAgICA8cmVjdCB4PSIyNTQiIHk9IjAiIHdpZHRoPSI5NCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8dGV4dCB4PSIzMDEiIHk9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+MTAwJSBDbGllbnQtU2lkZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIzNCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5FdmlkZW5jZS1iYXNlZCBhbnN3ZXJzIGNpdGluZyBBQ09HLCBOSFMgJmFtcDsgV0hPIG92ZXIgdXNlciBkYXRhLjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0OCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5aZXJvIHByb21wdCB0cmFuc21pc3Npb247IG5ldmVyIHJlcGxhY2VzIGxpY2Vuc2VkIG1lZGljYWwgYWR2aWNlLjwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gU3ViLWZlYXR1cmUgMjogQ2xpbmljaWFuIFN1bW1hcnkgJiBDYXJlIEFsZXJ0cyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTApIj4KICAgICAgPCEtLSBDYXJlIEFsZXJ0IFByb21wdCAtLT4KICAgICAgPHJlY3Qgd2lkdGg9IjIwNiIgaGVpZ2h0PSIxMDYiIHJ4PSIxMiIgZmlsbD0iI0ZCRTBCMCIgc3Ryb2tlPSIjRjVDNjc5IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDE0KSI+CiAgICAgICAgPHBhdGggZD0iTTEwIDNsOCAxNEgyTDEwIDN6IE0xMCA4djQgTTEwIDE0aC4wMSIgc3Ryb2tlPSIjN0E0NDAwIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjExIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0E0NDAwIj5DbGluaWNhbCBTYWZldHkgQWxlcnRzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIEFic2VuY2UgJmd0OzkwZCAoQW1lbm9ycmhlYSk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgaW50ZXJ2YWxzICZsdDsyMWQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQmxlZWRpbmcgZHVyYXRpb24gJmd0OzdkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFNldmVyZSBwZWx2aWMgcGFpbiAo4omlOC8xMCk8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2xpbmljaWFuIFN1bW1hcnkgRXhwb3J0IC0tPgogICAgICA8cmVjdCB4PSIyMTgiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTA2IiByeD0iMTIiIGZpbGw9IiNGQUY1RjciIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIzMCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNNiAzaDhsNCA0djEwYTEgMSAwIDAgMS0xIDFINmExIDEgMCAwIDEtMS0xVjRhMSAxIDAgMCAxIDEtMXoiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgM3Y0aDQiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM0ODE5MzAiPkNsaW5pY2lhbiBTdW1tYXJ5PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByaW50YWJsZSAmYW1wOyBjb3B5YWJsZSBmb3JtYXQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgJmFtcDsgcGVyaW9kIGRpc3RyaWJ1dGlvbnM8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgU3ltcHRvbSBwaGVub3R5cGUgdGFibGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByZXBhcmVzIE9CL0dZTiB0cmlhZ2U8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBGT09URVI6IFNlY3VyaXR5ICYgU2NpZW50aWZpYyBEaXNjbGFpbWVyCiAgICAgICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDY5NCkiPgogICAgPHRleHQgeD0iMCIgeT0iMCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+Q3ljbGVTaWRlQ2hpY2sgdjIuMC4wIOKAoiAxMDAlIE9uLURldmljZSBTaW5nbGUgUGFnZSAmYW1wOyBPZmZsaW5lIFBXQSDigKIgTWF0aGVtYXRpY2FsIGVzdGltYXRpb25zIGFyZSBhcHByb3hpbWF0aW9ucywgbm90IG1lZGljYWwgZGlhZ25vc2VzLjwvdGV4dD4KICAgIDx0ZXh0IHg9Ijk4NCIgeT0iMCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0Q5NDQ3RSI+Y3ljbGVzaWRlY2hpY2sub3JnPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
+      </div>
+      <p class="mut" style="font-size:12.5px;margin:0 0 14px">Compassionate guidance for every stage of your cycle—not just when bleeding.</p>
+
+      ${Object.values(FULL_CYCLE_CARE_GUIDES).map(g => `
+        <div class="cycle-guide-card" style="margin-bottom:12px;border-left:4px solid var(--border)">
+          <div class="row" style="margin-bottom:4px">
+            <span class="article-tag ${g.badgeColor}">${g.phaseName}</span>
+            <span class="mut" style="font-size:12px;font-weight:700">${g.theme}</span>
+          </div>
+          <b style="display:block;margin:6px 0 2px;color:var(--plum);font-size:14px">Focus: ${g.focus}</b>
+          <p style="margin:0 0 8px;font-size:13px;line-height:1.45">${g.biology}</p>
+          <ul style="margin:0 0 10px;padding-left:18px;font-size:12.5px;line-height:1.5;color:var(--muted)">
+            ${g.suggestions.map(s => `<li>${s}</li>`).join("")}
+          </ul>
+          <div style="background:var(--surface-alt);padding:8px 12px;border-radius:var(--radius-sm);font-size:12px;margin-bottom:8px">
+            💡 <b>Self-Care Tip:</b> ${g.selfCareTip}
+          </div>
+          <button class="chip" data-a="openJournalWithPrompt" data-v="${esc(g.journalPrompt)}">
+            ${svgi("feather", 12)} Reflection Prompt: “${g.journalPrompt}”
+          </button>
+        </div>
+      `).join("")}
+    </div>`;
+}
+
+/* Sub-View: My Journal (Pillar 3) */
+function renderJournalTab(T, phaseKey, S, x) {
+  const d = ui.journalDate || I(T);
+  const curEntry = (S.journal && S.journal[d]) || {};
+  const phaseForD = getPhaseForDate(d, S, x);
+  const guideForD = FULL_CYCLE_CARE_GUIDES[phaseForD] || FULL_CYCLE_CARE_GUIDES.uncertain;
+  const phasePrompt = guideForD.journalPrompt;
+
+  const activeMood = ui.journalDraftMood || curEntry.mood || "";
+  const activeTags = ui.journalDraftTags && ui.journalDraftTags.length ? ui.journalDraftTags : (curEntry.tags || []);
+
+  const feelings = [
+    ["grounded", "🌿 Grounded"],
+    ["tired", "☁️ Low Energy"],
+    ["sensitive", "🌸 Sensitive"],
+    ["energized", "☀️ Energized"],
+    ["peaceful", "🕊️ Peaceful"],
+    ["stressed", "🌧️ Stressed"]
+  ];
+
+  const availableTags = [
+    "Cramps", "Headache", "Fatigue", "Bloating", "Brain Fog",
+    "Cravings", "Sensitive Skin", "Backache", "Tender Breasts",
+    "Quiet Rest", "Warm Tea", "Fresh Air", "Gentle Walk"
+  ];
+
+  // Journal history entries with filtering
+  const allEntries = Object.values(S.journal || {}).sort((a, b) => (b.date > a.date ? 1 : -1));
+  const filteredEntries = allEntries.filter(e => {
+    if (ui.journalMoodFilter && e.mood !== ui.journalMoodFilter) return false;
+    if (ui.journalTagFilter && !(e.tags || []).includes(ui.journalTagFilter)) return false;
+    if (ui.journalSearch && ui.journalSearch.trim()) {
+      const q = ui.journalSearch.toLowerCase().trim();
+      const matchText = (e.text || "").toLowerCase().includes(q);
+      const matchGrat = (e.gratitude || "").toLowerCase().includes(q);
+      const matchHelped = (e.helped || "").toLowerCase().includes(q);
+      const matchTag = (e.tags || []).some(t => t.toLowerCase().includes(q));
+      if (!matchText && !matchGrat && !matchHelped && !matchTag) return false;
+    }
+    return true;
+  });
+
+  return `
+    <!-- Privacy Safeguard Banner -->
+    <div class="card tint-mint" style="padding:12px 16px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px">
+        ${svgi("lock", 16)}
+        <b style="font-size:13px;color:var(--plum)">100% On-Device &amp; Private Journal</b>
+      </div>
+      <p class="mut" style="margin:2px 0 0;font-size:12px">Your reflections are stored strictly in your browser's private local storage. Never uploaded to the cloud or AI.</p>
+    </div>
+
+    <!-- Date Navigation Toolbar -->
+    <div class="card" style="padding:12px 16px;margin-bottom:14px">
+      <div class="row">
+        <button class="chip" data-a="stepJournalDate" data-v="-1">${svgi("arrowLeft", 12)} Previous</button>
+        <div style="text-align:center">
+          <b style="color:var(--plum);font-size:14.5px">${fmt(N(d), { weekday: "short", month: "short", day: "numeric" })}</b>
+          <span class="mut" style="font-size:11.5px;display:block">${d === I(T) ? "Today" : ""}</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          ${d !== I(T) ? `<button class="chip" data-a="jumpJournalToday" style="font-size:11px">Today</button>` : ""}
+          <button class="chip" data-a="stepJournalDate" data-v="1">Next ${svgi("arrowRight", 12)}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Distraction-Free Journal Editor -->
+    <div class="journal-editor-card">
+      <div class="row" style="margin-bottom:6px">
+        <h3 style="margin:0">Daily Reflection</h3>
+        ${ui.journalNotice ? `<span class="journal-saved-badge">${svgi("check", 14)} ${ui.journalNotice}</span>` : ""}
+      </div>
+
+      <!-- Compassionate Phase Prompt Pill -->
+      <div class="journal-prompt-box">
+        <div>
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted)">${guideForD.phaseName} Prompt</span>
+          <p class="journal-prompt-text">“${phasePrompt}”</p>
+        </div>
+        <button class="journal-insert-btn" data-a="insertJournalPrompt" data-v="${esc(phasePrompt)}">
+          ${svgi("edit", 12)} Insert Prompt
+        </button>
+      </div>
+
+      <!-- Feeling Selector -->
+      <label class="journal-field-title">Feeling / Mood State</label>
+      <div class="checkin-row">
+        ${feelings.map(([k, label]) => `
+          <button class="checkin-btn ${activeMood === k ? "active" : ""}" data-a="setJournalMood" data-v="${k}">
+            ${label}
+          </button>
+        `).join("")}
+      </div>
+
+      <!-- Ratings: Energy, Comfort, Stress -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:10px;margin:12px 0">
+        <div>
+          <label style="font-size:12px;font-weight:700;margin-bottom:4px">Energy Level (1–5)</label>
+          <select id="journalEnergy" style="width:100%;height:38px;padding:0 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface)">
+            ${[1, 2, 3, 4, 5].map(v => `<option value="${v}" ${(curEntry.energy || 3) == v ? "selected" : ""}>${v} — ${v === 1 ? "Very Low" : v === 2 ? "Gentle" : v === 3 ? "Balanced" : v === 4 ? "Energized" : "Peak"}</option>`).join("")}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;margin-bottom:4px">Physical Comfort (1–5)</label>
+          <select id="journalComfort" style="width:100%;height:38px;padding:0 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface)">
+            ${[1, 2, 3, 4, 5].map(v => `<option value="${v}" ${(curEntry.comfort || 3) == v ? "selected" : ""}>${v} — ${v === 1 ? "Discomfort" : v === 2 ? "Tender" : v === 3 ? "Comfortable" : v === 4 ? "Cozy" : "Optimal"}</option>`).join("")}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:700;margin-bottom:4px">Stress Level</label>
+          <select id="journalStress" style="width:100%;height:38px;padding:0 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface)">
+            ${[["low", "Calm & Low"], ["mild", "Mild"], ["moderate", "Moderate"], ["high", "High"]].map(([k, label]) => `
+              <option value="${k}" ${(curEntry.stress || "mild") === k ? "selected" : ""}>${label}</option>
+            `).join("")}
+          </select>
         </div>
       </div>
 
-      <!-- Partner Share Feature -->
-      <div class="card tint-mint">
-        <div class="row">
-          <div>
-            <b>Partner Share</b>
-            <p class="mut" style="margin:2px 0 0">Opt-in, read-only partner snapshot generated locally without server accounts.</p>
+      <!-- Reflection Textarea -->
+      <label class="journal-field-title">Free-Text Reflections</label>
+      <textarea id="journalText" class="journal-textarea" placeholder="How are you feeling today? Feelings, thoughts, or physical observations you'd like to remember...">${esc(curEntry.text || "")}</textarea>
+
+      <!-- Optional Gratitude / Self-Kindness -->
+      <label class="journal-field-title">Daily Gratitude or Self-Kindness (Optional)</label>
+      <input id="journalGratitude" placeholder="One thing I appreciate or a kind word to myself today..." value="${esc(curEntry.gratitude || "")}" style="width:100%;margin-bottom:12px">
+
+      <!-- Optional What Helped Today -->
+      <label class="journal-field-title">What Helped Me Feel Better Today? (Optional)</label>
+      <input id="journalHelped" placeholder="e.g. Peppermint tea, loose waistband, 20-min horizontal pause..." value="${esc(curEntry.helped || "")}" style="width:100%;margin-bottom:12px">
+
+      <!-- Common Tags -->
+      <label class="journal-field-title">Symptom &amp; Care Tags</label>
+      <div class="journal-tag-grid">
+        ${availableTags.map(t => `
+          <button class="journal-tag-chip ${activeTags.includes(t) ? "active" : ""}" data-a="toggleJournalTag" data-v="${t}">
+            ${t}
+          </button>
+        `).join("")}
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="chips" style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn" style="flex:2" data-a="saveJournalEntry">${svgi("check", 16)} Save Reflection</button>
+        ${curEntry.text || curEntry.mood ? `
+          <button class="btn g" style="flex:1;color:var(--tint-rose-text);border-color:var(--tint-rose-border)" data-a="promptDeleteJournal" data-v="${d}">
+            ${svgi("trash", 16)} Delete
+          </button>` : ""
+        }
+        <button class="btn g" style="flex:1" data-a="exportJournal">
+          ${svgi("download", 16)} Export
+        </button>
+      </div>
+    </div>
+
+    <!-- Journal History List & Search -->
+    <div class="card">
+      <div class="row" style="margin-bottom:10px">
+        <h3 style="margin:0">Journal History</h3>
+        <span class="mut" style="font-size:12px">${allEntries.length} reflection${allEntries.length === 1 ? "" : "s"}</span>
+      </div>
+
+      <!-- Search & Filter Controls -->
+      <input id="journalSearchInput" placeholder="Search entries by word or tag..." value="${esc(ui.journalSearch)}" data-k="ui.journalSearch" data-r="1" style="width:100%;margin-bottom:10px">
+
+      <!-- Mood Filters -->
+      <div class="chips" style="gap:6px;margin-bottom:12px;overflow-x:auto">
+        <button class="chip ${!ui.journalMoodFilter ? "active" : ""}" data-a="filterJournalMood" data-v="">All</button>
+        ${feelings.map(([k, label]) => `
+          <button class="chip ${ui.journalMoodFilter === k ? "active" : ""}" data-a="filterJournalMood" data-v="${k}">
+            ${label}
+          </button>
+        `).join("")}
+      </div>
+
+      ${filteredEntries.length ? filteredEntries.map(e => `
+        <div class="journal-entry-card">
+          <div class="row" style="margin-bottom:4px">
+            <b style="color:var(--plum);font-size:14px">${fmt(N(e.date), { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</b>
+            ${e.mood ? `<span class="article-tag tint-rose">${e.mood}</span>` : ""}
           </div>
-          <button class="chip" data-a="openPartner">Share</button>
+          ${e.energy || e.comfort ? `
+            <div class="mut" style="font-size:11.5px;margin-bottom:6px">
+              Energy: ${e.energy || 3}/5 · Comfort: ${e.comfort || 3}/5 · Stress: ${e.stress || "mild"}
+            </div>` : ""
+          }
+          <p style="margin:4px 0 8px;font-size:13.5px;line-height:1.5">${esc(e.text || "No text written.")}</p>
+          ${e.gratitude ? `
+            <div style="background:var(--pastel-ivory);border-left:3px solid var(--pastel-berry);padding:6px 10px;border-radius:4px;font-size:12.5px;margin-bottom:6px;font-style:italic">
+              ❤️ Gratitude: ${esc(e.gratitude)}
+            </div>` : ""
+          }
+          ${e.helped ? `
+            <div style="font-size:12px;color:var(--phase-follicular);margin-bottom:6px;font-weight:600">
+              💡 What helped: ${esc(e.helped)}
+            </div>` : ""
+          }
+          ${(e.tags && e.tags.length) ? `
+            <div class="chips" style="gap:4px;margin-bottom:8px">
+              ${e.tags.map(t => `<span class="chip" style="min-height:22px;padding:2px 8px;font-size:11px">${esc(t)}</span>`).join("")}
+            </div>` : ""
+          }
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:6px">
+            <button class="chip" data-a="editJournalEntry" data-v="${e.date}">${svgi("edit", 12)} Edit</button>
+            <button class="chip" style="color:var(--muted)" data-a="promptDeleteJournal" data-v="${e.date}">${svgi("trash", 12)} Delete</button>
+          </div>
         </div>
+      `).join("") : `
+        <div style="text-align:center;padding:28px 20px;background:var(--surface-alt);border-radius:var(--radius-md)">
+          <div style="margin-bottom:10px">${bunny(48)}</div>
+          <b style="color:var(--plum);display:block;margin-bottom:4px">No reflections found</b>
+          <p class="mut" style="max-width:280px;margin:0 auto 12px;font-size:13px">Your private journal is a safe, quiet space to record whatever you feel today.</p>
+          <button class="btn" data-a="jumpJournalToday">Write today's reflection</button>
+        </div>`
+      }
+    </div>`;
+}
+
+/* Sub-View: Cycle Guide, Education & Library */
+function renderCycleGuideTab(T, phaseKey, S, x) {
+  const careAlerts = checkCareAlerts(S);
+  const searchResults = searchArticles(ui.articleSearch);
+  const reminders = S.careReminders || { period: 1, checkin: 1, prep: 1, journal: 0 };
+
+  return `
+    <!-- 1. "Your Cycle, Explained" Short Educational Cards -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("book", 18)}
+          <h3 style="margin:0">“Your Cycle, Explained”</h3>
+        </div>
+      </div>
+      <p class="mut" style="font-size:12.5px;margin:0 0 14px">Readable, evidence-based cards explaining your biology, bodily changes, and health safety.</p>
+
+      ${CYCLE_EXPLAINED_CARDS.map(card => `
+        <div class="cycle-guide-card">
+          <span class="article-tag ${card.badgeColor}">${card.category}</span>
+          <h3>${card.title}</h3>
+          <p class="mut" style="font-weight:600;font-size:12.5px;margin-bottom:6px">${card.summary}</p>
+          <p>${card.content}</p>
+          <div class="cycle-guide-source">
+            ${svgi("book", 12)} ${card.source}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+
+    <!-- 2. Gentle In-App Reminders Settings -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("bell", 18)}
+          <h3 style="margin:0">Gentle In-App Reminders</h3>
+        </div>
+      </div>
+      <p class="mut" style="font-size:12.5px;margin:0 0 12px">Soft prompts to help you plan without pressure. Handled locally on your device.</p>
+
+      <div class="switch-row">
+        <div class="switch-info">
+          <div class="switch-title">Approaching Period Notice</div>
+          <p class="switch-desc">Gentle heads-up 2 days before your next estimated period start date.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" data-a="toggleCareReminder" data-v="period" ${reminders.period !== 0 ? "checked" : ""} role="switch" aria-label="Toggle period reminder">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <div class="switch-row">
+        <div class="switch-info">
+          <div class="switch-title">Daily Gentle Check-In</div>
+          <p class="switch-desc">Evening invitation to pause, rate your mood, and check in with your body.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" data-a="toggleCareReminder" data-v="checkin" ${reminders.checkin !== 0 ? "checked" : ""} role="switch" aria-label="Toggle check-in reminder">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <div class="switch-row">
+        <div class="switch-info">
+          <div class="switch-title">Period Preparation Checklist</div>
+          <p class="switch-desc">Checklist reminder during the late luteal phase to prepare comfort items.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" data-a="toggleCareReminder" data-v="prep" ${reminders.prep !== 0 ? "checked" : ""} role="switch" aria-label="Toggle prep checklist">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <div class="switch-row">
+        <div class="switch-info">
+          <div class="switch-title">Private Journal Reminder</div>
+          <p class="switch-desc">Friendly nudge to capture today's thoughts and gratitude in My Journal.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" data-a="toggleCareReminder" data-v="journal" ${reminders.journal ? "checked" : ""} role="switch" aria-label="Toggle journal reminder">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 3. Clinical Red Flags Alert -->
+    ${careAlerts.length && S.careAlerts !== 0 ? `
+      <div class="card tint-amber" style="margin-bottom:16px">
+        <div class="row">
+          <div style="display:flex;align-items:center;gap:8px">
+            ${svgi("alert", 20)}
+            <b>Clinical Red Flags to Discuss</b>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:13.5px;line-height:1.5">
+          ${careAlerts.map(a => `<div style="margin-bottom:6px">• ${a}</div>`).join("")}
+        </div>
+        <button class="btn" style="margin-top:10px;background:var(--plum)" data-a="openClinician">Open Clinician Report</button>
+      </div>` : ""
+    }
+
+    <!-- 4. Local Health Assistant -->
+    <div class="card tint-lavender assistant-box" style="margin-bottom:16px">
+      <div class="row">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${svgi("sparkle", 20)}
+          <b>Local Health Assistant</b>
+        </div>
+        <span class="chip" style="min-height:26px;padding:2px 8px;font-size:11px">100% On-Device</span>
+      </div>
+      <p class="mut" style="margin:2px 0 8px;font-size:13px">Ask questions about your cycle, symptoms, or health patterns. All data stays strictly on your device.</p>
+
+      <div class="assistant-prompt-list">
+        ${ASSISTANT_TOPICS.map(t =>
+          `<button class="assistant-prompt-chip" data-a="askAssistant" data-v="${t.id}">${t.question}</button>`
+        ).join("")}
+      </div>
+
+      <div class="row">
+        <input id="assistantQueryInput" placeholder="Type a symptom or question..." value="${esc(ui.assistantQuery)}">
+        <button class="chip" style="flex:none;min-height:48px" data-a="submitAssistant">Ask</button>
+      </div>
+
+      ${ui.assistantResult ? `
+        <div class="assistant-response-card">
+          <h4 style="margin:0;color:var(--plum)">${esc(ui.assistantResult.title)}</h4>
+          ${ui.assistantResult.context ? `<p style="margin:0;font-size:13px;font-weight:600;color:var(--plum)">${esc(ui.assistantResult.context)}</p>` : ""}
+          <p style="margin:0;font-size:14px;line-height:1.55">${esc(ui.assistantResult.body)}</p>
+          <div class="assistant-source-badge">Source: ${esc(ui.assistantResult.source)}</div>
+          <div class="tint-amber" style="padding:10px;border-radius:var(--radius-sm);font-size:12.5px;margin-top:4px">
+            <b>Clinician Guidance:</b> ${esc(ui.assistantResult.clinicianAdvice)}
+          </div>
+          <button class="btn g" style="min-height:36px;font-size:13px;margin-top:6px" data-a="openClinician">View Clinician Report</button>
+        </div>` : ""
+      }
+    </div>
+
+    <!-- 5. Educational Content Library -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="margin-bottom:8px">
+        <h3>Evidence-Based Library</h3>
+        <span class="mut" style="font-size:12px">${ARTICLES.length} articles</span>
+      </div>
+      <input class="library-search" id="libSearch" placeholder="Search articles by keyword or symptom..." value="${esc(ui.articleSearch)}" data-a="searchLib">
+
+      <div style="margin-top:12px">
+        ${searchResults.slice(0, 6).map(a => `
+          <div class="article-card" data-a="readArticle" data-v="${a.id}">
+            <h3>${esc(a.title)}</h3>
+            <p class="mut" style="margin:0">${esc(a.summary)}</p>
+            <div class="article-meta">
+              <span class="article-tag tint-sage">${esc(a.category)}</span>
+              <span>${esc(a.readTime)}</span>
+              <span style="margin-left:auto">${svgi("arrowRight", 14)}</span>
+            </div>
+          </div>`
+        ).join("")}
+      </div>
+    </div>
+
+    <!-- 6. Architecture & Capabilities Infographic -->
+    <div class="card tint-sky" style="padding:16px;margin-bottom:16px">
+      <div class="row" style="margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          ${svgi("insights", 22)}
+          <div>
+            <b style="color:var(--plum);font-size:15px">Architecture &amp; Features</b>
+            <p class="mut" style="margin:2px 0 0;font-size:12px">Visual guide to on-device algorithms &amp; privacy</p>
+          </div>
+        </div>
+        <button class="chip" data-a="openTour">Full Infographic</button>
+      </div>
+      <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);cursor:pointer;margin-top:10px;background:var(--surface)" data-a="openTour" role="button" aria-label="Expand Architecture Infographic">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDgwIDcyMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDeWNsZVNpZGVDaGljayBBcmNoaXRlY3R1cmUgYW5kIENvcmUgQ2FwYWJpbGl0aWVzIEluZm9ncmFwaGljIj4KICA8dGl0bGU+Q3ljbGVTaWRlQ2hpY2sg4oCUIEFyY2hpdGVjdHVyZSAmYW1wOyBDb3JlIENhcGFiaWxpdGllczwvdGl0bGU+CiAgPGRlc2M+QSBjb21wcmVoZW5zaXZlIHZpc3VhbCBpbmZvZ3JhcGhpYyBpbGx1c3RyYXRpbmcgQ3ljbGVTaWRlQ2hpY2sncyBvbi1kZXZpY2UgcHJpdmFjeSwgc3RhdGlzdGljYWwgY3ljbGUgZW5naW5lIHYyLCBkeW5hbWljIGNhbGVuZGFyLCBkYWlseSBiaW9tZXRyaWMgbG9nZ2luZywgYW5kIGNsaW5pY2lhbiBjYXJlIHJlcG9ydHMuPC9kZXNjPgoKICA8ZGVmcz4KICAgIDwhLS0gVHlwb2dyYXBoeSAmIEFuaW1hdGlvbnMgLS0+CiAgICA8c3R5bGU+CiAgICAgIHRleHQgewogICAgICAgIGZvbnQtZmFtaWx5OiAnTWFucm9wZScsIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgIlNlZ29lIFVJIiwgUm9ib3RvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmOwogICAgICB9CgogICAgICAudGl0bGUgeyBmb250LXdlaWdodDogODAwOyBmb250LXNpemU6IDI4cHg7IGZpbGw6ICM0ODE5MzA7IGxldHRlci1zcGFjaW5nOiAtMC4wMmVtOyB9CiAgICAgIC5zdWJ0aXRsZSB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAucGlsbC10ZXh0IHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxMXB4OyB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlOyBsZXR0ZXItc3BhY2luZzogMC4wNGVtOyB9CiAgICAgIC5jYXJkLXRpdGxlIHsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxNnB4OyBmaWxsOiAjNDgxOTMwOyB9CiAgICAgIC5jYXJkLXN1YiB7IGZvbnQtd2VpZ2h0OiA1MDA7IGZvbnQtc2l6ZTogMTJweDsgZmlsbDogIzc4NjQ3MDsgbGluZS1oZWlnaHQ6IDEuNDsgfQogICAgICAubWV0cmljLW51bSB7IGZvbnQtd2VpZ2h0OiA4MDA7IGZvbnQtc2l6ZTogMjBweDsgZmlsbDogI0Q5NDQ3RTsgfQogICAgICAubWV0cmljLWxibCB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTFweDsgZmlsbDogIzc4NjQ3MDsgfQogICAgICAubGFiZWwtc20geyBmb250LXdlaWdodDogNjAwOyBmb250LXNpemU6IDExLjVweDsgZmlsbDogIzQ4MTkzMDsgfQogICAgICAuYmFkZ2UtdGV4dCB7IGZvbnQtd2VpZ2h0OiA3MDA7IGZvbnQtc2l6ZTogMTAuNXB4OyB9CgogICAgICBAa2V5ZnJhbWVzIHB1bHNlR2xvdyB7CiAgICAgICAgMCUsIDEwMCUgeyByOiA5cHg7IG9wYWNpdHk6IDAuNzsgfQogICAgICAgIDUwJSB7IHI6IDE0cHg7IG9wYWNpdHk6IDAuMjsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIGZsb2F0U29mdCB7CiAgICAgICAgMCUsIDEwMCUgeyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMHB4KTsgfQogICAgICAgIDUwJSB7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgtM3B4KTsgfQogICAgICB9CgogICAgICBAa2V5ZnJhbWVzIHJvdGF0ZVNsb3cgewogICAgICAgIGZyb20geyB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsgfQogICAgICAgIHRvIHsgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTsgfQogICAgICB9CgogICAgICAucHVsc2UtaGFsbyB7IGFuaW1hdGlvbjogcHVsc2VHbG93IDIuNXMgZWFzZS1pbi1vdXQgaW5maW5pdGU7IH0KICAgICAgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IGZsb2F0U29mdCA0cyBlYXNlLWluLW91dCBpbmZpbml0ZTsgfQoKICAgICAgQG1lZGlhIChwcmVmZXJzLXJlZHVjZWQtbW90aW9uOiByZWR1Y2UpIHsKICAgICAgICAucHVsc2UtaGFsbywgLmZsb2F0LWFuaW0geyBhbmltYXRpb246IG5vbmUgIWltcG9ydGFudDsgfQogICAgICB9CiAgICA8L3N0eWxlPgoKICAgIDwhLS0gR3JhZGllbnRzIC0tPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiZ0dyYWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZBRjVGNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNGNEVDRjAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJjYXJkR3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRkZGRkZGIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0ZERjlGQSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBpbmtHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQjZGQTEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRDk0NDdFIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGF2ZW5kZXJHcmFkIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNERUM4RUUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjQzVBNEUyIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgoKICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icmluZ0dsb3ciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMC4yNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNEOTQ0N0UiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dTbSIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSIyIiBzdGREZXZpYXRpb249IjQiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA0Ii8+CiAgICA8L2ZpbHRlcj4KCiAgICA8ZmlsdGVyIGlkPSJzaGFkb3dNZCIgeD0iLTUlIiB5PSItNSUiIHdpZHRoPSIxMTAlIiBoZWlnaHQ9IjExNSUiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI0IiBzdGREZXZpYXRpb249IjgiIGZsb29kLWNvbG9yPSIjNDgxOTMwIiBmbG9vZC1vcGFjaXR5PSIwLjA2Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBDYW52YXMgLS0+CiAgPHJlY3Qgd2lkdGg9IjEwODAiIGhlaWdodD0iNzIwIiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSIxMDc4IiBoZWlnaHQ9IjcxOCIgcng9IjIzIiBmaWxsPSJub25lIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS41Ii8+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBIRUFERVI6IEJyYW5kLCBNaXNzaW9uICYgSW52YXJpYW50IFRydXN0IEJhZGdlcwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4LCAzNikiPgogICAgPCEtLSBCdW5ueSBMb2dvIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMikiPgogICAgICA8Y2lyY2xlIGN4PSIyNiIgY3k9IjI2IiByPSIyNiIgZmlsbD0iI0ZERUJGMiIvPgogICAgICA8ZyBzdHJva2U9IiM0ODE5MzAiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgIDxwYXRoIGQ9Ik0yMSAyNCBDMTggMTIgMTUgNiAxOCA0IEMyMiAyIDI1IDggMjQgMjIiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8cGF0aCBkPSJNMzEgMjQgQzM0IDEyIDM3IDYgMzQgNCBDMzAgMiAyNyA4IDI4IDIyIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGVsbGlwc2UgY3g9IjI2IiBjeT0iMzMiIHJ4PSIxNiIgcnk9IjEzIiBmaWxsPSIjRkZGRkZGIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTgiIGN5PSIzNSIgcj0iMi41IiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9Im5vbmUiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIzNCIgY3k9IjM1IiByPSIyLjUiIGZpbGw9IiNGQkUzRUEiIHN0cm9rZT0ibm9uZSIvPgogICAgICAgIDxwYXRoIGQ9Ik0yMCAzMSBRMjIgMjkgMjQgMzEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgICAgPHBhdGggZD0iTTI4IDMxIFEzMCAyOSAzMiAzMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8cGF0aCBkPSJNMjUgMzQgTDI3IDM0IEwyNiAzNiBaIiBmaWxsPSIjRDk0NDdFIiBzdHJva2U9Im5vbmUiLz4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gSGVhZGVyIFRpdGxlcyAtLT4KICAgIDx0ZXh0IHg9IjY4IiB5PSIyNCIgY2xhc3M9InRpdGxlIj5DeWNsZVNpZGVDaGljazwvdGV4dD4KICAgIDx0ZXh0IHg9IjY4IiB5PSI0NCIgY2xhc3M9InN1YnRpdGxlIj5BIFByaXZhdGUsIEV2aWRlbmNlLUJhc2VkIE1lbnN0cnVhbCAmYW1wOyBSZXByb2R1Y3RpdmUgSGVhbHRoIENvbXBhbmlvbjwvdGV4dD4KCiAgICA8IS0tIFRydXN0IEJhZGdlcyAoUmlnaHQtQWxpZ25lZCkgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OTAsIDgpIj4KICAgICAgPCEtLSBCYWRnZSAxOiAxMDAlIE9uLURldmljZSAtLT4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRDNFREUzIiBzdHJva2U9IiNBN0RDQjkiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8Y2lyY2xlIGN4PSIxNCIgY3k9IjE0IiByPSI0LjUiIGZpbGw9IiMxQTU3M0YiLz4KICAgICAgPHRleHQgeD0iMjQiIHk9IjE4IiBmaWxsPSIjMUE1NzNGIiBjbGFzcz0icGlsbC10ZXh0Ij4xMDAlIE9uLURldmljZTwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMjogWmVybyBUZWxlbWV0cnkgLS0+CiAgICAgIDxyZWN0IHg9IjEzMiIgeT0iMCIgd2lkdGg9IjEyNiIgaGVpZ2h0PSIyOCIgcng9IjE0IiBmaWxsPSIjRERFOEQ1IiBzdHJva2U9IiNCRUQyQjIiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8cGF0aCBkPSJNMTQ0IDE0bDIuNSAyLjUgNS01IiBzdHJva2U9IiMyNjUyMzEiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMTU3IiB5PSIxOCIgZmlsbD0iIzI2NTIzMSIgY2xhc3M9InBpbGwtdGV4dCI+WmVybyBUcmFja2VyczwvdGV4dD4KCiAgICAgIDwhLS0gQmFkZ2UgMzogQUNPRyAmIE5JQ0UgR3VpZGVsaW5lcyAtLT4KICAgICAgPHJlY3QgeD0iMjY2IiB5PSIwIiB3aWR0aD0iMTE4IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxwYXRoIGQ9Ik0yNzggMTRsMS41IDMgNC0xIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgPHRleHQgeD0iMjg4IiB5PSIxOCIgZmlsbD0iIzUzMkU3NyIgY2xhc3M9InBpbGwtdGV4dCI+QUNPRyAmYW1wOyBOSUNFPC90ZXh0PgoKICAgICAgPCEtLSBCYWRnZSA0OiBPcGVuIFNvdXJjZSBNSVQgLS0+CiAgICAgIDxyZWN0IHg9IjM5MiIgeT0iMCIgd2lkdGg9Ijk2IiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDx0ZXh0IHg9IjQ0MCIgeT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxOTRCNzMiIGNsYXNzPSJwaWxsLXRleHQiPk1JVCBMaWNlbnNlPC90ZXh0PgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgICAgIEdSSUQgTEFZT1VUOiA0IEFyY2hpdGVjdHVyYWwgUGlsbGFycwogICAgICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09IC0tPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDE6IEN5Y2xlIEVuZ2luZSB2MiAmIFN0YXRpc3RpY2FsIE1vZGVsaW5nIChUb3AtTGVmdCkKICAgICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OCwgMTA4KSI+CiAgICA8cmVjdCB3aWR0aD0iNDc2IiBoZWlnaHQ9IjI3NiIgcng9IjIwIiBmaWxsPSJ1cmwoI2NhcmRHcmFkKSIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEuMiIgZmlsdGVyPSJ1cmwoI3NoYWRvd1NtKSIvPgoKICAgIDwhLS0gU2VjdGlvbiBIZWFkZXIgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgMjApIj4KICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iOCIgZmlsbD0iI0ZCRTNFQSIvPgogICAgICA8cGF0aCBkPSJNMTQgOCBhNiA2IDAgMSAwIDAgMTIgYTYgNiAwIDAgMCAwLTEyem0wIDN2M2wyIDIiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5DeWNsZSBFbmdpbmUgdjI8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIzMiIgY2xhc3M9ImNhcmQtc3ViIj5TdGF0aXN0aWNhbCBwcmVkaWN0aW9ucyB3aXRoIHNjaWVudGlmaWMgaHVtaWxpdHk8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBWZWN0b3IgQ3ljbGUgUmluZyBHcmFwaGljIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAsIDc4KSI+CiAgICAgIDwhLS0gT3V0ZXIgVHJhY2sgQmFja2dyb3VuZCAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg3MiwgMjUsIDQ4LCAwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxMCIvPgoKICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBBcmMgKExhdmVuZGVyKSAtLT4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI3MCIgcj0iNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M1QTRFMiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iNjggMzM5IiBzdHJva2UtZGFzaG9mZnNldD0iLTE0MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgNzAgNzApIi8+CgogICAgICA8IS0tIFBlcmlvZCBBcmMgKFJvc2UgUGluaykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IjYwIDMzOSIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDcwIDcwKSIvPgoKICAgICAgPCEtLSBDdXJyZW50IERheSBJbmRpY2F0b3IgKFB1bHNpbmcgSGFsbykgLS0+CiAgICAgIDxjaXJjbGUgY3g9IjExOCIgY3k9IjQyIiByPSIxMSIgZmlsbD0iI0Q5NDQ3RSIgb3BhY2l0eT0iMC4yNSIgY2xhc3M9InB1bHNlLWhhbG8iLz4KICAgICAgPGNpcmNsZSBjeD0iMTE4IiBjeT0iNDIiIHI9IjYuNSIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjNDgxOTMwIiBzdHJva2Utd2lkdGg9IjMiLz4KCiAgICAgIDwhLS0gQ2VudGVyIFRleHQgLS0+CiAgICAgIDx0ZXh0IHg9IjcwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc4NjQ3MCIgbGV0dGVyLXNwYWNpbmc9IjAuMDRlbSI+Q1lDTEUgREFZPC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iODQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiM0ODE5MzAiPjE0PC90ZXh0PgogICAgICA8dGV4dCB4PSI3MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+b2YgfjI4IGRheXM8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdGF0aXN0aWNhbCBFbmdpbmUgRmVhdHVyZSBQb2ludHMgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDQsIDc2KSI+CiAgICAgIDwhLS0gSXRlbSAxOiBSZWNlbmN5LVdlaWdodGVkIE1lYW4gLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVjZW5jeS1XZWlnaHRlZCBNZWFuIChMYXN0IDYgQ3ljbGVzKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJpb3JpdGl6ZXMgcmVjZW50IGVuZG9jcmluZSBzaGlmdHMgb3ZlciBvbGQgaGlzdG9yeS48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAyOiBPdXRsaWVyIE1lZGlhbiBGYWxsYmFjayAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgNDIpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjN0E0NDAwIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+T3V0bGllciBNZWRpYW4gU3Vic3RpdHV0aW9uICjiiaUxMGQgR2FwKTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIxNiIgeT0iMjQiIGNsYXNzPSJjYXJkLXN1YiI+UHJldmVudHMgaXNvbGF0ZWQgc3RyZXNzL3RyYXZlbCBmcm9tIHNrZXdpbmcgbWF0aC48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gSXRlbSAzOiBSZWFsaXN0aWMgQ29uZmlkZW5jZSBSYW5nZSAtLT4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgODQpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+UmVhbGlzdGljIFJhbmdlICjCsVNELCBDYXBwZWQgYXQgwrE3ZCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkVsaW1pbmF0ZXMgZmFsc2UgY2VydGFpbnR5OyBsYWJlbHMgYWxsIGRhdGVzICJFc3RpbWF0ZWQiLjwvdGV4dD4KICAgICAgPC9nPgoKICAgICAgPCEtLSBJdGVtIDQ6IEFkanVzdGFibGUgTHV0ZWFsIFBoYXNlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxMjYpIj4KICAgICAgICA8Y2lyY2xlIGN4PSI2IiBjeT0iNyIgcj0iMy41IiBmaWxsPSIjMUE1NzNGIi8+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjgiIGNsYXNzPSJsYWJlbC1zbSI+Q29uZmlndXJhYmxlIEx1dGVhbCBMZW5ndGggKDEw4oCTMTYgRGF5cyk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTYiIHk9IjI0IiBjbGFzcz0iY2FyZC1zdWIiPkN1c3RvbWl6ZXMgZXN0aW1hdGVkIG92dWxhdGlvbiB0byB1c2VyIGJpb2xvZ3kuPC90ZXh0PgogICAgICA8L2c+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgUElMTEFSIDI6IER5bmFtaWMgQ2FsZW5kYXIgJiBDb25mbGljdCBQcm90ZWN0aW9uIChUb3AtUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCAxMDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRUZFNkY3Ii8+CiAgICAgIDxwYXRoIGQ9Ik05IDEwaDEwTTExIDd2M00xNyA3djNNOCA5aDEyYTEgMSAwIDAgMSAxIDF2OWExIDEgMCAwIDEtMSAxSDhhMSAxIDAgMCAxLTEtMXYtOWExIDEgMCAwIDEgMS0xeiIgc3Ryb2tlPSIjNTMyRTc3IiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgIDx0ZXh0IHg9IjM4IiB5PSIxOCIgY2xhc3M9ImNhcmQtdGl0bGUiPkNhbGVuZGFyICZhbXA7IENvbmZsaWN0IFNoaWVsZDwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkJpb2xvZ2ljYWxseSBndWFyZGVkIGV2ZW50IHRyYWNraW5nICZhbXA7IGZvcmVjYXN0aW5nPC90ZXh0PgogICAgPC9nPgoKICAgIDwhLS0gTWluaSBDYWxlbmRhciBNYXRyaXggVUkgUHJldmlldyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCA3NikiPgogICAgICA8cmVjdCB3aWR0aD0iMjE2IiBoZWlnaHQ9IjE3NCIgcng9IjE0IiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgoKICAgICAgPCEtLSBNb250aCBIZWFkZXIgLS0+CiAgICAgIDx0ZXh0IHg9IjE0IiB5PSIyMiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+T2N0b2JlciAyMDI2PC90ZXh0PgogICAgICA8dGV4dCB4PSIyMDIiIHk9IjIyIiB0ZXh0LWFuY2hvcj0iZW5kIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM3ODY0NzAiPkN5Y2xlIERheSAxNDwvdGV4dD4KCiAgICAgIDwhLS0gRGF5IEhlYWRpbmdzIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMzgpIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiPgogICAgICAgIDx0ZXh0IHg9IjAiPk08L3RleHQ+PHRleHQgeD0iMjgiPlQ8L3RleHQ+PHRleHQgeD0iNTYiPlc8L3RleHQ+PHRleHQgeD0iODQiPlQ8L3RleHQ+PHRleHQgeD0iMTEyIj5GPC90ZXh0Pjx0ZXh0IHg9IjE0MCI+UzwvdGV4dD48dGV4dCB4PSIxNjgiPlM8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgQ2VsbHMgU2FtcGxlIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgNTIpIj4KICAgICAgICA8IS0tIFJvdyAxOiBQZXJpb2QgRGF5cyAoMS00KSAtLT4KICAgICAgICA8cmVjdCB4PSItMyIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjgiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjRkZGRkZGIj4xPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIyNSIgeT0iMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0Q5NDQ3RSIvPgogICAgICAgIDx0ZXh0IHg9IjM2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRkZGRiI+MjwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNTMiIHk9IjAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMCIgcng9IjYiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNGRkZGRkYiPjM8L3RleHQ+CgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIwIiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRkJFM0VBIi8+CiAgICAgICAgPHRleHQgeD0iOTIiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj40PC90ZXh0PgoKICAgICAgICA8dGV4dCB4PSIxMjAiIHk9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj41PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjY8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+NzwvdGV4dD4KCiAgICAgICAgPCEtLSBSb3cgMjogRm9sbGljdWxhciB0byBGZXJ0aWxlICg4LTE0KSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSIzOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+ODwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIzNiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iNjQiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xMDwvdGV4dD4KCiAgICAgICAgPCEtLSBGZXJ0aWxlIFdpbmRvdyBDZWxscyAoMTEtMTQpIC0tPgogICAgICAgIDxyZWN0IHg9IjgxIiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8dGV4dCB4PSI5MiIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjExPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMDkiIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyMCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEyPC90ZXh0PgoKICAgICAgICA8cmVjdCB4PSIxMzciIHk9IjI0IiB3aWR0aD0iMjIiIGhlaWdodD0iMjAiIHJ4PSI2IiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjE0OCIgeT0iMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM1MzJFNzciPjEzPC90ZXh0PgoKICAgICAgICA8IS0tIFRvZGF5IENpcmNsZSAoMTQpIHdpdGggT3Z1bGF0aW9uIFN0YXIgLS0+CiAgICAgICAgPHJlY3QgeD0iMTY1IiB5PSIyNCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjIwIiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRDk0NDdFIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgICA8dGV4dCB4PSIxNzYiIHk9IjM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjRDk0NDdFIj4xNDwvdGV4dD4KICAgICAgICA8Y2lyY2xlIGN4PSIxODQiIGN5PSIyNyIgcj0iMi41IiBmaWxsPSIjNTMyRTc3Ii8+CgogICAgICAgIDwhLS0gUm93IDM6IFByZWRpY3RlZCBOZXh0IFBlcmlvZCBTYW1wbGUgKDI4LTMwKSAtLT4KICAgICAgICA8dGV4dCB4PSI4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTU8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMzYiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjNDgxOTMwIj4xNjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI2NCIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiM0ODE5MzAiPjE3PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjkyIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTg8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTIwIiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MTk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjA8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMTc2IiB5PSI2MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzQ4MTkzMCI+MjE8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2FsZW5kYXIgTGVnZW5kIC0tPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTM4KSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNzg2NDcwIj4KICAgICAgICA8Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRDk0NDdFIi8+CiAgICAgICAgPHRleHQgeD0iMTIiIHk9IjkiPkNvbmZpcm1lZDwvdGV4dD4KCiAgICAgICAgPHJlY3QgeD0iNjgiIHk9IjIuNSIgd2lkdGg9IjciIGhlaWdodD0iNyIgcng9IjIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPHRleHQgeD0iNzkiIHk9IjkiPkVzdC4gRmVydGlsZTwvdGV4dD4KCiAgICAgICAgPGNpcmNsZSBjeD0iMTQwIiBjeT0iNiIgcj0iMy41IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICAgICAgPHRleHQgeD0iMTQ4IiB5PSI5Ij5Ub2RheTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gR3VhcmRyYWlscyBJbmZvIEJveCAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgNzYpIj4KICAgICAgPCEtLSAxMC1EYXkgUGVyaW9kIENvbmZsaWN0IFByb3RlY3Rpb24gLS0+CiAgICAgIDxyZWN0IHdpZHRoPSIxOTYiIGhlaWdodD0iNzIiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDEyKSI+CiAgICAgICAgPHBhdGggZD0iTTggMmw2IDN2NWMwIDQtMyA3LTYgOC0zLTEtNi00LTYtOFY1bDYtM3oiIHN0cm9rZT0iIzdBNDQwMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9IiNGQkUwQjAiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+MTAtRGF5IENvbmZsaWN0IEd1YXJkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+UmVqZWN0cyBvciBtZXJnZXMgcGVyaW9kcyAmbHQ7MTBkIGFwYXJ0OzwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPnByb3RlY3RzIGFnYWluc3QgbWlkLWN5Y2xlIGVycm9ycy48L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gTXVsdGktTW9kZSBGbGV4aWJpbGl0eSAtLT4KICAgICAgPHJlY3QgeT0iODQiIHdpZHRoPSIxOTYiIGhlaWdodD0iODQiIHJ4PSIxMiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDk2KSI+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzQ4MTkzMCI+NiBQaHlzaW9sb2dpY2FsIE1vZGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjI4IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIE5hdHVyYWwgJmFtcDsgSXJyZWd1bGFyIEN5Y2xlczwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0MiIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjEwLjUiPuKAoiBIb3Jtb25hbCBDb250cmFjZXB0aW9uIChQaWxsL0lVRCk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNTYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgVFRDLCBQcmVnbmFuY3kgJmFtcDsgUGVyaW1lbm9wYXVzZTwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgIFBJTExBUiAzOiBHcmFudWxhciBMb2dnaW5nICYgV2VsbG5lc3MgQmlvbWFya2VycyAoQm90dG9tLUxlZnQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDQwOCkiPgogICAgPHJlY3Qgd2lkdGg9IjQ3NiIgaGVpZ2h0PSIyNzYiIHJ4PSIyMCIgZmlsbD0idXJsKCNjYXJkR3JhZCkiIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbHRlcj0idXJsKCNzaGFkb3dTbSkiLz4KCiAgICA8IS0tIFNlY3Rpb24gSGVhZGVyIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIwKSI+CiAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgcng9IjgiIGZpbGw9IiNEM0VERTMiLz4KICAgICAgPHBhdGggZD0iTTE0IDdsLTcgNyAzIDMgNy03LTMtM3ogTTE4IDExbC0yLTIgTTYgMThsMy0xLTItMnoiIHN0cm9rZT0iIzFBNTczRiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5Ib2xpc3RpYyBEYWlseSBMb2dnaW5nPC90ZXh0PgogICAgICA8dGV4dCB4PSIzOCIgeT0iMzIiIGNsYXNzPSJjYXJkLXN1YiI+RmxvdywgcGFpbiwgY2VydmljYWwgbXVjdXMsIG1vb2QsIHNsZWVwICZhbXA7IGh5ZHJhdGlvbjwvdGV4dD4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDE6IE1vb2QgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDcyKSI+CiAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPjUgRVhQUkVTSVZFIE1PT0QgU1RBVEVTPC90ZXh0PgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAyMCkiPgogICAgICAgIDwhLS0gUmFkaWFudCAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZGRjNDNCIgc3Ryb2tlPSIjRjdFMTg4IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgMThxMy0yIDYgMCBNMjAgMThxMy0yIDYgMCBNMTYgMjNxNCAzIDggMCIgc3Ryb2tlPSIjNjY0RTAwIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjAiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPlJhZGlhbnQ8L3RleHQ+CgogICAgICAgIDwhLS0gQ2FsbSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSI2OCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0RERThENSIgc3Ryb2tlPSIjQkVEMkIyIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNNjIgMTlxMy0xIDYgMCBNNjggMTlxMy0xIDYgMCBNNjQgMjRxNCAyIDggMCIgc3Ryb2tlPSIjMjY1MjMxIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iNjgiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkNhbG08L3RleHQ+CgogICAgICAgIDwhLS0gT2theSAtLT4KICAgICAgICA8Y2lyY2xlIGN4PSIxMTYiIGN5PSIyMCIgcj0iMTYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMTExIiBjeT0iMTgiIHI9IjEuNSIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjEyMSIgY3k9IjE4IiByPSIxLjUiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICA8cGF0aCBkPSJNMTEyIDI0aDgiIHN0cm9rZT0iIzE5NEI3MyIgc3Ryb2tlLXdpZHRoPSIxLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICAgIDx0ZXh0IHg9IjExNiIgeT0iNDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iOSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzQ4MTkzMCI+T2theTwvdGV4dD4KCiAgICAgICAgPCEtLSBBbnhpb3VzIC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjE2NCIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0VGRTZGNyIgc3Ryb2tlPSIjREVDOEVFIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMTU5IDE3bDIgMSBNMTY5IDE3bC0yIDEgTTE2MCAyNXEyLTEuNSA0IDB0NCAwIiBzdHJva2U9IiM1MzJFNzciIHN0cm9rZS13aWR0aD0iMS40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIxNjQiIHk9IjQ2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkFueGlvdXM8L3RleHQ+CgogICAgICAgIDwhLS0gTG93IC0tPgogICAgICAgIDxjaXJjbGUgY3g9IjIxMiIgY3k9IjIwIiByPSIxNiIgZmlsbD0iI0ZCRTNFQSIgc3Ryb2tlPSIjRjNDNUQzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICA8cGF0aCBkPSJNMjA2IDE5cTMgMSA2IDAgTTIxMiAxOXEzIDEgNiAwIE0yMDggMjVxNC0yIDggMCIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjEyIiB5PSI0NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjNDgxOTMwIj5Mb3c8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIFN1Yi1mZWF0dXJlIDI6IEJpb21hcmtlciBDaGlwcyAmIEh5ZHJhdGlvbiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTQpIj4KICAgICAgPCEtLSA4LUdsYXNzIFdhdGVyIFRyYWNrZXIgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIxMCIgZm9udC1zaXplPSIxMS41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNzg2NDcwIiBsZXR0ZXItc3BhY2luZz0iMC4wM2VtIj5IWURSQVRJT04gVFJBQ0tFUjwvdGV4dD4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLCAxOCkiPgogICAgICAgICAgPCEtLSA4IGN1cHMgcHJldmlldyAtLT4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOCwgMCkiPgogICAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHJ4PSI2IiBmaWxsPSIjRENFQkY2IiBzdHJva2U9IiNCQUQ4RUYiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgICA8cGF0aCBkPSJNMTIgNWwzIDRhNCA0IDAgMSAxLTYgMHoiIGZpbGw9IiMxOTRCNzMiLz4KICAgICAgICAgIDwvZz4KICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2LCAwKSI+CiAgICAgICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgcng9IjYiIGZpbGw9IiNEQ0VCRjYiIHN0cm9rZT0iI0JBRDhFRiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMiA1bDMgNGE0IDQgMCAxIDEtNiAweiIgZmlsbD0iIzE5NEI3MyIvPgogICAgICAgICAgPC9nPgogICAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTIsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0RDRUJGNiIgc3Ryb2tlPSIjQkFEOEVGIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjMTk0QjczIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDAsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjgsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOTYsIDApIj4KICAgICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZBRjVGNyIgc3Ryb2tlPSIjRUNEQkUzIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDVsMyA0YTQgNCAwIDEgMS02IDB6IiBmaWxsPSIjQTI5MDlDIi8+CiAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgICA8L2c+CgogICAgICA8IS0tIFBhaW4gJiBDZXJ2aWNhbCBGbHVpZCBDaGlwcyAoUmlnaHQgU2lkZSkgLS0+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiwgMCkiPgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjEwIiBmb250LXNpemU9IjExLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM3ODY0NzAiIGxldHRlci1zcGFjaW5nPSIwLjAzZW0iPkJJT01BUktFUlM8L3RleHQ+CiAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwgMTgpIj4KICAgICAgICAgIDwhLS0gUGFpbiAwLTEwIEJhZGdlIC0tPgogICAgICAgICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9Ijg2IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNGQURDQ0IiIHN0cm9rZT0iI0YzQkY5RiIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0MyIgeT0iMTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzc3M0IxQiI+UGFpbjogMOKAkzEwPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQ2VydmljYWwgRmx1aWQgLS0+CiAgICAgICAgICA8cmVjdCB4PSI5NCIgeT0iMCIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNEM0VERTMiIHN0cm9rZT0iI0E3RENCOSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSIxNDEiIHk9IjE1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwLjUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxQTU3M0YiPkNlcnZpY2FsIEZsdWlkPC90ZXh0PgoKICAgICAgICAgIDwhLS0gQkJUICYgTEggLS0+CiAgICAgICAgICA8cmVjdCB4PSIwIiB5PSIzMiIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjI0IiByeD0iMTIiIGZpbGw9IiNFRkU2RjciIHN0cm9rZT0iI0RFQzhFRSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgICAgICA8dGV4dCB4PSI0NyIgeT0iNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+QkJUIFRoZXJtYWw8L3RleHQ+CgogICAgICAgICAgPCEtLSBQaWxsICYgTWVkcyAtLT4KICAgICAgICAgIDxyZWN0IHg9IjEwMiIgeT0iMzIiIHdpZHRoPSI4NiIgaGVpZ2h0PSIyNCIgcng9IjEyIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgICAgPHRleHQgeD0iMTQ1IiB5PSI0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMC41IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0QyMzQyIj5QaWxsIEFkaGVyZW5jZTwvdGV4dD4KICAgICAgICA8L2c+CiAgICAgIDwvZz4KICAgIDwvZz4KCiAgICA8IS0tIDMtTGV2ZWwgU3ltcHRvbXMgUm93IC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQsIDIzNCkiPgogICAgICA8dGV4dCB4PSIwIiB5PSIxNCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+My1JbnRlbnNpdHkgU3ltcHRvbSBDaGlwczo8L3RleHQ+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0OCwgMikiPgogICAgICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI4NCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkJFM0VBIiBzdHJva2U9IiNGM0M1RDMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzdEMjM0MiI+Q3JhbXBzPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjYyIiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjY5IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0iIzdEMjM0MiIvPgogICAgICAgIDxjaXJjbGUgY3g9Ijc2IiBjeT0iMTEiIHI9IjIuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0QyMzQyIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgICAgICAgPHJlY3QgeD0iOTIiIHk9IjAiIHdpZHRoPSI4OCIgaGVpZ2h0PSIyMiIgcng9IjExIiBmaWxsPSIjRkFGNUY3IiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDx0ZXh0IHg9IjEwNCIgeT0iMTQiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiM0ODE5MzAiPkhlYWRhY2hlPC90ZXh0PgogICAgICAgIDxjaXJjbGUgY3g9IjE1OCIgY3k9IjExIiByPSIyLjUiIGZpbGw9IiNEOTQ0N0UiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIxNjUiIGN5PSIxMSIgcj0iMi41IiBmaWxsPSJub25lIiBzdHJva2U9IiNEOTQ0N0UiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICAgIDxjaXJjbGUgY3g9IjE3MiIgY3k9IjExIiByPSIyLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Q5NDQ3RSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICBQSUxMQVIgNDogSW5zaWdodHMsIExvY2FsIEFzc2lzdGFudCAmIENsaW5pY2lhbiBDYXJlIChCb3R0b20tUmlnaHQpCiAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTU2LCA0MDgpIj4KICAgIDxyZWN0IHdpZHRoPSI0NzYiIGhlaWdodD0iMjc2IiByeD0iMjAiIGZpbGw9InVybCgjY2FyZEdyYWQpIiBzdHJva2U9IiNFQ0RCRTMiIHN0cm9rZS13aWR0aD0iMS4yIiBmaWx0ZXI9InVybCgjc2hhZG93U20pIi8+CgogICAgPCEtLSBTZWN0aW9uIEhlYWRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAyMCkiPgogICAgICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHJ4PSI4IiBmaWxsPSIjRkFEQ0NCIi8+CiAgICAgIDxwYXRoIGQ9Ik0xNCA2bDYgNi02IDYtNi02IDYtNnogTTE0IDEwYTIgMiAwIDEgMCAwIDQgMiAyIDAgMCAwIDAtNHoiIHN0cm9rZT0iIzc3M0IxQiIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgICA8dGV4dCB4PSIzOCIgeT0iMTgiIGNsYXNzPSJjYXJkLXRpdGxlIj5JbnNpZ2h0cywgTG9jYWwgQUkgJmFtcDsgQ2FyZTwvdGV4dD4KICAgICAgPHRleHQgeD0iMzgiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiPkNsaW5pY2FsIHJlZC1mbGFnIHRyaWdnZXJzICZhbXA7IHByaXZhdGUgb24tZGV2aWNlIFEmYW1wO0E8L3RleHQ+CiAgICA8L2c+CgogICAgPCEtLSBTdWItZmVhdHVyZSAxOiBMb2NhbCBIZWFsdGggQXNzaXN0YW50IENhcmQgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNCwgNjYpIj4KICAgICAgPHJlY3Qgd2lkdGg9IjQyOCIgaGVpZ2h0PSI3NCIgcng9IjEyIiBmaWxsPSIjRUZFNkY3IiBzdHJva2U9IiNERUM4RUUiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNMTIgMmwxLjggNS40TDE5IDkuNWwtNS4yIDIuMUwxMiAxN2wtMS44LTUuNEw1IDkuNWw1LjItMi4xTDEyIDJ6IiBmaWxsPSIjNTMyRTc3Ii8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjEyIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTMyRTc3Ij5Pbi1EZXZpY2UgSGVhbHRoIEFzc2lzdGFudDwvdGV4dD4KICAgICAgICA8cmVjdCB4PSIyNTQiIHk9IjAiIHdpZHRoPSI5NCIgaGVpZ2h0PSIxOCIgcng9IjkiIGZpbGw9IiNGRkZGRkYiLz4KICAgICAgICA8dGV4dCB4PSIzMDEiIHk9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjkuNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzUzMkU3NyI+MTAwJSBDbGllbnQtU2lkZTwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSIzNCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5FdmlkZW5jZS1iYXNlZCBhbnN3ZXJzIGNpdGluZyBBQ09HLCBOSFMgJmFtcDsgV0hPIG92ZXIgdXNlciBkYXRhLjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSIwIiB5PSI0OCIgY2xhc3M9ImNhcmQtc3ViIiBmb250LXNpemU9IjExIj5aZXJvIHByb21wdCB0cmFuc21pc3Npb247IG5ldmVyIHJlcGxhY2VzIGxpY2Vuc2VkIG1lZGljYWwgYWR2aWNlLjwvdGV4dD4KICAgICAgPC9nPgogICAgPC9nPgoKICAgIDwhLS0gU3ViLWZlYXR1cmUgMjogQ2xpbmljaWFuIFN1bW1hcnkgJiBDYXJlIEFsZXJ0cyAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0LCAxNTApIj4KICAgICAgPCEtLSBDYXJlIEFsZXJ0IFByb21wdCAtLT4KICAgICAgPHJlY3Qgd2lkdGg9IjIwNiIgaGVpZ2h0PSIxMDYiIHJ4PSIxMiIgZmlsbD0iI0ZCRTBCMCIgc3Ryb2tlPSIjRjVDNjc5IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIsIDE0KSI+CiAgICAgICAgPHBhdGggZD0iTTEwIDNsOCAxNEgyTDEwIDN6IE0xMCA4djQgTTEwIDE0aC4wMSIgc3Ryb2tlPSIjN0E0NDAwIiBzdHJva2Utd2lkdGg9IjEuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICAgICAgPHRleHQgeD0iMjQiIHk9IjExIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjN0E0NDAwIj5DbGluaWNhbCBTYWZldHkgQWxlcnRzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIEFic2VuY2UgJmd0OzkwZCAoQW1lbm9ycmhlYSk8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgaW50ZXJ2YWxzICZsdDsyMWQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQmxlZWRpbmcgZHVyYXRpb24gJmd0OzdkPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFNldmVyZSBwZWx2aWMgcGFpbiAo4omlOC8xMCk8L3RleHQ+CiAgICAgIDwvZz4KCiAgICAgIDwhLS0gQ2xpbmljaWFuIFN1bW1hcnkgRXhwb3J0IC0tPgogICAgICA8cmVjdCB4PSIyMTgiIHdpZHRoPSIyMTAiIGhlaWdodD0iMTA2IiByeD0iMTIiIGZpbGw9IiNGQUY1RjciIHN0cm9rZT0iI0VDREJFMyIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIzMCwgMTQpIj4KICAgICAgICA8cGF0aCBkPSJNNiAzaDhsNCA0djEwYTEgMSAwIDAgMS0xIDFINmExIDEgMCAwIDEtMS0xVjRhMSAxIDAgMCAxIDEtMXoiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8cGF0aCBkPSJNMTQgM3Y0aDQiIHN0cm9rZT0iIzQ4MTkzMCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiLz4KICAgICAgICA8dGV4dCB4PSIyMiIgeT0iMTEiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiM0ODE5MzAiPkNsaW5pY2lhbiBTdW1tYXJ5PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9IjMyIiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByaW50YWJsZSAmYW1wOyBjb3B5YWJsZSBmb3JtYXQ8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNDYiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgQ3ljbGUgJmFtcDsgcGVyaW9kIGRpc3RyaWJ1dGlvbnM8L3RleHQ+CiAgICAgICAgPHRleHQgeD0iMCIgeT0iNjAiIGNsYXNzPSJjYXJkLXN1YiIgZm9udC1zaXplPSIxMC41Ij7igKIgU3ltcHRvbSBwaGVub3R5cGUgdGFibGVzPC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjAiIHk9Ijc0IiBjbGFzcz0iY2FyZC1zdWIiIGZvbnQtc2l6ZT0iMTAuNSI+4oCiIFByZXBhcmVzIE9CL0dZTiB0cmlhZ2U8L3RleHQ+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICAgICBGT09URVI6IFNlY3VyaXR5ICYgU2NpZW50aWZpYyBEaXNjbGFpbWVyCiAgICAgICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0gLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsIDY5NCkiPgogICAgPHRleHQgeD0iMCIgeT0iMCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzc4NjQ3MCI+Q3ljbGVTaWRlQ2hpY2sgdjIuMC4wIOKAoiAxMDAlIE9uLURldmljZSBTaW5nbGUgUGFnZSAmYW1wOyBPZmZsaW5lIFBXQSDigKIgTWF0aGVtYXRpY2FsIGVzdGltYXRpb25zIGFyZSBhcHByb3hpbWF0aW9ucywgbm90IG1lZGljYWwgZGlhZ25vc2VzLjwvdGV4dD4KICAgIDx0ZXh0IHg9Ijk4NCIgeT0iMCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0Q5NDQ3RSI+Y3ljbGVzaWRlY2hpY2sub3JnPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
+      </div>
+    </div>
+
+    <!-- 7. Partner Share Feature -->
+    <div class="card tint-mint">
+      <div class="row">
+        <div>
+          <b>Partner Share</b>
+          <p class="mut" style="margin:2px 0 0">Opt-in, read-only partner snapshot generated locally without server accounts.</p>
+        </div>
+        <button class="chip" data-a="openPartner">Share</button>
       </div>
     </div>`;
+}
+
+function renderCareCustomModal() {
+  return `
+    <div class="scrim" data-a="closeCustomCareModal"></div>
+    <section class="sheet" role="dialog" aria-label="Add Comfort Strategy">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:12px">
+        <h3 style="margin:0">Add Personal Comfort Strategy</h3>
+        <button class="icon" data-a="closeCustomCareModal" aria-label="Close">${svgi("x", 18)}</button>
+      </div>
+      <p class="mut" style="font-size:13px;margin:0 0 14px">Save an item, ritual, or comfort practice that brings you personal relief.</p>
+
+      <label for="customCareTitle">Title</label>
+      <input id="customCareTitle" placeholder="e.g. Weighted blanket & cozy wool socks" style="width:100%;margin-bottom:12px">
+
+      <label for="customCareDesc">Description (optional)</label>
+      <input id="customCareDesc" placeholder="e.g. Dim the bedroom lights and rest horizontally" style="width:100%;margin-bottom:12px">
+
+      <label>Icon</label>
+      <div class="chips" style="gap:8px;margin-bottom:18px">
+        ${[
+          ["heart", "Heart"],
+          ["cup", "Drink / Tea"],
+          ["flame", "Warmth"],
+          ["moon", "Rest"],
+          ["sparkle", "Music / Art"],
+          ["sun", "Fresh Air"],
+          ["user", "Connection"]
+        ].map(([icName, label]) => `
+          <button class="chip ${ui.customCareIcon === icName ? "active" : ""}" data-a="selectCustomCareIcon" data-v="${icName}">
+            ${svgi(icName, 14)} ${label}
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="chips" style="display:grid;gap:8px">
+        <button class="btn" data-a="saveCustomCareItem">Save to Care Kit</button>
+        <button class="btn g" data-a="closeCustomCareModal">Cancel</button>
+      </div>
+    </section>`;
+}
+
+function renderDeleteJournalModal() {
+  const d = ui.deleteJournalConfirm;
+  return `
+    <div class="scrim" data-a="cancelDeleteJournal"></div>
+    <section class="sheet" role="dialog" aria-label="Confirm Delete Reflection">
+      <div class="sheet-handle"></div>
+      <div class="row" style="margin-bottom:12px">
+        <h3 style="margin:0">Delete Reflection?</h3>
+        <button class="icon" data-a="cancelDeleteJournal" aria-label="Close">${svgi("x", 18)}</button>
+      </div>
+      <p class="mut" style="line-height:1.5">Are you sure you want to delete your private journal reflection for <b>${fmt(N(d), { dateStyle: "long" })}</b>? This cannot be undone.</p>
+      <div class="chips" style="display:grid;gap:8px;margin-top:16px">
+        <button class="btn" style="background:var(--pink)" data-a="deleteJournalEntry" data-v="${d}">Delete Reflection</button>
+        <button class="btn g" data-a="cancelDeleteJournal">Keep Reflection</button>
+      </div>
+    </section>`;
 }
 
 /* 7. Clinician Summary Modal */
@@ -6126,13 +7591,285 @@ function render() {
     ${ui.clinicianModal ? clinicianModal() : ""}
     ${ui.conflict ? conflictModal() : ""}
     ${ui.infoTopic ? renderInfoModal() : ""}
-    ${ui.tourModal ? renderTourModal() : ""}`;
+    ${ui.tourModal ? renderTourModal() : ""}
+    ${ui.careCustomModal ? renderCareCustomModal() : ""}
+    ${ui.deleteJournalConfirm ? renderDeleteJournalModal() : ""}`;
 
   afterRender(ctx);
 }
 
 /* Event Delegation & Actions */
 const A = {
+  setCareTab: v => {
+    ui.careTab = v;
+    haptic(10);
+  },
+  careCheckin: v => {
+    const today = I(TD());
+    if (!S.careCheckin) S.careCheckin = {};
+    S.careCheckin[today] = { feeling: v, time: Date.now() };
+    saveState(S);
+    haptic(15);
+    toast(`Checked in: ${v.charAt(0).toUpperCase() + v.slice(1)}`);
+  },
+  nextReassurance: () => {
+    ui.careReassuranceIdx = (ui.careReassuranceIdx + 1) % 16;
+    haptic(10);
+  },
+  saveCareSuggestion: id => {
+    if (!S.careSaved) S.careSaved = {};
+    S.careSaved[id] = 1;
+    saveState(S);
+    haptic(15);
+    toast("Idea saved to your helpful collection");
+  },
+  dismissCareSuggestion: id => {
+    if (!S.careDismissed) S.careDismissed = {};
+    S.careDismissed[id] = 1;
+    saveState(S);
+    haptic(10);
+    toast("Idea dismissed");
+  },
+  addCareKitSuggestion: kitId => {
+    if (!S.careKit) S.careKit = [...DEFAULT_CARE_KIT];
+    const existing = S.careKit.find(k => k.id === kitId);
+    if (existing) {
+      existing.isFav = 1;
+      toast("Favorited in your Personal Care Kit");
+    } else {
+      const match = DEFAULT_CARE_KIT.find(k => k.id === kitId);
+      if (match) S.careKit.push({ ...match, isFav: 1 });
+      toast("Added to your Personal Care Kit");
+    }
+    saveState(S);
+    haptic(15);
+  },
+  setCareKitFilter: v => {
+    ui.careKitFilter = v;
+    haptic(10);
+  },
+  toggleCareKitFav: id => {
+    if (!S.careKit) S.careKit = [...DEFAULT_CARE_KIT];
+    const item = S.careKit.find(k => k.id === id);
+    if (item) {
+      item.isFav = item.isFav ? 0 : 1;
+      saveState(S);
+      haptic(12);
+      toast(item.isFav ? "Favorited" : "Removed from favorites");
+    }
+  },
+  openCustomCareModal: () => {
+    ui.careCustomModal = true;
+    ui.customCareTitle = "";
+    ui.customCareDesc = "";
+    ui.customCareIcon = "heart";
+    haptic(10);
+  },
+  closeCustomCareModal: () => {
+    ui.careCustomModal = false;
+    haptic(10);
+  },
+  selectCustomCareIcon: v => {
+    ui.customCareIcon = v;
+    haptic(10);
+  },
+  saveCustomCareItem: () => {
+    const titleEl = document.getElementById("customCareTitle");
+    const descEl = document.getElementById("customCareDesc");
+    const title = titleEl ? titleEl.value.trim() : ui.customCareTitle.trim();
+    const desc = descEl ? descEl.value.trim() : ui.customCareDesc.trim();
+    if (!title) {
+      toast("Please enter a title");
+      return;
+    }
+    if (!S.careKit) S.careKit = [...DEFAULT_CARE_KIT];
+    const newItem = {
+      id: "custom-" + Date.now(),
+      title,
+      desc,
+      icon: ui.customCareIcon || "heart",
+      isFav: 1,
+      isCustom: 1
+    };
+    S.careKit.unshift(newItem);
+    saveState(S);
+    ui.careCustomModal = false;
+    haptic(20);
+    toast("Added to Personal Care Kit");
+  },
+  deleteCustomCareItem: id => {
+    if (!S.careKit) return;
+    S.careKit = S.careKit.filter(k => k.id !== id);
+    saveState(S);
+    haptic(10);
+    toast("Strategy removed");
+  },
+  openJournal: d => {
+    ui.tab = "care";
+    ui.careTab = "journal";
+    if (d) ui.journalDate = d;
+    haptic(10);
+  },
+  openJournalWithPrompt: prompt => {
+    ui.tab = "care";
+    ui.careTab = "journal";
+    ui.journalPromptToInsert = prompt;
+    haptic(10);
+  },
+  setJournalDate: d => {
+    ui.journalDate = d;
+    ui.journalNotice = "";
+    haptic(10);
+  },
+  stepJournalDate: delta => {
+    const curN = N(ui.journalDate || I(TD()));
+    ui.journalDate = I(curN + (+delta || 0));
+    ui.journalNotice = "";
+    haptic(10);
+  },
+  jumpJournalToday: () => {
+    ui.journalDate = I(TD());
+    ui.journalNotice = "";
+    haptic(10);
+  },
+  setJournalMood: m => {
+    ui.journalDraftMood = m;
+    haptic(10);
+  },
+  toggleJournalTag: tag => {
+    if (!ui.journalDraftTags) ui.journalDraftTags = [];
+    const idx = ui.journalDraftTags.indexOf(tag);
+    if (idx >= 0) ui.journalDraftTags.splice(idx, 1);
+    else ui.journalDraftTags.push(tag);
+    haptic(10);
+  },
+  insertJournalPrompt: prompt => {
+    const textEl = document.getElementById("journalText");
+    if (textEl) {
+      if (textEl.value.trim()) {
+        textEl.value += "\n\n" + prompt + "\n";
+      } else {
+        textEl.value = prompt + "\n";
+      }
+      textEl.focus();
+      haptic(10);
+      toast("Prompt added to reflection");
+    }
+  },
+  saveJournalEntry: () => {
+    const d = ui.journalDate || I(TD());
+    const textEl = document.getElementById("journalText");
+    const gratEl = document.getElementById("journalGratitude");
+    const helpedEl = document.getElementById("journalHelped");
+    const energyEl = document.getElementById("journalEnergy");
+    const comfortEl = document.getElementById("journalComfort");
+    const stressEl = document.getElementById("journalStress");
+
+    const text = textEl ? textEl.value.trim() : "";
+    const gratitude = gratEl ? gratEl.value.trim() : "";
+    const helped = helpedEl ? helpedEl.value.trim() : "";
+    const energy = energyEl ? +energyEl.value : 3;
+    const comfort = comfortEl ? +comfortEl.value : 3;
+    const stress = stressEl ? stressEl.value : "mild";
+
+    if (!text && !gratitude && !helped && !ui.journalDraftMood) {
+      toast("Please write a reflection or pick a feeling");
+      return;
+    }
+
+    if (!S.journal) S.journal = {};
+    const existing = S.journal[d] || {};
+    S.journal[d] = {
+      ...existing,
+      id: existing.id || ("j-" + d),
+      date: d,
+      text,
+      gratitude,
+      helped,
+      mood: ui.journalDraftMood || existing.mood || "",
+      energy,
+      comfort,
+      stress,
+      tags: ui.journalDraftTags && ui.journalDraftTags.length ? [...ui.journalDraftTags] : (existing.tags || []),
+      updatedAt: Date.now(),
+      createdAt: existing.createdAt || Date.now()
+    };
+    saveState(S);
+    haptic(20);
+    ui.journalNotice = `Saved · ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    toast("Reflection saved on your device");
+  },
+  editJournalEntry: d => {
+    ui.journalDate = d;
+    const e = (S.journal && S.journal[d]) || {};
+    ui.journalDraftMood = e.mood || "";
+    ui.journalDraftTags = e.tags ? [...e.tags] : [];
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    haptic(10);
+  },
+  promptDeleteJournal: d => {
+    ui.deleteJournalConfirm = d;
+    haptic(10);
+  },
+  cancelDeleteJournal: () => {
+    ui.deleteJournalConfirm = null;
+    haptic(10);
+  },
+  deleteJournalEntry: d => {
+    if (S.journal && S.journal[d]) {
+      delete S.journal[d];
+      saveState(S);
+      toast("Reflection deleted");
+    }
+    ui.deleteJournalConfirm = null;
+    ui.journalNotice = "";
+    ui.journalDraftTags = [];
+    ui.journalDraftMood = "";
+    haptic(15);
+  },
+  filterJournalMood: m => {
+    ui.journalMoodFilter = (ui.journalMoodFilter === m ? "" : m);
+    haptic(10);
+  },
+  filterJournalTag: t => {
+    ui.journalTagFilter = (ui.journalTagFilter === t ? "" : t);
+    haptic(10);
+  },
+  exportJournal: () => {
+    const entries = Object.values(S.journal || {}).sort((a, b) => (b.date > a.date ? 1 : -1));
+    if (entries.length === 0) {
+      toast("No journal entries to export yet");
+      return;
+    }
+    let md = `# CycleSideChick — Private Journal Reflections\n`;
+    md += `Exported: ${new Date().toLocaleDateString(undefined, { dateStyle: "long" })}\n\n`;
+    entries.forEach(e => {
+      md += `## ${fmt(N(e.date), { weekday: "long", year: "numeric", month: "long", day: "numeric" })}\n`;
+      if (e.mood) md += `- **Feeling / Mood:** ${e.mood}\n`;
+      if (e.energy) md += `- **Energy:** ${e.energy}/5 | **Physical Comfort:** ${e.comfort}/5 | **Stress:** ${e.stress}\n`;
+      if (e.tags && e.tags.length) md += `- **Tags:** ${e.tags.join(", ")}\n`;
+      if (e.text) md += `\n### Reflection\n${e.text}\n`;
+      if (e.gratitude) md += `\n### Daily Gratitude / Self-Kindness\n${e.gratitude}\n`;
+      if (e.helped) md += `\n### What Helped\n${e.helped}\n`;
+      md += `\n---\n\n`;
+    });
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `CycleSideChick-Journal-${new Date().toISOString().slice(0, 10)}.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+    haptic([20, 40]);
+    toast("Journal exported as Markdown");
+  },
+  toggleCareReminder: key => {
+    if (!S.careReminders) S.careReminders = { period: 1, checkin: 1, prep: 1, journal: 0, routine: 0 };
+    S.careReminders[key] = S.careReminders[key] ? 0 : 1;
+    saveState(S);
+    haptic(12);
+    toast("Reminder preference updated");
+  },
   tab: v => {
     if (ui.tab === v) return;
     scrollPositions[ui.tab] = window.scrollY;
@@ -6609,7 +8346,13 @@ document.addEventListener("change", e => {
 /* Keyboard Accessibility: Dismiss Topmost Open Modal on Escape */
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" || e.key === "Esc") {
-    if (ui.conflict) {
+    if (ui.deleteJournalConfirm) {
+      ui.deleteJournalConfirm = null;
+      render();
+    } else if (ui.careCustomModal) {
+      ui.careCustomModal = false;
+      render();
+    } else if (ui.conflict) {
       ui.conflict = null;
       render();
     } else if (ui.tourModal) {

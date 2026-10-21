@@ -335,8 +335,293 @@ function getRecommendedArticles(loggedSymptoms = {}, mode = "natural") {
   return unique.slice(0, 4);
 }
 
+/* ==========================================================================
+   Care, Comfort & Compassionate Companion System
+   ========================================================================== */
+
+const REASSURANCE_MESSAGES = [
+  "You don't have to be productive every single day. Rest is allowed.",
+  "Your experience is your own. There's no single right way to feel during your cycle.",
+  "Small acts of care count, even when that's all you can manage today.",
+  "You can listen to your body without having to explain everything it feels.",
+  "Your cycle is information about your body, not a measure of your worth.",
+  "It's okay to feel different today than you did last week. Hormones naturally ebb and flow.",
+  "Giving yourself grace is a valid and powerful form of wellness.",
+  "You deserve comfort, quiet, and spaces where you don't have to be 'on'.",
+  "There is nothing wrong with you for needing more downtime right now.",
+  "Every cycle is unique. Comparing yourself to rigid averages only creates unnecessary worry.",
+  "Be proud of the small ways you showed up for yourself today.",
+  "Resting before you reach complete exhaustion is a learned, compassionate skill.",
+  "Your feelings don't need a medical justification to be real and valid.",
+  "Breathe in ease, exhale expectation. You are doing enough.",
+  "Your comfort matters just as much as your commitments.",
+  "Cycles are living rhythms, not factory schedules. Variance is completely natural."
+];
+
+function getReassuranceMessage(idx = 0) {
+  const i = Math.abs(idx) % REASSURANCE_MESSAGES.length;
+  return REASSURANCE_MESSAGES[i];
+}
+
+const FULL_CYCLE_CARE_GUIDES = {
+  menstrual: {
+    key: "menstrual",
+    phaseName: "Menstrual Phase",
+    theme: "Comfort & Gentleness",
+    badgeColor: "tint-rose",
+    focus: "Nourishment, warmth, and permission to slow down",
+    suggestions: [
+      "Warm compresses or a heating pad used safely across pelvis or lower back",
+      "Restorative stretching, gentle walking, or cozy horizontal rest as comfortable",
+      "Hydration and regular, warm, nourishing iron-rich meals (lentils, leafy greens, broths)",
+      "Comfortable, non-binding waistbands and soft breathable clothing",
+      "Keeping period supplies accessible and prepared"
+    ],
+    journalPrompt: "What would make today a little easier?",
+    biology: "Estrogen and progesterone are at baseline levels as the endometrium sheds. Natural prostaglandins can cause muscle contractions and cramping.",
+    selfCareTip: "Honor your body's request for deeper sleep and slower mornings."
+  },
+  follicular: {
+    key: "follicular",
+    phaseName: "Follicular Phase",
+    theme: "Fresh Starts & Exploration",
+    badgeColor: "tint-sage",
+    focus: "Curiosity, renewal, and exploring routines that feel good",
+    suggestions: [
+      "Explore routines, creative interests, and light planning that feel inspiring",
+      "Optional movement, social catch-ups, or hobbies without pressure to perform",
+      "Fresh, colorful meals with fiber, healthy fats, and probiotic fermented foods",
+      "Take note of changing energy and mood without assuming every day will be high-energy"
+    ],
+    journalPrompt: "What would I like to make room for this week?",
+    biology: "FSH prompts ovarian follicle growth, and estrogen steadily rises, supporting natural vitality for many (though individual experience varies widely).",
+    selfCareTip: "Notice what brings you genuine curiosity this week without forcing productivity."
+  },
+  fertile: {
+    key: "fertile",
+    phaseName: "Around Ovulation",
+    theme: "Body Awareness & Presence",
+    badgeColor: "tint-lavender",
+    focus: "Listening to sensations and understanding natural cycle variability",
+    suggestions: [
+      "Notice cervical fluid changes (becoming clearer, more slippery or egg-white)",
+      "Observe any subtle pelvic sensations (mittelschmerz) or shifts in sociability",
+      "Support energy with antioxidant-rich berries, seeds, and steady hydration",
+      "Remember: calendar predictions are mathematical estimates, never contraceptive guarantees"
+    ],
+    journalPrompt: "What changes, if any, have I noticed in my body?",
+    biology: "Estrogen peaks to trigger an LH surge, prompting the release of an egg. Ovulation timing naturally shifts from cycle to cycle.",
+    selfCareTip: "Enjoy natural vitality while honoring your personal boundaries."
+  },
+  luteal: {
+    key: "luteal",
+    phaseName: "Luteal Phase",
+    theme: "Support & Preparation",
+    badgeColor: "tint-peach",
+    focus: "Grounded nesting, stress support, and thoughtful preparation",
+    suggestions: [
+      "Assemble a gentle period-preparation checklist (supplies, cozy layers, heat wrap)",
+      "Prioritize winding-down evening routines and steady blood sugar meals with magnesium",
+      "Notice recurring mood, appetite, skin, or energy patterns with self-compassion",
+      "Set gentle personal boundaries and decline optional social demands if drained"
+    ],
+    journalPrompt: "What support would feel helpful over the next few days?",
+    biology: "The corpus luteum secretes progesterone, calming the nervous system but potentially creating sensitivity as levels shift before menstruation.",
+    selfCareTip: "Give yourself permission to turn inward and protect your evening peace."
+  },
+  uncertain: {
+    key: "uncertain",
+    phaseName: "Everyday Wellbeing",
+    theme: "Unconditional Self-Kindness",
+    badgeColor: "tint-sky",
+    focus: "Body trust, self-compassion, and unconditional everyday care",
+    suggestions: [
+      "When cycle history is new or irregular, we never guess your phase with false certainty",
+      "Practice everyday comfort: staying hydrated, gentle stretching, and nourishing meals",
+      "Check in with how your body feels today rather than what a calendar expects",
+      "Keep logging dates and symptoms—your personal patterns will emerge naturally over time"
+    ],
+    journalPrompt: "How am I treating myself today, and what kindness can I offer my body right now?",
+    biology: "Cycles naturally fluctuate in response to stress, travel, illness, sleep, or individual physiology. Your wellbeing does not depend on a rigid calendar label.",
+    selfCareTip: "Offer your body gentleness today. You do not need a label to practice self-care."
+  }
+};
+
+const CYCLE_EXPLAINED_CARDS = [
+  {
+    id: "phase-biology",
+    category: "Endocrine Science",
+    badgeColor: "tint-lavender",
+    title: "How Cycle Phases Really Work",
+    summary: "The rhythmic dance between the brain and ovaries across four distinct hormonal stages.",
+    content: "The menstrual cycle is guided by communication between the hypothalamus, pituitary gland, and ovaries (the HPO axis). Estrogen prompts uterine lining growth and follicular maturation; progesterone stabilizes the lining and supports nervous system calm. Cycle length and phase lengths vary naturally month to month.",
+    source: "American College of Obstetricians and Gynecologists (ACOG)"
+  },
+  {
+    id: "bodily-changes",
+    category: "Physiology",
+    badgeColor: "tint-rose",
+    title: "Bodily Sensations & Unique Variations",
+    summary: "Why cramping, cervical fluid shifts, and energy changes feel different for everyone.",
+    content: "Menstrual cramps result from localized prostaglandins causing uterine muscle contractions. Cervical mucus shifts from creamy to slippery and egg-white around ovulation. Because hormone receptor sensitivity differs, there is no single 'normal' way to feel. Listening to your own patterns is the most accurate benchmark.",
+    source: "National Health Service (NHS)"
+  },
+  {
+    id: "tracking-limits",
+    category: "Self-Advocacy",
+    badgeColor: "tint-sky",
+    title: "What Tracking Can & Cannot Tell You",
+    summary: "Understanding the difference between mathematical calendar forecasts and clinical certainty.",
+    content: "Period tracker dates are mathematical models based on past history and population averages. They are helpful for noticing trends, planning ahead, and self-advocacy with doctors. However, calendar estimates cannot confirm exact ovulation or reliably prevent pregnancy without clinical biomarkers.",
+    source: "American Society for Reproductive Medicine (ASRM)"
+  },
+  {
+    id: "myths-debunked",
+    category: "Health Literacy",
+    badgeColor: "tint-butter",
+    title: "Common Cycle Misconceptions",
+    summary: "Debunking the rigid 28-day cycle myth and unrealistic expectations.",
+    content: "Only about 13% of people have exact 28-day cycles; normal adult cycles range from 21 to 35 days. Ovulation does not always happen on day 14. PMS is not 'imaginary'—it reflects biological sensitivities to shifting neurosteroids. Recognizing this removes unnecessary guilt and self-blame.",
+    source: "World Health Organization (WHO) Reproductive Health"
+  },
+  {
+    id: "clinical-guidance",
+    category: "Safety & Care",
+    badgeColor: "tint-amber",
+    title: "When Symptoms Deserve Medical Care",
+    summary: "Clear clinical red flags to discuss with a physician or gynecologist.",
+    content: "Consult a healthcare provider if: bleeding regularly soaks through 2+ pads/tampons per hour; period pain reaches severe levels (8+/10) that resist OTC medication or disrupt basic life; bleeding lasts more than 7–8 days consecutively; or your period is absent for 90+ days without pregnancy. Severe pain is never something you must silently endure.",
+    source: "ACOG Clinical Practice Guidelines"
+  }
+];
+
+function getCareSuggestions(S, dateStr) {
+  const L = (S.logs && S.logs[dateStr]) || {};
+  const dismissed = S.careDismissed || {};
+  const checkin = (S.careCheckin && S.careCheckin[dateStr]) || {};
+  const syms = Object.keys(L.sy || {}).map(s => s.toLowerCase());
+  const pain = +(L.p || 0);
+  const mood = L.m;
+  const feeling = checkin.feeling || "";
+
+  const allSuggestions = [];
+
+  // Rule 1: Cramps / Pelvic Pain
+  if (syms.includes("cramps") || pain >= 4) {
+    allSuggestions.push({
+      id: "care-cramps-warmth",
+      category: "Warmth & Comfort",
+      categoryColor: "rose",
+      icon: "flame",
+      title: "Soothing Pelvic Warmth",
+      desc: "Warmth increases local blood flow and relaxes uterine smooth muscle. A heating pad, hot water bottle, or warm bath used safely can ease cramp tension.",
+      actionLabel: "Add to Care Kit",
+      kitId: "heat"
+    });
+  }
+
+  // Rule 2: Fatigue / Low Energy
+  if (syms.includes("fatigue") || L.en === "low" || feeling === "tired") {
+    allSuggestions.push({
+      id: "care-fatigue-rest",
+      category: "Rest & Recovery",
+      categoryColor: "lavender",
+      icon: "moon",
+      title: "Permission to Slow Down",
+      desc: "Fatigue is your body's clear request to conserve energy. Postpone optional demands today and grant yourself a 20-minute horizontal pause without guilt.",
+      actionLabel: "Add to Care Kit",
+      kitId: "rest"
+    });
+  }
+
+  // Rule 3: Stress / Overwhelm
+  if (syms.includes("stress") || feeling === "stressed" || mood === 3) {
+    allSuggestions.push({
+      id: "care-stress-breath",
+      category: "Mindfulness & Calm",
+      categoryColor: "sage",
+      icon: "sparkle",
+      title: "2-Minute Gentle Breath Reset",
+      desc: "When overwhelmed, taking slow 4-second breaths activates the parasympathetic nervous system. Soften your jaw, drop your shoulders, and inhale gently.",
+      actionLabel: "Add to Care Kit",
+      kitId: "stretch"
+    });
+  }
+
+  // Rule 4: Headache
+  if (syms.includes("headache")) {
+    allSuggestions.push({
+      id: "care-headache-hydration",
+      category: "Nourishment & Ease",
+      categoryColor: "sky",
+      icon: "water",
+      title: "Cool Compress & Hydration",
+      desc: "Hormonal shifts and tension can trigger headaches. Sip a tall glass of cool water, dim overhead screens, and rest a damp cool cloth across your forehead.",
+      actionLabel: "Add to Care Kit",
+      kitId: "tea"
+    });
+  }
+
+  // Rule 5: Bloating / Digestive Sensitivity
+  if (syms.includes("bloating")) {
+    allSuggestions.push({
+      id: "care-bloating-comfort",
+      category: "Gentle Digestion",
+      categoryColor: "butter",
+      icon: "heart",
+      title: "Loose Clothing & Warm Peppermint",
+      desc: "Progesterone can slow digestion and cause fluid retention. Switch into soft, non-binding waistbands and enjoy a warm cup of herbal tea.",
+      actionLabel: "Add to Care Kit",
+      kitId: "clothes"
+    });
+  }
+
+  // Rule 6: Sensitive / Tender Feelings
+  if (feeling === "sensitive" || feeling === "tender" || mood === 4) {
+    allSuggestions.push({
+      id: "care-sensitive-space",
+      category: "Emotional Care",
+      categoryColor: "peach",
+      icon: "user",
+      title: "Emotional Buffer & Validating Space",
+      desc: "Your feelings are real and deserve gentle room. Protect your energy, listen to comforting music, and consider reaching out to someone who validates you.",
+      actionLabel: "Add to Care Kit",
+      kitId: "talk"
+    });
+  }
+
+  // Rule 7: General / Everyday Wellbeing Default
+  allSuggestions.push({
+    id: "care-daily-nourish",
+    category: "Everyday Care",
+    categoryColor: "sage",
+    icon: "sun",
+    title: "Small Act of Everyday Kindness",
+    desc: "Pause for one slow, deep breath. Drink a glass of water, gently roll your shoulders back, and remind yourself that you are doing the best you can.",
+    actionLabel: "Add to Care Kit",
+    kitId: "fresh-air"
+  });
+
+  allSuggestions.push({
+    id: "care-journal-prompt",
+    category: "Self-Reflection",
+    categoryColor: "lavender",
+    icon: "book",
+    title: "Quiet Moment in My Journal",
+    desc: "Writing for just two minutes helps externalize busy thoughts. Capture one feeling or one thing you are grateful for today.",
+    actionLabel: "Open My Journal",
+    kitId: "journal"
+  });
+
+  // Filter out dismissed suggestions
+  const filtered = allSuggestions.filter(s => !dismissed[s.id]);
+  return filtered.slice(0, 3);
+}
+
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
-    ARTICLES, searchArticles, getArticlesByTag, getRecommendedArticles
+    ARTICLES, searchArticles, getArticlesByTag, getRecommendedArticles,
+    REASSURANCE_MESSAGES, getReassuranceMessage, FULL_CYCLE_CARE_GUIDES,
+    CYCLE_EXPLAINED_CARDS, getCareSuggestions
   };
 }

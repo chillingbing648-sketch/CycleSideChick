@@ -24,8 +24,13 @@ const {
 } = require("../src/js/engine.js");
 
 const {
-  generateJSON, previewImport, defState, migrateState
+  generateJSON, generateCSV, previewImport, defState, migrateState, DEFAULT_CARE_KIT
 } = require("../src/js/storage.js");
+
+const {
+  REASSURANCE_MESSAGES, getReassuranceMessage, FULL_CYCLE_CARE_GUIDES,
+  CYCLE_EXPLAINED_CARDS, getCareSuggestions
+} = require("../src/js/content.js");
 
 console.log("==================================================");
 console.log("RUNNING CYCLESIDECHICK CYCLE ENGINE UNIT TESTS");
@@ -356,6 +361,111 @@ it("Initializes motion, haptics, and view toggles with safe migration", () => {
   assert.strictEqual(migrated.periods.length, 1, "Preserves existing period records");
   assert.strictEqual(migrated.motion, 1, "Backfills motion toggle safely");
   assert.strictEqual(migrated.haptics, 1, "Backfills haptics toggle safely");
+  assert(migrated.journal !== undefined, "Backfills journal object safely");
+  assert(Array.isArray(migrated.careKit), "Backfills care kit array safely");
+});
+
+// 17. Reassurance Messages & Non-Judgmental Content
+it("Provides compassionate reassurance messages that rotate gracefully", () => {
+  assert(REASSURANCE_MESSAGES.length >= 10, "Must provide a rich library of reassuring thoughts");
+  const msg1 = getReassuranceMessage(0);
+  const msg2 = getReassuranceMessage(1);
+  assert(typeof msg1 === "string" && msg1.length > 10, "Valid message string");
+  assert.notStrictEqual(msg1, msg2, "Different indices return different messages");
+  assert.strictEqual(getReassuranceMessage(REASSURANCE_MESSAGES.length), msg1, "Wraps gracefully on overflow");
+});
+
+// 18. Full-Cycle Care Guide
+it("Covers all 4 phases plus uncertain stage with non-dogmatic prompts", () => {
+  const keys = ["menstrual", "follicular", "fertile", "luteal", "uncertain"];
+  keys.forEach(k => {
+    const guide = FULL_CYCLE_CARE_GUIDES[k];
+    assert(guide !== undefined, `Guide must exist for phase: ${k}`);
+    assert(typeof guide.phaseName === "string" && guide.phaseName.length > 0);
+    assert(Array.isArray(guide.suggestions) && guide.suggestions.length >= 3, `Suggestions list for ${k}`);
+    assert(typeof guide.journalPrompt === "string" && guide.journalPrompt.length > 0, `Journal prompt for ${k}`);
+    assert(typeof guide.selfCareTip === "string" && guide.selfCareTip.length > 0);
+  });
+});
+
+// 19. Transparent Rule-Based Care Suggestions
+it("Generates targeted, non-prescriptive care suggestions based on logged state", () => {
+  const S = defState();
+  const today = "2026-10-21";
+  
+  // Case A: Cramps logged -> suggests soothing warmth
+  S.logs[today] = { sy: { Cramps: 3 }, p: 6 };
+  const crampSuggestions = getCareSuggestions(S, today);
+  assert(crampSuggestions.some(s => s.id === "care-cramps-warmth"), "Suggests pelvic warmth when cramps/pain logged");
+
+  // Case B: Dismissed suggestion is suppressed
+  S.careDismissed["care-cramps-warmth"] = 1;
+  const filteredSuggestions = getCareSuggestions(S, today);
+  assert(!filteredSuggestions.some(s => s.id === "care-cramps-warmth"), "Dismissed suggestion must not be displayed");
+
+  // Case C: Fatigue logged
+  S.logs[today] = { sy: { Fatigue: 2 }, en: "low" };
+  const fatigueSuggestions = getCareSuggestions(S, today);
+  assert(fatigueSuggestions.some(s => s.id === "care-fatigue-rest"), "Suggests rest/slowing down when fatigued");
+
+  // Case D: Stress logged
+  S.logs[today] = { sy: { Stress: 2 }, m: 3 };
+  const stressSuggestions = getCareSuggestions(S, today);
+  assert(stressSuggestions.some(s => s.id === "care-stress-breath"), "Suggests gentle breath reset when stressed");
+});
+
+// 20. Private Journal State & Export Preservation
+it("Persists private journal reflections, supports editing, and exports to CSV & JSON", () => {
+  const S = defState();
+  const d = "2026-10-21";
+  
+  // Add reflection
+  S.journal[d] = {
+    id: "j-" + d,
+    date: d,
+    text: "Felt quiet and reflective today.",
+    gratitude: "Grateful for a warm bath and reading time.",
+    helped: "Heating pad and loose pajamas",
+    mood: "sensitive",
+    energy: 2,
+    comfort: 3,
+    stress: "mild",
+    tags: ["Warm Tea", "Quiet Rest"]
+  };
+
+  // CSV export includes journal reflections
+  const csv = generateCSV(S);
+  assert(csv.includes("Felt quiet and reflective today."), "CSV must include journal text");
+  assert(csv.includes("Grateful for a warm bath"), "CSV must include journal gratitude");
+  assert(csv.includes("Journal_Reflection"), "CSV headers must include journal columns");
+
+  // JSON export includes journal reflections
+  const jsonStr = generateJSON(S);
+  const parsed = JSON.parse(jsonStr);
+  assert(parsed.data.journal[d] !== undefined, "JSON backup must preserve journal reflections");
+  assert.strictEqual(parsed.data.journal[d].text, "Felt quiet and reflective today.");
+});
+
+// 21. Personal Care Kit Strategies
+it("Initializes Personal Care Kit with defaults and preserves favorites & custom items", () => {
+  assert(DEFAULT_CARE_KIT.length >= 6, "Must provide sensible default comfort strategies");
+  const S = defState();
+  assert.strictEqual(S.careKit.length, DEFAULT_CARE_KIT.length);
+
+  // Toggle favorite
+  S.careKit[0].isFav = 1;
+  // Add custom strategy
+  S.careKit.push({
+    id: "custom-blanket",
+    title: "Weighted blanket",
+    desc: "Cozy pressure on bed",
+    icon: "moon",
+    isFav: 1,
+    isCustom: 1
+  });
+  assert.strictEqual(S.careKit.length, DEFAULT_CARE_KIT.length + 1);
+  const custom = S.careKit.find(k => k.id === "custom-blanket");
+  assert(custom !== undefined && custom.isCustom === 1);
 });
 
 console.log("==================================================");
