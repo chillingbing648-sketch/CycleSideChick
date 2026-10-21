@@ -1,0 +1,691 @@
+/* ==========================================================================
+   CycleSideChick — UI Primitives CSS
+   Tokens-driven, accessible, 44px min touch targets, spring animations.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Card Component
+   -------------------------------------------------------------------------- */
+.c-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: transform var(--dur-normal) var(--ease-spring),
+              box-shadow var(--dur-normal) var(--ease-spring),
+              border-color var(--dur-normal) var(--ease-out-expo);
+  overflow: hidden;
+}
+
+.c-card--base {
+  box-shadow: var(--elev-1);
+}
+
+.c-card--raised {
+  box-shadow: var(--elev-2);
+  border-color: var(--border-subtle);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-raised) 100%);
+}
+
+.c-card--hero {
+  box-shadow: var(--elev-3);
+  background: radial-gradient(circle at 85% 15%, var(--ambient-a) 0%, transparent 60%),
+              radial-gradient(circle at 15% 85%, var(--ambient-b) 0%, transparent 55%),
+              var(--surface);
+  border-color: var(--border-subtle);
+}
+
+.c-card--glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--elev-2);
+}
+
+.c-card--tinted {
+  border-color: transparent;
+}
+.c-card--tint-rose { background: var(--tint-rose-bg); color: var(--tint-rose-text); border-color: var(--tint-rose-border); }
+.c-card--tint-lavender { background: var(--tint-lavender-bg); color: var(--tint-lavender-text); border-color: var(--tint-lavender-border); }
+.c-card--tint-butter { background: var(--tint-butter-bg); color: var(--tint-butter-text); border-color: var(--tint-butter-border); }
+.c-card--tint-amber { background: var(--tint-amber-bg); color: var(--tint-amber-text); border-color: var(--tint-amber-border); }
+.c-card--tint-sage { background: var(--tint-sage-bg); color: var(--tint-sage-text); border-color: var(--tint-sage-border); }
+.c-card--tint-mint { background: var(--tint-mint-bg); color: var(--tint-mint-text); border-color: var(--tint-mint-border); }
+.c-card--tint-sky { background: var(--tint-sky-bg); color: var(--tint-sky-text); border-color: var(--tint-sky-border); }
+.c-card--tint-peach { background: var(--tint-peach-bg); color: var(--tint-peach-text); border-color: var(--tint-peach-border); }
+
+.c-card--interactive {
+  cursor: pointer;
+  user-select: none;
+}
+.c-card--interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elev-3);
+}
+.c-card--interactive:active {
+  transform: scale(0.985);
+  box-shadow: var(--elev-1);
+}
+
+.c-card__header {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.c-card__body {
+  padding: var(--space-4);
+}
+.c-card__footer {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface-raised);
+}
+
+/* --------------------------------------------------------------------------
+   2. Button Component
+   -------------------------------------------------------------------------- */
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 var(--space-4);
+  text-decoration: none;
+  position: relative;
+  transition: transform var(--dur-fast) var(--ease-spring),
+              background var(--dur-normal) var(--ease-out-expo),
+              box-shadow var(--dur-normal) var(--ease-out-expo),
+              border-color var(--dur-normal) var(--ease-out-expo),
+              opacity var(--dur-fast) var(--ease-out-expo);
+}
+
+.c-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.c-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.c-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Sizes */
+.c-btn--sm {
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-small);
+}
+.c-btn--md {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-body);
+}
+.c-btn--lg {
+  min-height: 52px;
+  padding: 0 var(--space-6);
+  font-size: var(--text-h3);
+}
+
+/* Variants */
+.c-btn--primary {
+  background: linear-gradient(135deg, var(--berry) 0%, var(--plum) 100%);
+  color: #FFFFFF;
+  box-shadow: var(--elev-1), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+.c-btn--primary:hover:not(:disabled) {
+  box-shadow: var(--elev-2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  filter: brightness(1.04);
+}
+
+.c-btn--secondary {
+  background: var(--surface);
+  color: var(--plum);
+  border-color: var(--border);
+  box-shadow: var(--elev-1);
+}
+.c-btn--secondary:hover:not(:disabled) {
+  background: var(--surface-raised);
+  border-color: var(--plum);
+}
+
+.c-btn--ghost {
+  background: transparent;
+  color: var(--plum);
+}
+.c-btn--ghost:hover:not(:disabled) {
+  background: var(--pink-light);
+}
+
+.c-btn--danger {
+  background: var(--tint-rose-bg);
+  color: var(--phase-menstrual);
+  border-color: var(--tint-rose-border);
+}
+.c-btn--danger:hover:not(:disabled) {
+  background: var(--phase-menstrual);
+  color: #FFFFFF;
+}
+
+.c-btn--pill {
+  border-radius: var(--radius-full);
+  padding: 0 var(--space-5);
+}
+
+/* Loading & Success States */
+.c-btn__spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: cBtnSpin 0.7s linear infinite;
+}
+@keyframes cBtnSpin {
+  to { transform: rotate(360deg); }
+}
+
+.c-btn__check {
+  display: inline-flex;
+  animation: cBtnCheckPop var(--dur-normal) var(--ease-spring);
+}
+@keyframes cBtnCheckPop {
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   3. ToggleChip Component
+   -------------------------------------------------------------------------- */
+.c-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--dur-fast) var(--ease-spring),
+              background var(--dur-normal) var(--ease-out-expo),
+              border-color var(--dur-normal) var(--ease-out-expo),
+              color var(--dur-normal) var(--ease-out-expo),
+              box-shadow var(--dur-fast) var(--ease-out-expo);
+}
+
+.c-chip:hover {
+  background: var(--surface-raised);
+  border-color: var(--plum);
+}
+
+.c-chip:active {
+  transform: scale(0.95);
+}
+
+.c-chip:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.c-chip--selected {
+  background: var(--pink-light);
+  border-color: var(--berry);
+  color: var(--berry);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--berry);
+}
+
+.c-chip__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+  background: var(--berry);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   4. SegmentedControl Component
+   -------------------------------------------------------------------------- */
+.c-segmented {
+  position: relative;
+  display: flex;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  user-select: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.c-segmented__thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+  transition: transform var(--dur-normal) var(--ease-spring),
+              width var(--dur-normal) var(--ease-spring);
+  pointer-events: none;
+}
+
+.c-segmented__item {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 38px;
+  padding: 0 var(--space-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 1;
+  transition: color var(--dur-fast) var(--ease-out-expo);
+}
+
+.c-segmented__item:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.c-segmented__item--active {
+  color: var(--plum);
+}
+
+/* --------------------------------------------------------------------------
+   5. Slider Component
+   -------------------------------------------------------------------------- */
+.c-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  position: relative;
+  width: 100%;
+}
+
+.c-slider__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.c-slider__label {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--text);
+}
+.c-slider__val {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--berry);
+  font-size: var(--text-body);
+}
+
+.c-slider__track-wrap {
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.c-slider__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.c-slider__rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+
+.c-slider__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--phase-follicular) 0%, var(--berry) 100%);
+  border-radius: var(--radius-full);
+  transition: width 0.05s ease-out;
+}
+
+.c-slider__thumb-visual {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 3px solid var(--berry);
+  box-shadow: var(--elev-2);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform var(--dur-fast) var(--ease-spring),
+              box-shadow var(--dur-fast) var(--ease-out-expo);
+}
+
+.c-slider__input:focus-visible ~ .c-slider__thumb-visual {
+  box-shadow: 0 0 0 4px var(--focus-ring);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.c-slider__bubble {
+  position: absolute;
+  bottom: calc(100% - 6px);
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: var(--plum);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: var(--elev-1);
+}
+.c-slider__bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--plum);
+}
+
+/* --------------------------------------------------------------------------
+   6. WaterCup Component
+   -------------------------------------------------------------------------- */
+.c-water {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--tint-sky-bg);
+  border: 1px solid var(--tint-sky-border);
+  border-radius: var(--radius-lg);
+  user-select: none;
+}
+
+.c-water__cup-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  min-height: 44px;
+  min-width: 44px;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+.c-water__cup-btn:active {
+  transform: scale(0.92);
+}
+.c-water__cup-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+}
+
+.c-water__liquid {
+  transition: height var(--dur-normal) var(--ease-spring);
+}
+
+.c-water__info {
+  flex: 1;
+}
+.c-water__title {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--tint-sky-text);
+  margin-bottom: 2px;
+}
+.c-water__sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.c-water__count {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--tint-sky-text);
+}
+
+/* --------------------------------------------------------------------------
+   7. Toast Component
+   -------------------------------------------------------------------------- */
+.c-toast-wrap {
+  position: fixed;
+  bottom: calc(var(--nav-height) + var(--space-4));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  width: calc(100% - 32px);
+  max-width: 440px;
+  pointer-events: none;
+}
+
+.c-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--elev-4);
+  color: var(--text);
+  font-size: var(--text-small);
+  font-weight: 600;
+  animation: cToastEnter var(--dur-normal) var(--ease-spring);
+  touch-action: pan-x;
+  cursor: grab;
+}
+
+.c-toast:active {
+  cursor: grabbing;
+}
+
+@keyframes cToastEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.c-toast__action {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--berry);
+  background: var(--pink-light);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   8. SheetModal Component
+   -------------------------------------------------------------------------- */
+.c-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 15, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: cFadeIn var(--dur-fast) var(--ease-out-expo);
+}
+
+@keyframes cFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.c-sheet {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  background: var(--surface);
+  border-top-left-radius: var(--radius-2xl);
+  border-top-right-radius: var(--radius-2xl);
+  box-shadow: var(--elev-5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: cSheetSlideUp var(--dur-normal) var(--ease-spring);
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (min-width: 768px) {
+  .c-sheet-backdrop {
+    align-items: center;
+  }
+  .c-sheet {
+    border-radius: var(--radius-2xl);
+    max-height: 80vh;
+    animation: cModalPop var(--dur-normal) var(--ease-spring);
+    border: 1px solid var(--border-subtle);
+  }
+}
+
+@keyframes cSheetSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes cModalPop {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.c-sheet__handle-wrap {
+  width: 100%;
+  padding: 12px 0 6px;
+  display: flex;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+}
+.c-sheet__handle {
+  width: 40px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--border);
+}
+
+.c-sheet__header {
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.c-sheet__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  margin: 0;
+  color: var(--plum);
+}
+.c-sheet__content {
+  padding: var(--space-5);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --------------------------------------------------------------------------
+   10. Bunny Mascot Animations
+   -------------------------------------------------------------------------- */
+.c-bunny {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.c-bunny:hover, .c-bunny:active {
+  transform: scale(1.05);
+}
+
+.c-bunny__ear-left {
+  transform-origin: 40px 42px;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+.c-bunny__ear-right {
+  transform-origin: 60px 42px;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.c-bunny:hover .c-bunny__ear-left {
+  transform: rotate(-6deg);
+}
+.c-bunny:hover .c-bunny__ear-right {
+  transform: rotate(6deg);
+}
+
+.c-bunny__eye {
+  animation: cBunnyBlink 5.5s infinite;
+}
+
+@keyframes cBunnyBlink {
+  0%, 94%, 100% {
+    transform: scaleY(1);
+  }
+  96%, 98% {
+    transform: scaleY(0.08);
+  }
+}

@@ -11,6 +11,7 @@ import "./css/tokens.css";
 import "./css/base.css";
 import "./css/components.css";
 import "./css/views.css";
+import "./components/ui/primitives.css";
 
 // PWA Service Worker Registration with update checking
 import { registerSW } from "virtual:pwa-register";
