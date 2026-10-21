@@ -536,10 +536,11 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 .day.s {
-  outline: 2.5px solid var(--plum);
+  outline: 2.5px solid var(--pink);
   outline-offset: 2px;
   transform: scale(1.08);
   z-index: 2;
+  animation: daySelect var(--dur-fast) var(--ease-spring);
 }
 
 .day.l::after {
@@ -617,12 +618,13 @@ input[type="range"]::-webkit-slider-thumb:active {
   min-height: 52px;
   cursor: pointer;
   border-radius: 14px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  transition: transform var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) ease;
   padding: 4px 2px;
 }
 
 .nav-btn svg {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease;
+  transition: transform var(--dur-fast) var(--ease-out-expo), stroke var(--dur-fast) ease;
 }
 
 .nav-btn:hover {
@@ -635,12 +637,23 @@ input[type="range"]::-webkit-slider-thumb:active {
 
 .nav-btn[aria-current="page"] {
   color: var(--pink);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .nav-btn[aria-current="page"] svg {
   stroke: var(--pink);
   transform: translateY(-2px);
+}
+
+.nav-btn[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  width: 16px;
+  height: 3.5px;
+  border-radius: var(--radius-pill);
+  background: var(--pink);
+  animation: pillPop var(--dur-med) var(--ease-spring);
 }
 
 .nav-btn-center .nav-center-icon {
@@ -651,7 +664,15 @@ input[type="range"]::-webkit-slider-thumb:active {
   place-items: center;
   background: var(--pink-light);
   color: var(--pink);
-  transition: all 0.2s ease;
+  transition: transform var(--dur-med) var(--ease-spring), box-shadow var(--dur-med) ease;
+}
+
+.nav-btn-center:hover .nav-center-icon {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.nav-btn-center:active .nav-center-icon {
+  transform: translateY(1px) scale(0.93);
 }
 
 .nav-btn-center[aria-current="page"] .nav-center-icon {
@@ -673,7 +694,7 @@ input[type="range"]::-webkit-slider-thumb:active {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 100;
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: scrimFadeIn var(--dur-med) var(--ease-out-expo) both;
 }
 
 .sheet {
@@ -687,17 +708,19 @@ input[type="range"]::-webkit-slider-thumb:active {
   max-height: 88dvh;
   background: var(--modal-bg, var(--surface));
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
   z-index: 101;
   box-shadow: var(--sheet-shadow);
   touch-action: pan-y;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  animation: sheetSlideUp 0.28s var(--ease-out-expo) both;
 }
 
-/* Mobile: Clean, non-distracting scrollbar while keeping smooth scrolling */
+/* Mobile: Bottom-sheet slide-up animation and clean scrollbar */
 @media (max-width: 600px) {
   .sheet {
+    animation: sheetSlideUp var(--dur-med) var(--ease-out-expo) both;
     scrollbar-width: none;
   }
   .sheet::-webkit-scrollbar {
@@ -717,7 +740,8 @@ input[type="range"]::-webkit-slider-thumb:active {
     max-height: min(84vh, 760px);
     border-radius: var(--radius-xl);
     border: 1px solid var(--modal-card-border, var(--border));
-    animation: modalScaleIn 0.24s var(--ease-out-expo) both;
+    padding: 24px 28px;
+    animation: modalScaleIn var(--dur-med) var(--ease-out-expo) both;
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) transparent;
   }
@@ -1036,22 +1060,6 @@ input[type="range"]::-webkit-slider-thumb:active {
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-@keyframes viewFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes gentlePulse {
   0% { transform: scale(1); opacity: 0.6; }
   50% { transform: scale(1.35); opacity: 0.15; }
@@ -1061,10 +1069,6 @@ input[type="range"]::-webkit-slider-thumb:active {
 @keyframes gentleFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
-}
-
-.view-enter {
-  animation: viewFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .ring-pulse-halo {
@@ -1671,59 +1675,6 @@ input[type="range"]::-webkit-slider-thumb:active {
 .view-enter .card:nth-child(5) { animation-delay: 180ms; }
 .view-enter .card:nth-child(6) { animation-delay: 220ms; }
 .view-enter .card:nth-child(7) { animation-delay: 260ms; }
-
-/* Day selection pop */
-.day.s {
-  animation: daySelect var(--dur-fast) var(--ease-spring);
-}
-
-/* Modal sheets */
-@media (max-width: 600px) {
-  .sheet {
-    animation: sheetSlideUp 0.32s var(--ease-out-expo) both;
-  }
-}
-@media (min-width: 601px) {
-  .sheet {
-    animation: modalScaleIn 0.28s var(--ease-out-expo) both;
-  }
-}
-
-.scrim {
-  animation: scrimFadeIn 0.24s ease both;
-}
-
-/* Navigation button spring active indicator */
-.nav-btn {
-  position: relative;
-  transition: transform var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) ease;
-}
-.nav-btn:active {
-  transform: scale(0.92);
-}
-.nav-btn[aria-current="page"] {
-  color: var(--pink);
-  font-weight: 800;
-}
-.nav-btn[aria-current="page"]::after {
-  content: "";
-  position: absolute;
-  bottom: 4px;
-  width: 16px;
-  height: 3.5px;
-  border-radius: var(--radius-pill);
-  background: var(--pink);
-  animation: pillPop var(--dur-med) var(--ease-spring);
-}
-.nav-btn-center .nav-center-icon {
-  transition: transform var(--dur-med) var(--ease-spring), box-shadow var(--dur-med) ease;
-}
-.nav-btn-center:hover .nav-center-icon {
-  transform: translateY(-2px) scale(1.05);
-}
-.nav-btn-center:active .nav-center-icon {
-  transform: translateY(1px) scale(0.93);
-}
 
 /* Respect Reduced Motion */
 :root[data-motion="reduced"],

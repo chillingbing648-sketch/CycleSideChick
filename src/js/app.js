@@ -1801,7 +1801,7 @@ function renderTourModal() {
 
   return `
     <div class="scrim" data-a="closeTour"></div>
-    <section class="sheet" role="dialog" aria-label="Cycle Architecture and Hormone Science Guide" style="max-height:92vh;max-height:92dvh;overflow-y:auto">
+    <section class="sheet" role="dialog" aria-label="Cycle Architecture and Hormone Science Guide">
       <div class="sheet-handle"></div>
       <div class="row" style="margin-bottom:10px">
         <div>
@@ -1829,8 +1829,13 @@ function renderTourModal() {
         <p class="mut" style="margin-bottom:12px;font-size:13px">
           A visual infographic detailing our on-device algorithmic calculations, clinical safety boundaries, and privacy architecture.
         </p>
-        <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:16px">
+        <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:12px">
           <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+        </div>
+        <div class="row" style="margin-bottom:8px">
+          <a href="./public/cyclesidechick-infographic.svg" target="_blank" rel="noopener noreferrer" class="chip" style="font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+            ${svgi("share", 14)} Open Vector in New Tab
+          </a>
         </div>
       `}
 

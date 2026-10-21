@@ -1,6 +1,6 @@
 {
   "name": "cyclesidechick",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "On-device, privacy-first reproductive health and cycle tracking companion.",
   "main": "index.html",
   "scripts": {

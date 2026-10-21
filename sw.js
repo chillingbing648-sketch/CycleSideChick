@@ -2,7 +2,7 @@
  * CycleSideChick — Service Worker (Offline Cache & PWA Support)
  */
 
-const CACHE_NAME = "cyclesidechick-v2.1.0";
+const CACHE_NAME = "cyclesidechick-v3.0.0";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
