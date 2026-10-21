@@ -1,8 +1,12 @@
 /**
  * CycleSideChick — Main Application Shell
+ * Responsive adaptive shell:
+ * - Mobile (<600px): Centered single-column, bottom nav bar, 44px min touch targets
+ * - Tablet (600-1023px): Max-width 720px, floating dock nav
+ * - Desktop (>=1024px): Max-width 1280px, persistent left navigation rail / sidebar
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useStore } from "./store.js";
 import { actions } from "./actions.js";
 import { BunnyMascot } from "../components/ui/BunnyMascot.jsx";
@@ -38,7 +42,7 @@ export function AppShell() {
     { key: "care", label: "Care", icon: "care" }
   ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleHash = () => {
       if (window.location.hash === "#styleguide") {
         actions.setTab("styleguide");
@@ -51,33 +55,76 @@ export function AppShell() {
 
   return (
     <div id="app">
-      {/* Header */}
-      <header className="top">
-        <span className="brand" onClick={() => actions.setTab("home")} style={{ cursor: "pointer" }}>
-          <BunnyMascot size={32} showLabel={false} />
-          <b className="wm2">CycleSideChick</b>
-        </span>
-        <button
-          type="button"
-          className="icon"
-          onClick={() => actions.openProfile()}
-          aria-label="Profile and settings"
-        >
-          <Icon name="user" size={20} />
-        </button>
-      </header>
+      {/* Desktop Persistent Navigation Sidebar (>=1024px) */}
+      <aside className="v-sidebar">
+        <div>
+          <div className="v-sidebar__brand" onClick={() => actions.setTab("home")}>
+            <BunnyMascot size={36} showLabel={false} />
+            <span className="v-sidebar__title">CycleSideChick</span>
+          </div>
 
-      {/* Main View Router */}
-      <main className="view-enter" key={ui.tab}>
-        {ui.tab === "home" && <HomeView />}
-        {ui.tab === "calendar" && <CalendarView />}
-        {ui.tab === "log" && <LogView />}
-        {ui.tab === "insights" && <InsightsView />}
-        {ui.tab === "care" && <CareView />}
-        {ui.tab === "styleguide" && <StyleguideView />}
-      </main>
+          <nav className="v-sidebar__nav" aria-label="Desktop Navigation">
+            {NAV_ITEMS.map(item => {
+              const isActive = ui.tab === item.key;
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  className={`v-sidebar__item ${isActive ? "active" : ""}`}
+                  onClick={() => actions.setTab(item.key)}
+                  aria-current={isActive ? "page" : "false"}
+                >
+                  <Icon name={item.icon} size={20} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
 
-      {/* Floating Bottom Navigation */}
+        <div className="v-sidebar__footer">
+          <button
+            type="button"
+            className="v-sidebar__item"
+            onClick={() => actions.openProfile()}
+            aria-label="Profile and settings"
+          >
+            <Icon name="user" size={20} />
+            <span>Profile & Settings</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content Pane */}
+      <div className="v-main-content">
+        {/* Mobile / Tablet Header (<1024px) */}
+        <header className="top">
+          <span className="brand" onClick={() => actions.setTab("home")} style={{ cursor: "pointer" }}>
+            <BunnyMascot size={32} showLabel={false} />
+            <b className="wm2">CycleSideChick</b>
+          </span>
+          <button
+            type="button"
+            className="icon"
+            onClick={() => actions.openProfile()}
+            aria-label="Profile and settings"
+          >
+            <Icon name="user" size={20} />
+          </button>
+        </header>
+
+        {/* Main View Router */}
+        <main className="view-enter" key={ui.tab}>
+          {ui.tab === "home" && <HomeView />}
+          {ui.tab === "calendar" && <CalendarView />}
+          {ui.tab === "log" && <LogView />}
+          {ui.tab === "insights" && <InsightsView />}
+          {ui.tab === "care" && <CareView />}
+          {ui.tab === "styleguide" && <StyleguideView />}
+        </main>
+      </div>
+
+      {/* Floating Bottom Navigation for Mobile & Tablet */}
       <nav className="v-nav-bar" aria-label="Main Navigation">
         {NAV_ITEMS.map(item => {
           const isActive = ui.tab === item.key;

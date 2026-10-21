@@ -119,98 +119,104 @@ export function CalendarView() {
         </div>
       </div>
 
-      {/* Physiological Phase Ribbon */}
-      <div className="v-cal-ribbon" aria-hidden="true">
-        <div className="v-cal-ribbon__seg" style={{ flex: 5, background: "var(--phase-menstrual)" }} title="Menstrual Phase" />
-        <div className="v-cal-ribbon__seg" style={{ flex: 9, background: "var(--phase-follicular)" }} title="Follicular Phase" />
-        <div className="v-cal-ribbon__seg" style={{ flex: 4, background: "var(--phase-ovulatory)" }} title="Ovulatory Phase" />
-        <div className="v-cal-ribbon__seg" style={{ flex: 10, background: "var(--phase-luteal)" }} title="Luteal Phase" />
-      </div>
+      <div className="v-cal-layout">
+        <div className="v-cal-month-pane">
+          {/* Physiological Phase Ribbon */}
+          <div className="v-cal-ribbon" aria-hidden="true">
+            <div className="v-cal-ribbon__seg" style={{ flex: 5, background: "var(--phase-menstrual)" }} title="Menstrual Phase" />
+            <div className="v-cal-ribbon__seg" style={{ flex: 9, background: "var(--phase-follicular)" }} title="Follicular Phase" />
+            <div className="v-cal-ribbon__seg" style={{ flex: 4, background: "var(--phase-ovulatory)" }} title="Ovulatory Phase" />
+            <div className="v-cal-ribbon__seg" style={{ flex: 10, background: "var(--phase-luteal)" }} title="Luteal Phase" />
+          </div>
 
-      {/* Weekday Labels */}
-      <div className="v-cal-weekdays">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(w => (
-          <span key={w}>{w}</span>
-        ))}
-      </div>
+          {/* Weekday Labels */}
+          <div className="v-cal-weekdays">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(w => (
+              <span key={w}>{w}</span>
+            ))}
+          </div>
 
-      {/* Days Grid */}
-      <div className="v-cal-grid">
-        {cells.map(c => {
-          if (c.empty) return <div key={c.id} style={{ height: "44px" }} />;
+          {/* Days Grid */}
+          <div className="v-cal-grid">
+            {cells.map(c => {
+              if (c.empty) return <div key={c.id} style={{ height: "44px" }} />;
 
-          const classes = [
-            "v-cal-cell",
-            c.periodCapsuleClass,
-            c.fertileClass,
-            c.isPredicted ? "v-cal-cell--predicted" : "",
-            c.isToday ? "v-cal-cell--today" : "",
-            c.isSelected ? "v-cal-cell--selected" : ""
-          ].filter(Boolean).join(" ");
+              const classes = [
+                "v-cal-cell",
+                c.periodCapsuleClass,
+                c.fertileClass,
+                c.isPredicted ? "v-cal-cell--predicted" : "",
+                c.isToday ? "v-cal-cell--today" : "",
+                c.isSelected ? "v-cal-cell--selected" : ""
+              ].filter(Boolean).join(" ");
 
-          return (
-            <button
-              key={c.id}
-              type="button"
-              className={classes}
-              onClick={() => handleCellClick(c.dateStr)}
-              aria-label={`${c.dateStr}${c.isPeriod ? ", Period day" : ""}${c.isFertile ? ", Fertile window" : ""}${c.isToday ? ", Today" : ""}`}
-            >
-              <span>{c.dayNum}</span>
-              {c.isOvulation && (
-                <span style={{ position: "absolute", top: "2px", right: "2px", width: "6px", height: "6px", borderRadius: "50%", background: "var(--berry)" }} />
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  className={classes}
+                  onClick={() => handleCellClick(c.dateStr)}
+                  aria-label={`${c.dateStr}${c.isPeriod ? ", Period day" : ""}${c.isFertile ? ", Fertile window" : ""}${c.isToday ? ", Today" : ""}`}
+                >
+                  <span>{c.dayNum}</span>
+                  {c.isOvulation && (
+                    <span style={{ position: "absolute", top: "2px", right: "2px", width: "6px", height: "6px", borderRadius: "50%", background: "var(--berry)" }} />
+                  )}
+                  {c.hasLog && <span className="v-cal-dot" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Selected Day Details Card (Side pane on Desktop) */}
+        <div className="v-cal-details-pane">
+          <Card variant="base">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+              <div>
+                <span className="subtle" style={{ fontSize: "11px", fontWeight: "700" }}>SELECTED DAY</span>
+                <h3 style={{ margin: "2px 0 0", fontFamily: "var(--font-display)", fontSize: "var(--text-h3)" }}>
+                  {fmt(selectedDn, { weekday: "short", month: "short", day: "numeric" })}
+                </h3>
+              </div>
+              <Button variant="primary" size="sm" icon="edit" onClick={() => actions.goLog(selectedDateStr)}>
+                Log Symptoms
+              </Button>
+            </div>
+
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
+              {!isSelectedPeriod ? (
+                <Button variant="secondary" size="sm" icon="droplet" onClick={() => actions.startPeriod(selectedDateStr)}>
+                  Period Started
+                </Button>
+              ) : (
+                <>
+                  <Button variant="secondary" size="sm" onClick={() => actions.endPeriod(selectedDateStr)}>
+                    Period Ended
+                  </Button>
+                  <Button variant="danger" size="sm" icon="trash" onClick={() => actions.removePeriod(selectedDateStr)}>
+                    Remove
+                  </Button>
+                </>
               )}
-              {c.hasLog && <span className="v-cal-dot" />}
-            </button>
-          );
-        })}
+            </div>
+
+            {selectedLog ? (
+              <div style={{ fontSize: "13px", lineHeight: "1.6" }}>
+                {selectedLog.f !== undefined && <div>Flow: <b>{selectedLog.f === 1 ? "Spotting" : selectedLog.f === 2 ? "Light" : selectedLog.f === 3 ? "Medium" : "Heavy"}</b></div>}
+                {selectedLog.m !== undefined && <div>Mood: <b>{["Great", "Calm", "Sensitive", "Low", "Irritable"][selectedLog.m]}</b></div>}
+                {selectedLog.p !== undefined && <div>Pain: <b>{selectedLog.p} / 10</b></div>}
+                {selectedLog.cm && <div>Fluid: <b>{selectedLog.cm}</b></div>}
+                {selectedLog.note && <div style={{ fontStyle: "italic", marginTop: "4px" }}>"{selectedLog.note}"</div>}
+              </div>
+            ) : (
+              <p className="mut" style={{ margin: 0, fontSize: "13px" }}>
+                No symptoms or notes logged for this day. Tap "Log Symptoms" to add records.
+              </p>
+            )}
+          </Card>
+        </div>
       </div>
-
-      {/* Selected Day Details Card */}
-      <Card variant="base">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-          <div>
-            <span className="subtle" style={{ fontSize: "11px", fontWeight: "700" }}>SELECTED DAY</span>
-            <h3 style={{ margin: "2px 0 0", fontFamily: "var(--font-display)", fontSize: "var(--text-h3)" }}>
-              {fmt(selectedDn, { weekday: "short", month: "short", day: "numeric" })}
-            </h3>
-          </div>
-          <Button variant="primary" size="sm" icon="edit" onClick={() => actions.goLog(selectedDateStr)}>
-            Log Symptoms
-          </Button>
-        </div>
-
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
-          {!isSelectedPeriod ? (
-            <Button variant="secondary" size="sm" icon="droplet" onClick={() => actions.startPeriod(selectedDateStr)}>
-              Period Started
-            </Button>
-          ) : (
-            <>
-              <Button variant="secondary" size="sm" onClick={() => actions.endPeriod(selectedDateStr)}>
-                Period Ended
-              </Button>
-              <Button variant="danger" size="sm" icon="trash" onClick={() => actions.removePeriod(selectedDateStr)}>
-                Remove
-              </Button>
-            </>
-          )}
-        </div>
-
-        {selectedLog ? (
-          <div style={{ fontSize: "13px", lineHeight: "1.6" }}>
-            {selectedLog.f !== undefined && <div>Flow: <b>{selectedLog.f === 1 ? "Spotting" : selectedLog.f === 2 ? "Light" : selectedLog.f === 3 ? "Medium" : "Heavy"}</b></div>}
-            {selectedLog.m !== undefined && <div>Mood: <b>{["Great", "Calm", "Sensitive", "Low", "Irritable"][selectedLog.m]}</b></div>}
-            {selectedLog.p !== undefined && <div>Pain: <b>{selectedLog.p} / 10</b></div>}
-            {selectedLog.cm && <div>Fluid: <b>{selectedLog.cm}</b></div>}
-            {selectedLog.note && <div style={{ fontStyle: "italic", marginTop: "4px" }}>"{selectedLog.note}"</div>}
-          </div>
-        ) : (
-          <p className="mut" style={{ margin: 0, fontSize: "13px" }}>
-            No symptoms or notes logged for this day. Tap "Log Symptoms" to add records.
-          </p>
-        )}
-      </Card>
 
       {/* Day Details Bottom Sheet on Tap */}
       <SheetModal

@@ -1089,3 +1089,151 @@
   border-radius: var(--radius-full);
   background: linear-gradient(90deg, var(--phase-follicular) 0%, var(--berry) 100%);
 }
+
+/* ==========================================================================
+   9. Phase 5 Responsive & Adaptive Layouts (Desktop Rail & Two-Pane Views)
+   ========================================================================== */
+
+/* Desktop Navigation Rail */
+.v-sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .v-sidebar {
+    width: 240px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-4);
+    background: var(--surface);
+    border-right: 1px solid var(--border-subtle);
+    box-sizing: border-box;
+    z-index: var(--z-nav);
+  }
+
+  .v-sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: var(--space-6);
+  }
+  .v-sidebar__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--plum);
+  }
+
+  .v-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+  }
+
+  .v-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-lg);
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--dur-fast) var(--ease-out-expo),
+                color var(--dur-fast) var(--ease-out-expo);
+  }
+  .v-sidebar__item:hover {
+    background: var(--surface-raised);
+    color: var(--plum);
+  }
+  .v-sidebar__item.active {
+    background: var(--pink-light);
+    color: var(--berry);
+    font-weight: 700;
+  }
+
+  .v-sidebar__footer {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-3);
+  }
+
+  .v-main-content {
+    flex: 1;
+    padding: var(--space-6) var(--space-8);
+    overflow-y: auto;
+    max-width: 1040px;
+    box-sizing: border-box;
+  }
+
+  .top {
+    display: none !important;
+  }
+  .v-nav-bar {
+    display: none !important;
+  }
+
+  /* Two-Pane Layouts */
+  .v-home-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .v-home-left-pane {
+    position: sticky;
+    top: var(--space-6);
+  }
+
+  .v-cal-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .v-cal-details-pane {
+    position: sticky;
+    top: var(--space-6);
+  }
+
+  .v-insights-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+}
+
+/* Tablet (600px - 1023px) Dock Layout */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .v-nav-bar {
+    max-width: 540px;
+    border-radius: var(--radius-full);
+    bottom: var(--space-4);
+    box-shadow: var(--elev-4);
+    border: 1px solid var(--border-subtle);
+  }
+}
+
+/* Landscape on Phone */
+@media (max-height: 500px) and (orientation: landscape) {
+  .v-home-hero {
+    padding: var(--space-3);
+  }
+  .ring-wrap {
+    transform: scale(0.85);
+  }
+}
