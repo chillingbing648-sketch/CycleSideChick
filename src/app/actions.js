@@ -281,10 +281,24 @@ export const actions = {
 
   // 31-40: Navigation & Modals
   setTab(tab) {
-    ui.tab = tab;
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" });
-    haptic(10);
-    notify();
+    if (ui.tab === tab) return;
+    const update = () => {
+      ui.tab = tab;
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" });
+      haptic(10);
+      notify();
+    };
+
+    if (
+      typeof document !== "undefined" &&
+      typeof document.startViewTransition === "function" &&
+      S.motion !== 0 &&
+      (typeof window === "undefined" || !window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ) {
+      document.startViewTransition(update);
+    } else {
+      update();
+    }
   },
 
   selectCalendarDay(date) {
@@ -527,9 +541,7 @@ export const actions = {
 
   goLog(date) {
     loadDraft(date);
-    ui.tab = "log";
-    haptic(10);
-    notify();
+    this.setTab("log");
   },
 
   // 65-76: Logging Symptoms & Draft
