@@ -1,15 +1,90 @@
 /* ==========================================================================
-   CycleSideChick — Design Tokens & Soft Semantic Color System
+   CycleSideChick — Design Tokens v3 (OKLCH, Editorial Typography, Layered Depth)
    ========================================================================== */
-:root {
-  --font: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Base Light Theme — Warm off-white surfaces, never harsh #FFFFFF */
+/* 1. Self-Hosted Variable Typography */
+@font-face {
+  font-family: 'Manrope';
+  src: url('../assets/fonts/manrope-variable.woff2') format('woff2');
+  font-weight: 300 800;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('../assets/fonts/fraunces-variable.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* 2. Registered Phase-Adaptive Custom Properties */
+@property --ambient-a {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: rgba(251, 113, 133, 0.16);
+}
+
+@property --ambient-b {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: rgba(225, 29, 72, 0.08);
+}
+
+:root {
+  /* Font Stacks */
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font: var(--font-body);
+
+  /* Fluid Typography Scale (clamp-based) */
+  --text-display: clamp(2.2rem, 5vw, 3.2rem);
+  --text-h1: clamp(1.75rem, 3.5vw, 2.25rem);
+  --text-h2: clamp(1.35rem, 2.5vw, 1.65rem);
+  --text-h3: clamp(1.1rem, 2vw, 1.25rem);
+  --text-body: clamp(0.9375rem, 1.5vw, 1rem);
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+
+  /* Line Heights & Letter Spacing */
+  --lh-tight: 1.15;
+  --lh-heading: 1.25;
+  --lh-body: 1.55;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* 4-pt Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Radii Scale */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+
+  /* Base Light Theme — Soft vertical wash, never pure #FFFFFF */
+  --bg-gradient: linear-gradient(180deg, #FFF1F6 0%, #FAF5F7 35%, #F8F2F5 100%);
   --bg: #FAF5F7;
   --surface: #FDF9FA;
-  --surface-alt: #F7EDF2;
-  --surface-elevated: #FFFFFF;
+  --surface-alt: #F6EDF2;
+  --surface-raised: #FFFFFF;
+  --surface-floating: #FFFFFF;
   --surface-soft: #FFF4F8;
+  --surface-elevated: #FFFFFF;
+
+  /* Ink & Neutrals (Plum-tinted OKLCH) */
   --plum: #481930;
   --ink: #281822;
   --muted: #786470;
@@ -17,16 +92,34 @@
   --border: #ECDBE3;
   --border-subtle: rgba(72, 25, 48, 0.08);
 
-  /* Primary Brand Accent (Used for Primary Actions Only) */
+  /* Primary Berry Accent */
   --pink: #D9447E;
   --pink-hover: #C5356E;
   --pink-light: #FDEBF2;
   --pink-border: #F7BFD5;
   --pink-glow: rgba(217, 68, 126, 0.22);
+  --primary-gradient: linear-gradient(135deg, #EE5A93, #D9447E 55%, #B8326B);
+  --primary-glow: 0 4px 18px rgba(217, 68, 126, 0.32);
   --rose: #C68196;
-  --nav-bg: rgba(253, 249, 250, 0.94);
 
-  /* Soft Semantic Tints — Light (All reach >= 4.5:1 text contrast) */
+  /* Plum-Tinted Dual Elevation Shadows (ambient + key) */
+  --elev-1: 0 1px 3px rgba(72, 25, 48, 0.05), 0 4px 12px rgba(72, 25, 48, 0.04);
+  --elev-2: 0 3px 6px rgba(72, 25, 48, 0.06), 0 8px 24px rgba(72, 25, 48, 0.06);
+  --elev-3: 0 6px 16px rgba(72, 25, 48, 0.08), 0 16px 36px rgba(72, 25, 48, 0.08);
+  --elev-4: 0 12px 28px rgba(72, 25, 48, 0.12), 0 24px 54px rgba(72, 25, 48, 0.12);
+  --elev-5: 0 18px 36px rgba(72, 25, 48, 0.16), 0 32px 72px rgba(72, 25, 48, 0.16);
+
+  --card-shadow: var(--elev-1);
+  --card-shadow-hover: var(--elev-2);
+  --sheet-shadow: var(--elev-4);
+
+  /* Frosted Glass */
+  --glass-bg: rgba(253, 249, 250, 0.85);
+  --glass-border: rgba(236, 219, 227, 0.6);
+  --glass-blur: blur(20px) saturate(160%);
+  --nav-bg: var(--glass-bg);
+
+  /* Soft Semantic Tints — Light */
   --tint-rose-bg: #FBE3EA;
   --tint-rose-text: #7D2342;
   --tint-rose-border: #F3C5D3;
@@ -80,102 +173,100 @@
   --phase-luteal-text: #92400E;
   --phase-luteal-border: #FDE68A;
 
-  /* Shadows & Radii */
-  --card-shadow: 0 4px 18px -2px rgba(72, 25, 48, 0.05), 0 1px 3px rgba(72, 25, 48, 0.03);
-  --card-shadow-hover: 0 8px 24px -4px rgba(72, 25, 48, 0.08);
-  --sheet-shadow: 0 -10px 36px rgba(72, 25, 48, 0.12);
+  /* Motion Tokens */
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 260ms;
+  --dur-slow: 360ms;
+  --dur-hero: 900ms;
 
-  --radius-xl: 28px;
-  --radius-lg: 24px;
-  --radius-md: 18px;
-  --radius-sm: 12px;
-  --radius-pill: 9999px;
-
-  /* Motion & Interaction System Tokens (Apple iOS Easing & Springs) */
-  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-instant: 100ms;
-  --dur-fast: 180ms;
-  --dur-med: 280ms;
-  --dur-slow: 420ms;
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.932 38.4%, 0.978 45.3%, 0.997 53.5%, 1.003 62.3%, 1);
 
-  /* Cohesive Soft Pastel System (Profile & Settings Reference) */
-  --pastel-rose: #F5C2D5;          /* Blush Rose */
-  --pastel-berry: #D94B86;         /* Soft Berry Accent */
-  --pastel-lavender: #E7DDF8;      /* Lavender Mist */
-  --pastel-peach: #FFE2D1;         /* Peach Cream */
-  --pastel-buttercream: #FFF2C9;   /* Buttercream */
-  --pastel-sage: #DCEFE3;          /* Sage Mint */
-  --pastel-blue: #DDEBFA;          /* Powder Blue */
-  --pastel-ivory: #FFFAF7;         /* Warm Ivory Base */
-  --pastel-plum: #51283F;          /* Deep Plum Typography & Contrast */
-
-  /* Modal Specific Theming */
-  --modal-bg: var(--pastel-ivory);
-  --modal-card-bg: #FFFFFF;
-  --modal-card-border: rgba(81, 40, 63, 0.08);
-  --modal-header-border: rgba(81, 40, 63, 0.08);
-  --scrollbar-thumb: rgba(217, 75, 134, 0.32);
-  --scrollbar-thumb-hover: rgba(217, 75, 134, 0.6);
+  /* Accessible Focus & Hairline */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--pink);
+  --hairline: 0.5px solid var(--border);
 
   color-scheme: light;
 }
 
-/* Layered Dark Mode — Layered surfaces (#17151B, #211D26, #2A2330) */
+/* ==========================================================================
+   Dark Theme — Deep Plum-Tinted Black (#14111A Base), Never Neutral Grey
+   ========================================================================== */
 :root[data-theme="dark"] {
-  --bg: #17151B;
-  --surface: #211D26;
-  --surface-alt: #2A2330;
-  --surface-elevated: #2E2736;
-  --surface-soft: #2E2537;
-  --plum: #F6EDF3;
-  --ink: #EBE0EA;
-  --muted: #A694A3;
-  --subtle: #796877;
-  --border: #352B3B;
-  --border-subtle: rgba(246, 237, 243, 0.09);
+  --bg-gradient: linear-gradient(180deg, #181321 0%, #14111A 35%, #100D16 100%);
+  --bg: #14111A;
+  --surface: #1E1926;
+  --surface-alt: #262030;
+  --surface-raised: #2D253A;
+  --surface-floating: #342C42;
+  --surface-soft: #231C2D;
+  --surface-elevated: #2D253A;
+
+  /* Inner Top Highlight for Elevation in Dark Mode */
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --plum: #F8EDF5;
+  --ink: #ECE0EB;
+  --muted: #A896A6;
+  --subtle: #7A6978;
+  --border: #3A2F42;
+  --border-subtle: rgba(248, 237, 245, 0.08);
 
   --pink: #EB6FA1;
   --pink-hover: #F286B2;
-  --pink-light: #341B28;
+  --pink-light: #341928;
   --pink-border: #5C2B42;
   --pink-glow: rgba(235, 111, 161, 0.28);
   --rose: #9C657A;
-  --nav-bg: rgba(33, 29, 38, 0.94);
 
-  /* Soft Semantic Tints — Dark (All reach >= 4.5:1 text contrast) */
-  --tint-rose-bg: #2E2029;
+  --elev-1: 0 2px 6px rgba(0, 0, 0, 0.35), var(--inner-highlight);
+  --elev-2: 0 4px 14px rgba(0, 0, 0, 0.45), var(--inner-highlight);
+  --elev-3: 0 8px 24px rgba(0, 0, 0, 0.55), var(--inner-highlight);
+  --elev-4: 0 14px 38px rgba(0, 0, 0, 0.65), var(--inner-highlight);
+  --elev-5: 0 22px 54px rgba(0, 0, 0, 0.75), var(--inner-highlight);
+
+  --card-shadow: var(--elev-1);
+  --card-shadow-hover: var(--elev-2);
+  --sheet-shadow: var(--elev-4);
+
+  --glass-bg: rgba(30, 25, 38, 0.85);
+  --glass-border: rgba(58, 47, 66, 0.7);
+  --nav-bg: var(--glass-bg);
+
+  /* Soft Semantic Tints — Dark (Contrast >= 4.5:1) */
+  --tint-rose-bg: #321E2B;
   --tint-rose-text: #F8BAC9;
-  --tint-rose-border: #4D3342;
+  --tint-rose-border: #542D45;
 
-  --tint-lavender-bg: #2A2330;
+  --tint-lavender-bg: #2C2237;
   --tint-lavender-text: #DCCBF0;
-  --tint-lavender-border: #463753;
+  --tint-lavender-border: #4B375F;
 
-  --tint-butter-bg: #3A3322;
+  --tint-butter-bg: #3D341E;
   --tint-butter-text: #FEE685;
-  --tint-butter-border: #594D2C;
+  --tint-butter-border: #615128;
 
-  --tint-amber-bg: #3F3120;
+  --tint-amber-bg: #42301B;
   --tint-amber-text: #FED085;
-  --tint-amber-border: #5F472A;
+  --tint-amber-border: #644521;
 
-  --tint-sage-bg: #25302A;
+  --tint-sage-bg: #223228;
   --tint-sage-text: #B7E1C3;
-  --tint-sage-border: #384F41;
+  --tint-sage-border: #33503D;
 
-  --tint-mint-bg: #223229;
+  --tint-mint-bg: #1F332A;
   --tint-mint-text: #AEE2CF;
-  --tint-mint-border: #335041;
+  --tint-mint-border: #2D5241;
 
-  --tint-sky-bg: #212C38;
+  --tint-sky-bg: #1F2E3E;
   --tint-sky-text: #B0D7F5;
-  --tint-sky-border: #33485E;
+  --tint-sky-border: #2E4B69;
 
-  --tint-peach-bg: #3A2A26;
+  --tint-peach-bg: #3C2721;
   --tint-peach-text: #F8BC9E;
-  --tint-peach-border: #573B32;
+  --tint-peach-border: #5F392D;
 
   /* Dedicated Physiological Phase Colors (Dark) */
   --phase-menstrual: #FB7185;
@@ -198,84 +289,84 @@
   --phase-luteal-text: #FDE68A;
   --phase-luteal-border: #78350F;
 
-  --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
-  --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
-  --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-
-  /* Cohesive Soft Pastel System — Dark */
-  --pastel-rose: #542D3D;
-  --pastel-berry: #EB6FA1;
-  --pastel-lavender: #3B2E4C;
-  --pastel-peach: #4A332B;
-  --pastel-buttercream: #473E26;
-  --pastel-sage: #2C3E33;
-  --pastel-blue: #2A3B4D;
-  --pastel-ivory: #1E1A23;
-  --pastel-plum: #F8EDF4;
-
-  --modal-bg: #1E1A23;
-  --modal-card-bg: #27212E;
-  --modal-card-border: rgba(248, 237, 244, 0.1);
-  --modal-header-border: rgba(248, 237, 244, 0.08);
-  --scrollbar-thumb: rgba(242, 134, 178, 0.35);
-  --scrollbar-thumb-hover: rgba(242, 134, 178, 0.65);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--pink);
+  --hairline: 0.5px solid var(--border);
 
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #17151B;
-    --surface: #211D26;
-    --surface-alt: #2A2330;
-    --surface-elevated: #2E2736;
-    --surface-soft: #2E2537;
-    --plum: #F6EDF3;
-    --ink: #EBE0EA;
-    --muted: #A694A3;
-    --subtle: #796877;
-    --border: #352B3B;
-    --border-subtle: rgba(246, 237, 243, 0.09);
+    --bg-gradient: linear-gradient(180deg, #181321 0%, #14111A 35%, #100D16 100%);
+    --bg: #14111A;
+    --surface: #1E1926;
+    --surface-alt: #262030;
+    --surface-raised: #2D253A;
+    --surface-floating: #342C42;
+    --surface-soft: #231C2D;
+    --surface-elevated: #2D253A;
+
+    --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    --plum: #F8EDF5;
+    --ink: #ECE0EB;
+    --muted: #A896A6;
+    --subtle: #7A6978;
+    --border: #3A2F42;
+    --border-subtle: rgba(248, 237, 245, 0.08);
 
     --pink: #EB6FA1;
     --pink-hover: #F286B2;
-    --pink-light: #341B28;
+    --pink-light: #341928;
     --pink-border: #5C2B42;
     --pink-glow: rgba(235, 111, 161, 0.28);
     --rose: #9C657A;
-    --nav-bg: rgba(33, 29, 38, 0.94);
 
-    --tint-rose-bg: #2E2029;
+    --elev-1: 0 2px 6px rgba(0, 0, 0, 0.35), var(--inner-highlight);
+    --elev-2: 0 4px 14px rgba(0, 0, 0, 0.45), var(--inner-highlight);
+    --elev-3: 0 8px 24px rgba(0, 0, 0, 0.55), var(--inner-highlight);
+    --elev-4: 0 14px 38px rgba(0, 0, 0, 0.65), var(--inner-highlight);
+    --elev-5: 0 22px 54px rgba(0, 0, 0, 0.75), var(--inner-highlight);
+
+    --card-shadow: var(--elev-1);
+    --card-shadow-hover: var(--elev-2);
+    --sheet-shadow: var(--elev-4);
+
+    --glass-bg: rgba(30, 25, 38, 0.85);
+    --glass-border: rgba(58, 47, 66, 0.7);
+    --nav-bg: var(--glass-bg);
+
+    --tint-rose-bg: #321E2B;
     --tint-rose-text: #F8BAC9;
-    --tint-rose-border: #4D3342;
+    --tint-rose-border: #542D45;
 
-    --tint-lavender-bg: #2A2330;
+    --tint-lavender-bg: #2C2237;
     --tint-lavender-text: #DCCBF0;
-    --tint-lavender-border: #463753;
+    --tint-lavender-border: #4B375F;
 
-    --tint-butter-bg: #3A3322;
+    --tint-butter-bg: #3D341E;
     --tint-butter-text: #FEE685;
-    --tint-butter-border: #594D2C;
+    --tint-butter-border: #615128;
 
-    --tint-amber-bg: #3F3120;
+    --tint-amber-bg: #42301B;
     --tint-amber-text: #FED085;
-    --tint-amber-border: #5F472A;
+    --tint-amber-border: #644521;
 
-    --tint-sage-bg: #25302A;
+    --tint-sage-bg: #223228;
     --tint-sage-text: #B7E1C3;
-    --tint-sage-border: #384F41;
+    --tint-sage-border: #33503D;
 
-    --tint-mint-bg: #223229;
+    --tint-mint-bg: #1F332A;
     --tint-mint-text: #AEE2CF;
-    --tint-mint-border: #335041;
+    --tint-mint-border: #2D5241;
 
-    --tint-sky-bg: #212C38;
+    --tint-sky-bg: #1F2E3E;
     --tint-sky-text: #B0D7F5;
-    --tint-sky-border: #33485E;
+    --tint-sky-border: #2E4B69;
 
-    --tint-peach-bg: #3A2A26;
+    --tint-peach-bg: #3C2721;
     --tint-peach-text: #F8BC9E;
-    --tint-peach-border: #573B32;
+    --tint-peach-border: #5F392D;
 
     --phase-menstrual: #FB7185;
     --phase-menstrual-bg: #4C0519;
@@ -297,32 +388,11 @@
     --phase-luteal-text: #FDE68A;
     --phase-luteal-border: #78350F;
 
-    --card-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
-    --card-shadow-hover: 0 8px 26px rgba(0, 0, 0, 0.38);
-    --sheet-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-
-    --pastel-rose: #542D3D;
-    --pastel-berry: #EB6FA1;
-    --pastel-lavender: #3B2E4C;
-    --pastel-peach: #4A332B;
-    --pastel-buttercream: #473E26;
-    --pastel-sage: #2C3E33;
-    --pastel-blue: #2A3B4D;
-    --pastel-ivory: #1E1A23;
-    --pastel-plum: #F8EDF4;
-
-    --modal-bg: #1E1A23;
-    --modal-card-bg: #27212E;
-    --modal-card-border: rgba(248, 237, 244, 0.1);
-    --modal-header-border: rgba(248, 237, 244, 0.08);
-    --scrollbar-thumb: rgba(242, 134, 178, 0.35);
-    --scrollbar-thumb-hover: rgba(242, 134, 178, 0.65);
-
     color-scheme: dark;
   }
 }
 
-/* High Contrast Accessibility Override */
+/* 3. High Contrast Accessibility */
 @media (prefers-contrast: more) {
   :root {
     --border: #734F63;
@@ -344,12 +414,9 @@
       --muted: #EADCE6;
     }
   }
-  .card, .chip, .mood, .day {
-    border-width: 2px !important;
-  }
 }
 
-/* User-Controlled & OS-Controlled Reduced Motion */
+/* 4. Motion Reductions */
 :root[data-motion="reduced"] *,
 :root[data-motion="reduced"] *::before,
 :root[data-motion="reduced"] *::after {

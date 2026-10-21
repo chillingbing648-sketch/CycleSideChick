@@ -14,6 +14,7 @@ import { CalendarView } from "../features/calendar/CalendarView.jsx";
 import { LogView } from "../features/log/LogView.jsx";
 import { InsightsView } from "../features/insights/InsightsView.jsx";
 import { CareView } from "../features/care/CareView.jsx";
+import { StyleguideView } from "../features/styleguide/StyleguideView.jsx";
 
 // Modals
 import { ProfileSettingsSheet } from "../features/profile/ProfileSettingsSheet.jsx";
@@ -36,6 +37,17 @@ export function AppShell() {
     { key: "insights", label: "Insights", icon: "insights" },
     { key: "care", label: "Care", icon: "care" }
   ];
+
+  React.useEffect(() => {
+    const handleHash = () => {
+      if (window.location.hash === "#styleguide") {
+        actions.setTab("styleguide");
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   return (
     <div id="app">
@@ -62,6 +74,7 @@ export function AppShell() {
         {ui.tab === "log" && <LogView />}
         {ui.tab === "insights" && <InsightsView />}
         {ui.tab === "care" && <CareView />}
+        {ui.tab === "styleguide" && <StyleguideView />}
       </main>
 
       {/* Floating Bottom Navigation */}

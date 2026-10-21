@@ -199,6 +199,20 @@ export function ProfileSettingsSheet() {
               </div>
             );
           })}
+
+          <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px solid var(--border-subtle)" }}>
+            <button
+              type="button"
+              className="btn g sm"
+              style={{ width: "100%", justifyContent: "center" }}
+              onClick={() => {
+                actions.closeProfile();
+                actions.setTab("styleguide");
+              }}
+            >
+              🎨 View Design System v3 Styleguide
+            </button>
+          </div>
         </div>
 
         {/* 4. PIN Security */}
