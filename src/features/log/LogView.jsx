@@ -1,48 +1,61 @@
 /**
  * CycleSideChick — Daily Log View Component
+ * Features horizontal date scrubber, discrete flow capsules,
+ * tactile ToggleChips, Slider for pain, and sticky bottom save bar.
  */
 
 import React, { useState } from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
+import { Card } from "../../components/ui/Card.jsx";
+import { Button } from "../../components/ui/Button.jsx";
+import { ToggleChip } from "../../components/ui/ToggleChip.jsx";
+import { Slider } from "../../components/ui/Slider.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { TD, I, N, fmt } from "../../core/engine.js";
-import { formatPainLevel } from "../../lib/format.js";
 
 export function LogView() {
   const { dr, S } = useStore();
   const [customSymptomInput, setCustomSymptomInput] = useState("");
-  const todayDateStr = I(TD());
+  const todayDn = TD();
+  const todayDateStr = I(todayDn);
   const activeDate = dr.d || todayDateStr;
 
-  const quickDates = [
-    { label: "Yesterday", dateStr: I(TD() - 1) },
-    { label: "Today", dateStr: todayDateStr },
-    { label: "Tomorrow", dateStr: I(TD() + 1) }
-  ];
+  // Generate 7-day scrubber centered around active date
+  const activeDn = N(activeDate);
+  const scrubDates = [];
+  for (let offset = -3; offset <= 3; offset++) {
+    const d = activeDn + offset;
+    scrubDates.push({
+      d,
+      dateStr: I(d),
+      isToday: d === todayDn,
+      isSelected: d === activeDn
+    });
+  }
 
   const FLOW_LEVELS = [
-    { val: 0, label: "None" },
-    { val: 1, label: "Spotting" },
-    { val: 2, label: "Light" },
-    { val: 3, label: "Medium" },
-    { val: 4, label: "Heavy" }
+    { val: 0, label: "None", icon: "flowNone" },
+    { val: 1, label: "Spotting", icon: "flowSpotting" },
+    { val: 2, label: "Light", icon: "flowLight" },
+    { val: 3, label: "Medium", icon: "flowMedium" },
+    { val: 4, label: "Heavy", icon: "flowHeavy" }
   ];
 
   const MOODS = [
-    { val: 0, label: "Great" },
-    { val: 1, label: "Calm" },
-    { val: 2, label: "Sensitive" },
-    { val: 3, label: "Low" },
-    { val: 4, label: "Irritable" }
+    { val: 0, label: "Great", icon: "moodHappy" },
+    { val: 1, label: "Calm", icon: "moodCalm" },
+    { val: 2, label: "Sensitive", icon: "moodAnxious" },
+    { val: 3, label: "Low", icon: "moodLow" },
+    { val: 4, label: "Irritable", icon: "moodIrritable" }
   ];
 
   const CERVICAL_FLUIDS = [
-    { val: "dry", label: "Dry" },
-    { val: "sticky", label: "Sticky" },
-    { val: "creamy", label: "Creamy" },
-    { val: "watery", label: "Watery" },
-    { val: "ewcm", label: "Egg White" }
+    { val: "dry", label: "Dry", desc: "Minimal or no moisture" },
+    { val: "sticky", label: "Sticky", desc: "Thick or tacky" },
+    { val: "creamy", label: "Creamy", desc: "Lotion-like white" },
+    { val: "watery", label: "Watery", desc: "Thin, clear & wet" },
+    { val: "ewcm", label: "Egg White", desc: "Clear, stretchy (fertile)" }
   ];
 
   const SYMPTOMS = [
@@ -67,6 +80,10 @@ export function LogView() {
     { id: "bcomplex", label: "B-Complex" }
   ];
 
+  const currentLog = (S.logs && S.logs[activeDate]) || {};
+  const currentSymptoms = currentLog.s || [];
+  const currentMedications = currentLog.med || [];
+
   const handleAddCustom = e => {
     e.preventDefault();
     if (customSymptomInput.trim()) {
@@ -76,361 +93,238 @@ export function LogView() {
   };
 
   return (
-    <div className="log-view" style={{ paddingBottom: "80px" }}>
-      {/* Date Header Scrubber */}
-      <div className="card" style={{ padding: "14px", marginBottom: "16px" }}>
+    <div className="log-view" style={{ paddingBottom: "100px" }}>
+      {/* 1. Horizontal Date Scrubber */}
+      <Card variant="base" style={{ padding: "14px", marginBottom: "16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
           <div>
             <span className="subtle" style={{ fontSize: "11px", fontWeight: "700" }}>LOGGING DATE</span>
-            <h3 style={{ margin: "2px 0 0", fontSize: "17px" }}>{fmt(N(activeDate))}</h3>
+            <h2 style={{ fontFamily: "var(--font-display)", margin: "2px 0 0", fontSize: "18px" }}>
+              {fmt(activeDn, { weekday: "short", month: "short", day: "numeric" })}
+            </h2>
           </div>
           <input
             type="date"
             value={activeDate}
-            max={I(TD() + 1)}
+            max={I(todayDn + 1)}
             onChange={e => actions.changeLogDate(e.target.value)}
-            style={{ fontSize: "13px", padding: "4px 8px" }}
+            style={{ fontSize: "13px", padding: "6px 10px", borderRadius: "8px", border: "1px solid var(--border)" }}
           />
         </div>
 
-        <div style={{ display: "flex", gap: "6px" }}>
-          {quickDates.map(qd => {
-            const isSelected = activeDate === qd.dateStr;
-            return (
-              <button
-                key={qd.dateStr}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.selectLogDate(qd.dateStr)}
-                style={{
-                  flex: 1,
-                  padding: "6px",
-                  borderRadius: "8px",
-                  fontSize: "12px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--pink-light)" : "transparent",
-                  cursor: "pointer"
-                }}
-              >
-                {qd.label}
-              </button>
-            );
-          })}
+        <div className="v-log-scrubber">
+          {scrubDates.map(sd => (
+            <div
+              key={sd.dateStr}
+              className={`v-log-scrub-item ${sd.isSelected ? "active" : ""}`}
+              onClick={() => actions.changeLogDate(sd.dateStr)}
+            >
+              <span style={{ fontSize: "11px", fontWeight: "600", opacity: 0.8 }}>
+                {sd.isToday ? "Today" : fmt(sd.d, { weekday: "narrow" })}
+              </span>
+              <span style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>
+                {fmt(sd.d, { day: "numeric" })}
+              </span>
+            </div>
+          ))}
         </div>
-      </div>
+      </Card>
 
-      {/* 1. Menstrual Flow */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Menstrual Flow</b>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-          {FLOW_LEVELS.map(f => {
-            const isSelected = dr.f === f.val;
+      {/* 2. Flow Intensity Selector */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Bleeding & Flow Intensity</b>
+        <p className="mut" style={{ margin: "0 0 10px", fontSize: "12.5px" }}>
+          Select today's bleeding volume for cycle calculation.
+        </p>
+        <div className="v-log-flow-grid">
+          {FLOW_LEVELS.map(fl => {
+            const isSelected = (currentLog.f ?? 0) === fl.val;
             return (
               <button
-                key={f.val}
+                key={fl.val}
                 type="button"
                 className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.setFlow(f.val)}
+                onClick={() => actions.setFlow(fl.val)}
                 style={{
-                  flex: 1,
-                  minWidth: "60px",
-                  padding: "8px 6px",
-                  borderRadius: "10px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--tint-rose-bg)" : "var(--surface)",
-                  color: isSelected ? "var(--tint-rose-text)" : "inherit",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "10px 4px",
+                  borderRadius: "12px",
+                  border: isSelected ? "1.5px solid var(--berry)" : "1px solid var(--border)",
+                  background: isSelected ? "var(--pink-light)" : "var(--surface)",
+                  color: isSelected ? "var(--berry)" : "inherit",
                   cursor: "pointer",
-                  fontSize: "12.5px",
-                  fontWeight: isSelected ? "700" : "500"
+                  minHeight: "56px"
                 }}
               >
-                {f.label}
+                <Icon name={fl.icon} size={20} />
+                <span style={{ fontSize: "11px", fontWeight: "600", marginTop: "4px" }}>{fl.label}</span>
               </button>
             );
           })}
         </div>
-      </div>
+      </Card>
 
-      {/* 2. Mood */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Daily Mood</b>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+      {/* 3. Mood Tracking */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Emotional Landscape</b>
+        <p className="mut" style={{ margin: "0 0 10px", fontSize: "12.5px" }}>
+          How are you feeling emotionally today?
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
           {MOODS.map(m => {
-            const isSelected = dr.m === m.val;
+            const isSelected = currentLog.m === m.val;
             return (
-              <button
+              <ToggleChip
                 key={m.val}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.setDailyMood(m.val)}
-                style={{
-                  flex: 1,
-                  minWidth: "55px",
-                  padding: "8px 4px",
-                  borderRadius: "10px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--pink-light)" : "var(--surface)",
-                  cursor: "pointer",
-                  fontSize: "12px",
-                  fontWeight: isSelected ? "700" : "500"
-                }}
-              >
-                {m.label}
-              </button>
+                label={m.label}
+                icon={m.icon}
+                selected={isSelected}
+                onClick={() => actions.setMood(m.val)}
+              />
             );
           })}
         </div>
-      </div>
+      </Card>
 
-      {/* 3. Pain Level Slider */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
-          <b style={{ fontSize: "14px" }}>Pelvic & Cramp Discomfort</b>
-          <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--pink)" }}>
-            {formatPainLevel(dr.p)}
-          </span>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="10"
-          step="1"
-          value={dr.p !== null && dr.p !== undefined ? dr.p : 0}
-          onChange={e => {
-            dr.p = Number(e.target.value);
-            actions.setFlow(dr.f); // trigger reactive notify
-          }}
-          style={{ width: "100%", margin: "10px 0" }}
+      {/* 4. Pain Intensity Slider */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <Slider
+          label="Pelvic Pain / Discomfort Intensity"
+          min={0}
+          max={10}
+          step={1}
+          value={currentLog.p ?? 0}
+          onChange={val => actions.setPain(val)}
+          valueFormat={v => `${v} / 10 ${v === 0 ? "(None)" : v <= 3 ? "(Mild)" : v <= 6 ? "(Moderate)" : "(Severe)"}`}
         />
-      </div>
+      </Card>
 
-      {/* 4. Hydration Water Tracker */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <b style={{ fontSize: "14px" }}>Hydration</b>
-            <span className="subtle" style={{ fontSize: "12px", display: "block" }}>
-              {dr.water || 0} cups of water logged today
-            </span>
-          </div>
-          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <button
-              type="button"
-              className="icon-btn sm"
-              onClick={() => actions.setWater((dr.water || 0) - 1)}
-              aria-label="Decrease water"
-            >
-              <Icon name="minus" size={16} />
-            </button>
-            <span style={{ fontSize: "16px", fontWeight: "700", minWidth: "24px", textAlign: "center" }}>
-              {dr.water || 0}
-            </span>
-            <button
-              type="button"
-              className="icon-btn sm"
-              onClick={() => actions.setWater((dr.water || 0) + 1)}
-              aria-label="Increase water"
-            >
-              <Icon name="plus" size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 5. Cervical Fluid */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Cervical Fluid</b>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-          {CERVICAL_FLUIDS.map(c => {
-            const isSelected = dr.cm === c.val;
+      {/* 5. Physical Symptoms */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Physical Symptoms</b>
+        <p className="mut" style={{ margin: "0 0 10px", fontSize: "12.5px" }}>
+          Tap to toggle recorded physical sensations.
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "14px" }}>
+          {SYMPTOMS.map(sym => {
+            const isSelected = currentSymptoms.includes(sym.id);
             return (
-              <button
-                key={c.val}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.setCervicalMucus(c.val)}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "100px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--tint-lavender-bg)" : "var(--surface)",
-                  color: isSelected ? "var(--tint-lavender-text)" : "inherit",
-                  cursor: "pointer",
-                  fontSize: "12.5px"
-                }}
-              >
-                {c.label}
-              </button>
+              <ToggleChip
+                key={sym.id}
+                label={sym.label}
+                selected={isSelected}
+                onClick={() => actions.toggleSymptom(sym.id)}
+              />
             );
           })}
-        </div>
-      </div>
-
-      {/* 6. Physical Symptoms */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Symptoms & Sensations</b>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "12px" }}>
-          {SYMPTOMS.map(s => {
-            const isSelected = !!(dr.sy && dr.sy[s.id]);
+          {(S.customSymptoms || []).map(cs => {
+            const isSelected = currentSymptoms.includes(cs);
             return (
-              <button
-                key={s.id}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.toggleSymptom(s.id)}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "100px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--pink-light)" : "var(--surface)",
-                  color: isSelected ? "var(--pink)" : "inherit",
-                  cursor: "pointer",
-                  fontSize: "12.5px"
-                }}
-              >
-                {s.label}
-              </button>
-            );
-          })}
-          {/* Custom Symptoms */}
-          {(S.custom || []).map(cs => {
-            const isSelected = !!(dr.sy && dr.sy[cs]);
-            return (
-              <button
+              <ToggleChip
                 key={cs}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
+                label={cs}
+                selected={isSelected}
                 onClick={() => actions.toggleSymptom(cs)}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "100px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--pink-light)" : "var(--surface)",
-                  cursor: "pointer",
-                  fontSize: "12.5px"
-                }}
-              >
-                {cs.replace(/_/g, " ")}
-              </button>
+              />
             );
           })}
         </div>
 
-        {/* Add Custom Symptom Input */}
-        <form onSubmit={handleAddCustom} style={{ display: "flex", gap: "6px" }}>
+        {/* Custom Symptom Form */}
+        <form onSubmit={handleAddCustom} style={{ display: "flex", gap: "8px" }}>
           <input
             type="text"
             placeholder="Add custom symptom..."
             value={customSymptomInput}
             onChange={e => setCustomSymptomInput(e.target.value)}
-            style={{ flex: 1, padding: "6px 10px", fontSize: "13px" }}
+            style={{ flex: 1, padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "13px" }}
           />
-          <button type="submit" className="btn g sm">
-            + Add
-          </button>
+          <Button variant="secondary" size="sm" type="submit">
+            Add
+          </Button>
         </form>
-      </div>
+      </Card>
 
-      {/* 7. Medications */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Medications & Supplements</b>
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-          {MEDICATIONS.map(med => {
-            const isSelected = (dr.med || []).includes(med.id);
+      {/* 6. Cervical Fluid Consistency */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Cervical Fluid / Mucus</b>
+        <p className="mut" style={{ margin: "0 0 10px", fontSize: "12.5px" }}>
+          Natural indicator of hormonal estrogen peaks.
+        </p>
+        <div className="v-log-mucus-grid">
+          {CERVICAL_FLUIDS.map(cf => {
+            const isSelected = currentLog.cm === cf.val;
             return (
               <button
-                key={med.id}
+                key={cf.val}
                 type="button"
                 className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.toggleMedication(med.id)}
+                onClick={() => actions.setCervicalFluid(cf.val)}
                 style={{
-                  padding: "6px 12px",
-                  borderRadius: "100px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  border: isSelected ? "1.5px solid var(--berry)" : "1px solid var(--border)",
                   background: isSelected ? "var(--pink-light)" : "var(--surface)",
+                  color: isSelected ? "var(--berry)" : "inherit",
                   cursor: "pointer",
-                  fontSize: "12.5px"
+                  textAlign: "left"
                 }}
               >
-                {med.label}
+                <b style={{ fontSize: "12.5px" }}>{cf.label}</b>
+                <span style={{ fontSize: "10.5px", color: "var(--text-muted)", marginTop: "2px" }}>{cf.desc}</span>
               </button>
             );
           })}
         </div>
-      </div>
+      </Card>
 
-      {/* 8. Biomarkers: BBT & LH */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Fertility Biomarkers (BBT & LH)</b>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-          <div>
-            <label style={{ fontSize: "12px", display: "block", marginBottom: "4px" }}>Basal Temp (°F / °C)</label>
-            <input
-              type="text"
-              placeholder="e.g. 97.8"
-              value={dr.bbt || ""}
-              onChange={e => {
-                dr.bbt = e.target.value;
-                actions.setFlow(dr.f);
-              }}
-              style={{ width: "100%", padding: "6px 8px" }}
-            />
-          </div>
-          <div>
-            <label style={{ fontSize: "12px", display: "block", marginBottom: "4px" }}>LH Surge Test</label>
-            <select
-              value={dr.lh || ""}
-              onChange={e => actions.setLhStatus(e.target.value)}
-              style={{ width: "100%", padding: "6px 8px" }}
-            >
-              <option value="">Not tested</option>
-              <option value="negative">Negative</option>
-              <option value="positive">LH Surge (+)</option>
-            </select>
-          </div>
+      {/* 7. Medications & Care Support */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Medications & Supplements</b>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "8px" }}>
+          {MEDICATIONS.map(med => {
+            const isSelected = currentMedications.includes(med.id);
+            return (
+              <ToggleChip
+                key={med.id}
+                label={med.label}
+                selected={isSelected}
+                onClick={() => actions.toggleMedication(med.id)}
+              />
+            );
+          })}
         </div>
-      </div>
+      </Card>
 
-      {/* 9. Daily Note */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "6px" }}>Private Daily Note</b>
+      {/* 8. Personal Private Note */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
+        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Private Day Notes</b>
         <textarea
           rows={3}
-          placeholder="Thoughts, physical observations, or personal notes..."
-          value={dr.note || ""}
-          onChange={e => {
-            dr.note = e.target.value;
-            actions.setFlow(dr.f);
-          }}
-          style={{ width: "100%", padding: "8px", borderRadius: "8px", border: "1px solid var(--border)" }}
+          placeholder="Any physical sensations, energy shifts, or personal thoughts..."
+          value={currentLog.note || ""}
+          onChange={e => actions.setNote(e.target.value)}
+          style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "13.5px", fontFamily: "var(--font-body)", resize: "vertical" }}
         />
-      </div>
+      </Card>
 
-      {/* 10. Sticky Save Bar */}
-      <div
-        className="sticky-save-bar"
-        style={{
-          position: "fixed",
-          bottom: "64px",
-          left: 0,
-          right: 0,
-          padding: "10px 16px",
-          background: "var(--nav-bg)",
-          backdropFilter: "blur(20px)",
-          borderTop: "1px solid var(--border-subtle)",
-          display: "flex",
-          justifyContent: "center",
-          zIndex: 10
-        }}
-      >
-        <button
-          type="button"
-          className="btn"
-          style={{ maxWidth: "440px", width: "100%" }}
-          onClick={() => actions.saveDailyLog()}
-        >
-          Save Entry
-        </button>
+      {/* 9. Sticky Bottom Feedback Bar */}
+      <div className="v-log-sticky-bar">
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--phase-follicular)" }} />
+          <span style={{ fontSize: "12.5px", fontWeight: "600", color: "var(--text-muted)" }}>
+            Changes saved locally
+          </span>
+        </div>
+        <Button variant="primary" size="sm" onClick={() => actions.setTab("home")}>
+          Done
+        </Button>
       </div>
     </div>
   );

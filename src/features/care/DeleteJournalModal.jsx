@@ -1,11 +1,13 @@
 /**
  * CycleSideChick — Delete Journal Entry Confirmation Modal
+ * Wrapped in SheetModal primitive with danger action.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
-import { Icon } from "../../components/ui/Icon.jsx";
+import { SheetModal } from "../../components/ui/SheetModal.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 
 export function DeleteJournalModal() {
   const { ui } = useStore();
@@ -13,60 +15,26 @@ export function DeleteJournalModal() {
   if (!dateToDelete) return null;
 
   return (
-    <div
-      className="modal-backdrop"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.45)",
-        backdropFilter: "blur(4px)",
-        zIndex: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "16px"
-      }}
-      onClick={() => actions.cancelDeleteJournal()}
+    <SheetModal
+      isOpen={true}
+      onClose={() => actions.cancelDeleteJournal()}
+      title="Delete Reflection?"
+      maxWidth="420px"
     >
-      <div
-        className="modal-panel view-enter card"
-        style={{
-          width: "100%",
-          maxWidth: "420px",
-          padding: "24px",
-          background: "var(--surface-elevated)",
-          borderRadius: "20px"
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px", color: "var(--phase-menstrual)" }}>
-          <Icon name="trash" size={22} />
-          <h2 style={{ margin: 0, fontSize: "18px" }}>Delete Reflection?</h2>
-        </div>
-
-        <p className="mut" style={{ fontSize: "13.5px", lineHeight: "1.5", margin: "0 0 18px" }}>
-          Are you sure you want to delete your journal reflection for <b>{dateToDelete}</b>? This action cannot be undone.
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <p className="mut" style={{ fontSize: "13.5px", lineHeight: "1.5", margin: 0 }}>
+          Are you sure you want to delete your journal reflection for <b>{dateToDelete}</b>? This cannot be undone.
         </p>
 
-        <div style={{ display: "flex", gap: "8px" }}>
-          <button
-            type="button"
-            className="btn g"
-            style={{ flex: 1 }}
-            onClick={() => actions.cancelDeleteJournal()}
-          >
+        <div style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
+          <Button variant="secondary" size="sm" onClick={() => actions.cancelDeleteJournal()}>
             Cancel
-          </button>
-          <button
-            type="button"
-            className="btn"
-            style={{ flex: 1, background: "var(--phase-menstrual)", color: "#FFFFFF" }}
-            onClick={() => actions.deleteJournalEntry()}
-          >
-            Delete
-          </button>
+          </Button>
+          <Button variant="danger" size="sm" icon="trash" onClick={() => actions.executeDeleteJournal(dateToDelete)}>
+            Confirm Delete
+          </Button>
         </div>
       </div>
-    </div>
+    </SheetModal>
   );
 }

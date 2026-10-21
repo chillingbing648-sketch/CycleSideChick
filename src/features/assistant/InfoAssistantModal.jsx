@@ -1,11 +1,14 @@
 /**
  * CycleSideChick — Info & On-Device Assistant Modal Component
+ * Wrapped in SheetModal primitive with drag-to-dismiss gesture.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
-import { Icon } from "../../components/ui/Icon.jsx";
+import { SheetModal } from "../../components/ui/SheetModal.jsx";
+import { Card } from "../../components/ui/Card.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 
 export function InfoAssistantModal() {
   const { ui } = useStore();
@@ -16,76 +19,36 @@ export function InfoAssistantModal() {
   const answer = ui.assistantAnswer || {};
 
   return (
-    <div
-      className="modal-backdrop"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.45)",
-        backdropFilter: "blur(4px)",
-        zIndex: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "16px"
-      }}
-      onClick={() => actions.closeInfo()}
+    <SheetModal
+      isOpen={true}
+      onClose={() => actions.closeInfo()}
+      title={isAssistantAnswer ? answer.title || "Health Assistant" : "Clinical Information"}
+      maxWidth="520px"
     >
-      <div
-        className="modal-panel view-enter card"
-        style={{
-          width: "100%",
-          maxWidth: "500px",
-          maxHeight: "80vh",
-          overflowY: "auto",
-          padding: "24px",
-          background: "var(--surface-elevated)",
-          borderRadius: "20px"
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
-          <div>
-            <span className="pill-tag" style={{ background: "var(--tint-mint-bg)", color: "var(--tint-mint-text)" }}>
-              {isAssistantAnswer ? "On-Device Assistant" : "Evidence Guide"}
-            </span>
-            <h2 style={{ margin: "4px 0 0", fontSize: "19px" }}>
-              {isAssistantAnswer ? answer.title || "Health Insights" : "Clinical Information"}
-            </h2>
-          </div>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={() => actions.closeInfo()}
-            aria-label="Close"
-          >
-            <Icon name="x" size={20} />
-          </button>
-        </div>
-
-        {isAssistantAnswer ? (
-          <div>
-            <p className="mut" style={{ fontSize: "12px", margin: "0 0 10px" }}>{answer.context}</p>
-            <div style={{ fontSize: "13.5px", lineHeight: "1.6", whiteSpace: "pre-line", marginBottom: "16px" }}>
-              {answer.body}
+      <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+        <Card variant="raised" style={{ padding: "16px", fontSize: "14px", lineHeight: "1.6" }}>
+          {isAssistantAnswer ? (
+            <div>
+              <p style={{ margin: "0 0 12px" }}>{answer.text || answer.summary}</p>
+              {answer.source && (
+                <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "8px", fontSize: "11.5px", color: "var(--text-muted)" }}>
+                  <b>Source:</b> {answer.source}
+                </div>
+              )}
             </div>
-            {answer.clinicianAdvice && (
-              <div className="card tint-rose" style={{ padding: "12px", fontSize: "12px", marginBottom: "12px" }}>
-                <b>When to consult:</b> {answer.clinicianAdvice}
-              </div>
-            )}
-            <div className="card tint-mint" style={{ padding: "10px", fontSize: "11.5px" }}>
-              <b>Source:</b> {answer.source || "ACOG Clinical Library"}
-            </div>
-          </div>
-        ) : (
-          <div>
-            <p style={{ fontSize: "13.5px", lineHeight: "1.6" }}>
-              All estimates and calculations in CycleSideChick are based on standard clinical guidelines from ACOG and FIGO.
+          ) : (
+            <p style={{ margin: 0 }}>
+              CycleSideChick predictions and physiological explanations are estimates derived from standard ACOG clinical norms.
             </p>
-          </div>
-        )}
+          )}
+        </Card>
+
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button variant="primary" size="sm" onClick={() => actions.closeInfo()}>
+            Close
+          </Button>
+        </div>
       </div>
-    </div>
+    </SheetModal>
   );
 }

@@ -1,11 +1,15 @@
 /**
  * CycleSideChick — 4-Phase Cycle Tour Modal Component
+ * Wrapped in SheetModal primitive with SegmentedControl for switching phases.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
-import { Icon } from "../../components/ui/Icon.jsx";
+import { SheetModal } from "../../components/ui/SheetModal.jsx";
+import { SegmentedControl } from "../../components/ui/SegmentedControl.jsx";
+import { Card } from "../../components/ui/Card.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 
 export function PhaseTourModal() {
   const { ui } = useStore();
@@ -15,37 +19,37 @@ export function PhaseTourModal() {
 
   const PHASES = [
     {
+      id: "0",
+      label: "Menstrual",
       title: "1. Menstrual Phase",
       timing: "Days 1 to 5–7",
-      color: "var(--tint-rose-text)",
-      bg: "var(--tint-rose-bg)",
-      hormones: "Estrogen & progesterone at lowest baseline",
+      hormones: "Estrogen & progesterone at baseline",
       energy: "Reflective, restorative, inward focus",
       care: "Warm teas, cozy clothing, pelvic heat, permission to rest without guilt."
     },
     {
+      id: "1",
+      label: "Follicular",
       title: "2. Follicular Phase",
       timing: "Days 6 to 12",
-      color: "var(--tint-sage-text)",
-      bg: "var(--tint-sage-bg)",
       hormones: "FSH recruits follicles; estradiol climbs steadily",
       energy: "Rising mental stamina, creativity, physical vigor",
       care: "New projects, dynamic movement, fresh nourishing meals."
     },
     {
+      id: "2",
+      label: "Ovulatory",
       title: "3. Ovulatory Phase",
       timing: "Days 13 to 16",
-      color: "var(--tint-lavender-text)",
-      bg: "var(--tint-lavender-bg)",
       hormones: "LH surge triggers egg release; estrogen peaks",
       energy: "Peak sociability, communication, vitality",
-      care: "Social connection, high-intensity workouts, fertile window awareness."
+      care: "Social connection, higher energy workouts, fertile window awareness."
     },
     {
+      id: "3",
+      label: "Luteal",
       title: "4. Luteal Phase",
       timing: "Days 17 to 28+",
-      color: "var(--tint-peach-text)",
-      bg: "var(--tint-peach-bg)",
       hormones: "Progesterone dominates, stabilizes uterine lining",
       energy: "Nesting, detail orientation, gradual slow-down",
       care: "Magnesium, regular sleep routines, boundary setting, gentle stretching."
@@ -55,90 +59,65 @@ export function PhaseTourModal() {
   const phase = PHASES[currentTab] || PHASES[0];
 
   return (
-    <div
-      className="modal-backdrop"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.45)",
-        backdropFilter: "blur(4px)",
-        zIndex: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "16px"
-      }}
-      onClick={() => actions.closeTour()}
+    <SheetModal
+      isOpen={true}
+      onClose={() => actions.closeTour()}
+      title="The Four Cycle Phases"
+      maxWidth="560px"
     >
-      <div
-        className="modal-panel view-enter card"
-        style={{
-          width: "100%",
-          maxWidth: "500px",
-          padding: "24px",
-          background: "var(--surface-elevated)",
-          borderRadius: "20px"
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
-          <div>
-            <span className="pill-tag" style={{ background: "var(--pink-light)", color: "var(--pink)" }}>
-              Interactive Tour
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <SegmentedControl
+          value={String(currentTab)}
+          onChange={val => actions.setTourTab(Number(val))}
+          ariaLabel="Cycle Phase Switcher"
+          items={PHASES.map(p => ({ id: p.id, label: p.label }))}
+        />
+
+        <Card variant="raised" style={{ padding: "18px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+            <h3 style={{ margin: 0, fontFamily: "var(--font-display)", fontSize: "18px" }}>{phase.title}</h3>
+            <span className="pill-tag" style={{ background: "var(--surface-raised)", color: "var(--text-muted)", fontSize: "11.5px" }}>
+              {phase.timing}
             </span>
-            <h2 style={{ margin: "4px 0 0", fontSize: "19px" }}>The 4 Hormonal Phases</h2>
           </div>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={() => actions.closeTour()}
-            aria-label="Close tour"
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "13.5px", lineHeight: "1.55" }}>
+            <div>
+              <span className="subtle" style={{ fontSize: "11px", fontWeight: "700", display: "block" }}>HORMONAL SHIFT</span>
+              <span>{phase.hormones}</span>
+            </div>
+            <div>
+              <span className="subtle" style={{ fontSize: "11px", fontWeight: "700", display: "block" }}>NATURAL ENERGY & MOOD</span>
+              <span>{phase.energy}</span>
+            </div>
+            <div>
+              <span className="subtle" style={{ fontSize: "11px", fontWeight: "700", display: "block" }}>NURTURING CARE TIPS</span>
+              <span>{phase.care}</span>
+            </div>
+          </div>
+        </Card>
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={currentTab === 0}
+            onClick={() => actions.setTourTab(Math.max(0, currentTab - 1))}
           >
-            <Icon name="x" size={20} />
-          </button>
+            Previous
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => {
+              if (currentTab < 3) actions.setTourTab(currentTab + 1);
+              else actions.closeTour();
+            }}
+          >
+            {currentTab < 3 ? "Next Phase" : "Got it"}
+          </Button>
         </div>
-
-        {/* Phase selector tabs */}
-        <div style={{ display: "flex", gap: "6px", marginBottom: "16px" }}>
-          {PHASES.map((p, idx) => {
-            const isSelected = currentTab === idx;
-            return (
-              <button
-                key={idx}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
-                onClick={() => actions.setTourTab(idx)}
-                style={{ flex: 1, padding: "6px 4px", fontSize: "11.5px", fontWeight: isSelected ? "700" : "500" }}
-              >
-                P{idx + 1}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Phase Content Card */}
-        <div className="card" style={{ padding: "16px", background: phase.bg, color: phase.color, marginBottom: "16px" }}>
-          <b style={{ fontSize: "16px", display: "block" }}>{phase.title}</b>
-          <span style={{ fontSize: "12px", opacity: 0.9 }}>{phase.timing}</span>
-          <div style={{ marginTop: "12px", fontSize: "13px", lineHeight: "1.5" }}>
-            <div><b>Endocrine:</b> {phase.hormones}</div>
-            <div style={{ marginTop: "6px" }}><b>Energy & Sensation:</b> {phase.energy}</div>
-            <div style={{ marginTop: "6px" }}><b>Gentle Care:</b> {phase.care}</div>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          className="btn"
-          style={{ width: "100%" }}
-          onClick={() => {
-            if (currentTab < 3) actions.setTourTab(currentTab + 1);
-            else actions.closeTour();
-          }}
-        >
-          {currentTab < 3 ? "Next Phase →" : "Got it!"}
-        </button>
       </div>
-    </div>
+    </SheetModal>
   );
 }

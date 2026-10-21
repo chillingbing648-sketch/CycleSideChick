@@ -1,15 +1,21 @@
 /**
  * CycleSideChick — Profile & Settings Sheet Component
+ * Wrapped in SheetModal with drag-to-dismiss gesture, grouped settings cards,
+ * steppers, theme switchers, PIN security, and data ledger.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
+import { SheetModal } from "../../components/ui/SheetModal.jsx";
+import { Card } from "../../components/ui/Card.jsx";
+import { Button } from "../../components/ui/Button.jsx";
+import { ToggleChip } from "../../components/ui/ToggleChip.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { PinLock, getPrivacyLedger } from "../../core/storage.js";
 
 export function ProfileSettingsSheet() {
-  const { S, ui } = useStore();
+  const { S } = useStore();
   const isPinActive = PinLock.isEnabled();
   const ledger = getPrivacyLedger(S);
 
@@ -23,102 +29,76 @@ export function ProfileSettingsSheet() {
   ];
 
   return (
-    <div
-      className="sheet-backdrop"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.4)",
-        backdropFilter: "blur(4px)",
-        zIndex: 50,
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "center"
-      }}
-      onClick={() => actions.closeProfile()}
+    <SheetModal
+      isOpen={true}
+      onClose={() => actions.closeProfile()}
+      title="Settings & Health Privacy"
+      maxWidth="540px"
     >
-      <div
-        className="sheet-panel view-enter"
-        style={{
-          background: "var(--surface-elevated)",
-          width: "100%",
-          maxWidth: "500px",
-          maxHeight: "90vh",
-          overflowY: "auto",
-          borderRadius: "24px 24px 0 0",
-          padding: "20px 20px 40px",
-          boxShadow: "0 -8px 30px rgba(0, 0, 0, 0.15)"
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <div>
-            <h2 style={{ margin: 0, fontSize: "20px" }}>Profile & Settings</h2>
-            <span className="subtle" style={{ fontSize: "12px" }}>100% On-Device · No Cloud</span>
-          </div>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={() => actions.closeProfile()}
-            aria-label="Close settings"
-          >
-            <Icon name="x" size={20} />
-          </button>
-        </div>
-
-        {/* 1. Tracker Mode Selection */}
-        <div style={{ marginBottom: "20px" }}>
-          <b style={{ fontSize: "14px", display: "block", marginBottom: "8px" }}>Tracker Mode</b>
-          <div style={{ display: "grid", gap: "6px" }}>
-            {MODES.map(([id, title, desc]) => {
-              const isSelected = (S.mode || "natural") === id;
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {/* 1. Mode Selector */}
+        <Card variant="base" style={{ padding: "16px" }}>
+          <b style={{ fontSize: "14px", display: "block", marginBottom: "4px" }}>Tracking Mode</b>
+          <p className="mut" style={{ margin: "0 0 12px", fontSize: "12.5px" }}>
+            Adapts predictions and medical language to your physiological situation.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "8px" }}>
+            {MODES.map(([modeKey, title, desc]) => {
+              const isSelected = (S.mode || "natural") === modeKey;
               return (
                 <div
-                  key={id}
-                  className={`card ${isSelected ? "tint-rose" : ""}`}
+                  key={modeKey}
+                  onClick={() => actions.setMode(modeKey)}
                   style={{
                     padding: "10px 14px",
+                    borderRadius: "12px",
+                    border: isSelected ? "1.5px solid var(--berry)" : "1px solid var(--border)",
+                    background: isSelected ? "var(--pink-light)" : "var(--surface)",
+                    color: isSelected ? "var(--berry)" : "inherit",
                     cursor: "pointer",
-                    border: isSelected ? "2px solid var(--pink)" : "1px solid var(--border)"
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
                   }}
-                  onClick={() => actions.setMode(id)}
                 >
-                  <b style={{ fontSize: "13.5px" }}>{title}</b>
-                  <p className="mut" style={{ margin: "2px 0 0", fontSize: "12px" }}>{desc}</p>
+                  <div>
+                    <b style={{ fontSize: "13.5px", display: "block" }}>{title}</b>
+                    <span className="mut" style={{ fontSize: "11.5px" }}>{desc}</span>
+                  </div>
+                  {isSelected && <Icon name="check" size={18} />}
                 </div>
               );
             })}
           </div>
-        </div>
+        </Card>
 
-        {/* 2. Physiological Parameters */}
-        <div className="card" style={{ padding: "16px", marginBottom: "20px" }}>
-          <b style={{ fontSize: "14px", display: "block", marginBottom: "12px" }}>Cycle Parameters</b>
+        {/* 2. Physiological Baseline Steppers */}
+        <Card variant="base" style={{ padding: "16px" }}>
+          <b style={{ fontSize: "14px", display: "block", marginBottom: "12px" }}>Cycle Baseline Parameters</b>
 
           {/* Cycle Length */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
             <div>
-              <span style={{ fontSize: "13px", fontWeight: "600" }}>Typical Cycle Length</span>
-              <span className="subtle" style={{ fontSize: "11px", display: "block" }}>18 to 45 days</span>
+              <span style={{ fontSize: "13px", fontWeight: "600" }}>Usual Cycle Length</span>
+              <span className="subtle" style={{ fontSize: "11px", display: "block" }}>21 to 45 days</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <button type="button" className="icon-btn sm" onClick={() => actions.stepCycleParam("cl", -1)}>-</button>
-              <span style={{ fontWeight: "700", minWidth: "32px", textAlign: "center" }}>{S.cl || 28} d</span>
-              <button type="button" className="icon-btn sm" onClick={() => actions.stepCycleParam("cl", 1)}>+</button>
+              <Button variant="secondary" size="sm" onClick={() => actions.stepCycleParam("cl", -1)}>-</Button>
+              <span style={{ fontWeight: "700", minWidth: "36px", textAlign: "center" }}>{S.cl || 28} d</span>
+              <Button variant="secondary" size="sm" onClick={() => actions.stepCycleParam("cl", 1)}>+</Button>
             </div>
           </div>
 
-          {/* Period Duration */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+          {/* Bleeding Duration */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
             <div>
               <span style={{ fontSize: "13px", fontWeight: "600" }}>Bleeding Duration</span>
               <span className="subtle" style={{ fontSize: "11px", display: "block" }}>2 to 10 days</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <button type="button" className="icon-btn sm" onClick={() => actions.stepCycleParam("pl", -1)}>-</button>
-              <span style={{ fontWeight: "700", minWidth: "32px", textAlign: "center" }}>{S.pl || 5} d</span>
-              <button type="button" className="icon-btn sm" onClick={() => actions.stepCycleParam("pl", 1)}>+</button>
+              <Button variant="secondary" size="sm" onClick={() => actions.stepCycleParam("pl", -1)}>-</Button>
+              <span style={{ fontWeight: "700", minWidth: "36px", textAlign: "center" }}>{S.pl || 5} d</span>
+              <Button variant="secondary" size="sm" onClick={() => actions.stepCycleParam("pl", 1)}>+</Button>
             </div>
           </div>
 
@@ -129,18 +109,17 @@ export function ProfileSettingsSheet() {
               <span className="subtle" style={{ fontSize: "11px", display: "block" }}>10 to 16 days</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <button type="button" className="icon-btn sm" onClick={() => actions.stepCycleParam("ll", -1)}>-</button>
-              <span style={{ fontWeight: "700", minWidth: "32px", textAlign: "center" }}>{S.ll || 14} d</span>
-              <button type="button" className="icon-btn sm" onClick={() => actions.stepCycleParam("ll", 1)}>+</button>
+              <Button variant="secondary" size="sm" onClick={() => actions.stepCycleParam("ll", -1)}>-</Button>
+              <span style={{ fontWeight: "700", minWidth: "36px", textAlign: "center" }}>{S.ll || 14} d</span>
+              <Button variant="secondary" size="sm" onClick={() => actions.stepCycleParam("ll", 1)}>+</Button>
             </div>
           </div>
-        </div>
+        </Card>
 
-        {/* 3. Theme & Preferences */}
-        <div className="card" style={{ padding: "16px", marginBottom: "20px" }}>
+        {/* 3. Appearance & Experience */}
+        <Card variant="base" style={{ padding: "16px" }}>
           <b style={{ fontSize: "14px", display: "block", marginBottom: "12px" }}>Appearance & Experience</b>
 
-          {/* Theme Selector */}
           <div style={{ marginBottom: "14px" }}>
             <span style={{ fontSize: "13px", fontWeight: "600", display: "block", marginBottom: "6px" }}>Theme</span>
             <div style={{ display: "flex", gap: "6px" }}>
@@ -151,21 +130,20 @@ export function ProfileSettingsSheet() {
               ].map(([th, label]) => {
                 const isSelected = (S.theme || "system") === th;
                 return (
-                  <button
+                  <Button
                     key={th}
-                    type="button"
-                    className={`chip ${isSelected ? "active" : ""}`}
+                    variant={isSelected ? "primary" : "secondary"}
+                    size="sm"
                     onClick={() => actions.setTheme(th)}
-                    style={{ flex: 1, padding: "6px", fontSize: "12.5px" }}
+                    style={{ flex: 1 }}
                   >
                     {label}
-                  </button>
+                  </Button>
                 );
               })}
             </div>
           </div>
 
-          {/* Toggle Switches */}
           {[
             ["motion", "Fluid Animations", "Tactile spring motion & transitions"],
             ["haptics", "Haptic Feedback", "Subtle vibrations on interaction"],
@@ -181,7 +159,7 @@ export function ProfileSettingsSheet() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  padding: "8px 0",
+                  padding: "10px 0",
                   borderTop: "1px solid var(--border-subtle)"
                 }}
               >
@@ -194,29 +172,29 @@ export function ProfileSettingsSheet() {
                   checked={isActive}
                   onChange={() => actions.togglePref(key)}
                   role="switch"
-                  style={{ width: "20px", height: "20px", cursor: "pointer" }}
+                  style={{ width: "22px", height: "22px", cursor: "pointer" }}
                 />
               </div>
             );
           })}
 
           <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px solid var(--border-subtle)" }}>
-            <button
-              type="button"
-              className="btn g sm"
-              style={{ width: "100%", justifyContent: "center" }}
+            <Button
+              variant="secondary"
+              size="sm"
+              style={{ width: "100%" }}
               onClick={() => {
                 actions.closeProfile();
                 actions.setTab("styleguide");
               }}
             >
-              🎨 View Design System v3 Styleguide
-            </button>
+              View Design System v3 Styleguide
+            </Button>
           </div>
-        </div>
+        </Card>
 
         {/* 4. PIN Security */}
-        <div className="card" style={{ padding: "16px", marginBottom: "20px" }}>
+        <Card variant="base" style={{ padding: "16px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
@@ -227,64 +205,65 @@ export function ProfileSettingsSheet() {
                 {isPinActive ? "PIN lock is enabled and active" : "Protect your health journal with a 4-digit code"}
               </span>
             </div>
-            <button
-              type="button"
-              className="btn g sm"
+            <Button
+              variant={isPinActive ? "danger" : "secondary"}
+              size="sm"
               onClick={() => actions.togglePinLock()}
             >
               {isPinActive ? "Disable PIN" : "Enable PIN"}
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
 
-        {/* 5. Privacy Ledger */}
-        <div className="card" style={{ padding: "16px", marginBottom: "20px" }}>
-          <b style={{ fontSize: "14px", display: "block", marginBottom: "6px" }}>Transparent Privacy Ledger</b>
-          <p className="mut" style={{ margin: "0 0 10px", fontSize: "12px" }}>
-            Exact overview of every piece of data stored locally in your browser:
+        {/* 5. Data Privacy & Local Ledger */}
+        <Card variant="base" style={{ padding: "16px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+            <Icon name="shield" size={18} />
+            <b style={{ fontSize: "14px" }}>Privacy Ledger</b>
+          </div>
+          <p className="mut" style={{ margin: "0 0 12px", fontSize: "12.5px" }}>
+            100% on-device storage. No telemetry, no accounts, and zero cloud backups.
           </p>
-          <div style={{ fontSize: "12px", maxHeight: "140px", overflowY: "auto", background: "var(--surface-alt)", padding: "8px", borderRadius: "8px" }}>
-            {ledger && ledger.items ? (
-              ledger.items.map((it, idx) => (
-                <div key={idx} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0" }}>
-                  <span style={{ fontWeight: "600" }}>{it.key}</span>
-                  <span className="subtle">{it.desc}</span>
-                </div>
-              ))
-            ) : (
-              <div>Records: {S.periods ? S.periods.length : 0} cycles, {Object.keys(S.logs || {}).length} daily logs</div>
-            )}
-          </div>
-        </div>
 
-        {/* 6. Data Backup & Erase */}
-        <div className="card" style={{ padding: "16px" }}>
-          <b style={{ fontSize: "14px", display: "block", marginBottom: "10px" }}>Data Management & Erase</b>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <button type="button" className="btn g" onClick={() => actions.exportCSV()}>
-              <Icon name="download" size={16} />
-              <span>Export CSV (Spreadsheet)</span>
-            </button>
-            <button type="button" className="btn g" onClick={() => actions.exportJSON()}>
-              <Icon name="download" size={16} />
-              <span>Export JSON Backup</span>
-            </button>
-            <button
-              type="button"
-              className="btn"
-              style={{ background: "var(--phase-menstrual)", color: "#FFFFFF", marginTop: "8px" }}
-              onClick={() => {
-                if (window.confirm("Are you sure you want to completely erase all logged health data from this device? This action cannot be undone.")) {
-                  actions.wipeAllData();
-                }
-              }}
-            >
-              <Icon name="trash" size={16} />
-              <span>Erase All Data from Device</span>
-            </button>
+          <div style={{ fontSize: "12.5px", lineHeight: "1.6", marginBottom: "14px" }}>
+            <div>Stored Periods: <b>{ledger.periodCount}</b></div>
+            <div>Daily Check-in Logs: <b>{ledger.logCount}</b></div>
+            <div>Journal Entries: <b>{ledger.journalCount}</b></div>
+            <div>Storage Footprint: <b>{ledger.storageBytes} bytes</b></div>
           </div>
-        </div>
+
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }}>
+            <Button variant="secondary" size="sm" icon="download" onClick={() => actions.exportJSON()}>
+              Export JSON
+            </Button>
+            <Button variant="secondary" size="sm" icon="download" onClick={() => actions.exportCSV()}>
+              Export CSV
+            </Button>
+            <label style={{ display: "inline-flex" }}>
+              <input
+                type="file"
+                accept=".json,.csv"
+                style={{ display: "none" }}
+                onChange={e => {
+                  if (e.target.files && e.target.files[0]) {
+                    actions.importFile(e.target.files[0]);
+                  }
+                }}
+              />
+              <span className="c-btn c-btn--secondary c-btn--sm" style={{ cursor: "pointer" }}>
+                <Icon name="share" size={16} />
+                <span>Import Backup</span>
+              </span>
+            </label>
+          </div>
+
+          <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "12px" }}>
+            <Button variant="danger" size="sm" icon="trash" onClick={() => actions.eraseAllData()}>
+              Erase All Data Locally
+            </Button>
+          </div>
+        </Card>
       </div>
-    </div>
+    </SheetModal>
   );
 }

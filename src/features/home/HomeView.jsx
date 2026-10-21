@@ -1,11 +1,17 @@
 /**
  * CycleSideChick — Home View Component
+ * Mode-adaptive hero, dynamic cycle ring with smooth draw-in,
+ * week strip, daily reassurance, and floating "Log today" pill.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
 import { CycleRing } from "./CycleRing.jsx";
+import { Card } from "../../components/ui/Card.jsx";
+import { Button } from "../../components/ui/Button.jsx";
+import { ToggleChip } from "../../components/ui/ToggleChip.jsx";
+import { WaterCup } from "../../components/ui/WaterCup.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { TD, I, N, fmt, calculateStats, calculatePregnancy, getDailyPhaseGuidance } from "../../core/engine.js";
 import { getReassuranceMessage } from "../../core/content.js";
@@ -27,8 +33,8 @@ export function HomeView() {
   for (let offset = -3; offset <= 3; offset++) {
     const d = todayDn + offset;
     const dateStr = I(d);
-    const hasLog = S.logs && S.logs[dateStr];
-    const isPeriod = stats.pdset && stats.pdset.has(d);
+    const hasLog = Boolean(S.logs && S.logs[dateStr]);
+    const isPeriod = Boolean(stats.pdset && stats.pdset.has(d));
     const isToday = offset === 0;
     const isSelected = ui.selDay === dateStr;
     weekDays.push({ d, dateStr, isPeriod, hasLog, isToday, isSelected });
@@ -38,35 +44,35 @@ export function HomeView() {
   const todayFeeling = S.careCheckin && S.careCheckin[I(todayDn)] ? S.careCheckin[I(todayDn)].feeling : null;
 
   return (
-    <div className="home-view">
+    <div className="home-view" style={{ paddingBottom: "80px" }}>
       {/* 1. Greeting Header */}
-      <div className="home-greeting" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
         <div>
-          <span className="subtle" style={{ fontSize: "13px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+          <span className="subtle" style={{ fontSize: "12px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>
             {fmt(todayDn, { weekday: "long", month: "short", day: "numeric" })}
           </span>
-          <h2 style={{ margin: "2px 0 0", fontSize: "22px" }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "var(--text-h1)", margin: "2px 0 0" }}>
             Hello, friend
-          </h2>
+          </h1>
         </div>
-        <button
-          type="button"
-          className="btn g sm"
+        <Button
+          variant="secondary"
+          size="sm"
+          icon="sparkle"
           onClick={() => actions.openTour()}
           aria-label="Open 4-phase cycle tour"
         >
-          <Icon name="sparkle" size={16} />
-          <span>Cycle Tour</span>
-        </button>
+          Cycle Tour
+        </Button>
       </div>
 
       {/* 2. Mode Hero */}
       {mode === "pregnancy" && preg ? (
-        <div className="card tint-butter hero-card" style={{ padding: "20px", marginBottom: "16px", textAlign: "center" }}>
+        <Card variant="tinted" tint="butter" className="v-home-hero">
           <span className="pill-tag" style={{ background: "var(--tint-butter-border)", color: "var(--tint-butter-text)" }}>
             Pregnancy Companion
           </span>
-          <div style={{ margin: "14px 0 6px", fontSize: "32px", fontWeight: "800", color: "var(--plum)" }}>
+          <div style={{ fontFamily: "var(--font-display)", margin: "14px 0 6px", fontSize: "32px", fontWeight: "800", color: "var(--plum)" }}>
             {preg.weeks} weeks, {preg.days} days
           </div>
           <p className="mut" style={{ margin: "0 0 12px", fontSize: "14px" }}>
@@ -75,13 +81,13 @@ export function HomeView() {
           <p style={{ margin: 0, fontSize: "13.5px", lineHeight: "1.5" }}>
             {preg.milestone}
           </p>
-        </div>
+        </Card>
       ) : mode === "perimenopause" ? (
-        <div className="card tint-sage hero-card" style={{ padding: "20px", marginBottom: "16px", textAlign: "center" }}>
+        <Card variant="tinted" tint="sage" className="v-home-hero">
           <span className="pill-tag" style={{ background: "var(--tint-sage-border)", color: "var(--tint-sage-text)" }}>
             Perimenopause Mode
           </span>
-          <div style={{ margin: "14px 0 6px", fontSize: "28px", fontWeight: "800", color: "var(--plum)" }}>
+          <div style={{ fontFamily: "var(--font-display)", margin: "14px 0 6px", fontSize: "28px", fontWeight: "800", color: "var(--plum)" }}>
             Cycle Day {stats.cur ? stats.cur.cd : "—"}
           </div>
           <p className="mut" style={{ margin: "0 0 12px", fontSize: "14px" }}>
@@ -90,61 +96,60 @@ export function HomeView() {
           <p style={{ margin: 0, fontSize: "13.5px", lineHeight: "1.5" }}>
             Hormonal fluctuations are completely natural during this transition. Prioritize deep rest and hydration.
           </p>
-        </div>
+        </Card>
       ) : mode === "contraception" ? (
-        <div className="card tint-sky hero-card" style={{ padding: "20px", marginBottom: "16px", textAlign: "center" }}>
+        <Card variant="tinted" tint="sky" className="v-home-hero">
           <span className="pill-tag" style={{ background: "var(--tint-sky-border)", color: "var(--tint-sky-text)" }}>
             Hormonal Contraception
           </span>
-          <div style={{ margin: "14px 0 6px", fontSize: "28px", fontWeight: "800", color: "var(--plum)" }}>
+          <div style={{ fontFamily: "var(--font-display)", margin: "14px 0 6px", fontSize: "28px", fontWeight: "800", color: "var(--plum)" }}>
             Active Routine
           </div>
           <p className="mut" style={{ margin: "0 0 12px", fontSize: "14px" }}>
             Natural ovulation suppressed · Monitoring withdrawal bleeds and daily wellness
           </p>
-          <button type="button" className="btn sm" onClick={() => actions.goLog(I(todayDn))}>
+          <Button variant="primary" size="sm" onClick={() => actions.goLog(I(todayDn))}>
             Log Today's Pill & Symptoms
-          </button>
-        </div>
+          </Button>
+        </Card>
       ) : (
         /* Natural / TTC / Irregular Cycle Ring Hero */
-        <div className="hero-ring-container" style={{ textAlign: "center", marginBottom: "16px" }}>
-          <div onClick={() => actions.openTour()} style={{ cursor: "pointer", display: "inline-block" }}>
+        <div className="v-home-hero">
+          <div className="v-home-ring-wrap" onClick={() => actions.openTour()} title="Tap to learn about your current phase">
             <CycleRing stats={stats} day={cur ? cur.cd : 1} S={S} />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "12px" }}>
-            <span className="phase-pill" style={{ background: "var(--tint-rose-bg)", color: "var(--tint-rose-text)", padding: "4px 12px", borderRadius: "100px", fontSize: "12.5px", fontWeight: "700" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "12px", flexWrap: "wrap" }}>
+            <span className="pill-tag" style={{ background: "var(--tint-rose-bg)", color: "var(--tint-rose-text)", border: "1px solid var(--tint-rose-border)" }}>
               {guidance.phase || "Natural Phase"}
             </span>
             {stats.nextPred && (
-              <span className="subtle-pill" style={{ background: "var(--surface-alt)", color: "var(--muted)", padding: "4px 12px", borderRadius: "100px", fontSize: "12.5px" }}>
+              <span className="pill-tag" style={{ background: "var(--surface-raised)", color: "var(--text-muted)", border: "1px solid var(--border-subtle)" }}>
                 Next: ~{fmt(stats.nextPred)}
               </span>
             )}
           </div>
 
           <div style={{ marginTop: "14px" }}>
-            <button
-              type="button"
-              className="btn sm"
+            <Button
+              variant="secondary"
+              size="sm"
+              icon="droplet"
               onClick={() => actions.startPeriodToday()}
             >
-              <Icon name="droplet" size={16} />
-              <span>Period started today</span>
-            </button>
+              Period started today
+            </Button>
           </div>
         </div>
       )}
 
       {/* 3. Week Strip */}
-      <div className="card" style={{ padding: "12px", marginBottom: "16px" }}>
+      <Card variant="base" style={{ padding: "12px", marginBottom: "16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           {weekDays.map(w => (
             <button
               key={w.dateStr}
               type="button"
-              className={`week-day-cell ${w.isToday ? "today" : ""} ${w.isPeriod ? "period" : ""}`}
               onClick={() => actions.goLog(w.dateStr)}
               style={{
                 display: "flex",
@@ -152,26 +157,28 @@ export function HomeView() {
                 alignItems: "center",
                 padding: "8px 6px",
                 borderRadius: "12px",
-                border: w.isToday ? "2px solid var(--pink)" : "1px solid transparent",
+                border: w.isToday ? "2px solid var(--berry)" : "1px solid transparent",
                 background: w.isPeriod ? "var(--tint-rose-bg)" : "transparent",
+                color: w.isPeriod ? "var(--tint-rose-text)" : "inherit",
                 cursor: "pointer",
                 minWidth: "40px"
               }}
+              aria-label={`${w.dateStr}${w.isToday ? ", Today" : ""}`}
             >
-              <span style={{ fontSize: "11px", color: "var(--muted)", fontWeight: "600" }}>
+              <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "600" }}>
                 {fmt(w.d, { weekday: "narrow" })}
               </span>
-              <span style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px", color: w.isPeriod ? "var(--pink)" : "inherit" }}>
+              <span style={{ fontSize: "15px", fontWeight: "700", marginTop: "2px" }}>
                 {fmt(w.d, { day: "numeric" })}
               </span>
-              {w.hasLog && <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: "var(--pink)", marginTop: "4px" }} />}
+              {w.hasLog && <span className="v-cal-dot" />}
             </button>
           ))}
         </div>
-      </div>
+      </Card>
 
       {/* 4. Daily Guidance Tip */}
-      <div className="card tint-lavender" style={{ padding: "16px", marginBottom: "16px" }}>
+      <Card variant="tinted" tint="lavender" style={{ padding: "16px", marginBottom: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
           <Icon name="sparkle" size={18} />
           <b style={{ fontSize: "14px" }}>Daily Hormone Insight</b>
@@ -179,10 +186,22 @@ export function HomeView() {
         <p style={{ margin: 0, fontSize: "13.5px", lineHeight: "1.5" }}>
           {guidance.summary || "Listen to your body's signals today. Fluctuations in energy reflect natural endocrine rhythm shifts."}
         </p>
-      </div>
+      </Card>
 
-      {/* 5. Care Corner Reassurance & Quick Check-in */}
-      <div className="card" style={{ padding: "16px", marginBottom: "16px" }}>
+      {/* 5. Hydration Tracker */}
+      {S.waterGoal !== 0 && (
+        <div style={{ marginBottom: "16px" }}>
+          <WaterCup
+            count={S.water && S.water[I(todayDn)] ? S.water[I(todayDn)] : 0}
+            goal={8}
+            onAdd={() => actions.addWater(I(todayDn))}
+            onReset={() => actions.resetWater(I(todayDn))}
+          />
+        </div>
+      )}
+
+      {/* 6. Care Corner Reassurance & Quick Check-in */}
+      <Card variant="base" style={{ padding: "16px", marginBottom: "16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <Icon name="heart" size={18} />
@@ -202,33 +221,34 @@ export function HomeView() {
           "{reassurance}"
         </p>
 
-        <span className="subtle" style={{ fontSize: "12px", fontWeight: "600", display: "block", marginBottom: "8px" }}>
+        <span className="subtle" style={{ fontSize: "11px", fontWeight: "700", display: "block", marginBottom: "8px" }}>
           HOW ARE YOU FEELING RIGHT NOW?
         </span>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
           {feelings.map(f => {
             const isSelected = todayFeeling === f;
             return (
-              <button
+              <ToggleChip
                 key={f}
-                type="button"
-                className={`chip ${isSelected ? "active" : ""}`}
+                label={f.charAt(0).toUpperCase() + f.slice(1)}
+                selected={isSelected}
                 onClick={() => actions.careCheckin(f)}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: "100px",
-                  fontSize: "12.5px",
-                  border: isSelected ? "1.5px solid var(--pink)" : "1px solid var(--border)",
-                  background: isSelected ? "var(--pink-light)" : "var(--surface)",
-                  cursor: "pointer"
-                }}
-              >
-                {f.charAt(0).toUpperCase() + f.slice(1)}
-              </button>
+              />
             );
           })}
         </div>
-      </div>
+      </Card>
+
+      {/* 7. Floating "Log today" pill button */}
+      <button
+        type="button"
+        className="v-home-fab"
+        onClick={() => actions.goLog(I(todayDn))}
+        aria-label="Log today's symptoms and flow"
+      >
+        <Icon name="edit" size={18} />
+        <span>Log today</span>
+      </button>
     </div>
   );
 }

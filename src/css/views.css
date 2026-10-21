@@ -723,3 +723,369 @@
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   8. Phase 4 Premium View Redesign Classes (Zero Inline Styles)
+   ========================================================================== */
+
+/* --- Top Header & Shell --- */
+.v-shell-top {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.v-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: var(--z-nav);
+}
+
+.v-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  position: relative;
+  transition: color var(--dur-fast) var(--ease-out-expo),
+              transform var(--dur-fast) var(--ease-spring);
+}
+.v-nav-item:active {
+  transform: scale(0.92);
+}
+.v-nav-item.active {
+  color: var(--berry);
+}
+.v-nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  width: 16px;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: var(--berry);
+}
+
+/* --- Home View --- */
+.v-home-hero {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-5) var(--space-4);
+  margin-bottom: var(--space-4);
+  background: radial-gradient(circle at 50% 40%, var(--ambient-a) 0%, transparent 70%),
+              radial-gradient(circle at 80% 80%, var(--ambient-b) 0%, transparent 60%),
+              var(--surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--elev-2);
+  text-align: center;
+  overflow: hidden;
+}
+
+.v-home-ring-wrap {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin: var(--space-2) auto;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+.v-home-ring-wrap:hover {
+  transform: scale(1.02);
+}
+.v-home-ring-wrap:active {
+  transform: scale(0.98);
+}
+
+.v-home-fab {
+  position: fixed;
+  bottom: calc(var(--nav-height) + var(--space-4) + env(safe-area-inset-bottom, 0px));
+  right: var(--space-4);
+  z-index: var(--z-sticky);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: linear-gradient(135deg, var(--berry) 0%, var(--plum) 100%);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  border: none;
+  box-shadow: var(--elev-4), 0 0 16px var(--berry-glow);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-spring),
+              box-shadow var(--dur-fast) var(--ease-out-expo);
+}
+.v-home-fab:active {
+  transform: scale(0.94);
+}
+
+/* --- Calendar View --- */
+.v-cal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.v-cal-ribbon {
+  display: flex;
+  height: 6px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-3);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.v-cal-ribbon__seg {
+  height: 100%;
+  transition: flex var(--dur-normal) var(--ease-spring);
+}
+
+.v-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: var(--space-2);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.v-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 4px;
+  margin-bottom: var(--space-4);
+}
+
+.v-cal-cell {
+  position: relative;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text);
+  font-size: var(--text-small);
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--dur-fast) var(--ease-out-expo),
+              transform var(--dur-fast) var(--ease-spring);
+}
+.v-cal-cell:active {
+  transform: scale(0.92);
+}
+
+/* Continuous Period Capsule Range Connections */
+.v-cal-cell--period-single {
+  background: var(--tint-rose-bg);
+  color: var(--tint-rose-text);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+}
+.v-cal-cell--period-start {
+  background: var(--tint-rose-bg);
+  color: var(--tint-rose-text);
+  border-radius: 22px 0 0 22px;
+  font-weight: 700;
+}
+.v-cal-cell--period-mid {
+  background: var(--tint-rose-bg);
+  color: var(--tint-rose-text);
+  border-radius: 0;
+  font-weight: 700;
+}
+.v-cal-cell--period-end {
+  background: var(--tint-rose-bg);
+  color: var(--tint-rose-text);
+  border-radius: 0 22px 22px 0;
+  font-weight: 700;
+}
+
+/* Fertile & Ovulation Band */
+.v-cal-cell--fertile {
+  background: var(--tint-lavender-bg);
+  color: var(--tint-lavender-text);
+}
+.v-cal-cell--fertile-start {
+  border-radius: 22px 0 0 22px;
+}
+.v-cal-cell--fertile-mid {
+  border-radius: 0;
+}
+.v-cal-cell--fertile-end {
+  border-radius: 0 22px 22px 0;
+}
+
+/* Predicted Period: Striped Pattern */
+.v-cal-cell--predicted {
+  border: 1.5px dashed var(--berry);
+  border-radius: var(--radius-md);
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    var(--pink-light) 4px,
+    var(--pink-light) 8px
+  );
+}
+
+.v-cal-cell--today {
+  box-shadow: 0 0 0 2px var(--plum);
+  font-weight: 800;
+}
+
+.v-cal-cell--selected {
+  outline: 2px solid var(--berry);
+  outline-offset: -2px;
+}
+
+.v-cal-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--berry);
+  margin-top: 2px;
+}
+
+/* --- Log View --- */
+.v-log-scrubber {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: var(--space-2) 0;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.v-log-scrubber::-webkit-scrollbar { display: none; }
+
+.v-log-scrub-item {
+  flex: 0 0 auto;
+  min-width: 60px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--dur-fast) var(--ease-spring);
+}
+.v-log-scrub-item.active {
+  border-color: var(--berry);
+  background: var(--pink-light);
+  color: var(--berry);
+  box-shadow: 0 0 0 1px var(--berry);
+}
+
+.v-log-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.v-log-mucus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.v-log-sticky-bar {
+  position: fixed;
+  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: var(--z-sticky);
+}
+
+/* --- Insights View --- */
+.v-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.v-insights-metric {
+  text-align: center;
+  padding: var(--space-4);
+}
+.v-insights-metric__val {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  color: var(--plum);
+  margin: var(--space-1) 0;
+}
+
+.v-insights-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.v-insights-bar-track {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+.v-insights-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--phase-follicular) 0%, var(--berry) 100%);
+}

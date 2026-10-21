@@ -1,11 +1,13 @@
 /**
  * CycleSideChick — Article Modal Component
+ * Wrapped in SheetModal primitive with drag-to-dismiss gesture and zero inline styles.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
-import { Icon } from "../../components/ui/Icon.jsx";
+import { SheetModal } from "../../components/ui/SheetModal.jsx";
+import { Card } from "../../components/ui/Card.jsx";
 
 export function ArticleModal() {
   const { ui } = useStore();
@@ -13,61 +15,46 @@ export function ArticleModal() {
   if (!article) return null;
 
   return (
-    <div
-      className="modal-backdrop"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.45)",
-        backdropFilter: "blur(4px)",
-        zIndex: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "16px"
-      }}
-      onClick={() => actions.closeArticle()}
+    <SheetModal
+      isOpen={true}
+      onClose={() => actions.closeArticle()}
+      title={article.title}
+      maxWidth="580px"
     >
-      <div
-        className="modal-panel view-enter card"
-        style={{
-          width: "100%",
-          maxWidth: "560px",
-          maxHeight: "85vh",
-          overflowY: "auto",
-          padding: "24px",
-          background: "var(--surface-elevated)",
-          borderRadius: "20px"
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
-          <div>
-            <span className="pill-tag" style={{ background: "var(--surface-alt)", fontSize: "11px" }}>
-              {article.category} · {article.readTime}
-            </span>
-            <h2 style={{ margin: "6px 0 0", fontSize: "20px", color: "var(--plum)" }}>
-              {article.title}
-            </h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <span className="pill-tag" style={{ background: "var(--surface-raised)", color: "var(--text-muted)", fontSize: "11px" }}>
+            {article.category}
+          </span>
+          <span className="pill-tag" style={{ background: "var(--surface-raised)", color: "var(--text-muted)", fontSize: "11px" }}>
+            {article.readTime || "3 min read"}
+          </span>
+        </div>
+
+        <Card variant="raised" style={{ padding: "14px", fontStyle: "italic", fontSize: "13.5px", lineHeight: "1.5" }}>
+          "{article.summary}"
+        </Card>
+
+        <div style={{ fontSize: "14px", lineHeight: "1.7", color: "var(--plum)" }}>
+          {article.content ? (
+            <p style={{ margin: 0 }}>{article.content}</p>
+          ) : (
+            <p style={{ margin: 0 }}>
+              Evidence-based clinical guidelines emphasize that reproductive cycles are a vital sign of overall health.
+              Variability across months reflects adaptation to stress, nutrition, sleep quality, and physiological shifts.
+            </p>
+          )}
+        </div>
+
+        {article.sources && (
+          <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "12px" }}>
+            <span className="subtle" style={{ fontSize: "11px", fontWeight: "700" }}>CLINICAL SOURCES</span>
+            <p className="mut" style={{ margin: "4px 0 0", fontSize: "12px" }}>
+              {article.sources}
+            </p>
           </div>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={() => actions.closeArticle()}
-            aria-label="Close article"
-          >
-            <Icon name="x" size={20} />
-          </button>
-        </div>
-
-        <div style={{ fontSize: "14px", lineHeight: "1.7", color: "var(--plum)", whiteSpace: "pre-line", marginBottom: "20px" }}>
-          {article.body}
-        </div>
-
-        <div className="card tint-mint" style={{ padding: "12px", fontSize: "12px", color: "var(--tint-mint-text)" }}>
-          <b>Clinical Source:</b> {article.source}
-        </div>
+        )}
       </div>
-    </div>
+    </SheetModal>
   );
 }

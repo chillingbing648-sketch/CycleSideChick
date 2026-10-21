@@ -78,24 +78,18 @@ export function AppShell() {
       </main>
 
       {/* Floating Bottom Navigation */}
-      <nav className="nav" aria-label="Main Navigation">
+      <nav className="v-nav-bar" aria-label="Main Navigation">
         {NAV_ITEMS.map(item => {
           const isActive = ui.tab === item.key;
           return (
             <button
               key={item.key}
               type="button"
-              className={`nav-btn ${item.isCenter ? "nav-btn-center" : ""}`}
+              className={`v-nav-item ${isActive ? "active" : ""}`}
               onClick={() => actions.setTab(item.key)}
               aria-current={isActive ? "page" : "false"}
             >
-              {item.isCenter ? (
-                <div className="nav-center-icon">
-                  <Icon name={item.icon} size={20} />
-                </div>
-              ) : (
-                <Icon name={item.icon} size={20} />
-              )}
+              <Icon name={item.icon} size={20} />
               <span>{item.label}</span>
             </button>
           );
@@ -103,13 +97,17 @@ export function AppShell() {
       </nav>
 
       {/* Toast Notification Container */}
-      <div id="toast" role="status" aria-live="polite">
-        {ui.toasts && ui.toasts.map(t => (
-          <div key={t.id} className="toast-pill show">
-            {t.message}
-          </div>
-        ))}
-      </div>
+      {ui.toasts && ui.toasts.length > 0 && (
+        <div role="status" aria-live="polite">
+          {ui.toasts.map(t => (
+            <div key={t.id} className="c-toast-wrap">
+              <div className="c-toast">
+                <span>{t.message}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal Dialogs Host */}
       {ui.prof ? <ProfileSettingsSheet /> : null}

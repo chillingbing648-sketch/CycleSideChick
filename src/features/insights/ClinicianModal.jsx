@@ -1,11 +1,14 @@
 /**
  * CycleSideChick — Clinician Summary Modal Component
+ * Wrapped in SheetModal with print styles and export actions.
  */
 
 import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
-import { Icon } from "../../components/ui/Icon.jsx";
+import { SheetModal } from "../../components/ui/SheetModal.jsx";
+import { Card } from "../../components/ui/Card.jsx";
+import { Button } from "../../components/ui/Button.jsx";
 import { generateClinicianSummary } from "../../core/engine.js";
 
 export function ClinicianModal() {
@@ -15,89 +18,36 @@ export function ClinicianModal() {
   const summary = generateClinicianSummary(S);
 
   return (
-    <div
-      className="modal-backdrop"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0, 0, 0, 0.45)",
-        backdropFilter: "blur(4px)",
-        zIndex: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "16px"
-      }}
-      onClick={() => actions.closeClinician()}
+    <SheetModal
+      isOpen={true}
+      onClose={() => actions.closeClinician()}
+      title="ACOG Clinician Summary"
+      maxWidth="620px"
     >
-      <div
-        className="modal-panel view-enter card"
-        style={{
-          width: "100%",
-          maxWidth: "600px",
-          maxHeight: "85vh",
-          overflowY: "auto",
-          padding: "24px",
-          background: "var(--surface-elevated)",
-          borderRadius: "20px"
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-          <div>
-            <span className="pill-tag" style={{ background: "var(--tint-mint-bg)", color: "var(--tint-mint-text)" }}>
-              Clinical Report
-            </span>
-            <h2 style={{ margin: "4px 0 0", fontSize: "20px" }}>ACOG Clinician Summary</h2>
-          </div>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={() => actions.closeClinician()}
-            aria-label="Close summary"
-          >
-            <Icon name="x" size={20} />
-          </button>
-        </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <p className="mut" style={{ margin: 0, fontSize: "13px" }}>
+          This report compiles objective menstrual health data, variability metrics, and reported symptoms according to ACOG and FIGO guidelines.
+        </p>
 
-        <pre
-          style={{
-            background: "var(--surface-alt)",
-            padding: "16px",
-            borderRadius: "12px",
-            fontSize: "12.5px",
-            lineHeight: "1.6",
-            fontFamily: "monospace",
-            whiteSpace: "pre-wrap",
-            marginBottom: "16px",
-            maxHeight: "360px",
-            overflowY: "auto"
-          }}
-        >
-          {summary}
-        </pre>
+        <Card variant="raised" style={{ padding: "16px", fontSize: "13px", lineHeight: "1.6" }}>
+          <div><b>Report Date:</b> {new Date().toLocaleDateString()}</div>
+          <div><b>Tracking Mode:</b> {S.mode || "natural"}</div>
+          <div><b>Cycles Evaluated:</b> {summary.cycleCount || 0}</div>
+          <div><b>Median Cycle Length:</b> {summary.medianLength || 28} days</div>
+          <div><b>Mean Bleed Duration:</b> {summary.avgDuration || S.pl || 5} days</div>
+          <div><b>FIGO Classification:</b> {summary.figoClassification || "Regular"}</div>
+          <div><b>Reported Pain Range:</b> {summary.painRange || "None reported"}</div>
+        </Card>
 
-        <div style={{ display: "flex", gap: "8px" }}>
-          <button
-            type="button"
-            className="btn"
-            style={{ flex: 1 }}
-            onClick={() => actions.copyClinician()}
-          >
-            <Icon name="copy" size={16} />
-            <span>Copy Text</span>
-          </button>
-          <button
-            type="button"
-            className="btn g"
-            style={{ flex: 1 }}
-            onClick={() => window.print()}
-          >
-            <Icon name="download" size={16} />
-            <span>Print Report</span>
-          </button>
+        <div style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
+          <Button variant="secondary" size="sm" icon="share" onClick={() => actions.copyClinicianSummary()}>
+            Copy Summary
+          </Button>
+          <Button variant="primary" size="sm" icon="download" onClick={() => actions.printClinicianSummary()}>
+            Print / PDF
+          </Button>
         </div>
       </div>
-    </div>
+    </SheetModal>
   );
 }

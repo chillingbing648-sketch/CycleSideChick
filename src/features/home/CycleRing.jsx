@@ -1,8 +1,9 @@
 /**
  * CycleSideChick — Cycle Ring SVG Component
+ * Smooth draw-in animation, phase ambient glow, accessible SVG ring.
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export function CycleRing({ stats, day, S }) {
   const R = 66;
@@ -13,6 +14,24 @@ export function CycleRing({ stats, day, S }) {
   const ang = frac * 2 * Math.PI - Math.PI / 2;
   const dotX = (85 + R * Math.cos(ang)).toFixed(1);
   const dotY = (85 + R * Math.sin(ang)).toFixed(1);
+
+  // Animated count-up effect on mount
+  const [displayDay, setDisplayDay] = useState(1);
+  useEffect(() => {
+    let start = 1;
+    const duration = 600;
+    const stepTime = Math.max(16, duration / Math.max(1, safeDay));
+    const timer = setInterval(() => {
+      start++;
+      if (start >= safeDay) {
+        setDisplayDay(safeDay);
+        clearInterval(timer);
+      } else {
+        setDisplayDay(start);
+      }
+    }, stepTime);
+    return () => clearInterval(timer);
+  }, [safeDay]);
 
   const arc = (fromFrac, toFrac, color, width = 12, dash = "") => {
     const len = Math.max(0, toFrac - fromFrac) * C;
@@ -29,7 +48,9 @@ export function CycleRing({ stats, day, S }) {
         strokeDashoffset={off}
         strokeLinecap="round"
         transform="rotate(-90 85 85)"
-        className="ring-track-arc"
+        style={{
+          transition: "stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1), stroke-dasharray 0.9s cubic-bezier(0.16, 1, 0.3, 1)"
+        }}
       />
     );
   };
@@ -62,9 +83,9 @@ export function CycleRing({ stats, day, S }) {
         {showFertile && arc(fertileStartFrac, fertileEndFrac, "var(--tint-lavender-border)", 12)}
 
         {/* Period Flow Arc */}
-        {S.mode !== "none" && arc(0, periodFrac, "var(--pink)", 12)}
+        {S.mode !== "none" && arc(0, periodFrac, "var(--berry)", 12)}
 
-        {/* Ovulation Indicator Star on ring */}
+        {/* Ovulation Indicator Point on ring */}
         {showFertile && (
           <g transform={`translate(${ovX - 5}, ${ovY - 5})`} aria-label="Estimated ovulation point">
             <circle cx="5" cy="5" r="5" fill="var(--tint-lavender-bg)" stroke="var(--tint-lavender-text)" strokeWidth="1.2" />
@@ -73,12 +94,12 @@ export function CycleRing({ stats, day, S }) {
         )}
 
         {/* Current Cycle Day Indicator Pulse */}
-        <circle cx={dotX} cy={dotY} r="12" fill="var(--pink-glow)" className="ring-pulse-halo" />
-        <circle cx={dotX} cy={dotY} r="8" fill="var(--surface-elevated)" stroke="var(--plum)" strokeWidth="3.5" className="ring-tracker-head" />
+        <circle cx={dotX} cy={dotY} r="12" fill="var(--berry-glow)" opacity="0.3" />
+        <circle cx={dotX} cy={dotY} r="8" fill="var(--surface)" stroke="var(--plum)" strokeWidth="3.5" />
       </svg>
       <div className="ring-center">
         <span className="ring-cap">Cycle Day</span>
-        <span className="ring-num">{safeDay}</span>
+        <span className="ring-num">{displayDay}</span>
         <span className="ring-sub">{S.mode === "none" ? "Logged Day" : `of ~${A} days`}</span>
       </div>
     </div>
