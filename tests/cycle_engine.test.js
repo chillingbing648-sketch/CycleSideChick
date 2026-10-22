@@ -468,6 +468,40 @@ it("Initializes Personal Care Kit with defaults and preserves favorites & custom
   assert(custom !== undefined && custom.isCustom === 1);
 });
 
+// 22. Detailed Stats Output: cur, history, and predicted dates
+it("Calculates current cycle object, history intervals, and predicted dates", () => {
+  const S = {
+    cl: 28,
+    pl: 5,
+    ll: 14,
+    mode: "natural",
+    periods: [
+      { s: "2026-08-01", e: "2026-08-05" },
+      { s: "2026-08-29", e: "2026-09-02" },
+      { s: "2026-09-26", e: "2026-09-30" }
+    ]
+  };
+  const stats = calculateStats(S);
+  assert(stats.cur !== null, "cur cycle object must be defined");
+  assert.strictEqual(stats.cur.startDate, "2026-09-26");
+  assert(stats.cur.cd >= 1, "Cycle day must be positive");
+  assert(stats.history.length === 2, "Must calculate 2 completed past cycles");
+  assert.strictEqual(stats.history[0].length, 28);
+  assert.strictEqual(stats.history[1].length, 28);
+  assert(stats.predictedDates.length > 0, "Must calculate predicted dates");
+  assert(stats.pdset instanceof Set, "pdset must be a Set");
+  assert(stats.pdset.has(N("2026-08-01")), "pdset must contain period days");
+});
+
+it("Handles empty periods history gracefully without fabricating cycle data", () => {
+  const emptyS = { cl: 28, pl: 5, ll: 14, mode: "natural", periods: [] };
+  const stats = calculateStats(emptyS);
+  assert.strictEqual(stats.cur, null, "cur must be null when no periods recorded");
+  assert.strictEqual(stats.history.length, 0, "history must be empty when no periods recorded");
+  assert.strictEqual(stats.last, null, "last must be null");
+  assert.strictEqual(stats.nextPred, null, "nextPred must be null without history");
+});
+
 console.log("==================================================");
 console.log(`ALL ${testsPassed} UNIT TESTS PASSED SUCCESSFULLY!`);
 console.log("==================================================");

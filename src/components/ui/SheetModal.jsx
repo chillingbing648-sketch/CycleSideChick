@@ -110,7 +110,7 @@ export function SheetModal({
           <h2 className="c-sheet__title">{title}</h2>
           <button
             type="button"
-            className="icon-btn"
+            className="icon-btn c-sheet__close"
             onClick={onClose}
             aria-label="Close dialog"
             style={{ minHeight: "44px", minWidth: "44px" }}

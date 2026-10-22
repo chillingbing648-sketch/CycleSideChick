@@ -8,6 +8,8 @@ import React from "react";
 
 export const ICONS = {
   // Navigation & Shell
+  menu: "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5",
+  creditCard: "M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7zm0 3h20M6 15h3",
   home: "M3.5 10.5L12 3.5l8.5 7V20a1.5 1.5 0 0 1-1.5 1.5h-4.5a1 1 0 0 1-1-1v-4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v4a1 1 0 0 1-1 1H5A1.5 1.5 0 0 1 3.5 20v-9.5z",
   calendar: "M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm0 5h16M8 3v4M16 3v4 M8 14h.01 M12 14h.01 M16 14h.01 M8 17h.01 M12 17h.01 M16 17h.01",
   log: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 5v8m-4-4h8",

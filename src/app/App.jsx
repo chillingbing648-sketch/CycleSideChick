@@ -39,7 +39,11 @@ export function App() {
   }
 
   if (!S.ob) {
-    return <OnboardingFlow />;
+    return (
+      <div id="app" className="v-mobile-shell v-mobile-shell--onboarding">
+        <OnboardingFlow />
+      </div>
+    );
   }
 
   return <AppShell />;

@@ -118,48 +118,53 @@ export function CareView() {
           </div>
 
           {/* Personal Care Kit Items */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <h3 style={{ margin: 0, fontSize: "16px" }}>My Personal Care Kit</h3>
-              <div style={{ display: "flex", gap: "6px" }}>
-                <Button
-                  variant={ui.careKitFilter === "all" ? "primary" : "secondary"}
-                  size="sm"
+          <div className="v-care-kit-section">
+            <div className="v-care-kit-header">
+              <h3 className="v-care-kit-title">My Personal Care Kit</h3>
+              <div className="v-care-kit-filters" role="group" aria-label="Care Kit Filters">
+                <button
+                  type="button"
+                  className={`v-care-filter-pill ${ui.careKitFilter === "all" ? "active" : ""}`}
                   onClick={() => actions.setCareKitFilter("all")}
                 >
                   All
-                </Button>
-                <Button
-                  variant={ui.careKitFilter === "fav" ? "primary" : "secondary"}
-                  size="sm"
+                </button>
+                <button
+                  type="button"
+                  className={`v-care-filter-pill ${ui.careKitFilter === "fav" ? "active" : ""}`}
                   onClick={() => actions.setCareKitFilter("fav")}
                 >
                   Favorites
-                </Button>
-                <Button variant="secondary" size="sm" icon="plus" onClick={() => actions.openCustomCareModal()}>
+                </button>
+                <button
+                  type="button"
+                  className="v-care-filter-pill v-care-filter-pill--action"
+                  onClick={() => actions.openCustomCareModal()}
+                >
+                  <Icon name="plus" size={13} />
                   Custom
-                </Button>
+                </button>
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "10px" }}>
+            <div className="v-care-kit-grid">
               {careKitFiltered.map((item) => (
-                <Card key={item.id} variant={item.isFav ? "raised" : "base"} style={{ padding: "12px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <b style={{ fontSize: "13.5px" }}>{item.title}</b>
+                <Card key={item.id} variant={item.isFav ? "raised" : "base"} className="v-care-kit-card">
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "8px" }}>
+                    <b style={{ fontSize: "13.5px", color: "var(--text)" }}>{item.title}</b>
                     <button
                       type="button"
                       onClick={() => actions.toggleCareKitFav(item.id)}
                       aria-label={item.isFav ? "Unfavorite item" : "Favorite item"}
-                      style={{ background: "none", border: "none", cursor: "pointer", color: item.isFav ? "var(--berry)" : "var(--text-muted)", padding: "2px" }}
+                      style={{ background: "none", border: "none", cursor: "pointer", color: item.isFav ? "var(--primary)" : "var(--text-muted)", padding: "2px" }}
                     >
                       <Icon name="star" size={16} />
                     </button>
                   </div>
-                  <span className="subtle" style={{ fontSize: "11px", marginTop: "2px", display: "block" }}>
+                  <span className="subtle" style={{ fontSize: "11px", marginTop: "3px", display: "block" }}>
                     {item.category || "Comfort Item"}
                   </span>
-                  <div style={{ marginTop: "10px", display: "flex", justifyContent: "flex-end" }}>
+                  <div style={{ marginTop: "12px", display: "flex", justifyContent: "flex-end" }}>
                     <button
                       type="button"
                       onClick={() => actions.removeCareKitItem(item.id)}
