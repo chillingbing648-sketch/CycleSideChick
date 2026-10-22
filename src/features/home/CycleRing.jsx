@@ -16,7 +16,7 @@ import { actions } from "../../app/actions.js";
 import { TD, I, fmt } from "../../core/engine.js";
 
 export function CycleRing({ stats = {}, day = 1, S = {}, phaseName = "Natural Cycle" }) {
-  const hasHistory = Boolean(stats && stats.n > 0 && stats.cur);
+  const hasHistory = Boolean(stats && (stats.cur || (stats.st && stats.st.length > 0) || stats.n > 0));
   const R = 78; // Radius of mid-track
   const C = 2 * Math.PI * R;
   const A = stats.avg || S.cl || 28;
@@ -242,67 +242,72 @@ export function CycleRing({ stats = {}, day = 1, S = {}, phaseName = "Natural Cy
           />
         )}
 
-        {/* Center Themed Elevated Disk */}
-        <circle cx="110" cy="110" r="58" fill="var(--surface-raised, #FFFFFF)" filter="url(#centerShadow)" />
+        {/* Center Themed Elevated Disk — Tappable to open Period & Cycle Log */}
+        <g onClick={() => actions.openPeriodModal(I(TD()))} style={{ cursor: "pointer" }} role="button" aria-label="Open Period and Cycle Flow logger">
+          <circle cx="110" cy="110" r="58" fill="var(--surface-raised, #FFFFFF)" filter="url(#centerShadow)" />
 
-        {/* Center Content Typography */}
-        <text
-          x="110"
-          y="82"
-          textAnchor="middle"
-          fill="var(--text-muted, #7A6E80)"
-          fontSize="11"
-          fontWeight="600"
-          fontFamily="var(--font-body)"
-          letterSpacing="0.06em"
-        >
-          {hasHistory ? "CYCLE DAY" : "WELCOME"}
-        </text>
+          {/* Center Content Typography */}
+          <text
+            x="110"
+            y="82"
+            textAnchor="middle"
+            fill="var(--text-muted, #7A6E80)"
+            fontSize="11"
+            fontWeight="600"
+            fontFamily="var(--font-body)"
+            letterSpacing="0.06em"
+          >
+            {hasHistory ? "CYCLE DAY" : "WELCOME"}
+          </text>
 
-        <text
-          x="110"
-          y="118"
-          textAnchor="middle"
-          fill="var(--text, #2E2433)"
-          fontSize="36"
-          fontWeight="800"
-          fontFamily="var(--font-heading, 'Outfit', 'Montserrat', sans-serif)"
-        >
-          {dayLabel}
-        </text>
+          <text
+            x="110"
+            y="118"
+            textAnchor="middle"
+            fill="var(--text, #2E2433)"
+            fontSize="36"
+            fontWeight="800"
+            fontFamily="var(--font-heading, 'Quicksand', 'Nunito Sans', sans-serif)"
+          >
+            {dayLabel}
+          </text>
 
-        <text
-          x="110"
-          y="138"
-          textAnchor="middle"
-          fill="var(--primary, #C9708C)"
-          fontSize="12.5"
-          fontWeight="650"
-          fontFamily="var(--font-body)"
-        >
-          {phaseLabel}
-        </text>
+          <text
+            x="110"
+            y="138"
+            textAnchor="middle"
+            fill="var(--primary, #C9708C)"
+            fontSize="12.5"
+            fontWeight="650"
+            fontFamily="var(--font-body)"
+          >
+            {phaseLabel}
+          </text>
 
-        {/* Relevant Dates or Guidance Subtitle */}
-        <text
-          x="110"
-          y="153"
-          textAnchor="middle"
-          fill="var(--text-muted, #7A6E80)"
-          fontSize="10"
-          fontWeight="500"
-          fontFamily="var(--font-body)"
-          letterSpacing="0.01em"
-        >
-          {dateContext}
-        </text>
+          {/* Relevant Dates or Guidance Subtitle */}
+          <text
+            x="110"
+            y="153"
+            textAnchor="middle"
+            fill="var(--text-muted, #7A6E80)"
+            fontSize="10"
+            fontWeight="500"
+            fontFamily="var(--font-body)"
+            letterSpacing="0.01em"
+          >
+            {dateContext}
+          </text>
+        </g>
 
         {/* Floating Interactive Soft Rose "+" Pill Button at Current Day Angle */}
         <g
           transform={`translate(${dotX}, ${dotY})`}
-          onClick={() => actions.goLog(I(TD()))}
+          onClick={(e) => {
+            e.stopPropagation();
+            actions.openPeriodModal(I(TD()));
+          }}
           style={{ cursor: "pointer" }}
-          aria-label="Tap to quick log symptoms for today"
+          aria-label="Tap to quick log period for today"
         >
           <circle cx="0" cy="0" r="16" fill="url(#fabPrimaryGrad)" filter="url(#plusGlow)" />
           {/* Inner white plus icon */}

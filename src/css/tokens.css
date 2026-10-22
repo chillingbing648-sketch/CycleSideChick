@@ -57,10 +57,10 @@
    3. Light Theme — Warm Blush-Ivory & Dusty Rose
    ========================================================================== */
 :root {
-  /* --- Typography -------------------------------------------------------- */
-  --font-heading: 'Nunito Sans', 'Outfit', 'Montserrat', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
-  --font-logo: 'Nunito Sans', 'Outfit', -apple-system, sans-serif;
-  --font-display: 'Nunito Sans', 'Outfit', 'Google Sans Flex', -apple-system, sans-serif;
+  /* --- Typography (Quicksand for Warm Elegant Headings) ----------------- */
+  --font-heading: 'Quicksand', 'Nunito Sans', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
+  --font-logo: 'Quicksand', 'Nunito Sans', -apple-system, sans-serif;
+  --font-display: 'Quicksand', 'Nunito Sans', 'Google Sans Flex', -apple-system, sans-serif;
   --font-body: 'Nunito Sans', 'Google Sans', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", ui-rounded, sans-serif;
   --font-serif: var(--font-display);
   --font: var(--font-body);

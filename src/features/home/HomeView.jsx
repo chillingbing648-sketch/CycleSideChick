@@ -19,6 +19,7 @@ import { Card } from "../../components/ui/Card.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { WaterCup } from "../../components/ui/WaterCup.jsx";
 import { BunnyMascot } from "../../components/ui/BunnyMascot.jsx";
+import { KawaiiWaterMascot } from "../../components/water/KawaiiWaterModal.jsx";
 import { UterusPhaseIllustration } from "../../components/ui/PhaseIllustrations.jsx";
 import { PhaseEducationModal } from "./PhaseEducationModal.jsx";
 import { HealthTrackersModal } from "./HealthTrackersModal.jsx";
@@ -298,6 +299,75 @@ export function HomeView() {
         </div>
       </div>
 
+      {/* Quick Period Logging & Status Bar */}
+      <div
+        className="v-period-quick-bar"
+        onClick={() => actions.openPeriodModal(todayStr)}
+        role="button"
+        tabIndex={0}
+        aria-label="Open period logging modal"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "12px 16px",
+          background: cur && cur.isPeriod
+            ? "linear-gradient(135deg, rgba(255, 91, 153, 0.14), rgba(255, 142, 180, 0.2))"
+            : "var(--surface)",
+          border: cur && cur.isPeriod
+            ? "1.5px solid rgba(255, 91, 153, 0.4)"
+            : "1px solid var(--border)",
+          borderRadius: "16px",
+          cursor: "pointer",
+          marginBottom: "12px",
+          transition: "transform 0.15s ease, box-shadow 0.15s ease"
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "10px",
+              background: cur && cur.isPeriod ? "var(--primary)" : "var(--surface-soft)",
+              color: cur && cur.isPeriod ? "#FFFFFF" : "var(--primary)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Icon name="droplet" size={17} />
+          </div>
+          <div>
+            <div style={{ fontSize: "13.5px", fontWeight: "800", color: "var(--text)", fontFamily: "var(--font-heading)" }}>
+              {cur && cur.isPeriod ? `Period Day ${cur.cd} Active` : "Log Period & Flow"}
+            </div>
+            <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+              {cur && cur.isPeriod ? "Tap to record flow or end period" : "Tap to record period start, spotting, or flow"}
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            actions.openPeriodModal(todayStr);
+          }}
+          style={{
+            padding: "6px 14px",
+            borderRadius: "999px",
+            border: "none",
+            background: "var(--primary)",
+            color: "#FFFFFF",
+            fontSize: "11.5px",
+            fontWeight: "800",
+            cursor: "pointer"
+          }}
+        >
+          {cur && cur.isPeriod ? "Log Flow" : "Log Period"}
+        </button>
+      </div>
+
       {/* 4. Vital Status Rows */}
       <div className="v-vital-status-card">
         {/* Row 1: Chance of pregnancy */}
@@ -422,7 +492,8 @@ export function HomeView() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
           {/* Water Widget */}
           <div
-            onClick={() => setHealthModal("water")}
+            className="v-home-water-widget"
+            onClick={() => actions.openWaterModal()}
             style={{
               background: "var(--surface)",
               borderRadius: "18px",
@@ -439,12 +510,14 @@ export function HomeView() {
             onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
             onMouseLeave={e => (e.currentTarget.style.transform = "none")}
           >
-            <span style={{ fontSize: "22px", marginBottom: "4px" }}>💧</span>
+            <div style={{ width: "26px", height: "30px", marginBottom: "4px" }}>
+              <KawaiiWaterMascot fillPct={Math.min(100, Math.round(((todayLog.waterMl || (todayLog.water ? todayLog.water * 250 : 600)) / (S.waterGoalMl || 2000)) * 100))} isBobbing={false} size={26} />
+            </div>
             <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-muted)" }}>WATER</span>
             <b style={{ fontSize: "14.5px", color: "var(--color-water, #2B8CEE)", margin: "3px 0" }}>
               {todayLog.waterMl || (todayLog.water ? todayLog.water * 250 : 600)} ml
             </b>
-            <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Goal: 2,000 ml</span>
+            <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Goal: {S.waterGoalMl || 2000} ml</span>
           </div>
 
           {/* Weight Widget */}
@@ -579,7 +652,7 @@ export function HomeView() {
             <button
               type="button"
               className="c-btn c-btn--secondary c-btn--sm"
-              onClick={() => actions.setTab("log")}
+              onClick={() => actions.openPeriodModal(todayStr)}
               style={{ marginTop: "4px" }}
             >
               Log Period Today
@@ -590,11 +663,24 @@ export function HomeView() {
 
       {/* 6. Daily Hydration Target */}
       {S.waterGoal !== 0 && (
-        <Card variant="base" className="v-hydration-card" style={{ padding: "16px" }}>
+        <Card
+          variant="base"
+          className="v-hydration-card"
+          style={{ padding: "16px", cursor: "pointer", transition: "transform 0.15s ease" }}
+          onClick={() => actions.openWaterModal()}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+            <span style={{ fontSize: "11px", fontWeight: "800", color: "#0077FE", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+              Daily Hydration Care
+            </span>
+            <span style={{ fontSize: "11.5px", fontWeight: "700", color: "var(--primary)" }}>
+              Tap to Log & Animate →
+            </span>
+          </div>
           <WaterCup
             count={todayWater}
             goal={8}
-            onAdd={() => actions.quickSetWater(Math.min(8, todayWater + 1))}
+            onAdd={() => actions.openWaterModal(250)}
             onReset={() => actions.quickSetWater(0)}
           />
         </Card>

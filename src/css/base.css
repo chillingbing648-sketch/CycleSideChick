@@ -116,7 +116,7 @@ body.modal-open, html.modal-open {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-heading, 'Outfit', 'Montserrat', sans-serif);
+  font-family: var(--font-heading, 'Quicksand', 'Nunito Sans', sans-serif);
   color: var(--plum);
   margin: 0;
   font-weight: 700;

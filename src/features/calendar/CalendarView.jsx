@@ -246,24 +246,14 @@ export function CalendarView() {
           </div>
 
           <div className="v-cal-panel-actions">
-            {!isSelectedPeriod ? (
-              <Button
-                variant="secondary"
-                size="sm"
-                icon="droplet"
-                onClick={() => actions.startPeriod(selectedDateStr)}
-              >
-                Start Period
-              </Button>
-            ) : (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => actions.endPeriod(selectedDateStr)}
-              >
-                End Period
-              </Button>
-            )}
+            <Button
+              variant="secondary"
+              size="sm"
+              icon="droplet"
+              onClick={() => actions.openPeriodModal(selectedDateStr)}
+            >
+              {isSelectedPeriod ? "Edit Period Flow" : "Log Period"}
+            </Button>
             <Button
               variant="primary"
               size="sm"
@@ -399,44 +389,17 @@ export function CalendarView() {
       >
         <div className="v-sheet-day-content">
           <div className="v-sheet-period-controls">
-            {!isSelectedPeriod ? (
-              <Button
-                variant="secondary"
-                size="md"
-                icon="droplet"
-                onClick={() => {
-                  actions.startPeriod(selectedDateStr);
-                  setShowDaySheet(false);
-                }}
-              >
-                Record Period for this Day
-              </Button>
-            ) : (
-              <div style={{ display: "flex", gap: "8px", width: "100%" }}>
-                <Button
-                  variant="secondary"
-                  size="md"
-                  style={{ flex: 1 }}
-                  onClick={() => {
-                    actions.endPeriod(selectedDateStr);
-                    setShowDaySheet(false);
-                  }}
-                >
-                  Period Ended
-                </Button>
-                <Button
-                  variant="danger"
-                  size="md"
-                  icon="trash"
-                  onClick={() => {
-                    actions.removePeriod(selectedDateStr);
-                    setShowDaySheet(false);
-                  }}
-                >
-                  Remove
-                </Button>
-              </div>
-            )}
+            <Button
+              variant="secondary"
+              size="md"
+              icon="droplet"
+              onClick={() => {
+                actions.openPeriodModal(selectedDateStr);
+                setShowDaySheet(false);
+              }}
+            >
+              {isSelectedPeriod ? "Edit Period & Bleeding Flow" : "Log Period for this Day"}
+            </Button>
           </div>
 
           <Button

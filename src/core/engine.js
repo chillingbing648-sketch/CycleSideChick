@@ -37,6 +37,82 @@ const pdset = S => {
 };
 
 /**
+ * Synchronizes period records (S.periods) with logged daily flow.
+ * - Flow >= 2 (Light, Medium, Heavy): Bleeding days that constitute menstruation.
+ *   - Automatically creates, extends, or bridges period spans.
+ * - Flow == 0 (None) or Flow == 1 (Spotting): Non-menstrual flow.
+ *   - Per FIGO & ACOG standards, spotting is intermenstrual and does not count as Day 1.
+ *   - If previously marked as bleeding, adjusts or trims period boundaries.
+ */
+function syncPeriodWithFlow(periods = [], dateStr, flowLevel, pl = 5) {
+  if (!okD(dateStr)) return periods || [];
+  const dn = N(dateStr);
+  const updated = (periods || []).map(p => ({ ...p }));
+  const isBleeding = flowLevel >= 2; // Light, Medium, Heavy
+
+  if (isBleeding) {
+    // Check if date is already inside an existing period
+    const existing = updated.find(p => {
+      const sDn = N(p.s);
+      const eDn = p.e ? N(p.e) : sDn + pl - 1;
+      return dn >= sDn && dn <= eDn;
+    });
+
+    if (existing) {
+      if (existing.e && N(existing.e) < dn) {
+        existing.e = dateStr;
+      }
+      return updated.sort((a, b) => N(a.s) - N(b.s));
+    }
+
+    // Check if adjacent to an existing period (day before start or day after end)
+    const adjacentBefore = updated.find(p => N(p.s) === dn + 1);
+    const adjacentAfter = updated.find(p => {
+      const eDn = p.e ? N(p.e) : N(p.s) + pl - 1;
+      return eDn === dn - 1;
+    });
+
+    if (adjacentBefore && adjacentAfter) {
+      adjacentAfter.e = adjacentBefore.e || I(N(adjacentBefore.s) + pl - 1);
+      const filtered = updated.filter(p => p !== adjacentBefore);
+      return filtered.sort((a, b) => N(a.s) - N(b.s));
+    } else if (adjacentBefore) {
+      adjacentBefore.s = dateStr;
+      return updated.sort((a, b) => N(a.s) - N(b.s));
+    } else if (adjacentAfter) {
+      adjacentAfter.e = dateStr;
+      return updated.sort((a, b) => N(a.s) - N(b.s));
+    } else {
+      updated.push({
+        s: dateStr,
+        e: I(dn + pl - 1),
+        id: 'p_' + dn
+      });
+      return updated.sort((a, b) => N(a.s) - N(b.s));
+    }
+  } else {
+    // Non-bleeding (None or Spotting)
+    const exactStart = updated.find(p => p.s === dateStr);
+    const exactEnd = updated.find(p => p.e === dateStr);
+
+    if (exactStart && exactStart.e === dateStr) {
+      return updated.filter(p => p !== exactStart);
+    } else if (exactStart) {
+      exactStart.s = I(N(exactStart.s) + 1);
+      if (N(exactStart.s) > N(exactStart.e || exactStart.s)) {
+        return updated.filter(p => p !== exactStart);
+      }
+    } else if (exactEnd) {
+      exactEnd.e = I(N(exactEnd.e) - 1);
+      if (N(exactEnd.e) < N(exactEnd.s)) {
+        return updated.filter(p => p !== exactEnd);
+      }
+    }
+    return updated.sort((a, b) => N(a.s) - N(b.s));
+  }
+}
+
+/**
  * Calculates cycle statistics using recency-weighted mean or median when outliers exist.
  */
 function calculateStats(S) {
@@ -638,7 +714,7 @@ if (typeof module !== "undefined" && module.exports) {
     calculateStats, calculatePregnancy, checkCareAlerts,
     getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
     CERVICAL_FLUID, calculatePeriodDurations, calculateVariability,
-    aggregateSymptoms, aggregateMoods
+    aggregateSymptoms, aggregateMoods, syncPeriodWithFlow
   };
 }
 
@@ -647,5 +723,5 @@ export {
   calculateStats, calculatePregnancy, checkCareAlerts,
   getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
   CERVICAL_FLUID, calculatePeriodDurations, calculateVariability,
-  aggregateSymptoms, aggregateMoods
+  aggregateSymptoms, aggregateMoods, syncPeriodWithFlow
 };

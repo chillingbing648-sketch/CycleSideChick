@@ -20,7 +20,7 @@ const {
   calculateStats, calculatePregnancy, checkCareAlerts,
   getDailyPhaseGuidance, generateClinicianSummary, compareToUsual,
   calculatePeriodDurations, calculateVariability, aggregateSymptoms, aggregateMoods,
-  CERVICAL_FLUID
+  CERVICAL_FLUID, syncPeriodWithFlow
 } = require("../src/core/engine.js");
 
 const {
@@ -500,6 +500,31 @@ it("Handles empty periods history gracefully without fabricating cycle data", ()
   assert.strictEqual(stats.history.length, 0, "history must be empty when no periods recorded");
   assert.strictEqual(stats.last, null, "last must be null");
   assert.strictEqual(stats.nextPred, null, "nextPred must be null without history");
+});
+
+// 23. Flow & Period Synchronization (ACOG/FIGO Standards)
+it("Synchronizes daily bleeding flow with periods and respects spotting rule", () => {
+  // Test 1: Logging Medium flow (flow=3) creates a period record
+  let periods = [];
+  periods = syncPeriodWithFlow(periods, "2026-10-10", 3, 5);
+  assert.strictEqual(periods.length, 1);
+  assert.strictEqual(periods[0].s, "2026-10-10");
+  assert.strictEqual(periods[0].e, "2026-10-14"); // 5 days
+
+  // Test 2: Spotting (flow=1) does NOT create a period Day 1 (ACOG/FIGO standard)
+  let spottingOnly = [];
+  spottingOnly = syncPeriodWithFlow(spottingOnly, "2026-10-01", 1, 5);
+  assert.strictEqual(spottingOnly.length, 0, "Spotting must not create a period day 1");
+
+  // Test 3: Adjacent bleeding day extends period end
+  periods = syncPeriodWithFlow(periods, "2026-10-15", 2, 5);
+  assert.strictEqual(periods.length, 1);
+  assert.strictEqual(periods[0].e, "2026-10-15");
+
+  // Test 4: Setting flow to None (0) on a 1-day period removes it
+  let singleDayPeriod = [{ s: "2026-09-01", e: "2026-09-01" }];
+  singleDayPeriod = syncPeriodWithFlow(singleDayPeriod, "2026-09-01", 0, 5);
+  assert.strictEqual(singleDayPeriod.length, 0, "Removing flow removes 1-day period");
 });
 
 console.log("==================================================");

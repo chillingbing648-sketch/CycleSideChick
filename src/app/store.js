@@ -17,6 +17,10 @@ export const S = loaded.state;
 export const ui = {
   tab: "home",
   sidebarOpen: false,
+  waterModalOpen: false,
+  lastWaterLoggedAmount: 0,
+  periodModalOpen: false,
+  periodModalDate: null,
   profTab: "health",
   corrupt: loaded.corrupt,
   pinLocked: PinLock.isEnabled(),

@@ -13,6 +13,7 @@ import { SheetModal } from "../../components/ui/SheetModal.jsx";
 import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { HorizontalRuler } from "../../components/ui/HorizontalRuler.jsx";
+import { KawaiiWaterMascot } from "../../components/water/KawaiiWaterModal.jsx";
 import { TD, I, fmt } from "../../core/engine.js";
 
 export function HealthTrackersModal({ initialTab = "water", isOpen = true, onClose }) {
@@ -149,7 +150,9 @@ export function HealthTrackersModal({ initialTab = "water", isOpen = true, onClo
               transition: "all 0.2s ease"
             }}
           >
-            💧 Water
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+              <Icon name="droplet" size={14} /> Water
+            </span>
           </button>
           <button
             type="button"
@@ -166,7 +169,9 @@ export function HealthTrackersModal({ initialTab = "water", isOpen = true, onClo
               transition: "all 0.2s ease"
             }}
           >
-            ⚖️ Weight
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+              <Icon name="activity" size={14} /> Weight
+            </span>
           </button>
           <button
             type="button"
@@ -183,83 +188,42 @@ export function HealthTrackersModal({ initialTab = "water", isOpen = true, onClo
               transition: "all 0.2s ease"
             }}
           >
-            🌡️ Temp (BBT)
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+              <Icon name="thermometer" size={14} /> Temp (BBT)
+            </span>
           </button>
         </div>
 
         {/* 1. WATER TRACKER VIEW */}
         {activeTab === "water" && (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
-            {/* Large SVG Water Droplet with Wave Fill */}
-            <div style={{ position: "relative", width: "160px", height: "200px" }}>
-              <svg viewBox="0 0 160 200" width="160" height="200" style={{ overflow: "hidden" }}>
-                <defs>
-                  {/* Droplet Outline Clip Path */}
-                  <clipPath id="dropletClip">
-                    <path d="M 80 15 C 80 15 20 85 20 130 C 20 165 46.8 190 80 190 C 113.2 190 140 165 140 130 C 140 85 80 15 80 15 Z" />
-                  </clipPath>
-                  {/* Water Gradient */}
-                  <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#4FACFE" />
-                    <stop offset="100%" stopColor="#00F2FE" />
-                  </linearGradient>
-                </defs>
+            {/* Animated Kawaii Water Vessel */}
+            <div className="v-water-vessel-container">
+              <div className="v-water-glass">
+                <div
+                  className="v-water-liquid"
+                  style={{
+                    height: `${Math.max(6, waterPct)}%`,
+                    transition: "height 0.8s cubic-bezier(0.34, 1.35, 0.64, 1)"
+                  }}
+                >
+                  <div className="v-water-wave v-water-wave-front" />
+                  <div className="v-water-wave v-water-wave-back" />
+                  <div className="v-bubble v-bubble-1" />
+                  <div className="v-bubble v-bubble-2" />
+                  <div className="v-bubble v-bubble-3" />
+                  <div className="v-bubble v-bubble-4" />
+                  <div className="v-bubble v-bubble-5" />
 
-                {/* Droplet Background Frame */}
-                <path
-                  d="M 80 15 C 80 15 20 85 20 130 C 20 165 46.8 190 80 190 C 113.2 190 140 165 140 130 C 140 85 80 15 80 15 Z"
-                  fill="var(--surface-alt, #F1F1F5)"
-                  stroke="var(--border)"
-                  strokeWidth="3"
-                />
+                  <div className="v-water-mascot-surface-anchor">
+                    <KawaiiWaterMascot fillPct={waterPct} size={54} />
+                  </div>
+                </div>
 
-                {/* Animated Liquid Fill clipped to droplet */}
-                <g clipPath="url(#dropletClip)">
-                  <rect
-                    x="0"
-                    y={190 - (waterPct / 100) * 175}
-                    width="160"
-                    height="200"
-                    fill="url(#waterGrad)"
-                    style={{ transition: "y 0.6s cubic-bezier(0.16, 1, 0.3, 1)" }}
-                  />
-                  {/* Subtle surface wave */}
-                  <ellipse
-                    cx="80"
-                    cy={190 - (waterPct / 100) * 175}
-                    rx="80"
-                    ry="6"
-                    fill="rgba(255, 255, 255, 0.4)"
-                    style={{ transition: "cy 0.6s cubic-bezier(0.16, 1, 0.3, 1)" }}
-                  />
-                </g>
-
-                {/* Droplet Glass Gloss Highlight */}
-                <path
-                  d="M 45 100 C 35 118 35 145 48 165"
-                  fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  opacity="0.6"
-                />
-              </svg>
-
-              {/* Percentage Badge */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "30px",
-                  left: 0,
-                  width: "100%",
-                  textAlign: "center",
-                  fontWeight: "900",
-                  fontSize: "20px",
-                  color: waterPct > 45 ? "#FFFFFF" : "var(--text)",
-                  textShadow: waterPct > 45 ? "0 1px 3px rgba(0,0,0,0.2)" : "none"
-                }}
-              >
-                {waterPct}%
+                <div className="v-water-percent-badge">
+                  <span>{waterPct}%</span>
+                </div>
+                <div className="v-water-glass-shine" />
               </div>
             </div>
 
@@ -274,35 +238,42 @@ export function HealthTrackersModal({ initialTab = "water", isOpen = true, onClo
             </div>
 
             {/* Quick Preset Volume Add Buttons */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", width: "100%" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px", width: "100%" }}>
               {[
-                { amount: 250, label: "+250 ml", sub: "Cup" },
-                { amount: 500, label: "+500 ml", sub: "Bottle" },
-                { amount: 750, label: "+750 ml", sub: "Flask" },
-                { amount: 1000, label: "+1,000 ml", sub: "Carafe" }
+                { amount: 250, label: "+250", sub: "Glass", icon: "cup" },
+                { amount: 350, label: "+350", sub: "Mug", icon: "cup" },
+                { amount: 500, label: "+500", sub: "Bottle", icon: "droplet" },
+                { amount: 750, label: "+750", sub: "Tumbler", icon: "droplet" },
+                { amount: 1000, label: "+1k", sub: "Carafe", icon: "droplet" }
               ].map(preset => (
                 <button
                   key={preset.amount}
                   type="button"
+                  className="v-water-preset-btn"
                   onClick={() => handleSaveWater(waterMl + preset.amount)}
-                  style={{
-                    padding: "12px 6px",
-                    borderRadius: "16px",
-                    border: "1.5px solid var(--border)",
-                    background: "var(--surface)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    cursor: "pointer",
-                    transition: "all 0.15s ease"
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--color-water)")}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}
                 >
-                  <b style={{ fontSize: "13px", color: "var(--color-water)" }}>{preset.label}</b>
-                  <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>{preset.sub}</span>
+                  <div className="v-water-preset-icon-circle">
+                    <Icon name={preset.icon} size={15} />
+                  </div>
+                  <b className="v-water-preset-amount">{preset.label}</b>
+                  <span className="v-water-preset-name">{preset.sub}</span>
                 </button>
               ))}
+            </div>
+
+            {/* Hydration Appreciation Reward Card */}
+            <div className="v-hydration-reward-card">
+              <span className="v-hydration-reward-badge">
+                {waterPct >= 100 ? "Hydration Champion 👑" : waterPct >= 75 ? "Vitality Flow 🌸" : waterPct >= 50 ? "Halfway Star 🌟" : waterPct > 0 ? "Cellular Glow ✨" : "Ready To Hydrate 🌱"}
+              </span>
+              <h3 className="v-hydration-reward-title" style={{ marginTop: "6px" }}>
+                {waterPct >= 100 ? "Goal Accomplished!" : waterPct >= 50 ? "Wonderful Hydration Momentum!" : "Every Sip Replenishes You"}
+              </h3>
+              <p className="v-hydration-reward-compliment">
+                {waterPct >= 100
+                  ? "Your body is thoroughly replenished and energized. Celebrating your mindful health care today!"
+                  : "Consistent water intake supports stable reproductive hormones, prevents cramping, and enhances natural energy."}
+              </p>
             </div>
 
             {/* Reset / Clear Button */}

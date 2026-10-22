@@ -162,7 +162,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                     className={`v-sidebar-nav-item ${isActive ? "is-active" : ""}`}
                     onClick={() => handleNavClick(item.key)}
                   >
-                    <Icon name={item.icon} size={18} />
+                    <div className="v-sidebar-icon-wrap">
+                      <Icon name={item.icon} size={18} />
+                    </div>
                     <span className="v-sidebar-nav-label">{item.label}</span>
                     {isActive && <div className="v-sidebar-active-dot" />}
                   </button>
@@ -179,14 +181,33 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                 type="button"
                 className="v-sidebar-nav-item"
                 onClick={() => {
-                  actions.openHealthModal("water");
+                  actions.openPeriodModal();
                   onClose();
                 }}
               >
-                <Icon name="droplet" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--rose">
+                  <Icon name="droplet" size={18} />
+                </div>
+                <div className="v-sidebar-nav-text-col">
+                  <span className="v-sidebar-nav-label">Period & Cycle Flow</span>
+                  <span className="v-sidebar-nav-sublabel">ACOG/FIGO flow tracking & history</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                className="v-sidebar-nav-item"
+                onClick={() => {
+                  actions.openWaterModal();
+                  onClose();
+                }}
+              >
+                <div className="v-sidebar-icon-wrap v-icon-wrap--cyan">
+                  <Icon name="water" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Hydration & Water Tracker</span>
-                  <span className="v-sidebar-nav-sublabel">Daily fluid balance & reminders</span>
+                  <span className="v-sidebar-nav-sublabel">Animated fill up & appreciation</span>
                 </div>
               </button>
 
@@ -198,7 +219,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                   onClose();
                 }}
               >
-                <Icon name="activity" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--peach">
+                  <Icon name="activity" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Body Weight & BMI</span>
                   <span className="v-sidebar-nav-sublabel">Log weigh-ins & cyclical fluid shifts</span>
@@ -213,7 +236,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                   onClose();
                 }}
               >
-                <Icon name="thermometer" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--orange">
+                  <Icon name="thermometer" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Basal Body Temperature (BBT)</span>
                   <span className="v-sidebar-nav-sublabel">Biphasic thermal shift curves</span>
@@ -228,7 +253,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                   onClose();
                 }}
               >
-                <Icon name="book" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--purple">
+                  <Icon name="book" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Menstrual Phase Science</span>
                   <span className="v-sidebar-nav-sublabel">Biology of your 4 hormonal phases</span>
@@ -246,7 +273,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                 className="v-sidebar-nav-item"
                 onClick={() => handleOpenProfileTab("privacy")}
               >
-                <Icon name="shield" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--mint">
+                  <Icon name="shield" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">On-Device Privacy Ledger</span>
                   <span className="v-sidebar-nav-sublabel">100% Local Sandboxed · Zero Cloud</span>
@@ -258,7 +287,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                 className="v-sidebar-nav-item"
                 onClick={() => handleOpenProfileTab("privacy")}
               >
-                <Icon name="lock" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--indigo">
+                  <Icon name="lock" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">PIN Passcode Protection</span>
                   <span className="v-sidebar-nav-sublabel">
@@ -275,7 +306,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                   onClose();
                 }}
               >
-                <Icon name="download" size={18} />
+                <div className="v-sidebar-icon-wrap">
+                  <Icon name="download" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Export Medical Records</span>
                   <span className="v-sidebar-nav-sublabel">Download tabular CSV backup</span>
@@ -287,7 +320,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                 className="v-sidebar-nav-item"
                 onClick={handleReplayTour}
               >
-                <Icon name="refresh" size={18} />
+                <div className="v-sidebar-icon-wrap">
+                  <Icon name="refresh" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Recalibrate Cycle Tour</span>
                   <span className="v-sidebar-nav-sublabel">Re-run 12-step guided setup</span>
@@ -308,7 +343,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                   onClose();
                 }}
               >
-                <Icon name="heart" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--rose">
+                  <Icon name="heart" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Women's Wellness Mission</span>
                   <span className="v-sidebar-nav-sublabel">100% Free · Non-Commercial Care</span>
@@ -323,7 +360,9 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
                   onClose();
                 }}
               >
-                <Icon name="star" size={18} />
+                <div className="v-sidebar-icon-wrap v-icon-wrap--gold">
+                  <Icon name="star" size={18} />
+                </div>
                 <div className="v-sidebar-nav-text-col">
                   <span className="v-sidebar-nav-label">Pro Sandbox Evaluation</span>
                   <span className="v-sidebar-nav-sublabel">
