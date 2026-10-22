@@ -57,10 +57,10 @@
    3. Light Theme — Warm Blush-Ivory & Dusty Rose
    ========================================================================== */
 :root {
-  /* --- Typography -------------------------------------------------------- */
-  --font-heading: 'Nunito Sans', 'Outfit', 'Montserrat', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
-  --font-logo: 'Nunito Sans', 'Outfit', -apple-system, sans-serif;
-  --font-display: 'Nunito Sans', 'Outfit', 'Google Sans Flex', -apple-system, sans-serif;
+  /* --- Typography (Quicksand for Warm Elegant Headings) ----------------- */
+  --font-heading: 'Quicksand', 'Nunito Sans', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
+  --font-logo: 'Quicksand', 'Nunito Sans', -apple-system, sans-serif;
+  --font-display: 'Quicksand', 'Nunito Sans', 'Google Sans Flex', -apple-system, sans-serif;
   --font-body: 'Nunito Sans', 'Google Sans', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", ui-rounded, sans-serif;
   --font-serif: var(--font-display);
   --font: var(--font-body);
@@ -269,6 +269,12 @@
   --glass-blur: 28px;
   --nav-bg: var(--glass-bg);
 
+  /* --- Scrollbar Tokens (Smooth, Cooler, Animated Glow) --------------- */
+  --scrollbar-thumb: rgba(255, 91, 153, 0.28);
+  --scrollbar-thumb-hover: #FF5B99;
+  --scrollbar-track: transparent;
+  --scrollbar-glow: rgba(255, 91, 153, 0.45);
+
   /* --- Motion Tokens ----------------------------------------------------- */
   --dur-instant: 80ms;
   --dur-fast: 150ms;
@@ -283,6 +289,12 @@
 
   /* --- Focus & Accessibility --------------------------------------------- */
   --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
+
+  /* --- Scrollbar Tokens (Dark Theme) --------------------------------- */
+  --scrollbar-thumb: rgba(255, 114, 167, 0.32);
+  --scrollbar-thumb-hover: #FF72A7;
+  --scrollbar-track: transparent;
+  --scrollbar-glow: rgba(255, 114, 167, 0.5);
   --hairline: 0.5px solid var(--border);
   --min-touch: 44px;
 
@@ -441,6 +453,12 @@
   --nav-bg: var(--glass-bg);
 
   --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
+
+  /* --- Scrollbar Tokens (Dark Theme) --------------------------------- */
+  --scrollbar-thumb: rgba(255, 114, 167, 0.32);
+  --scrollbar-thumb-hover: #FF72A7;
+  --scrollbar-track: transparent;
+  --scrollbar-glow: rgba(255, 114, 167, 0.5);
 
   color-scheme: dark;
 }

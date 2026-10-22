@@ -9,15 +9,20 @@ html, body, button, input, select, textarea {
   box-sizing: border-box;
 }
 
-/* Custom Slim Scrollbars */
+/* Custom Ultra-Smooth, Cooler, Animated Glow Scrollbars */
+html {
+  scroll-behavior: smooth;
+}
+
 * {
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--scrollbar-thumb, rgba(255, 91, 153, 0.3)) transparent;
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 *::-webkit-scrollbar-track {
@@ -25,13 +30,22 @@ html, body, button, input, select, textarea {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--scrollbar-thumb, rgba(255, 91, 153, 0.3));
   border-radius: var(--radius-pill);
-  transition: background 0.15s ease;
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--subtle);
+  background: linear-gradient(180deg, #FF72A7 0%, #FF5B99 100%);
+  background-clip: padding-box;
+  box-shadow: 0 0 12px var(--scrollbar-glow, rgba(255, 91, 153, 0.45));
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: #E84583;
+  box-shadow: 0 0 16px rgba(232, 69, 131, 0.7);
 }
 
 html {
@@ -116,7 +130,7 @@ body.modal-open, html.modal-open {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-heading, 'Outfit', 'Montserrat', sans-serif);
+  font-family: var(--font-heading, 'Quicksand', 'Nunito Sans', sans-serif);
   color: var(--plum);
   margin: 0;
   font-weight: 700;

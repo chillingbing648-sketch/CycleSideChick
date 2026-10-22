@@ -21,7 +21,7 @@ export function SlidingPillNav({ activeTab = "home", motionPref = 1 }) {
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
 
   const NAV_ITEMS = [
-    { key: "home", label: "Today", icon: "home" },
+    { key: "home", label: "Home", icon: "home" },
     { key: "calendar", label: "Calendar", icon: "calendar" },
     { key: "log", label: "Log", icon: "plus", isAction: true },
     { key: "insights", label: "Insights", icon: "insights" },

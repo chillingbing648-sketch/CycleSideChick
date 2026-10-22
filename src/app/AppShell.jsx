@@ -39,12 +39,14 @@ import { HealthTrackersModal } from "../features/home/HealthTrackersModal.jsx";
 import { PhaseEducationModal } from "../features/home/PhaseEducationModal.jsx";
 import { PremiumModal } from "../features/profile/PremiumModal.jsx";
 import { WellnessNoticeModal } from "../components/ui/WellnessNoticeModal.jsx";
+import { KawaiiWaterModal } from "../components/water/KawaiiWaterModal.jsx";
+import { PeriodLogModal } from "../features/log/PeriodLogModal.jsx";
 
 export function AppShell() {
   const { ui, S } = useStore();
 
   const NAV_ITEMS = [
-    { key: "home", label: "Today", icon: "home" },
+    { key: "home", label: "Home", icon: "home" },
     { key: "calendar", label: "Calendar", icon: "calendar" },
     { key: "log", label: "Log", icon: "plus" },
     { key: "insights", label: "Insights", icon: "insights" },
@@ -157,6 +159,18 @@ export function AppShell() {
         <WellnessNoticeModal
           isOpen={true}
           onClose={actions.closeWellnessNotice}
+        />
+      ) : null}
+      {ui.waterModalOpen ? (
+        <KawaiiWaterModal
+          isOpen={true}
+          onClose={actions.closeWaterModal}
+        />
+      ) : null}
+      {ui.periodModalOpen ? (
+        <PeriodLogModal
+          isOpen={true}
+          onClose={actions.closePeriodModal}
         />
       ) : null}
       {ui.prof ? <ProfileSettingsSheet /> : null}

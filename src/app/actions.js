@@ -4,7 +4,7 @@
  */
 
 import { S, ui, dr, loadDraft, persistState, notify, toast, haptic, applyThemeToDOM } from "./store.js";
-import { TD, I, N, okD, calculateStats, generateClinicianSummary } from "../core/engine.js";
+import { TD, I, N, okD, calculateStats, generateClinicianSummary, syncPeriodWithFlow } from "../core/engine.js";
 import { generateCSV, generateJSON, PinLock, CycleStorage, defState } from "../core/storage.js";
 import { ARTICLES } from "../core/content.js";
 import { answerQuestion } from "../core/assistant.js";
@@ -348,6 +348,63 @@ export const actions = {
     notify();
   },
 
+  openWaterModal(amount = 0) {
+    ui.waterModalOpen = true;
+    ui.lastWaterLoggedAmount = amount;
+    haptic(10);
+    notify();
+  },
+
+  closeWaterModal() {
+    ui.waterModalOpen = false;
+    notify();
+  },
+
+  logWaterIntake(amountMl, dateStr = I(TD())) {
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dateStr]) S.logs[dateStr] = {};
+    const curMl = S.logs[dateStr].waterMl !== undefined
+      ? S.logs[dateStr].waterMl
+      : (S.logs[dateStr].water ? S.logs[dateStr].water * 250 : 0);
+    const newTotal = Math.min(5000, Math.max(0, curMl + amountMl));
+    S.logs[dateStr].waterMl = newTotal;
+    S.logs[dateStr].water = Math.round(newTotal / 250);
+
+    if (!S.logs[dateStr].waterHistory) S.logs[dateStr].waterHistory = [];
+    S.logs[dateStr].waterHistory.unshift({
+      amount: amountMl,
+      time: Date.now(),
+      total: newTotal
+    });
+
+    if (dateStr === I(TD())) {
+      dr.water = S.logs[dateStr].water;
+    }
+    ui.lastWaterLoggedAmount = amountMl;
+    persistState();
+    haptic([15, 30, 20]);
+    notify();
+    return newTotal;
+  },
+
+  setWaterTotal(totalMl, dateStr = I(TD())) {
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dateStr]) S.logs[dateStr] = {};
+    const newTotal = Math.min(5000, Math.max(0, totalMl));
+    S.logs[dateStr].waterMl = newTotal;
+    S.logs[dateStr].water = Math.round(newTotal / 250);
+    if (newTotal === 0) {
+      S.logs[dateStr].waterHistory = [];
+    }
+    if (dateStr === I(TD())) {
+      dr.water = S.logs[dateStr].water;
+    }
+    persistState();
+    haptic(15);
+    notify();
+    return newTotal;
+  },
+
   openPhaseModal(phase = "menstrual") {
     ui.phaseModalTab = phase;
     haptic(10);
@@ -580,29 +637,78 @@ export const actions = {
     notify();
   },
 
+  openPeriodModal(date) {
+    ui.periodModalOpen = true;
+    ui.periodModalDate = date || I(TD());
+    haptic(15);
+    notify();
+  },
+
+  closePeriodModal() {
+    ui.periodModalOpen = false;
+    ui.periodModalDate = null;
+    notify();
+  },
+
+  logPeriod(dateStr, flowLevel = 3, isStart = false, isEnd = false) {
+    const date = dateStr || I(TD());
+    if (!S.logs) S.logs = {};
+    if (!S.logs[date]) S.logs[date] = {};
+    S.logs[date].f = flowLevel;
+
+    if (!S.periods) S.periods = [];
+    if (isStart) {
+      const exists = S.periods.find(p => p.s === date);
+      if (!exists) {
+        S.periods.push({ s: date, e: I(N(date) + (S.pl || 5) - 1), id: 'p_' + N(date) });
+        S.periods.sort((a, b) => N(a.s) - N(b.s));
+      }
+    } else if (isEnd) {
+      const last = S.periods.find(p => N(date) >= N(p.s) && (!p.e || N(date) <= N(p.e) + 2));
+      if (last) {
+        last.e = date;
+      }
+    } else {
+      S.periods = syncPeriodWithFlow(S.periods, date, flowLevel, S.pl || 5);
+    }
+
+    persistState();
+    haptic([20, 40]);
+    toast(flowLevel >= 2 ? `Period logged for ${date}` : `Flow updated for ${date}`);
+    notify();
+  },
+
   startPeriod(date) {
     if (!S.periods) S.periods = [];
-    // Check if period already starts on this date
-    const exists = S.periods.find(p => p.s === date);
+    const targetDate = date || I(TD());
+    const exists = S.periods.find(p => p.s === targetDate);
     if (exists) {
       toast("Period already recorded for this date");
       return;
     }
-    S.periods.push({ s: date, e: I(N(date) + (S.pl || 5) - 1) });
+    // Also record default medium flow for Day 1 in daily log
+    if (!S.logs) S.logs = {};
+    if (!S.logs[targetDate]) S.logs[targetDate] = {};
+    if (!S.logs[targetDate].f) S.logs[targetDate].f = 3;
+
+    S.periods.push({ s: targetDate, e: I(N(targetDate) + (S.pl || 5) - 1), id: 'p_' + N(targetDate) });
     S.periods.sort((a, b) => N(a.s) - N(b.s));
     persistState();
-    toast(`Period started on ${date}`);
+    toast(`Period recorded for ${targetDate}`);
     haptic(20);
+    notify();
   },
 
   endPeriod(date) {
     if (!S.periods || !S.periods.length) return;
+    const targetDate = date || I(TD());
     const last = S.periods[S.periods.length - 1];
-    if (last && N(date) >= N(last.s)) {
-      last.e = date;
+    if (last && N(targetDate) >= N(last.s)) {
+      last.e = targetDate;
       persistState();
-      toast(`Period ended on ${date}`);
+      toast(`Period ended on ${targetDate}`);
       haptic(20);
+      notify();
     }
   },
 
@@ -610,9 +716,13 @@ export const actions = {
     if (!S.periods) return;
     const dn = N(date);
     S.periods = S.periods.filter(p => !(dn >= N(p.s) && dn <= N(p.e || p.s)));
+    if (S.logs && S.logs[date]) {
+      delete S.logs[date].f;
+    }
     persistState();
     toast("Period record removed");
     haptic(15);
+    notify();
   },
 
   goLog(date) {
@@ -690,6 +800,40 @@ export const actions = {
     const idx = dr.med.indexOf(med);
     if (idx >= 0) dr.med.splice(idx, 1);
     else dr.med.push(med);
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].med = [...dr.med];
+    persistState();
+    haptic(10);
+    notify();
+  },
+
+  addCustomMedication(name) {
+    if (!name || !name.trim()) return;
+    const key = name.trim().toLowerCase().replace(/\s+/g, "_");
+    if (!S.customMeds) S.customMeds = [];
+    if (!S.customMeds.some(m => m.id === key)) {
+      S.customMeds.push({ id: key, label: name.trim(), category: "custom" });
+    }
+    if (!dr.med.includes(key)) dr.med.push(key);
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].med = [...dr.med];
+    persistState();
+    toast(`Added "${name}"`);
+    haptic(15);
+    notify();
+  },
+
+  toggleEmotion(emotionId) {
+    if (!dr.emotions) dr.emotions = [];
+    const idx = dr.emotions.indexOf(emotionId);
+    if (idx >= 0) dr.emotions.splice(idx, 1);
+    else dr.emotions.push(emotionId);
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].emotions = [...dr.emotions];
+    persistState();
     haptic(10);
     notify();
   },
@@ -823,8 +967,12 @@ export const actions = {
       bbt: dr.bbt ? String(dr.bbt).trim() : undefined,
       lh: dr.lh || undefined,
       sy: { ...dr.sy },
+      emotions: dr.emotions && dr.emotions.length ? [...dr.emotions] : undefined,
       note: dr.note ? dr.note.trim() : undefined
     };
+    if (dr.f !== "" && dr.f !== undefined) {
+      S.periods = syncPeriodWithFlow(S.periods || [], date, dr.f, S.pl || 5);
+    }
     persistState();
     toast("Entry saved");
     haptic([20, 40]);
