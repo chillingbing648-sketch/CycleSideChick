@@ -16,6 +16,8 @@ export const S = loaded.state;
 // Initialize ephemeral UI state
 export const ui = {
   tab: "home",
+  sidebarOpen: false,
+  profTab: "health",
   corrupt: loaded.corrupt,
   pinLocked: PinLock.isEnabled(),
   prof: 0,

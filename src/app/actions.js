@@ -319,6 +319,68 @@ export const actions = {
     notify();
   },
 
+  openSidebar() {
+    ui.sidebarOpen = true;
+    haptic(10);
+    notify();
+  },
+
+  closeSidebar() {
+    ui.sidebarOpen = false;
+    haptic(10);
+    notify();
+  },
+
+  toggleSidebar() {
+    ui.sidebarOpen = !ui.sidebarOpen;
+    haptic(10);
+    notify();
+  },
+
+  openHealthModal(tab = "water") {
+    ui.healthModalTab = tab;
+    haptic(10);
+    notify();
+  },
+
+  closeHealthModal() {
+    ui.healthModalTab = null;
+    notify();
+  },
+
+  openPhaseModal(phase = "menstrual") {
+    ui.phaseModalTab = phase;
+    haptic(10);
+    notify();
+  },
+
+  closePhaseModal() {
+    ui.phaseModalTab = null;
+    notify();
+  },
+
+  openPremiumModal() {
+    ui.premiumModalOpen = true;
+    haptic(10);
+    notify();
+  },
+
+  closePremiumModal() {
+    ui.premiumModalOpen = false;
+    notify();
+  },
+
+  openWellnessNotice() {
+    ui.wellnessNoticeModal = true;
+    haptic(10);
+    notify();
+  },
+
+  closeWellnessNotice() {
+    ui.wellnessNoticeModal = false;
+    notify();
+  },
+
   openInfo(topic) {
     ui.infoTopic = topic;
     notify();
@@ -904,5 +966,17 @@ export const actions = {
     haptic(25);
     toast("Welcome to CycleSideChick!");
     notify();
+  },
+
+  haptic(pattern = 10) {
+    haptic(pattern);
+  },
+
+  toast(msg) {
+    toast(msg);
+  },
+
+  persistState() {
+    persistState();
   }
 };

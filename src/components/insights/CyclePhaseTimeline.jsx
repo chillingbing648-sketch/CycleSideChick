@@ -158,11 +158,9 @@ export function CyclePhaseTimeline({ stats = {}, S = {} }) {
                 <span className="v-segment-name">{phase.shortName}</span>
                 <span className="v-segment-days">{phase.daysRange}</span>
               </div>
-              {isCurrent && (
-                <div className="v-segment-now-marker" title="You are here">
-                  <span className="v-marker-dot" />
-                </div>
-              )}
+              <div className="v-segment-now-marker" aria-hidden="true">
+                {isCurrent && <span className="v-marker-dot" title="Current Phase" />}
+              </div>
             </button>
           );
         })}

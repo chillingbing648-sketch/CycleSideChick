@@ -34,6 +34,11 @@ import { InfoAssistantModal } from "../features/assistant/InfoAssistantModal.jsx
 import { PhaseTourModal } from "../features/home/PhaseTourModal.jsx";
 import { CareCustomModal } from "../features/care/CareCustomModal.jsx";
 import { DeleteJournalModal } from "../features/care/DeleteJournalModal.jsx";
+import { SidebarDrawer } from "../components/ui/SidebarDrawer.jsx";
+import { HealthTrackersModal } from "../features/home/HealthTrackersModal.jsx";
+import { PhaseEducationModal } from "../features/home/PhaseEducationModal.jsx";
+import { PremiumModal } from "../features/profile/PremiumModal.jsx";
+import { WellnessNoticeModal } from "../components/ui/WellnessNoticeModal.jsx";
 
 export function AppShell() {
   const { ui, S } = useStore();
@@ -59,30 +64,29 @@ export function AppShell() {
 
   return (
     <div id="app" className="v-mobile-shell">
-      {/* Sleek Mobile Device Status Bar */}
-      <div className="v-mobile-status-bar" aria-hidden="true">
-        <span className="v-status-time">9:41</span>
-        <div className="v-status-island" />
-        <div className="v-status-icons">
-          <Icon name="signal" size={13} />
-          <Icon name="wifi" size={13} />
-          <Icon name="battery" size={16} />
-        </div>
-      </div>
-
       {/* Main Content Pane */}
       <div className="v-main-content">
         {/* Secondary Views Header */}
         {ui.tab !== "home" && (
           <header className="v-subview-header">
-            <button
-              type="button"
-              className="v-subview-back-btn"
-              onClick={() => actions.setTab("home")}
-              aria-label="Back to Home"
-            >
-              <Icon name="arrowLeft" size={18} />
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <button
+                type="button"
+                className="v-subview-back-btn"
+                onClick={() => actions.setTab("home")}
+                aria-label="Back to Home"
+              >
+                <Icon name="arrowLeft" size={18} />
+              </button>
+              <button
+                type="button"
+                className="v-sidebar-toggle-btn"
+                onClick={() => actions.openSidebar()}
+                aria-label="Open sidebar menu"
+              >
+                <Icon name="menu" size={18} />
+              </button>
+            </div>
             <h2 className="v-subview-title">
               {ui.tab === "styleguide" ? "Design System" : ui.tab.charAt(0).toUpperCase() + ui.tab.slice(1)}
             </h2>
@@ -111,9 +115,6 @@ export function AppShell() {
       {/* Soft Sliding-Pill Navigation */}
       <SlidingPillNav activeTab={ui.tab} motionPref={S?.motion} />
 
-      {/* Home Indicator Bar */}
-      <div className="v-home-indicator" aria-hidden="true" />
-
       {/* Toast Notification Container */}
       {ui.toasts && ui.toasts.length > 0 && (
         <div role="status" aria-live="polite">
@@ -128,6 +129,36 @@ export function AppShell() {
       )}
 
       {/* Modal Dialogs Host */}
+      <SidebarDrawer
+        isOpen={Boolean(ui.sidebarOpen)}
+        onClose={actions.closeSidebar}
+      />
+      {ui.healthModalTab ? (
+        <HealthTrackersModal
+          isOpen={true}
+          initialTab={ui.healthModalTab}
+          onClose={actions.closeHealthModal}
+        />
+      ) : null}
+      {ui.phaseModalTab ? (
+        <PhaseEducationModal
+          isOpen={true}
+          initialPhase={ui.phaseModalTab}
+          onClose={actions.closePhaseModal}
+        />
+      ) : null}
+      {ui.premiumModalOpen ? (
+        <PremiumModal
+          isOpen={true}
+          onClose={actions.closePremiumModal}
+        />
+      ) : null}
+      {ui.wellnessNoticeModal ? (
+        <WellnessNoticeModal
+          isOpen={true}
+          onClose={actions.closeWellnessNotice}
+        />
+      ) : null}
       {ui.prof ? <ProfileSettingsSheet /> : null}
       {ui.activeArticle ? <ArticleModal /> : null}
       {ui.partnerModal ? <PartnerModal /> : null}

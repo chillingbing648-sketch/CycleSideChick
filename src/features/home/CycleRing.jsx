@@ -127,44 +127,44 @@ export function CycleRing({ stats = {}, day = 1, S = {}, phaseName = "Natural Cy
     >
       <svg viewBox="0 0 220 220" className="v-reference-ring-svg">
         <defs>
-          {/* Soft Rose Gradient for Period Arc */}
+          {/* Vivid Rose Pink Gradient for Period Arc */}
           <linearGradient id="rosePeriodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#E294AB" />
-            <stop offset="100%" stopColor="#C9708C" />
+            <stop offset="0%" stopColor="#FF72A7" />
+            <stop offset="100%" stopColor="#FF5B99" />
           </linearGradient>
 
-          {/* Soft Lavender Gradient for Fertile / Ovulation Arc */}
+          {/* Fertile / Ovulation Teal Gradient */}
           <linearGradient id="lavenderFertileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#CBBDF2" />
-            <stop offset="100%" stopColor="#B9A7E8" />
+            <stop offset="0%" stopColor="#38E1B0" />
+            <stop offset="100%" stopColor="#20C997" />
           </linearGradient>
 
-          {/* Subtle Golden-Peach Gradient for Follicular Arc */}
+          {/* Follicular Amber Gradient */}
           <linearGradient id="peachFollicularGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F9C8AF" />
-            <stop offset="100%" stopColor="#E8A07A" />
+            <stop offset="0%" stopColor="#FFB74D" />
+            <stop offset="100%" stopColor="#FFA726" />
           </linearGradient>
 
-          {/* Soft Mint Gradient for Luteal Arc */}
+          {/* Luteal Purple Gradient */}
           <linearGradient id="mintLutealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#C1E7CF" />
-            <stop offset="100%" stopColor="#A8D5BA" />
+            <stop offset="0%" stopColor="#BA68C8" />
+            <stop offset="100%" stopColor="#9C27B0" />
           </linearGradient>
 
-          {/* Dusty Rose Gradient for FAB Plus Button */}
+          {/* Primary Gradient for FAB Plus Button */}
           <linearGradient id="fabPrimaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#D98BA3" />
-            <stop offset="100%" stopColor="#C9708C" />
+            <stop offset="0%" stopColor="#FF72A7" />
+            <stop offset="100%" stopColor="#FF5B99" />
           </linearGradient>
 
           {/* Active cycle day ring glow */}
           <filter id="activeTrackGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#C9708C" floodOpacity="0.25" />
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#FF5B99" floodOpacity="0.35" />
           </filter>
 
           {/* Soft outer glow for the plus button */}
           <filter id="plusGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="#C9708C" floodOpacity="0.32" />
+            <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="#FF5B99" floodOpacity="0.4" />
           </filter>
 
           {/* Recessed bevel filter for outer circular groove */}

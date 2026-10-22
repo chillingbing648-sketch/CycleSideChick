@@ -10,7 +10,7 @@
  * - Mode support & supportive wellness insights
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
 import { CycleRing } from "./CycleRing.jsx";
@@ -19,11 +19,19 @@ import { Card } from "../../components/ui/Card.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { WaterCup } from "../../components/ui/WaterCup.jsx";
 import { BunnyMascot } from "../../components/ui/BunnyMascot.jsx";
+import { UterusPhaseIllustration } from "../../components/ui/PhaseIllustrations.jsx";
+import { PhaseEducationModal } from "./PhaseEducationModal.jsx";
+import { HealthTrackersModal } from "./HealthTrackersModal.jsx";
+import { PremiumModal } from "../profile/PremiumModal.jsx";
 import { TD, I, N, fmt, calculateStats, calculatePregnancy, getDailyPhaseGuidance } from "../../core/engine.js";
 import { getReassuranceMessage } from "../../core/content.js";
 
 export function HomeView() {
   const { S, ui } = useStore();
+  const [phaseModal, setPhaseModal] = useState(null);
+  const [healthModal, setHealthModal] = useState(null);
+  const [premiumModal, setPremiumModal] = useState(false);
+
   const todayDn = TD();
   const todayStr = I(todayDn);
   const stats = calculateStats(S);
@@ -136,20 +144,76 @@ export function HomeView() {
     <div className="v-home-container">
       {/* 1. Header Greeting & Avatar */}
       <div className="v-home-header">
-        <div>
-          <span className="v-home-greeting">
-            {greetingText}, {userName}
-          </span>
-          <h1 className="v-home-title">Today</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <button
+            type="button"
+            className="v-sidebar-toggle-btn"
+            onClick={() => actions.openSidebar()}
+            aria-label="Open sidebar menu"
+          >
+            <Icon name="menu" size={20} />
+          </button>
+          <div>
+            <span className="v-home-greeting">
+              {greetingText}, {userName}
+            </span>
+            <h1 className="v-home-title">Today</h1>
+          </div>
         </div>
-        <button
-          type="button"
-          className="v-home-avatar-btn"
-          onClick={() => actions.openProfile()}
-          aria-label="Profile and settings"
-        >
-          <BunnyMascot size={32} />
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          {S.premium ? (
+            <button
+              type="button"
+              onClick={() => setPremiumModal(true)}
+              style={{
+                background: "var(--surface-tint)",
+                color: "var(--primary)",
+                border: "1px solid var(--berry-border)",
+                borderRadius: "999px",
+                padding: "4px 10px",
+                fontSize: "11px",
+                fontWeight: "800",
+                letterSpacing: "0.04em",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px"
+              }}
+              title="Evaluation License Active"
+            >
+              <span>PRO</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setPremiumModal(true)}
+              style={{
+                background: "var(--surface-tint)",
+                color: "var(--primary)",
+                border: "1px solid var(--berry-border)",
+                borderRadius: "999px",
+                padding: "4px 10px",
+                fontSize: "11.5px",
+                fontWeight: "700",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px"
+              }}
+              title="Test Evaluation License"
+            >
+              <span>Premium</span>
+            </button>
+          )}
+          <button
+            type="button"
+            className="v-home-avatar-btn"
+            onClick={() => actions.openProfile()}
+            aria-label="Profile and settings"
+          >
+            <BunnyMascot size={32} />
+          </button>
+        </div>
       </div>
 
       {/* 2. Week Strip */}
@@ -270,7 +334,176 @@ export function HomeView() {
         </div>
       </div>
 
-      {/* 5. Cycle History Section */}
+      {/* 5. Menstrual Phase Educational Cards (Reference Row 6 Screen 3) */}
+      <div className="v-phase-carousel-section" style={{ marginTop: "24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "12px" }}>
+          <h2 style={{ fontSize: "16px", fontWeight: "800", color: "var(--text)", margin: 0 }}>
+            Menstrual Phase
+          </h2>
+          <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: "600" }}>
+            Tap to learn more
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "10px",
+            overflowX: "auto",
+            paddingBottom: "4px"
+          }}
+        >
+          {[
+            { id: "menstrual", name: "Menstrual", days: "Days 1–5", color: "#FF5B99" },
+            { id: "follicular", name: "Follicular", days: "Days 6–13", color: "#FF9A3C" },
+            { id: "ovulation", name: "Ovulation", days: "Days 14–16", color: "#20C997" },
+            { id: "luteal", name: "Luteal", days: "Days 17–28", color: "#9C27B0" }
+          ].map(p => (
+            <div
+              key={p.id}
+              onClick={() => setPhaseModal(p.id)}
+              style={{
+                background: "var(--surface)",
+                borderRadius: "18px",
+                border: "1px solid var(--border)",
+                padding: "12px 6px 10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: "pointer",
+                textAlign: "center",
+                boxShadow: "var(--shadow-sm)",
+                transition: "all 0.2s ease"
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.borderColor = p.color;
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.borderColor = "var(--border)";
+              }}
+            >
+              <UterusPhaseIllustration phase={p.id} size={54} />
+              <b style={{ fontSize: "12px", color: "var(--text)", marginTop: "6px", display: "block" }}>
+                {p.name}
+              </b>
+              <span style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: "600" }}>
+                {p.days}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 6. Health Trackers Quick Widgets (Reference Row 9 & 10) */}
+      <div className="v-health-metrics-section" style={{ marginTop: "24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "12px" }}>
+          <h2 style={{ fontSize: "16px", fontWeight: "800", color: "var(--text)", margin: 0 }}>
+            Health Trackers
+          </h2>
+          <button
+            type="button"
+            onClick={() => setHealthModal("water")}
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--primary)",
+              fontSize: "12.5px",
+              fontWeight: "700",
+              cursor: "pointer"
+            }}
+          >
+            Open Trackers
+          </button>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+          {/* Water Widget */}
+          <div
+            onClick={() => setHealthModal("water")}
+            style={{
+              background: "var(--surface)",
+              borderRadius: "18px",
+              border: "1px solid var(--border)",
+              padding: "14px 10px",
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              boxShadow: "var(--shadow-sm)",
+              transition: "transform 0.15s ease"
+            }}
+            onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
+            onMouseLeave={e => (e.currentTarget.style.transform = "none")}
+          >
+            <span style={{ fontSize: "22px", marginBottom: "4px" }}>💧</span>
+            <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-muted)" }}>WATER</span>
+            <b style={{ fontSize: "14.5px", color: "var(--color-water, #2B8CEE)", margin: "3px 0" }}>
+              {todayLog.waterMl || (todayLog.water ? todayLog.water * 250 : 600)} ml
+            </b>
+            <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Goal: 2,000 ml</span>
+          </div>
+
+          {/* Weight Widget */}
+          <div
+            onClick={() => setHealthModal("weight")}
+            style={{
+              background: "var(--surface)",
+              borderRadius: "18px",
+              border: "1px solid var(--border)",
+              padding: "14px 10px",
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              boxShadow: "var(--shadow-sm)",
+              transition: "transform 0.15s ease"
+            }}
+            onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
+            onMouseLeave={e => (e.currentTarget.style.transform = "none")}
+          >
+            <span style={{ fontSize: "22px", marginBottom: "4px" }}>⚖️</span>
+            <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-muted)" }}>WEIGHT</span>
+            <b style={{ fontSize: "14.5px", color: "var(--primary)", margin: "3px 0" }}>
+              {S.weight || 60.0} {S.weightUnit || "kg"}
+            </b>
+            <span style={{ fontSize: "10px", color: "#20C997", fontWeight: "700" }}>BMI Normal</span>
+          </div>
+
+          {/* Temperature BBT Widget */}
+          <div
+            onClick={() => setHealthModal("temp")}
+            style={{
+              background: "var(--surface)",
+              borderRadius: "18px",
+              border: "1px solid var(--border)",
+              padding: "14px 10px",
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              boxShadow: "var(--shadow-sm)",
+              transition: "transform 0.15s ease"
+            }}
+            onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
+            onMouseLeave={e => (e.currentTarget.style.transform = "none")}
+          >
+            <span style={{ fontSize: "22px", marginBottom: "4px" }}>🌡️</span>
+            <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-muted)" }}>TEMP</span>
+            <b style={{ fontSize: "14.5px", color: "#FF9A3C", margin: "3px 0" }}>
+              {todayLog.bbt ? parseFloat(todayLog.bbt).toFixed(1) : (S.bbtUnit === "f" ? "97.8" : "36.6")}°{S.bbtUnit === "f" ? "F" : "C"}
+            </b>
+            <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>Biphasic</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 7. Cycle History Section */}
       <div className="v-history-section">
         <div className="v-history-header">
           <h2 className="v-history-title">Cycle history</h2>
@@ -411,6 +644,28 @@ export function HomeView() {
           CycleSideChick calculations are mathematical estimates based on your logged history, not medical diagnoses or birth control guarantees.
         </span>
       </div>
+
+      {/* Dynamic Modals Hosted in Home */}
+      {phaseModal && (
+        <PhaseEducationModal
+          initialPhase={phaseModal}
+          isOpen={true}
+          onClose={() => setPhaseModal(null)}
+        />
+      )}
+      {healthModal && (
+        <HealthTrackersModal
+          initialTab={healthModal}
+          isOpen={true}
+          onClose={() => setHealthModal(null)}
+        />
+      )}
+      {premiumModal && (
+        <PremiumModal
+          isOpen={true}
+          onClose={() => setPremiumModal(false)}
+        />
+      )}
     </div>
   );
 }

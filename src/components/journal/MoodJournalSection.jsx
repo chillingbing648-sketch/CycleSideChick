@@ -98,20 +98,21 @@ export function MoodJournalSection({ S = {}, ui = {} }) {
       {/* 1. Date Switcher Header */}
       <Card variant="base" className="v-journal-editor-card">
         <div className="v-journal-card-header">
-          <div>
+          <div className="v-journal-heading-group">
             <span className="v-journal-subtle-label">PRIVATE REFLECTION</span>
             <h2 className="v-journal-date-title">
               {fmt(activeDn, { weekday: "long", month: "short", day: "numeric" })}
             </h2>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div className="v-journal-date-controls">
             <input
               type="date"
               value={activeDate}
               max={todayStr}
               onChange={(e) => actions.setJournalDate(e.target.value)}
               className="v-journal-date-input"
+              aria-label="Select reflection date"
             />
             {activeDate !== todayStr && (
               <button
@@ -141,7 +142,7 @@ export function MoodJournalSection({ S = {}, ui = {} }) {
             }}
             aria-expanded={isMoodExpanded}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div className="v-journal-mood-toggle-info">
               <div className="v-journal-mood-dot">
                 <Icon name={currentEntry.mood ? "heart" : "sparkle"} size={14} />
               </div>
@@ -154,7 +155,7 @@ export function MoodJournalSection({ S = {}, ui = {} }) {
               </span>
             </div>
 
-            <span className="v-journal-mood-chevron">
+            <span className="v-journal-mood-chevron" aria-hidden="true">
               <Icon name={isMoodExpanded ? "chevronUp" : "chevronDown"} size={16} />
             </span>
           </div>
@@ -175,7 +176,7 @@ export function MoodJournalSection({ S = {}, ui = {} }) {
                     <div className="v-chip-icon">
                       <Icon name={m.icon} size={18} />
                     </div>
-                    <div style={{ textAlign: "left" }}>
+                    <div style={{ textAlign: "left", minWidth: 0 }}>
                       <b className="v-mood-title">{m.label}</b>
                       <span className="v-mood-desc">{m.desc}</span>
                     </div>
@@ -188,22 +189,27 @@ export function MoodJournalSection({ S = {}, ui = {} }) {
 
         {/* 3. Cycle Prompt Inspiration */}
         <div className="v-journal-prompt-box">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-            <span className="v-prompt-badge">Cycle Inspiration Prompt</span>
-            <div style={{ display: "flex", gap: "4px" }}>
+          <div className="v-prompt-header">
+            <span className="v-prompt-badge">
+              <Icon name="sparkle" size={12} />
+              Cycle Inspiration Prompt
+            </span>
+            <div className="v-prompt-actions">
               <button
                 type="button"
                 className="v-prompt-tool-btn"
                 onClick={handleInsertPrompt}
                 title="Insert prompt into note"
               >
-                + Insert
+                <Icon name="plus" size={12} />
+                Insert
               </button>
               <button
                 type="button"
-                className="v-prompt-tool-btn"
+                className="v-prompt-tool-btn v-prompt-tool-btn--icon"
                 onClick={handleNextPrompt}
                 title="Rotate prompt"
+                aria-label="Rotate prompt"
               >
                 <Icon name="refresh" size={13} />
               </button>
