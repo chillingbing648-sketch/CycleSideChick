@@ -96,24 +96,32 @@ export function HomeView() {
 
   // Vital Status Calculations
   const isFertileNow = stats.fertileStart && stats.fertileEnd && todayDn >= stats.fertileStart && todayDn <= stats.fertileEnd;
-  const pregnancyChance = (mode === "contraception") ? "Suppressed" : (isFertileNow ? "High" : (Math.abs(todayDn - (stats.fertileStart || 0)) <= 2 ? "Moderate" : "Low"));
+  const pregnancyChance = (mode === "contraception")
+    ? "Suppressed"
+    : (stats.fertileStart && stats.fertileEnd)
+      ? (isFertileNow ? "High" : (Math.abs(todayDn - (stats.fertileStart || 0)) <= 2 ? "Moderate" : "Low"))
+      : "Awaiting data";
 
-  const daysUntilNextPeriod = stats.nextPred ? Math.max(0, stats.nextPred - todayDn) : 26;
-  const daysUntilPeriodText = daysUntilNextPeriod === 0 ? "Today" : `In ${daysUntilNextPeriod} days`;
+  const daysUntilNextPeriod = stats.nextPred ? Math.max(0, stats.nextPred - todayDn) : null;
+  const daysUntilPeriodText = daysUntilNextPeriod === null
+    ? "Awaiting data"
+    : daysUntilNextPeriod === 0
+      ? "Today"
+      : `In ${daysUntilNextPeriod} day${daysUntilNextPeriod === 1 ? "" : "s"}`;
 
-  let fertileWindowText = "In 8 days";
+  let fertileWindowText = "Awaiting data";
   if (mode === "contraception") {
     fertileWindowText = "Inactive (Pill Mode)";
   } else if (isFertileNow) {
     fertileWindowText = "This week (Active)";
   } else if (stats.fertileStart && stats.fertileStart > todayDn) {
     const diff = stats.fertileStart - todayDn;
-    fertileWindowText = diff <= 7 ? "This week" : `In ${diff} days`;
-  } else {
-    fertileWindowText = "In 20 days";
+    fertileWindowText = diff <= 7 ? "This week" : `In ${diff} day${diff === 1 ? "" : "s"}`;
+  } else if (stats.fertileStart) {
+    fertileWindowText = "Window completed";
   }
 
-  // Cycle History list (real or baseline populated from history)
+  // Cycle History list (derived purely from user's recorded periods; no fabricated data)
   const historyCycles = (stats.history && stats.history.length > 0)
     ? stats.history.slice(-3).reverse().map((h, i) => ({
         id: `hist-${i}`,
@@ -122,11 +130,7 @@ export function HomeView() {
         periodLen: h.duration || 5,
         fertileLen: 6
       }))
-    : [
-        { id: "h1", days: 28, range: "Jul 19 - Aug 15", periodLen: 5, fertileLen: 6 },
-        { id: "h2", days: 28, range: "Jun 21 - Jul 18", periodLen: 5, fertileLen: 6 },
-        { id: "h3", days: 26, range: "May 26 - Jun 20", periodLen: 4, fertileLen: 6 }
-      ];
+    : [];
 
   return (
     <div className="v-home-container">
@@ -270,36 +274,85 @@ export function HomeView() {
       <div className="v-history-section">
         <div className="v-history-header">
           <h2 className="v-history-title">Cycle history</h2>
-          <span className="v-history-subtitle">January–July</span>
+          {historyCycles.length > 0 && (
+            <span className="v-history-subtitle">
+              {stats.history.length > 1
+                ? `Last ${Math.min(3, stats.history.length)} recorded cycles`
+                : "1 recorded cycle"}
+            </span>
+          )}
         </div>
 
-        <div className="v-history-list">
-          {historyCycles.map(c => (
-            <div key={c.id} className="v-history-item">
-              {/* Dual Coral & Berry Progress Bar */}
-              <div className="v-history-bar-track">
-                {/* Menstrual Capsule (Coral) */}
-                <div
-                  className="v-history-capsule v-history-capsule--coral"
-                  style={{ width: `${Math.min(60, c.periodLen * 9)}px` }}
-                  title={`Period duration: ${c.periodLen} days`}
-                />
-                {/* Fertile Capsule (Berry Pink) */}
-                <div
-                  className="v-history-capsule v-history-capsule--berry"
-                  style={{ width: `${Math.min(70, c.fertileLen * 10)}px` }}
-                  title="Fertile window"
-                />
-              </div>
+        {historyCycles.length > 0 ? (
+          <div className="v-history-list">
+            {historyCycles.map(c => (
+              <div key={c.id} className="v-history-item">
+                {/* Dual Coral & Berry Progress Bar */}
+                <div className="v-history-bar-track">
+                  {/* Menstrual Capsule (Coral) */}
+                  <div
+                    className="v-history-capsule v-history-capsule--coral"
+                    style={{ width: `${Math.min(60, c.periodLen * 9)}px` }}
+                    title={`Period duration: ${c.periodLen} days`}
+                  />
+                  {/* Fertile Capsule (Berry Pink) */}
+                  <div
+                    className="v-history-capsule v-history-capsule--berry"
+                    style={{ width: `${Math.min(70, c.fertileLen * 10)}px` }}
+                    title="Fertile window"
+                  />
+                </div>
 
-              {/* Text Info */}
-              <div className="v-history-info">
-                <b className="v-history-days">{c.days} days</b>
-                <span className="v-history-range">{c.range}</span>
+                {/* Text Info */}
+                <div className="v-history-info">
+                  <b className="v-history-days">{c.days} days</b>
+                  <span className="v-history-range">{c.range}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="v-empty-history-card" style={{
+            padding: "20px 16px",
+            background: "var(--card-bg, #FFFFFF)",
+            borderRadius: "16px",
+            border: "1px dashed var(--border-soft, #F0EAE8)",
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "10px"
+          }}>
+            <div style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              background: "var(--tint-rose-bg, #FFF0F3)",
+              color: "var(--primary, #E06D7D)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+              <Icon name="calendar" size={18} />
+            </div>
+            <div>
+              <div style={{ fontSize: "14px", fontWeight: "600", color: "var(--plum, #4A3545)", marginBottom: "4px" }}>
+                No completed cycles yet
+              </div>
+              <div style={{ fontSize: "12.5px", color: "var(--text-muted, #8E7A8A)", lineHeight: 1.4, maxWidth: "260px" }}>
+                As you log periods, your personalized cycle history and duration trends will appear here.
               </div>
             </div>
-          ))}
-        </div>
+            <button
+              type="button"
+              className="c-btn c-btn--secondary c-btn--sm"
+              onClick={() => actions.setTab("log")}
+              style={{ marginTop: "4px" }}
+            >
+              Log Period Today
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 6. Daily Hydration Target */}
@@ -337,6 +390,27 @@ export function HomeView() {
           "{reassurance}"
         </p>
       </Card>
+
+      {/* Transparency & Ethical Medical Disclaimer */}
+      <div style={{
+        marginTop: "16px",
+        padding: "12px 14px",
+        borderRadius: "14px",
+        background: "var(--bg-subtle, rgba(230, 215, 225, 0.2))",
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "10px",
+        fontSize: "11.5px",
+        color: "var(--text-muted, #8E7A8A)",
+        lineHeight: "1.4"
+      }}>
+        <div style={{ flexShrink: 0, marginTop: "2px", color: "var(--primary)" }}>
+          <Icon name="shield" size={13} />
+        </div>
+        <span>
+          CycleSideChick calculations are mathematical estimates based on your logged history, not medical diagnoses or birth control guarantees.
+        </span>
+      </div>
     </div>
   );
 }

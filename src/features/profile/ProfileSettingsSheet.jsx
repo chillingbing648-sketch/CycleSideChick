@@ -33,6 +33,7 @@ export function ProfileSettingsSheet() {
       isOpen={true}
       onClose={() => actions.closeProfile()}
       title="Settings & Health Privacy"
+      className="v-profile-sheet"
       maxWidth="540px"
     >
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>

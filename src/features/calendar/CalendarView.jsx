@@ -56,15 +56,13 @@ export function CalendarView() {
     const isFertile =
       (S.mode === "natural" || S.mode === "ttc") &&
       S.showFertile !== 0 &&
-      stats.fertileStart &&
-      stats.fertileEnd &&
-      dn >= stats.fertileStart &&
-      dn <= stats.fertileEnd;
+      stats.predictedCycles &&
+      stats.predictedCycles.some(pc => dn >= pc.fertileStart && dn <= pc.fertileEnd);
     const isOvulation =
       (S.mode === "natural" || S.mode === "ttc") &&
       S.showFertile !== 0 &&
-      stats.ovulationDate &&
-      dn === stats.ovulationDate;
+      stats.predictedCycles &&
+      stats.predictedCycles.some(pc => dn === pc.ovulation);
 
     const logEntry = S.logs && S.logs[dateStr];
     const journalEntry = S.journal && S.journal[dateStr];
@@ -371,6 +369,27 @@ export function CalendarView() {
           )}
         </div>
       </Card>
+
+      {/* Transparency & Ethical Medical Disclaimer */}
+      <div style={{
+        marginTop: "16px",
+        padding: "12px 14px",
+        borderRadius: "14px",
+        background: "var(--bg-subtle, rgba(230, 215, 225, 0.2))",
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "10px",
+        fontSize: "11.5px",
+        color: "var(--text-muted, #8E7A8A)",
+        lineHeight: "1.4"
+      }}>
+        <div style={{ flexShrink: 0, marginTop: "2px", color: "var(--primary)" }}>
+          <Icon name="shield" size={13} />
+        </div>
+        <span>
+          Predicted period dates and fertile window estimates are mathematical models derived from past logs. Never use predictions as medical advice or natural contraception.
+        </span>
+      </div>
 
       {/* 5. Interactive Full Day Details Bottom Sheet Modal */}
       <SheetModal
