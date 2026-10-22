@@ -8,8 +8,8 @@ const ASSETS_TO_CACHE = [
   "./index.html",
   "./CycleSideChick.html",
   "./manifest.webmanifest",
-  "./public/favicon.svg",
-  "./public/cyclesidechick-infographic.svg",
+  "./favicon.svg",
+  "./cyclesidechick-infographic.svg",
   "./src/css/tokens.css",
   "./src/css/base.css",
   "./src/css/components.css",
@@ -74,8 +74,8 @@ self.addEventListener("push", event => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: "./public/favicon.svg",
-      badge: "./public/favicon.svg"
+      icon: "./favicon.svg",
+      badge: "./favicon.svg"
     })
   );
 });
