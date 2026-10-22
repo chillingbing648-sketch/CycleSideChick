@@ -51,20 +51,67 @@ export function LogView() {
     { val: "ewcm", label: "Egg White", desc: "Clear, stretchy, lubricative peak", badge: "Peak Ovulation" }
   ];
 
-  const MEDICATIONS = [
-    { id: "ibuprofen", label: "Ibuprofen / NSAID" },
-    { id: "paracetamol", label: "Paracetamol" },
-    { id: "magnesium", label: "Magnesium" },
-    { id: "vitd", label: "Vitamin D" },
-    { id: "bcomplex", label: "B-Complex" }
+  const [medCategory, setMedCategory] = useState("all");
+  const [customMedInput, setCustomMedInput] = useState("");
+
+  const MED_CATEGORIES = [
+    { id: "all", label: "All Care" },
+    { id: "pain", label: "Pain Relief" },
+    { id: "hormonal", label: "Hormonal & Cycle" },
+    { id: "vitamins", label: "Vitamins & Minerals" },
+    { id: "holistic", label: "Holistic Care" }
+  ];
+
+  const COMPREHENSIVE_MEDS = [
+    // Pain Relief
+    { id: "ibuprofen", label: "Ibuprofen / NSAID", icon: "medPill", cat: "pain", desc: "Anti-inflammatory cramp relief" },
+    { id: "paracetamol", label: "Paracetamol / Tylenol", icon: "medTablet", cat: "pain", desc: "Gentle pain & fever relief" },
+    { id: "naproxen", label: "Naproxen Sodium", icon: "medPill", cat: "pain", desc: "Longer-acting dysmenorrhea care" },
+    { id: "antispasmodic", label: "Buscopan / Spasm Relief", icon: "medTablet", cat: "pain", desc: "Targeted uterine cramp relaxation" },
+    
+    // Hormonal & Cycle
+    { id: "birth_control", label: "Birth Control / Pill", icon: "medPill", cat: "hormonal", desc: "Daily contraceptive / hormonal regulation" },
+    { id: "progesterone", label: "Progesterone", icon: "medPill", cat: "hormonal", desc: "Luteal phase hormonal support" },
+    { id: "inositol", label: "Myo-Inositol / D-Chiro", icon: "medSupplement", cat: "hormonal", desc: "Ovarian & insulin balance (PCOS)" },
+    { id: "vitex", label: "Vitex / Chasteberry", icon: "medHerbal", cat: "hormonal", desc: "Prolactin & cycle stabilization" },
+    { id: "evening_primrose", label: "Evening Primrose Oil", icon: "medSupplement", cat: "hormonal", desc: "Breast tenderness & PMS relief" },
+
+    // Vitamins & Minerals
+    { id: "magnesium", label: "Magnesium Glycinate", icon: "medSupplement", cat: "vitamins", desc: "Muscle relaxation & calm nervous system" },
+    { id: "iron", label: "Gentle Iron / Ferrous", icon: "medSupplement", cat: "vitamins", desc: "Heavy flow replenishment & energy" },
+    { id: "vitd", label: "Vitamin D3 + K2", icon: "medSupplement", cat: "vitamins", desc: "Immune & hormonal receptor support" },
+    { id: "bcomplex", label: "B-Complex / Vitamin B6", icon: "medSupplement", cat: "vitamins", desc: "Neurotransmitter & serotonin synthesis" },
+    { id: "zinc", label: "Zinc Picolinate", icon: "medSupplement", cat: "vitamins", desc: "Skin breakout healing & tissue repair" },
+    { id: "omega3", label: "Omega-3 / DHA", icon: "medSupplement", cat: "vitamins", desc: "Prostaglandin & inflammatory balance" },
+
+    // Holistic & Comfort
+    { id: "heat_patch", label: "Heat Patch / Hot Bottle", icon: "medPatch", cat: "holistic", desc: "Therapeutic 40°C vasodilation" },
+    { id: "raspberry_tea", label: "Red Raspberry Leaf Tea", icon: "medTea", cat: "holistic", desc: "Uterine toning herbal infusion" },
+    { id: "peppermint_tea", label: "Peppermint / Chamomile", icon: "medTea", cat: "holistic", desc: "Bloating relief & evening calm" },
+    { id: "ginger", label: "Ginger Root / Tea", icon: "medHerbal", cat: "holistic", desc: "Natural nausea & cramping antidote" },
+    { id: "melatonin", label: "Melatonin / Sleep Herb", icon: "moon", cat: "holistic", desc: "Gentle restorative sleep rhythm" }
   ];
 
   const currentLog = (S.logs && S.logs[activeDate]) || {};
   const currentMedications = dr.med || currentLog.med || [];
+  const currentEmotions = dr.emotions || currentLog.emotions || [];
   const currentSymptoms = dr.sy || currentLog.sy || {};
   const currentMood = dr.m !== null ? dr.m : currentLog.m;
   const currentEnergy = dr.en || currentLog.en || "";
   const currentPain = dr.p !== null && dr.p !== undefined ? dr.p : (currentLog.p ?? 0);
+
+  // Combine default meds with any saved custom medications
+  const userCustomMeds = (S.customMeds || []).map(cm => ({
+    id: cm.id,
+    label: cm.label,
+    icon: "sparkle",
+    cat: "custom",
+    desc: "Custom personal care item"
+  }));
+  const allAvailableMeds = [...COMPREHENSIVE_MEDS, ...userCustomMeds];
+  const visibleMeds = medCategory === "all"
+    ? allAvailableMeds
+    : allAvailableMeds.filter(m => m.cat === medCategory || (medCategory === "holistic" && m.cat === "custom"));
 
   // Calculate Daily Check-in Completion Progress (0 to 100%)
   const checkinCategories = [
@@ -76,7 +123,10 @@ export function LogView() {
     {
       id: "mood",
       name: "Mood & Energy",
-      isComplete: (dr.m !== null && dr.m !== undefined) || (currentLog.m !== null && currentLog.m !== undefined) || Boolean(dr.en || currentLog.en)
+      isComplete: (dr.m !== null && dr.m !== undefined) ||
+                  (currentLog.m !== null && currentLog.m !== undefined) ||
+                  Boolean(dr.en || currentLog.en) ||
+                  currentEmotions.length > 0
     },
     {
       id: "symptoms",
@@ -104,6 +154,14 @@ export function LogView() {
     if (customSymptomInput.trim()) {
       actions.addCustomSymptom(customSymptomInput.trim());
       setCustomSymptomInput("");
+    }
+  };
+
+  const handleAddCustomMed = (e) => {
+    e.preventDefault();
+    if (customMedInput.trim()) {
+      actions.addCustomMedication(customMedInput.trim());
+      setCustomMedInput("");
     }
   };
 
@@ -260,6 +318,7 @@ export function LogView() {
           selectedSymptoms={currentSymptoms}
           selectedMood={currentMood}
           selectedEnergy={currentEnergy}
+          selectedEmotions={currentEmotions}
           customSymptoms={S.customSymptoms || []}
         />
 
@@ -375,20 +434,83 @@ export function LogView() {
 
       {/* 7. Medications & Care Support */}
       <Card variant="base" style={{ padding: "16px", marginBottom: "14px" }}>
-        <b style={{ fontSize: "14px", display: "block", marginBottom: "4px", fontFamily: "var(--font-heading)" }}>Medications & Supplements</b>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "8px" }}>
-          {MEDICATIONS.map((med) => {
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+          <b style={{ fontSize: "14px", fontFamily: "var(--font-heading)" }}>Medications & Supplements</b>
+          <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "600" }}>Care Routine</span>
+        </div>
+        <p className="mut" style={{ margin: "0 0 12px", fontSize: "12px" }}>
+          Track pain management, hormone support, daily vitamins, and comfort rituals.
+        </p>
+
+        {/* Category Filter Pills */}
+        <div className="v-med-category-bar custom-scroll" role="tablist" aria-label="Medication categories">
+          {MED_CATEGORIES.map(cat => (
+            <button
+              key={cat.id}
+              type="button"
+              role="tab"
+              aria-selected={medCategory === cat.id}
+              className={`v-med-cat-pill ${medCategory === cat.id ? "active" : ""}`}
+              onClick={() => setMedCategory(cat.id)}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Medications Grid */}
+        <div className="v-med-grid" role="group" aria-label="Medications list">
+          {visibleMeds.map((med) => {
             const isSelected = currentMedications.includes(med.id);
             return (
-              <ToggleChip
+              <button
                 key={med.id}
-                label={med.label}
-                selected={isSelected}
+                type="button"
+                className={`v-med-card ${isSelected ? "active" : ""}`}
                 onClick={() => actions.toggleMedication(med.id)}
-              />
+                aria-pressed={isSelected}
+                aria-label={med.label}
+              >
+                <div className="v-med-card-top">
+                  <div className="v-med-icon-circle">
+                    <Icon name={med.icon || "medPill"} size={16} />
+                  </div>
+                  {isSelected && (
+                    <span className="v-med-check-pill" aria-hidden="true">
+                      <Icon name="check" size={11} />
+                    </span>
+                  )}
+                </div>
+                <div className="v-med-card-body">
+                  <span className="v-med-title">{med.label}</span>
+                  {med.desc && <span className="v-med-desc">{med.desc}</span>}
+                </div>
+              </button>
             );
           })}
         </div>
+
+        {/* Custom Medication Form */}
+        <form onSubmit={handleAddCustomMed} style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+          <input
+            type="text"
+            placeholder="Add custom medicine or care item..."
+            value={customMedInput}
+            onChange={(e) => setCustomMedInput(e.target.value)}
+            style={{
+              flex: 1,
+              padding: "9px 14px",
+              borderRadius: "var(--radius-pill)",
+              border: "1.5px solid var(--border)",
+              fontSize: "12.5px",
+              background: "var(--surface)",
+              fontFamily: "var(--font-body)"
+            }}
+          />
+          <Button variant="secondary" size="sm" type="submit" style={{ borderRadius: "var(--radius-pill)" }}>
+            Add
+          </Button>
+        </form>
       </Card>
 
       {/* 8. Personal Private Note */}

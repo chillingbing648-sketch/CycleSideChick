@@ -18,6 +18,7 @@ export function SymptomMoodSelector({
   selectedSymptoms = {},
   selectedMood = null,
   selectedEnergy = "",
+  selectedEmotions = [],
   customSymptoms = []
 }) {
   const CORE_SYMPTOMS = [
@@ -43,6 +44,20 @@ export function SymptomMoodSelector({
     { val: 0, label: "Sensitive", icon: "moodIrritable", tint: "peach" }
   ];
 
+  const EMOTION_ITEMS = [
+    { id: "joyful", label: "Joyful", icon: "moodJoyful", tint: "rose" },
+    { id: "peaceful", label: "Peaceful", icon: "moodPeaceful", tint: "mint" },
+    { id: "grounded", label: "Grounded", icon: "moodGrounded", tint: "sage" },
+    { id: "affectionate", label: "Affectionate", icon: "moodAffectionate", tint: "pink" },
+    { id: "creative", label: "In The Flow", icon: "sparkles", tint: "rose" },
+    { id: "overwhelmed", label: "Overwhelmed", icon: "moodOverwhelmed", tint: "amber" },
+    { id: "anxious", label: "Anxious", icon: "moodAnxious", tint: "purple" },
+    { id: "tearful", label: "Tearful", icon: "moodTearful", tint: "sky" },
+    { id: "frustrated", label: "Frustrated", icon: "moodIrritable", tint: "peach" },
+    { id: "brain_fog", label: "Brain Fog", icon: "moodBrainFog", tint: "slate" },
+    { id: "sluggish", label: "Sluggish", icon: "moon", tint: "lavender" }
+  ];
+
   const ENERGY_ITEMS = [
     { id: "high", label: "High Energy", icon: "energyHigh" },
     { id: "balanced", label: "Balanced", icon: "energyBalanced" },
@@ -55,6 +70,10 @@ export function SymptomMoodSelector({
 
   const handleMoodSelect = (val) => {
     actions.setDailyMood(selectedMood === val ? null : val);
+  };
+
+  const handleEmotionToggle = (id) => {
+    actions.toggleEmotion(id);
   };
 
   const handleEnergySelect = (id) => {
@@ -86,6 +105,39 @@ export function SymptomMoodSelector({
                   <Icon name={m.icon} size={22} />
                 </div>
                 <span className="v-chip-label">{m.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 2. Emotional Nuances & Feelings */}
+      <div className="v-selector-section">
+        <div className="v-selector-header">
+          <span className="v-selector-title">Feelings & Emotional Nuances</span>
+          <span className="v-selector-sub">Tap all that resonated today</span>
+        </div>
+        <div className="v-chips-row v-chips-row--emotions custom-scroll" role="group" aria-label="Emotional nuances">
+          {EMOTION_ITEMS.map((em) => {
+            const isSelected = selectedEmotions.includes(em.id);
+            return (
+              <button
+                key={em.id}
+                type="button"
+                className={`v-svg-chip v-svg-chip--emotion ${isSelected ? "selected" : ""} v-chip-tint--${em.tint}`}
+                onClick={() => handleEmotionToggle(em.id)}
+                aria-pressed={isSelected}
+                aria-label={`Feeling: ${em.label}`}
+              >
+                <div className="v-chip-icon">
+                  <Icon name={em.icon} size={18} />
+                </div>
+                <span className="v-chip-label">{em.label}</span>
+                {isSelected && (
+                  <span className="v-chip-check-dot" aria-hidden="true">
+                    <Icon name="check" size={10} />
+                  </span>
+                )}
               </button>
             );
           })}

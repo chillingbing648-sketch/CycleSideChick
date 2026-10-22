@@ -148,7 +148,7 @@ export function SidebarDrawer({ isOpen = false, onClose }) {
             <span className="v-sidebar-group-title">MAIN VIEWS</span>
             <div className="v-sidebar-group-items">
               {[
-                { key: "home", label: "Today Dashboard", icon: "home" },
+                { key: "home", label: "Home", icon: "home" },
                 { key: "calendar", label: "Cycle Calendar", icon: "calendar" },
                 { key: "log", label: "Daily Symptoms Log", icon: "plus" },
                 { key: "insights", label: "Body Insights & Trends", icon: "insights" },

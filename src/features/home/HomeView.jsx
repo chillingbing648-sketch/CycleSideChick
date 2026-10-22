@@ -158,7 +158,7 @@ export function HomeView() {
             <span className="v-home-greeting">
               {greetingText}, {userName}
             </span>
-            <h1 className="v-home-title">Today</h1>
+            <h1 className="v-home-title">Home</h1>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>

@@ -800,6 +800,40 @@ export const actions = {
     const idx = dr.med.indexOf(med);
     if (idx >= 0) dr.med.splice(idx, 1);
     else dr.med.push(med);
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].med = [...dr.med];
+    persistState();
+    haptic(10);
+    notify();
+  },
+
+  addCustomMedication(name) {
+    if (!name || !name.trim()) return;
+    const key = name.trim().toLowerCase().replace(/\s+/g, "_");
+    if (!S.customMeds) S.customMeds = [];
+    if (!S.customMeds.some(m => m.id === key)) {
+      S.customMeds.push({ id: key, label: name.trim(), category: "custom" });
+    }
+    if (!dr.med.includes(key)) dr.med.push(key);
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].med = [...dr.med];
+    persistState();
+    toast(`Added "${name}"`);
+    haptic(15);
+    notify();
+  },
+
+  toggleEmotion(emotionId) {
+    if (!dr.emotions) dr.emotions = [];
+    const idx = dr.emotions.indexOf(emotionId);
+    if (idx >= 0) dr.emotions.splice(idx, 1);
+    else dr.emotions.push(emotionId);
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].emotions = [...dr.emotions];
+    persistState();
     haptic(10);
     notify();
   },
@@ -933,6 +967,7 @@ export const actions = {
       bbt: dr.bbt ? String(dr.bbt).trim() : undefined,
       lh: dr.lh || undefined,
       sy: { ...dr.sy },
+      emotions: dr.emotions && dr.emotions.length ? [...dr.emotions] : undefined,
       note: dr.note ? dr.note.trim() : undefined
     };
     if (dr.f !== "" && dr.f !== undefined) {

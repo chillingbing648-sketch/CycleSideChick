@@ -46,7 +46,7 @@ export function AppShell() {
   const { ui, S } = useStore();
 
   const NAV_ITEMS = [
-    { key: "home", label: "Today", icon: "home" },
+    { key: "home", label: "Home", icon: "home" },
     { key: "calendar", label: "Calendar", icon: "calendar" },
     { key: "log", label: "Log", icon: "plus" },
     { key: "insights", label: "Insights", icon: "insights" },

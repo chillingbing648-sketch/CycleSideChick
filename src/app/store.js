@@ -60,6 +60,7 @@ export const dr = {
   water: 0,
   cm: "",
   med: [],
+  emotions: [],
   bbt: "",
   lh: "",
   sy: {},
@@ -78,6 +79,7 @@ export function loadDraft(dateStr) {
   dr.water = L.water || 0;
   dr.cm = L.cm || "";
   dr.med = Array.isArray(L.med) ? [...L.med] : (L.med ? [L.med] : []);
+  dr.emotions = Array.isArray(L.emotions) ? [...L.emotions] : [];
   dr.bbt = L.bbt || "";
   dr.lh = L.lh || "";
   dr.sy = { ...(L.sy || {}) };
