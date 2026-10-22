@@ -30,7 +30,9 @@ export function SymptomMoodSelector({
     { id: "acne", label: "Acne Breakout", icon: "acne" },
     { id: "ovulation_pain", label: "Ovulation Tinge", icon: "ovulation" },
     { id: "sleep_trouble", label: "Sleep Issues", icon: "sleep" },
-    { id: "cravings", label: "Cravings", icon: "cravings" }
+    { id: "cravings", label: "Cravings", icon: "cravings" },
+    { id: "anxiety", label: "Anxious Rhythm", icon: "moodAnxious" },
+    { id: "hot_flashes", label: "Hot Flashes", icon: "flame" }
   ];
 
   const MOOD_ITEMS = [

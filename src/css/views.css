@@ -2126,10 +2126,59 @@
   cursor: pointer;
 }
 
+/* --- Log Completion Progress Card --- */
+.v-log-progress-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(46, 36, 51, 0.04);
+}
+
+.v-log-progress-icon-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255, 91, 153, 0.15), rgba(112, 214, 255, 0.2));
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-log-progress-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.v-log-progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  overflow: hidden;
+  position: relative;
+  margin: 4px 0;
+}
+
+.v-log-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #FF72A7 0%, #FF5B99 50%, #70D6FF 100%);
+  transition: width 0.6s cubic-bezier(0.34, 1.35, 0.64, 1);
+  box-shadow: 0 0 10px rgba(255, 91, 153, 0.4);
+}
+
 .v-log-flow-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 8px;
   width: 100%;
   margin-top: 8px;
 }
@@ -2139,21 +2188,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 2px;
-  min-height: 56px;
-  border-radius: var(--radius-md, 14px);
+  padding: 10px 4px 8px;
+  min-height: 64px;
+  border-radius: 16px;
   border: 1.5px solid var(--border);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              background 0.2s ease,
+              box-shadow 0.2s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
 .v-flow-btn:hover {
-  border-color: var(--border-strong);
+  border-color: var(--primary);
   background: var(--surface-alt);
+  transform: translateY(-2px) scale(1.02);
 }
 
 .v-flow-btn:focus-visible {
@@ -2162,28 +2215,37 @@
 }
 
 .v-flow-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.94);
 }
 
 .v-flow-btn.active {
   border-color: var(--primary);
-  background: var(--primary-light);
+  background: var(--surface-tint);
   color: var(--primary);
-  box-shadow: 0 2px 8px rgba(201, 112, 140, 0.16);
+  box-shadow: 0 4px 14px rgba(255, 91, 153, 0.25);
+  transform: scale(1.04);
 }
 
-:root[data-theme="dark"] .v-flow-btn.active {
-  background: #382332;
-  border-color: #E28AA4;
-  color: #F8B4C7;
-  box-shadow: 0 2px 8px rgba(226, 138, 164, 0.2);
+.v-flow-btn.active .v-flow-icon-wrap {
+  animation: dropletBob 1s ease-in-out infinite;
 }
 
 .v-flow-btn-label {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   margin-top: 4px;
   white-space: nowrap;
+}
+
+.v-flow-badge-sub {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.v-flow-btn.active .v-flow-badge-sub {
+  color: var(--primary);
 }
 
 .v-log-mucus-grid {
@@ -2197,20 +2259,24 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 10px 12px;
-  border-radius: var(--radius-md, 14px);
+  padding: 12px 14px;
+  border-radius: 16px;
   border: 1.5px solid var(--border);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
   text-align: left;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease,
+              background 0.2s ease,
+              box-shadow 0.2s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .v-mucus-btn:hover {
-  border-color: var(--border-strong);
+  border-color: var(--primary);
   background: var(--surface-alt);
+  transform: translateY(-2px);
 }
 
 .v-mucus-btn:focus-visible {
@@ -2224,9 +2290,9 @@
 
 .v-mucus-btn.active {
   border-color: var(--primary);
-  background: var(--primary-light);
+  background: var(--surface-tint);
   color: var(--primary);
-  box-shadow: 0 2px 8px rgba(201, 112, 140, 0.14);
+  box-shadow: 0 4px 14px rgba(255, 91, 153, 0.2);
 }
 
 :root[data-theme="dark"] .v-mucus-btn.active {
@@ -2235,20 +2301,50 @@
   color: #F8B4C7;
 }
 
+.v-mucus-icon-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(56, 182, 255, 0.12);
+  color: #0077FE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-mucus-btn.active .v-mucus-icon-circle {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+.v-mucus-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-muted);
+}
+
+.v-mucus-btn.active .v-mucus-badge {
+  background: rgba(255, 91, 153, 0.15);
+  color: var(--primary);
+}
+
 .v-mucus-btn:last-child:nth-child(odd) {
   grid-column: span 2;
 }
 
 .v-mucus-btn-title {
-  font-size: 12.5px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .v-mucus-btn-desc {
   font-size: 11px;
   color: var(--text-muted);
   margin-top: 2px;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .v-log-sticky-bar {
