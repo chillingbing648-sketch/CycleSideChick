@@ -376,6 +376,16 @@ export const actions = {
     }
   },
 
+  copyClinicianSummary() {
+    this.copyClinician();
+  },
+
+  printClinicianSummary() {
+    if (typeof window !== "undefined") {
+      window.print();
+    }
+  },
+
   conflictClose() {
     ui.conflict = null;
     notify();
@@ -435,6 +445,10 @@ export const actions = {
       haptic(10);
       notify();
     }
+  },
+
+  openArticle(id) {
+    this.readArticle(id);
   },
 
   closeArticle() {
@@ -592,6 +606,18 @@ export const actions = {
     notify();
   },
 
+  quickSetWater(cups) {
+    const today = I(TD());
+    if (!S.logs) S.logs = {};
+    if (!S.logs[today]) S.logs[today] = {};
+    const newCount = Math.max(0, cups);
+    S.logs[today].water = newCount;
+    dr.water = newCount;
+    persistState();
+    haptic(15);
+    notify();
+  },
+
   setCervicalMucus(type) {
     dr.cm = dr.cm === type ? "" : type;
     haptic(15);
@@ -612,9 +638,40 @@ export const actions = {
     notify();
   },
 
+  setMood(mood) {
+    this.setDailyMood(mood);
+  },
+
+  setPain(level) {
+    dr.p = level;
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].p = level;
+    persistState();
+    haptic(10);
+    notify();
+  },
+
+  setNote(text) {
+    dr.note = text;
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].note = text;
+    persistState();
+    notify();
+  },
+
+  setCervicalFluid(type) {
+    this.setCervicalMucus(type);
+  },
+
   toggleSymptom(symptom) {
     if (dr.sy[symptom]) delete dr.sy[symptom];
     else dr.sy[symptom] = 1;
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].sy = { ...dr.sy };
+    persistState();
     haptic(10);
     notify();
   },
@@ -624,10 +681,68 @@ export const actions = {
     const key = name.trim().toLowerCase().replace(/\s+/g, "_");
     if (!S.custom) S.custom = [];
     if (!S.custom.includes(key)) S.custom.push(key);
+    if (!S.customSymptoms) S.customSymptoms = [];
+    if (!S.customSymptoms.includes(name.trim())) S.customSymptoms.push(name.trim());
     dr.sy[key] = 1;
+    if (!S.logs) S.logs = {};
+    if (!S.logs[dr.d]) S.logs[dr.d] = {};
+    S.logs[dr.d].sy = { ...dr.sy };
     persistState();
     toast(`Added "${name}"`);
     haptic(15);
+  },
+
+  // Care Checklist Actions
+  toggleCareChecklistTask(dateStr, taskId) {
+    if (!S.careChecklist) S.careChecklist = {};
+    if (!S.careChecklist[dateStr]) S.careChecklist[dateStr] = {};
+    const current = Boolean(S.careChecklist[dateStr][taskId]);
+    S.careChecklist[dateStr][taskId] = !current;
+    persistState();
+    haptic(!current ? 20 : 10);
+  },
+
+  addCustomCareChecklistTask(title) {
+    if (!title || !title.trim()) return;
+    if (!S.customCareTasks) S.customCareTasks = [];
+    const id = "custom-task-" + Date.now();
+    S.customCareTasks.push({ id, title: title.trim(), icon: "sparkle" });
+    persistState();
+    toast(`Added "${title.trim()}"`);
+    haptic(15);
+  },
+
+  // Reminder Dismissal
+  dismissReminder(key) {
+    if (!S.dismissedReminders) S.dismissedReminders = {};
+    S.dismissedReminders[key] = Date.now();
+    persistState();
+    haptic(10);
+  },
+
+  addCareKitItem(title, category = "General") {
+    if (!title || !title.trim()) return;
+    const id = "kit-" + Date.now();
+    if (!S.careKit) S.careKit = [];
+    S.careKit.push({
+      id,
+      title: title.trim(),
+      category,
+      icon: "heart",
+      isFav: 1,
+      isDefault: 0
+    });
+    persistState();
+    toast("Added to Care Kit");
+    haptic(15);
+  },
+
+  removeCareKitItem(id) {
+    this.deleteCustomCareItem(id);
+  },
+
+  confirmDeleteJournal(date) {
+    this.promptDeleteJournal(date);
   },
 
   saveDailyLog() {

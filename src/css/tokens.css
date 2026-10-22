@@ -1,61 +1,95 @@
 /* ==========================================================================
-   CycleSideChick — Design Tokens v3 (OKLCH, Editorial Typography, Layered Depth)
+   CycleSideChick — Design Tokens v4.0
+   "Soft, Calm, Premium" Wellness Design System
+   
+   Palette: warm blush-ivory surfaces, dusty rose primary, phase-coded pastels.
+   Never pure black text, never alarming red, never grey shadows.
+   100% self-hosted fonts, zero external requests.
    ========================================================================== */
 
-/* 1. Self-Hosted Variable Typography */
+/* 1. Self-Hosted Variable Typography (Latin subset, font-display: swap) */
 @font-face {
-  font-family: 'Manrope';
-  src: url('../assets/fonts/manrope-variable.woff2') format('woff2');
-  font-weight: 300 800;
+  font-family: 'Outfit';
+  src: url('../assets/fonts/outfit-variable.woff2') format('woff2');
+  font-weight: 100 900;
   font-display: swap;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Fraunces';
-  src: url('../assets/fonts/fraunces-variable.woff2') format('woff2');
-  font-weight: 400 700;
+  font-family: 'Montserrat';
+  src: url('../assets/fonts/montserrat-variable.woff2') format('woff2');
+  font-weight: 100 900;
   font-display: swap;
   font-style: normal;
 }
 
-/* 2. Registered Phase-Adaptive Custom Properties */
+@font-face {
+  font-family: 'Google Sans';
+  src: url('../assets/fonts/google-sans-flex.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('../assets/fonts/google-sans-flex.woff2') format('woff2');
+  font-weight: 100 1000;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* 2. Registered Custom Properties for Phase Ambience */
 @property --ambient-a {
   syntax: '<color>';
   inherits: false;
-  initial-value: rgba(251, 113, 133, 0.16);
+  initial-value: rgba(201, 112, 140, 0.12);
 }
 
 @property --ambient-b {
   syntax: '<color>';
   inherits: false;
-  initial-value: rgba(225, 29, 72, 0.08);
+  initial-value: rgba(185, 167, 232, 0.08);
 }
 
+/* ==========================================================================
+   3. Light Theme — Warm Blush-Ivory & Dusty Rose
+   ========================================================================== */
 :root {
-  /* Font Stacks */
-  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
+  /* --- Typography -------------------------------------------------------- */
+  --font-heading: 'Outfit', 'Montserrat', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
+  --font-logo: 'Outfit', 'Montserrat', -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Montserrat', 'Google Sans Flex', -apple-system, sans-serif;
+  --font-body: 'Google Sans', 'Google Sans Flex', -apple-system, BlinkMacSystemFont, "SF Pro Rounded", ui-rounded, sans-serif;
+  --font-serif: var(--font-display);
   --font: var(--font-body);
 
-  /* Fluid Typography Scale (clamp-based) */
-  --text-display: clamp(2.2rem, 5vw, 3.2rem);
-  --text-h1: clamp(1.75rem, 3.5vw, 2.25rem);
-  --text-h2: clamp(1.35rem, 2.5vw, 1.65rem);
-  --text-h3: clamp(1.1rem, 2vw, 1.25rem);
-  --text-body: clamp(0.9375rem, 1.5vw, 1rem);
-  --text-small: 0.875rem;
-  --text-caption: 0.75rem;
+  /* Fluid Type Scale */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+  --fs-xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  --fs-hero: clamp(2rem, 1.5rem + 3vw, 3rem);
 
-  /* Line Heights & Letter Spacing */
+  /* Legacy aliases (used in existing components) */
+  --text-display: var(--fs-hero);
+  --text-h1: var(--fs-xl);
+  --text-h2: var(--fs-lg);
+  --text-h3: clamp(1.1rem, 2vw, 1.25rem);
+  --text-body: var(--fs-base);
+  --text-small: var(--fs-sm);
+  --text-caption: var(--fs-xs);
+
   --lh-tight: 1.15;
   --lh-heading: 1.25;
   --lh-body: 1.55;
-  --tracking-tight: -0.02em;
+  --tracking-tight: -0.025em;
   --tracking-normal: 0;
   --tracking-wide: 0.04em;
 
-  /* 4-pt Spacing Scale */
+  /* --- 8-Point Spacing Scale --------------------------------------------- */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -66,20 +100,23 @@
   --space-10: 40px;
   --space-12: 48px;
 
-  /* Radii Scale */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  /* --- Shape & Radii ----------------------------------------------------- */
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
   --radius-xl: 28px;
-  --radius-pill: 9999px;
+  --radius-2xl: 34px;
+  --radius-card: 24px;
+  --radius-sheet: 28px;
+  --radius-pill: 999px;
+  --radius-full: 9999px;
 
-  /* ==========================================================================
-     CycleSideChick Reference Palette (Soft Neomorphic Blush, Coral, Berry Pink)
-     ========================================================================== */
-  --bg: #F8F5F8;
-  --bg-gradient: linear-gradient(180deg, #FBF8FA 0%, #F8F5F8 45%, #F5F0F4 100%);
-  --surface: #FFFFFF;
+  /* --- Surfaces & Backgrounds -------------------------------------------- */
+  --bg: #FAF5F7;
+  --bg-subtle: #FFF9FB;
+  --bg-gradient: linear-gradient(180deg, #FFF9FB 0%, #FAF5F7 50%, #F5EFF2 100%);
+  --surface: rgba(255, 255, 255, 0.92);
   --surface-warm: #FFFDFB;
   --surface-alt: #F6F1F5;
   --surface-raised: #FFFFFF;
@@ -87,80 +124,89 @@
   --surface-soft: #FBF7FA;
   --surface-elevated: #FFFFFF;
   --surface-groove: #EFECEF;
+  --surface-inset: #F4EDF1;
+  --surface-tint: #FFF0F5;
 
-  /* Ink & Typography (Charcoal Plum #2D232C Hierarchy) */
-  --plum: #2D232C;
-  --ink: #2D232C;
-  --text: #2D232C;
-  --muted: #7E727D;
-  --text-muted: #7E727D;
-  --subtle: #A396A2;
-  --text-subtle: #A396A2;
+  /* --- Typography Colors (Never Pure Black) ------------------------------ */
+  --text: #2E2433;
+  --text-muted: #7A6E80;
+  --text-subtle: #A396A8;
+  --text-inverse: #FFFFFF;
+
+  /* Legacy aliases */
+  --plum: var(--text);
+  --ink: var(--text);
+  --muted: var(--text-muted);
+  --subtle: var(--text-subtle);
+
+  /* --- Borders ----------------------------------------------------------- */
   --border: #F0E8EE;
-  --border-subtle: rgba(45, 35, 44, 0.06);
+  --border-subtle: rgba(46, 36, 51, 0.05);
   --border-strong: #E2D5DF;
 
-  /* Reference Vibrant Coral & Berry Gradients */
-  --coral: #FF6E7F;
-  --coral-light: #FFE8EC;
-  --coral-gradient: linear-gradient(135deg, #FF7F8E, #FF5C75);
-  --berry: #FF4088;
-  --berry-hover: #E52E74;
-  --berry-active: #C91C60;
-  --berry-light: #FFEBF3;
-  --berry-border: #FFCCE0;
-  --berry-glow: rgba(255, 64, 136, 0.35);
-  --berry-gradient: linear-gradient(135deg, #FF5B99, #E52E74);
-  --primary-gradient: var(--berry-gradient);
-  --primary-glow: 0 6px 20px rgba(255, 64, 136, 0.32);
+  /* --- Primary (Dusty Rose / Muted Berry) -------------------------------- */
+  --primary: #C9708C;
+  --primary-hover: #B85F7B;
+  --primary-active: #A8506C;
+  --primary-light: #FCEEF2;
+  --primary-gradient: linear-gradient(135deg, #D98BA3 0%, #C9708C 100%);
+  --primary-glow: 0 6px 20px rgba(201, 112, 140, 0.28);
 
-  /* User Restored Soft Pastels */
-  --ivory: #FFFAF7;
-  --blush: #F8DCE7;
-  --rose: #E98BAF;
-  --pink: var(--berry);
-  --pink-hover: var(--berry-hover);
-  --pink-light: var(--berry-light);
+  /* Legacy aliases (used everywhere) */
+  --berry: var(--primary);
+  --berry-hover: var(--primary-hover);
+  --berry-active: var(--primary-active);
+  --berry-light: var(--primary-light);
+  --berry-border: #F5D0DE;
+  --berry-glow: rgba(201, 112, 140, 0.3);
+  --berry-gradient: var(--primary-gradient);
+  --pink: var(--primary);
+  --pink-hover: var(--primary-hover);
+  --pink-light: var(--primary-light);
   --pink-border: var(--berry-border);
   --pink-glow: var(--berry-glow);
+
+  /* --- Accent Colors ----------------------------------------------------- */
+  --coral: #E8907A;
+  --coral-light: #FFF0EC;
+  --coral-gradient: linear-gradient(135deg, #F6B99B, #E8907A);
+
+  --rose: #D98BA3;
+  --ivory: #FFFAF7;
+  --blush: #F8DCE7;
   --lavender: #E9E1FA;
   --peach: #FFE5D6;
   --buttercream: #FFF3CE;
   --sage: #DCEFE3;
   --sky: #DDEBFA;
 
-  /* Pillowy Neomorphic & Frosted Shadows */
-  --elev-1: 0 2px 8px rgba(45, 35, 44, 0.04), 0 1px 3px rgba(45, 35, 44, 0.02);
-  --elev-2: 0 8px 24px rgba(220, 60, 110, 0.07), 0 2px 6px rgba(45, 35, 44, 0.03);
-  --elev-3: 0 14px 34px rgba(220, 60, 110, 0.10), 0 4px 12px rgba(45, 35, 44, 0.04);
-  --elev-4: 0 18px 44px rgba(220, 60, 110, 0.12), 0 6px 18px rgba(45, 35, 44, 0.05);
-  --elev-5: 0 24px 56px rgba(220, 60, 110, 0.16), 0 8px 24px rgba(45, 35, 44, 0.06);
-  --groove-shadow: inset 0 3px 8px rgba(45, 35, 44, 0.07), inset 0 -2px 6px rgba(255, 255, 255, 0.95);
+  /* --- Phase Palette (Consistent App-Wide) ------------------------------- */
+  --phase-period: #C9708C;
+  --phase-period-bg: #FCEEF2;
+  --phase-follicular: #E8A07A;
+  --phase-follicular-bg: #FFF4ED;
+  --phase-fertile: #B9A7E8;
+  --phase-fertile-bg: #F3EFFC;
+  --phase-ovulatory: #9A84DC;
+  --phase-ovulatory-bg: #EDE7FA;
+  --phase-luteal: #A8D5BA;
+  --phase-luteal-bg: #EEF8F2;
 
-  --card-shadow: var(--elev-1);
-  --card-shadow-hover: var(--elev-2);
-  --sheet-shadow: var(--elev-4);
+  /* Legacy phase aliases (used by CycleRing, charts, etc.) */
+  --phase-menstrual: var(--phase-period);
+  --phase-menstrual-bg: var(--phase-period-bg);
+  --phase-menstrual-text: #9E1F52;
+  --phase-menstrual-border: #F8DCE7;
+  --phase-follicular-text: #7D4118;
+  --phase-follicular-border: #FFE5D6;
+  --phase-ovulatory-text: #59398E;
+  --phase-ovulatory-border: #E9E1FA;
+  --phase-luteal-text: #245C3B;
+  --phase-luteal-border: #DCEFE3;
 
-  /* Frosted Glass with Soft Translucency */
-  --glass-bg: rgba(255, 255, 255, 0.88);
-  --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-blur: blur(24px) saturate(180%);
-  --nav-bg: var(--glass-bg);
-  --elev-5: 0 16px 36px rgba(81, 40, 63, 0.10), 0 32px 64px rgba(81, 40, 63, 0.08);
-
-  --card-shadow: var(--elev-1);
-  --card-shadow-hover: var(--elev-2);
-  --sheet-shadow: var(--elev-4);
-
-  /* Frosted Glass with Warm Ivory tint */
-  --glass-bg: rgba(255, 250, 247, 0.88);
-  --glass-border: rgba(243, 224, 234, 0.7);
-  --glass-blur: blur(20px) saturate(160%);
-  --nav-bg: var(--glass-bg);
-
-  /* Soft Semantic Tints — Balanced Warm Pastel Palette */
+  /* --- Semantic Tint Surfaces -------------------------------------------- */
   --tint-rose-bg: #FDF1F5;
-  --tint-rose-text: #B32D60;
+  --tint-rose-text: #9E1F52;
   --tint-rose-border: #F8DCE7;
 
   --tint-lavender-bg: #F5F1FD;
@@ -191,90 +237,142 @@
   --tint-peach-text: #8A461C;
   --tint-peach-border: #FFE5D6;
 
-  /* Dedicated Physiological Phase Colors (Pastel Harmony) */
-  --phase-menstrual: #D94B86;
-  --phase-menstrual-bg: #FDF1F5;
-  --phase-menstrual-text: #9E1F52;
-  --phase-menstrual-border: #F8DCE7;
+  /* --- Layered Shadows (Rose-Tinted, Never Grey-Black) ------------------- */
+  --shadow-sm: 0 2px 8px -1px rgba(46, 36, 51, 0.04);
+  --shadow-md: 0 6px 20px -2px rgba(46, 36, 51, 0.06), 0 2px 6px rgba(201, 112, 140, 0.04);
+  --shadow-lg: 0 14px 36px -4px rgba(46, 36, 51, 0.08), 0 4px 12px rgba(201, 112, 140, 0.06);
+  --shadow-xl: 0 20px 48px -6px rgba(46, 36, 51, 0.1), 0 8px 20px rgba(201, 112, 140, 0.08);
+  --shadow-glow: 0 0 24px rgba(201, 112, 140, 0.25);
 
-  --phase-follicular: #2E8B57;
-  --phase-follicular-bg: #F3FAF5;
-  --phase-follicular-text: #1E5736;
-  --phase-follicular-border: #DCEFE3;
+  /* Legacy shadow aliases */
+  --elev-1: var(--shadow-sm);
+  --elev-2: var(--shadow-md);
+  --elev-3: var(--shadow-lg);
+  --elev-4: var(--shadow-xl);
+  --elev-5: 0 24px 56px rgba(46, 36, 51, 0.12), 0 8px 24px rgba(201, 112, 140, 0.1);
+  --groove-shadow: inset 0 3px 8px rgba(46, 36, 51, 0.06), inset 0 -2px 6px rgba(255, 255, 255, 0.95);
 
-  --phase-ovulatory: #7C4DFF;
-  --phase-ovulatory-bg: #F5F1FD;
-  --phase-ovulatory-text: #4E27A8;
-  --phase-ovulatory-border: #E9E1FA;
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+  --sheet-shadow: var(--shadow-xl);
 
-  --phase-luteal: #D97706;
-  --phase-luteal-bg: #FFF5EE;
-  --phase-luteal-text: #7D4118;
-  --phase-luteal-border: #FFE5D6;
+  /* --- Frosted Glass ----------------------------------------------------- */
+  --glass-bg: rgba(255, 249, 251, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-blur: 28px;
+  --nav-bg: var(--glass-bg);
 
-  /* Motion Tokens */
-  --dur-instant: 90ms;
-  --dur-fast: 160ms;
-  --dur-base: 260ms;
-  --dur-slow: 360ms;
+  /* --- Motion Tokens ----------------------------------------------------- */
+  --dur-instant: 80ms;
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-base: 250ms;
+  --dur-slow: 350ms;
   --dur-hero: 900ms;
 
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.932 38.4%, 0.978 45.3%, 0.997 53.5%, 1.003 62.3%, 1);
 
-  /* Accessible Focus & Hairline */
-  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--pink);
+  /* --- Focus & Accessibility --------------------------------------------- */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
   --hairline: 0.5px solid var(--border);
+  --min-touch: 44px;
+
+  /* --- Z-Index Scale ----------------------------------------------------- */
+  --z-nav: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+  --nav-height: 72px;
 
   color-scheme: light;
 }
 
 /* ==========================================================================
-   Dark Theme — Deep Plum-Tinted Black (#14111A Base), Never Neutral Grey
+   4. Dark Theme — Deep Aubergine (#1B1620 Base), Desaturated Pastels
    ========================================================================== */
 :root[data-theme="dark"] {
-  --bg-gradient: linear-gradient(180deg, #181321 0%, #14111A 35%, #100D16 100%);
-  --bg: #14111A;
-  --surface: #1E1926;
-  --surface-alt: #262030;
-  --surface-raised: #2D253A;
-  --surface-floating: #342C42;
+  --bg: #1B1620;
+  --bg-subtle: #221C29;
+  --bg-gradient: linear-gradient(180deg, #221C29 0%, #1B1620 100%);
+
+  --surface: #251E2B;
+  --surface-warm: #251E2B;
+  --surface-alt: #2F2637;
+  --surface-raised: #2F2637;
+  --surface-floating: #382E42;
   --surface-soft: #231C2D;
-  --surface-elevated: #2D253A;
+  --surface-elevated: #2F2637;
+  --surface-groove: #15111A;
+  --surface-inset: #15111A;
+  --surface-tint: #382B3E;
 
-  /* Inner Top Highlight for Elevation in Dark Mode */
-  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-  --plum: #F8EDF5;
+  --text: #F5EFF7;
+  --text-muted: #B5A8BC;
+  --text-subtle: #7A6F82;
+  --text-inverse: #1B1620;
+
+  --plum: var(--text);
   --ink: #ECE0EB;
-  --muted: #A896A6;
-  --subtle: #7A6978;
-  --border: #3A2F42;
-  --border-subtle: rgba(248, 237, 245, 0.08);
+  --muted: var(--text-muted);
+  --subtle: var(--text-subtle);
 
-  --pink: #EB6FA1;
-  --pink-hover: #F286B2;
-  --pink-light: #341928;
-  --pink-border: #5C2B42;
-  --pink-glow: rgba(235, 111, 161, 0.28);
+  --border: #3A2F42;
+  --border-subtle: rgba(248, 237, 245, 0.06);
+  --border-strong: #4D3E58;
+
+  --primary: #E085A0;
+  --primary-hover: #EC9DB5;
+  --primary-active: #D4708F;
+  --primary-light: rgba(224, 133, 160, 0.16);
+  --primary-gradient: linear-gradient(135deg, #E085A0 0%, #C9708C 100%);
+  --primary-glow: 0 6px 20px rgba(224, 133, 160, 0.22);
+
+  --berry: var(--primary);
+  --berry-hover: var(--primary-hover);
+  --berry-active: var(--primary-active);
+  --berry-light: var(--primary-light);
+  --berry-border: #5C2B42;
+  --berry-glow: rgba(224, 133, 160, 0.25);
+  --berry-gradient: var(--primary-gradient);
+  --pink: var(--primary);
+  --pink-hover: var(--primary-hover);
+  --pink-light: var(--primary-light);
+  --pink-border: var(--berry-border);
+  --pink-glow: var(--berry-glow);
+
+  --coral: #E8A88A;
+  --coral-light: rgba(232, 168, 138, 0.14);
+  --coral-gradient: linear-gradient(135deg, #E8A88A, #D4816A);
+
   --rose: #9C657A;
 
-  --elev-1: 0 2px 6px rgba(0, 0, 0, 0.35), var(--inner-highlight);
-  --elev-2: 0 4px 14px rgba(0, 0, 0, 0.45), var(--inner-highlight);
-  --elev-3: 0 8px 24px rgba(0, 0, 0, 0.55), var(--inner-highlight);
-  --elev-4: 0 14px 38px rgba(0, 0, 0, 0.65), var(--inner-highlight);
-  --elev-5: 0 22px 54px rgba(0, 0, 0, 0.75), var(--inner-highlight);
+  /* Desaturated Phase Colors */
+  --phase-period: #E085A0;
+  --phase-period-bg: rgba(224, 133, 160, 0.14);
+  --phase-follicular: #E8A88A;
+  --phase-follicular-bg: rgba(232, 168, 138, 0.14);
+  --phase-fertile: #B4A0E5;
+  --phase-fertile-bg: rgba(180, 160, 229, 0.14);
+  --phase-ovulatory: #C2B2EE;
+  --phase-ovulatory-bg: rgba(194, 178, 238, 0.18);
+  --phase-luteal: #98C7AA;
+  --phase-luteal-bg: rgba(152, 199, 170, 0.14);
 
-  --card-shadow: var(--elev-1);
-  --card-shadow-hover: var(--elev-2);
-  --sheet-shadow: var(--elev-4);
+  --phase-menstrual: var(--phase-period);
+  --phase-menstrual-bg: var(--phase-period-bg);
+  --phase-menstrual-text: #FECDD3;
+  --phase-menstrual-border: #5C2B42;
+  --phase-follicular-text: #F8BC9E;
+  --phase-follicular-border: #5F392D;
+  --phase-ovulatory-text: #DDD6FE;
+  --phase-ovulatory-border: #4B375F;
+  --phase-luteal-text: #B7E1C3;
+  --phase-luteal-border: #33503D;
 
-  --glass-bg: rgba(30, 25, 38, 0.85);
-  --glass-border: rgba(58, 47, 66, 0.7);
-  --nav-bg: var(--glass-bg);
-
-  /* Soft Semantic Tints — Dark (Contrast >= 4.5:1) */
+  /* Dark Semantic Tints */
   --tint-rose-bg: #321E2B;
   --tint-rose-text: #F8BAC9;
   --tint-rose-border: #542D45;
@@ -307,34 +405,35 @@
   --tint-peach-text: #F8BC9E;
   --tint-peach-border: #5F392D;
 
-  /* Dedicated Physiological Phase Colors (Dark) */
-  --phase-menstrual: #FB7185;
-  --phase-menstrual-bg: #4C0519;
-  --phase-menstrual-text: #FECDD3;
-  --phase-menstrual-border: #881337;
+  /* Dark Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 24px rgba(224, 133, 160, 0.2);
 
-  --phase-follicular: #34D399;
-  --phase-follicular-bg: #064E3B;
-  --phase-follicular-text: #A7F3D0;
-  --phase-follicular-border: #065F46;
+  --elev-1: var(--shadow-sm);
+  --elev-2: var(--shadow-md);
+  --elev-3: var(--shadow-lg);
+  --elev-4: var(--shadow-xl);
+  --elev-5: 0 24px 56px rgba(0, 0, 0, 0.65);
 
-  --phase-ovulatory: #A78BFA;
-  --phase-ovulatory-bg: #3B0764;
-  --phase-ovulatory-text: #DDD6FE;
-  --phase-ovulatory-border: #5B21B6;
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+  --sheet-shadow: var(--shadow-xl);
 
-  --phase-luteal: #FBBF24;
-  --phase-luteal-bg: #451A03;
-  --phase-luteal-text: #FDE68A;
-  --phase-luteal-border: #78350F;
+  --glass-bg: rgba(37, 30, 43, 0.85);
+  --glass-border: rgba(58, 47, 66, 0.6);
+  --nav-bg: var(--glass-bg);
 
-  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--pink);
-  --hairline: 0.5px solid var(--border);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
 
   color-scheme: dark;
 }
 
-/* 3. High Contrast Accessibility */
+/* ==========================================================================
+   5. High Contrast Accessibility
+   ========================================================================== */
 @media (prefers-contrast: more) {
   :root {
     --border: #734F63;
@@ -350,7 +449,9 @@
   }
 }
 
-/* 4. Motion Reductions */
+/* ==========================================================================
+   6. Reduced Motion
+   ========================================================================== */
 :root[data-motion="reduced"] *,
 :root[data-motion="reduced"] *::before,
 :root[data-motion="reduced"] *::after {

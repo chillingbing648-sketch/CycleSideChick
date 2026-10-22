@@ -106,7 +106,7 @@ export function OnboardingFlow() {
               max={I(TD())}
               value={lastPeriod}
               onChange={e => setLastPeriod(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "14px" }}
+              style={{ width: "100%", padding: "12px 16px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)", fontSize: "14px", fontFamily: "var(--font-body)", background: "var(--surface)" }}
             />
           </div>
 
@@ -121,7 +121,7 @@ export function OnboardingFlow() {
               max="90"
               value={cycleLen}
               onChange={e => setCycleLen(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "14px" }}
+              style={{ width: "100%", padding: "12px 16px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)", fontSize: "14px", fontFamily: "var(--font-body)", background: "var(--surface)" }}
             />
           </div>
 
@@ -136,7 +136,7 @@ export function OnboardingFlow() {
               max="14"
               value={periodLen}
               onChange={e => setPeriodLen(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "14px" }}
+              style={{ width: "100%", padding: "12px 16px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)", fontSize: "14px", fontFamily: "var(--font-body)", background: "var(--surface)" }}
             />
           </div>
         </Card>

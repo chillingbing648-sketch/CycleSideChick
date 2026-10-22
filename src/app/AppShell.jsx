@@ -1,9 +1,12 @@
 /**
  * CycleSideChick — Main Application Shell
- * Responsive adaptive shell:
- * - Mobile (<600px): Centered single-column, bottom nav bar, 44px min touch targets
- * - Tablet (600-1023px): Max-width 720px, floating dock nav
- * - Desktop (>=1024px): Max-width 1280px, persistent left navigation rail / sidebar
+ * Designed strictly mobile-first with an authentic phone device frame on desktop/tablet.
+ * Features:
+ * - Sleek mobile status bar (time 9:41, pill cutout, signal/wifi/battery)
+ * - Ergonomic subview navigation header with back button
+ * - Clean view transitions
+ * - Flo/Clue reference floating pill bottom navigation
+ * - Native iOS home indicator bar
  */
 
 import React, { useEffect } from "react";
@@ -11,6 +14,7 @@ import { useStore } from "./store.js";
 import { actions } from "./actions.js";
 import { BunnyMascot } from "../components/ui/BunnyMascot.jsx";
 import { Icon } from "../components/ui/Icon.jsx";
+import { SlidingPillNav } from "../components/ui/SlidingPillNav.jsx";
 
 // Views
 import { HomeView } from "../features/home/HomeView.jsx";
@@ -32,12 +36,12 @@ import { CareCustomModal } from "../features/care/CareCustomModal.jsx";
 import { DeleteJournalModal } from "../features/care/DeleteJournalModal.jsx";
 
 export function AppShell() {
-  const { ui } = useStore();
+  const { ui, S } = useStore();
 
   const NAV_ITEMS = [
-    { key: "home", label: "Home", icon: "home" },
+    { key: "home", label: "Today", icon: "home" },
     { key: "calendar", label: "Calendar", icon: "calendar" },
-    { key: "log", label: "Log", icon: "log", isCenter: true },
+    { key: "log", label: "Log", icon: "plus" },
     { key: "insights", label: "Insights", icon: "insights" },
     { key: "care", label: "Care", icon: "care" }
   ];
@@ -54,63 +58,41 @@ export function AppShell() {
   }, []);
 
   return (
-    <div id="app">
-      {/* Desktop Persistent Navigation Sidebar (>=1024px) */}
-      <aside className="v-sidebar">
-        <div>
-          <div className="v-sidebar__brand" onClick={() => actions.setTab("home")}>
-            <BunnyMascot size={36} showLabel={false} />
-            <span className="v-sidebar__title">CycleSideChick</span>
-          </div>
-
-          <nav className="v-sidebar__nav" aria-label="Desktop Navigation">
-            {NAV_ITEMS.map(item => {
-              const isActive = ui.tab === item.key;
-              return (
-                <button
-                  key={item.key}
-                  type="button"
-                  className={`v-sidebar__item ${isActive ? "active" : ""}`}
-                  onClick={() => actions.setTab(item.key)}
-                  aria-current={isActive ? "page" : "false"}
-                >
-                  <Icon name={item.icon} size={20} />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+    <div id="app" className="v-mobile-shell">
+      {/* Sleek Mobile Device Status Bar */}
+      <div className="v-mobile-status-bar" aria-hidden="true">
+        <span className="v-status-time">9:41</span>
+        <div className="v-status-island" />
+        <div className="v-status-icons">
+          <Icon name="signal" size={13} />
+          <Icon name="wifi" size={13} />
+          <Icon name="battery" size={16} />
         </div>
-
-        <div className="v-sidebar__footer">
-          <button
-            type="button"
-            className="v-sidebar__item"
-            onClick={() => actions.openProfile()}
-            aria-label="Profile and settings"
-          >
-            <Icon name="user" size={20} />
-            <span>Profile & Settings</span>
-          </button>
-        </div>
-      </aside>
+      </div>
 
       {/* Main Content Pane */}
       <div className="v-main-content">
-        {/* Mobile / Tablet Header (<1024px) for non-home views */}
+        {/* Secondary Views Header */}
         {ui.tab !== "home" && (
-          <header className="top">
-            <span className="brand" onClick={() => actions.setTab("home")} style={{ cursor: "pointer" }}>
-              <BunnyMascot size={32} showLabel={false} />
-              <b className="wm2">CycleSideChick</b>
-            </span>
+          <header className="v-subview-header">
             <button
               type="button"
-              className="icon"
+              className="v-subview-back-btn"
+              onClick={() => actions.setTab("home")}
+              aria-label="Back to Home"
+            >
+              <Icon name="arrowLeft" size={18} />
+            </button>
+            <h2 className="v-subview-title">
+              {ui.tab === "styleguide" ? "Design System" : ui.tab.charAt(0).toUpperCase() + ui.tab.slice(1)}
+            </h2>
+            <button
+              type="button"
+              className="v-subview-profile-btn"
               onClick={() => actions.openProfile()}
               aria-label="Profile and settings"
             >
-              <Icon name="user" size={20} />
+              <BunnyMascot size={28} />
             </button>
           </header>
         )}
@@ -126,24 +108,11 @@ export function AppShell() {
         </main>
       </div>
 
-      {/* Floating Bottom Navigation for Mobile & Tablet */}
-      <nav className="v-nav-bar" aria-label="Main Navigation">
-        {NAV_ITEMS.map(item => {
-          const isActive = ui.tab === item.key;
-          return (
-            <button
-              key={item.key}
-              type="button"
-              className={`v-nav-item ${isActive ? "active" : ""}`}
-              onClick={() => actions.setTab(item.key)}
-              aria-current={isActive ? "page" : "false"}
-            >
-              <Icon name={item.icon} size={20} />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
+      {/* Soft Sliding-Pill Navigation */}
+      <SlidingPillNav activeTab={ui.tab} motionPref={S?.motion} />
+
+      {/* Home Indicator Bar */}
+      <div className="v-home-indicator" aria-hidden="true" />
 
       {/* Toast Notification Container */}
       {ui.toasts && ui.toasts.length > 0 && (

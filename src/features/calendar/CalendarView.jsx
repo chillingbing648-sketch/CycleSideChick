@@ -1,7 +1,19 @@
 /**
- * CycleSideChick — Calendar View Component
- * Features continuous period capsule ranges, fertile band, phase ribbon,
- * and zero inline styles.
+ * CycleSideChick — Component 02: Interactive Cycle Calendar (Calendar Page)
+ * Inspired by shadcn/ui Calendar, Flo, and Apple Health.
+ * 
+ * Features:
+ * - Rounded day cells with visually distinct:
+ *   - Confirmed period days (solid soft rose)
+ *   - Predictions (dashed/soft tinted borders)
+ *   - Fertile-window estimates (soft lavender tint)
+ *   - Ovulation estimates (lavender ring with sparkle marker)
+ * - Date selection reveals that day's:
+ *   - Recorded symptoms (SVG chips)
+ *   - Emotional mood & energy
+ *   - Private journal reflections
+ *   - Period status actions (Start / End / Remove Period)
+ * - Reference: https://ui.shadcn.com/docs/components/base/calendar
  */
 
 import React, { useState } from "react";
@@ -18,14 +30,14 @@ export function CalendarView() {
   const stats = calculateStats(S);
   const todayDn = TD();
 
-  const year = ui.cYear;
-  const month = ui.cMonth;
+  const year = ui.cYear !== undefined ? ui.cYear : new Date().getFullYear();
+  const month = ui.cMonth !== undefined ? ui.cMonth : new Date().getMonth();
 
   const [showDaySheet, setShowDaySheet] = useState(false);
 
   // Month navigation calculations
   const firstDayOfMonth = new Date(Date.UTC(year, month, 1));
-  const startDayOfWeek = firstDayOfMonth.getUTCDay();
+  const startDayOfWeek = (firstDayOfMonth.getUTCDay() + 6) % 7; // Monday start (0: Mon, 6: Sun)
   const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
 
   // Grid cells
@@ -39,40 +51,25 @@ export function CalendarView() {
     const dateStr = I(dn);
     const isToday = dn === todayDn;
     const isSelected = ui.selDay === dateStr;
-    const isPeriod = stats.pdset && stats.pdset.has(dn);
-    const isPredicted = stats.predictedDates && stats.predictedDates.includes(dn);
-    const isFertile = (S.mode === "natural" || S.mode === "ttc") && S.showFertile !== 0 && dn >= stats.fertileStart && dn <= stats.fertileEnd;
-    const isOvulation = (S.mode === "natural" || S.mode === "ttc") && S.showFertile !== 0 && dn === stats.ovulationDate;
-    const hasLog = Boolean(S.logs && S.logs[dateStr]);
+    const isPeriod = Boolean(stats.pdset && stats.pdset.has(dn));
+    const isPredicted = Boolean(stats.predictedDates && stats.predictedDates.includes(dn));
+    const isFertile =
+      (S.mode === "natural" || S.mode === "ttc") &&
+      S.showFertile !== 0 &&
+      stats.fertileStart &&
+      stats.fertileEnd &&
+      dn >= stats.fertileStart &&
+      dn <= stats.fertileEnd;
+    const isOvulation =
+      (S.mode === "natural" || S.mode === "ttc") &&
+      S.showFertile !== 0 &&
+      stats.ovulationDate &&
+      dn === stats.ovulationDate;
 
-    // Continuous capsule connections
-    const dayOfWeek = (startDayOfWeek + d - 1) % 7;
-    const prevDayIsPeriod = stats.pdset && stats.pdset.has(dn - 1) && dayOfWeek !== 0;
-    const nextDayIsPeriod = stats.pdset && stats.pdset.has(dn + 1) && dayOfWeek !== 6;
-
-    let periodCapsuleClass = "";
-    if (isPeriod) {
-      if (prevDayIsPeriod && nextDayIsPeriod) {
-        periodCapsuleClass = "v-cal-cell--period-mid";
-      } else if (!prevDayIsPeriod && nextDayIsPeriod) {
-        periodCapsuleClass = "v-cal-cell--period-start";
-      } else if (prevDayIsPeriod && !nextDayIsPeriod) {
-        periodCapsuleClass = "v-cal-cell--period-end";
-      } else {
-        periodCapsuleClass = "v-cal-cell--period-single";
-      }
-    }
-
-    // Fertile band connections
-    let fertileClass = "";
-    if (isFertile && !isPeriod) {
-      const prevFertile = dn - 1 >= stats.fertileStart && dayOfWeek !== 0;
-      const nextFertile = dn + 1 <= stats.fertileEnd && dayOfWeek !== 6;
-      if (prevFertile && nextFertile) fertileClass = "v-cal-cell--fertile v-cal-cell--fertile-mid";
-      else if (!prevFertile && nextFertile) fertileClass = "v-cal-cell--fertile v-cal-cell--fertile-start";
-      else if (prevFertile && !nextFertile) fertileClass = "v-cal-cell--fertile v-cal-cell--fertile-end";
-      else fertileClass = "v-cal-cell--fertile";
-    }
+    const logEntry = S.logs && S.logs[dateStr];
+    const journalEntry = S.journal && S.journal[dateStr];
+    const hasLog = Boolean(logEntry && (logEntry.f || logEntry.m !== undefined || (logEntry.sy && Object.keys(logEntry.sy).length > 0) || logEntry.note));
+    const hasJournal = Boolean(journalEntry && journalEntry.text);
 
     cells.push({
       empty: false,
@@ -83,181 +80,357 @@ export function CalendarView() {
       isToday,
       isSelected,
       isPeriod,
-      periodCapsuleClass,
       isPredicted,
       isFertile,
-      fertileClass,
       isOvulation,
-      hasLog
+      hasLog: hasLog || hasJournal
     });
   }
 
-  // Selected Day summary info
+  // Selected Day data
   const selectedDateStr = ui.selDay || I(todayDn);
   const selectedDn = N(selectedDateStr);
   const selectedLog = (S.logs && S.logs[selectedDateStr]) || null;
+  const selectedJournal = (S.journal && S.journal[selectedDateStr]) || null;
   const isSelectedPeriod = stats.pdset && stats.pdset.has(selectedDn);
+  const isSelectedPredicted = stats.predictedDates && stats.predictedDates.includes(selectedDn);
+
+  // Symptoms list for selected day
+  const rawSymptoms = (selectedLog && (selectedLog.sy || selectedLog.s)) || {};
+  const loggedSymptomKeys = Array.isArray(rawSymptoms)
+    ? rawSymptoms
+    : typeof rawSymptoms === "object"
+    ? Object.keys(rawSymptoms)
+    : [];
+
+  const MOOD_NAMES = ["Sensitive", "Low", "Neutral", "Good", "Great"];
+  const MOOD_ICONS = ["moodIrritable", "moodLow", "moodNeutral", "moodCalm", "moodHappy"];
 
   const handleCellClick = (dateStr) => {
     actions.selectCalendarDay(dateStr);
-    setShowDaySheet(true);
   };
 
+  const monthLabel = new Date(Date.UTC(year, month, 1)).toLocaleDateString(undefined, {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC"
+  });
+
   return (
-    <div className="calendar-view">
-      {/* Month Header */}
-      <div className="v-cal-header">
-        <h2 style={{ fontFamily: "var(--font-display)", fontSize: "var(--text-h2)", margin: 0 }}>
-          {new Date(Date.UTC(year, month, 1)).toLocaleDateString(undefined, { month: "long", year: "numeric", timeZone: "UTC" })}
-        </h2>
-        <div style={{ display: "flex", gap: "6px" }}>
-          <Button variant="secondary" size="sm" onClick={() => actions.jumpCalendarToday()}>
+    <div className="v-calendar-container">
+      {/* 1. Header with Month Navigator */}
+      <div className="v-cal-nav-header">
+        <div>
+          <h1 className="v-cal-month-title">{monthLabel}</h1>
+          <span className="v-cal-status-sub">
+            {stats.avg ? `~${stats.avg}-day average cycle` : "Natural cycle tracking"}
+          </span>
+        </div>
+
+        <div className="v-cal-nav-controls">
+          <button
+            type="button"
+            className="v-cal-btn-today"
+            onClick={() => actions.jumpCalendarToday()}
+            aria-label="Jump to today"
+          >
             Today
-          </Button>
-          <Button variant="secondary" size="sm" onClick={() => actions.navigateMonth(-1)} aria-label="Previous month" icon="arrowLeft" />
-          <Button variant="secondary" size="sm" onClick={() => actions.navigateMonth(1)} aria-label="Next month" icon="arrowRight" />
+          </button>
+          <button
+            type="button"
+            className="v-cal-nav-arrow"
+            onClick={() => actions.navigateMonth(-1)}
+            aria-label="Previous month"
+          >
+            <Icon name="chevronLeft" size={16} />
+          </button>
+          <button
+            type="button"
+            className="v-cal-nav-arrow"
+            onClick={() => actions.navigateMonth(1)}
+            aria-label="Next month"
+          >
+            <Icon name="chevronRight" size={16} />
+          </button>
         </div>
       </div>
 
-      <div className="v-cal-layout">
-        <div className="v-cal-month-pane">
-          {/* Physiological Phase Ribbon */}
-          <div className="v-cal-ribbon" aria-hidden="true">
-            <div className="v-cal-ribbon__seg" style={{ flex: 5, background: "var(--phase-menstrual)" }} title="Menstrual Phase" />
-            <div className="v-cal-ribbon__seg" style={{ flex: 9, background: "var(--phase-follicular)" }} title="Follicular Phase" />
-            <div className="v-cal-ribbon__seg" style={{ flex: 4, background: "var(--phase-ovulatory)" }} title="Ovulatory Phase" />
-            <div className="v-cal-ribbon__seg" style={{ flex: 10, background: "var(--phase-luteal)" }} title="Luteal Phase" />
-          </div>
+      {/* 2. Calendar Card Container */}
+      <div className="v-cal-sheet-card">
+        {/* Weekday Row (Mon to Sun) */}
+        <div className="v-cal-weekday-row" aria-hidden="true">
+          {["M", "T", "W", "T", "F", "S", "S"].map((w, idx) => (
+            <span key={idx} className="v-cal-weekday-label">
+              {w}
+            </span>
+          ))}
+        </div>
 
-          {/* Weekday Labels */}
-          <div className="v-cal-weekdays">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(w => (
-              <span key={w}>{w}</span>
-            ))}
-          </div>
+        {/* Days Matrix with Shadcn-Inspired Rounded Shapes */}
+        <div className="v-cal-matrix-grid">
+          {cells.map((c) => {
+            if (c.empty) return <div key={c.id} className="v-cal-cell-empty" />;
 
-          {/* Days Grid */}
-          <div className="v-cal-grid">
-            {cells.map(c => {
-              if (c.empty) return <div key={c.id} style={{ height: "44px" }} />;
+            const cellClasses = [
+              "v-cal-day-cell",
+              c.isPeriod ? "v-cal-day-cell--period" : "",
+              c.isPredicted ? "v-cal-day-cell--predicted" : "",
+              c.isFertile ? "v-cal-day-cell--fertile" : "",
+              c.isOvulation ? "v-cal-day-cell--ovulation" : "",
+              c.isToday ? "v-cal-day-cell--today" : "",
+              c.isSelected ? "v-cal-day-cell--selected" : ""
+            ].filter(Boolean).join(" ");
 
-              const classes = [
-                "v-cal-cell",
-                c.periodCapsuleClass,
-                c.fertileClass,
-                c.isPredicted ? "v-cal-cell--predicted" : "",
-                c.isToday ? "v-cal-cell--today" : "",
-                c.isSelected ? "v-cal-cell--selected" : ""
-              ].filter(Boolean).join(" ");
-
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  className={classes}
-                  onClick={() => handleCellClick(c.dateStr)}
-                  aria-label={`${c.dateStr}${c.isPeriod ? ", Period day" : ""}${c.isFertile ? ", Fertile window" : ""}${c.isToday ? ", Today" : ""}`}
-                >
-                  <span>{c.dayNum}</span>
+            return (
+              <button
+                key={c.id}
+                type="button"
+                className={cellClasses}
+                onClick={() => handleCellClick(c.dateStr)}
+                aria-label={`${c.dateStr}${c.isPeriod ? ", Confirmed period" : ""}${c.isPredicted ? ", Predicted period" : ""}${c.isFertile ? ", Fertile window" : ""}${c.isToday ? ", Today" : ""}`}
+              >
+                <span className="v-cal-day-circle">
+                  <span className="v-cal-day-number">{c.dayNum}</span>
                   {c.isOvulation && (
-                    <span style={{ position: "absolute", top: "2px", right: "2px", width: "6px", height: "6px", borderRadius: "50%", background: "var(--berry)" }} />
+                    <span className="v-cal-ovulation-marker" title="Estimated ovulation peak">
+                      <Icon name="sparkle" size={8} />
+                    </span>
                   )}
-                  {c.hasLog && <span className="v-cal-dot" />}
-                </button>
-              );
-            })}
+                  {c.isPeriod && (
+                    <span className="v-cal-period-marker" aria-hidden="true" />
+                  )}
+                </span>
+                {c.hasLog && <span className="v-cal-dot-marker" title="Has logged symptoms or journal" />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 3. Refined Period App Legend */}
+      <div className="v-cal-legend-bar">
+        <div className="v-legend-pill">
+          <span className="v-legend-dot v-legend-dot--period" />
+          <span>Period</span>
+        </div>
+        <div className="v-legend-pill">
+          <span className="v-legend-dot v-legend-dot--predicted" />
+          <span>Predicted</span>
+        </div>
+        <div className="v-legend-pill">
+          <span className="v-legend-dot v-legend-dot--fertile" />
+          <span>Fertile</span>
+        </div>
+        <div className="v-legend-pill">
+          <span className="v-legend-dot v-legend-dot--ovulation" />
+          <span>Ovulation</span>
+        </div>
+      </div>
+
+      {/* 4. Date Selection Detail Reveal Card (Symptoms & Journal Entries) */}
+      <Card variant="base" className="v-cal-selected-day-panel">
+        <div className="v-cal-panel-top">
+          <div>
+            <span className="v-cal-panel-date">
+              {fmt(selectedDn, { weekday: "long", month: "short", day: "numeric" })}
+            </span>
+            <div className="v-cal-panel-status">
+              <span className={`v-status-pill ${isSelectedPeriod ? "status-period" : isSelectedPredicted ? "status-pred" : ""}`}>
+                {isSelectedPeriod
+                  ? "Period Confirmed"
+                  : isSelectedPredicted
+                  ? "Estimated Period Day"
+                  : selectedDn === todayDn
+                  ? "Today"
+                  : "Logged History"}
+              </span>
+            </div>
+          </div>
+
+          <div className="v-cal-panel-actions">
+            {!isSelectedPeriod ? (
+              <Button
+                variant="secondary"
+                size="sm"
+                icon="droplet"
+                onClick={() => actions.startPeriod(selectedDateStr)}
+              >
+                Start Period
+              </Button>
+            ) : (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => actions.endPeriod(selectedDateStr)}
+              >
+                End Period
+              </Button>
+            )}
+            <Button
+              variant="primary"
+              size="sm"
+              icon="edit"
+              onClick={() => actions.goLog(selectedDateStr)}
+            >
+              Log Day
+            </Button>
           </div>
         </div>
 
-        {/* Selected Day Details Card (Side pane on Desktop) */}
-        <div className="v-cal-details-pane">
-          <Card variant="base">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <div>
-                <span className="subtle" style={{ fontSize: "11px", fontWeight: "700" }}>SELECTED DAY</span>
-                <h3 style={{ margin: "2px 0 0", fontFamily: "var(--font-display)", fontSize: "var(--text-h3)" }}>
-                  {fmt(selectedDn, { weekday: "short", month: "short", day: "numeric" })}
-                </h3>
-              </div>
-              <Button variant="primary" size="sm" icon="edit" onClick={() => actions.goLog(selectedDateStr)}>
-                Log Symptoms
-              </Button>
-            </div>
+        {/* Revealed Day Symptoms Section */}
+        <div className="v-cal-detail-section">
+          <div className="v-cal-section-header">
+            <span className="v-cal-section-title">
+              <Icon name="sparkle" size={14} />
+              <span>Recorded Symptoms & Sensations</span>
+            </span>
+            <button
+              type="button"
+              className="v-cal-quick-add-link"
+              onClick={() => actions.goLog(selectedDateStr)}
+            >
+              + Edit
+            </button>
+          </div>
 
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "12px" }}>
-              {!isSelectedPeriod ? (
-                <Button variant="secondary" size="sm" icon="droplet" onClick={() => actions.startPeriod(selectedDateStr)}>
-                  Period Started
-                </Button>
-              ) : (
-                <>
-                  <Button variant="secondary" size="sm" onClick={() => actions.endPeriod(selectedDateStr)}>
-                    Period Ended
-                  </Button>
-                  <Button variant="danger" size="sm" icon="trash" onClick={() => actions.removePeriod(selectedDateStr)}>
-                    Remove
-                  </Button>
-                </>
+          {loggedSymptomKeys.length > 0 ? (
+            <div className="v-cal-symptoms-chips">
+              {loggedSymptomKeys.map((symKey) => (
+                <span key={symKey} className="v-cal-symptom-tag">
+                  <Icon name={symKey in { cramps: 1, bloating: 1, headache: 1, fatigue: 1, acne: 1 } ? symKey : "sparkle"} size={14} />
+                  <span>{symKey.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}</span>
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="v-cal-empty-hint">
+              No physical symptoms logged for this date.
+            </p>
+          )}
+
+          {/* Flow, Mood, Pain quick indicators if present */}
+          {selectedLog && (selectedLog.m !== undefined || selectedLog.p || selectedLog.cm) && (
+            <div className="v-cal-metrics-row">
+              {selectedLog.m !== undefined && (
+                <span className="v-cal-metric-badge">
+                  <Icon name={MOOD_ICONS[selectedLog.m] || "moodCalm"} size={14} />
+                  <span>Mood: {MOOD_NAMES[selectedLog.m] || "Logged"}</span>
+                </span>
+              )}
+              {selectedLog.p > 0 && (
+                <span className="v-cal-metric-badge">
+                  <Icon name="alert" size={13} />
+                  <span>Pain: {selectedLog.p}/10</span>
+                </span>
+              )}
+              {selectedLog.cm && (
+                <span className="v-cal-metric-badge">
+                  <Icon name="droplet" size={13} />
+                  <span>Fluid: {selectedLog.cm.toUpperCase()}</span>
+                </span>
               )}
             </div>
-
-            {selectedLog ? (
-              <div style={{ fontSize: "13px", lineHeight: "1.6" }}>
-                {selectedLog.f !== undefined && <div>Flow: <b>{selectedLog.f === 1 ? "Spotting" : selectedLog.f === 2 ? "Light" : selectedLog.f === 3 ? "Medium" : "Heavy"}</b></div>}
-                {selectedLog.m !== undefined && <div>Mood: <b>{["Great", "Calm", "Sensitive", "Low", "Irritable"][selectedLog.m]}</b></div>}
-                {selectedLog.p !== undefined && <div>Pain: <b>{selectedLog.p} / 10</b></div>}
-                {selectedLog.cm && <div>Fluid: <b>{selectedLog.cm}</b></div>}
-                {selectedLog.note && <div style={{ fontStyle: "italic", marginTop: "4px" }}>"{selectedLog.note}"</div>}
-              </div>
-            ) : (
-              <p className="mut" style={{ margin: 0, fontSize: "13px" }}>
-                No symptoms or notes logged for this day. Tap "Log Symptoms" to add records.
-              </p>
-            )}
-          </Card>
+          )}
         </div>
-      </div>
 
-      {/* Day Details Bottom Sheet on Tap */}
+        {/* Revealed Day Journal Entry Section */}
+        <div className="v-cal-detail-section v-cal-detail-section--journal">
+          <div className="v-cal-section-header">
+            <span className="v-cal-section-title">
+              <Icon name="book" size={14} />
+              <span>Private Journal Reflection</span>
+            </span>
+            <button
+              type="button"
+              className="v-cal-quick-add-link"
+              onClick={() => {
+                actions.setJournalDate(selectedDateStr);
+                actions.setCareTab("journal");
+                actions.setTab("care");
+              }}
+            >
+              {selectedJournal && selectedJournal.text ? "Edit" : "+ Write"}
+            </button>
+          </div>
+
+          {selectedJournal && selectedJournal.text ? (
+            <div className="v-cal-journal-snippet">
+              {selectedJournal.mood && (
+                <span className="v-cal-journal-mood-tag">
+                  Mood: {selectedJournal.mood}
+                </span>
+              )}
+              <p className="v-cal-journal-quote">
+                "{selectedJournal.text}"
+              </p>
+            </div>
+          ) : (
+            <p className="v-cal-empty-hint">
+              No private reflection entry for this date.
+            </p>
+          )}
+        </div>
+      </Card>
+
+      {/* 5. Interactive Full Day Details Bottom Sheet Modal */}
       <SheetModal
         isOpen={showDaySheet}
         onClose={() => setShowDaySheet(false)}
         title={fmt(selectedDn, { weekday: "long", month: "short", day: "numeric" })}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+        <div className="v-sheet-day-content">
+          <div className="v-sheet-period-controls">
             {!isSelectedPeriod ? (
-              <Button variant="secondary" size="sm" icon="droplet" onClick={() => { actions.startPeriod(selectedDateStr); setShowDaySheet(false); }}>
-                Period Started
+              <Button
+                variant="secondary"
+                size="md"
+                icon="droplet"
+                onClick={() => {
+                  actions.startPeriod(selectedDateStr);
+                  setShowDaySheet(false);
+                }}
+              >
+                Record Period for this Day
               </Button>
             ) : (
-              <>
-                <Button variant="secondary" size="sm" onClick={() => { actions.endPeriod(selectedDateStr); setShowDaySheet(false); }}>
+              <div style={{ display: "flex", gap: "8px", width: "100%" }}>
+                <Button
+                  variant="secondary"
+                  size="md"
+                  style={{ flex: 1 }}
+                  onClick={() => {
+                    actions.endPeriod(selectedDateStr);
+                    setShowDaySheet(false);
+                  }}
+                >
                   Period Ended
                 </Button>
-                <Button variant="danger" size="sm" icon="trash" onClick={() => { actions.removePeriod(selectedDateStr); setShowDaySheet(false); }}>
+                <Button
+                  variant="danger"
+                  size="md"
+                  icon="trash"
+                  onClick={() => {
+                    actions.removePeriod(selectedDateStr);
+                    setShowDaySheet(false);
+                  }}
+                >
                   Remove
                 </Button>
-              </>
+              </div>
             )}
-            <Button variant="primary" size="sm" icon="edit" onClick={() => { setShowDaySheet(false); actions.goLog(selectedDateStr); }}>
-              Edit Full Day Log
-            </Button>
           </div>
 
-          {selectedLog ? (
-            <Card variant="raised">
-              {selectedLog.f !== undefined && <div>Flow: <b>{selectedLog.f === 1 ? "Spotting" : selectedLog.f === 2 ? "Light" : selectedLog.f === 3 ? "Medium" : "Heavy"}</b></div>}
-              {selectedLog.m !== undefined && <div>Mood: <b>{["Great", "Calm", "Sensitive", "Low", "Irritable"][selectedLog.m]}</b></div>}
-              {selectedLog.p !== undefined && <div>Pain: <b>{selectedLog.p} / 10</b></div>}
-              {selectedLog.cm && <div>Fluid: <b>{selectedLog.cm}</b></div>}
-              {selectedLog.note && <div style={{ fontStyle: "italic", marginTop: "6px" }}>"{selectedLog.note}"</div>}
-            </Card>
-          ) : (
-            <p className="mut" style={{ margin: 0, fontSize: "13.5px" }}>
-              No check-in entries logged yet. Tap "Edit Full Day Log" to record symptoms, moods, cervical fluid, and private notes.
-            </p>
-          )}
+          <Button
+            variant="primary"
+            size="md"
+            icon="edit"
+            onClick={() => {
+              setShowDaySheet(false);
+              actions.goLog(selectedDateStr);
+            }}
+          >
+            Edit Full Day Log
+          </Button>
         </div>
       </SheetModal>
     </div>

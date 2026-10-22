@@ -1615,7 +1615,7 @@ function renderCycleGuideTab(T, phaseKey, S, x) {
         <button class="chip" data-a="openTour">Full Infographic</button>
       </div>
       <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);cursor:pointer;margin-top:10px;background:var(--surface)" data-a="openTour" role="button" aria-label="Expand Architecture Infographic">
-        <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
+        <img src="./cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities" style="width:100%;height:auto;display:block;">
       </div>
     </div>
 
@@ -1830,10 +1830,10 @@ function renderTourModal() {
           A visual infographic detailing our on-device algorithmic calculations, clinical safety boundaries, and privacy architecture.
         </p>
         <div style="border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:12px">
-          <img src="./public/cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
+          <img src="./cyclesidechick-infographic.svg" alt="CycleSideChick Architecture and Core Capabilities Infographic" style="width:100%;height:auto;display:block;">
         </div>
         <div class="row" style="margin-bottom:8px">
-          <a href="./public/cyclesidechick-infographic.svg" target="_blank" rel="noopener noreferrer" class="chip" style="font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+          <a href="./cyclesidechick-infographic.svg" target="_blank" rel="noopener noreferrer" class="chip" style="font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:6px">
             ${svgi("share", 14)} Open Vector in New Tab
           </a>
         </div>

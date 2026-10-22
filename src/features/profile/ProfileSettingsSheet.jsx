@@ -50,15 +50,16 @@ export function ProfileSettingsSheet() {
                   key={modeKey}
                   onClick={() => actions.setMode(modeKey)}
                   style={{
-                    padding: "10px 14px",
-                    borderRadius: "12px",
+                    padding: "12px 16px",
+                    borderRadius: "var(--radius-md)",
                     border: isSelected ? "1.5px solid var(--berry)" : "1px solid var(--border)",
                     background: isSelected ? "var(--pink-light)" : "var(--surface)",
                     color: isSelected ? "var(--berry)" : "inherit",
                     cursor: "pointer",
                     display: "flex",
                     justifyContent: "space-between",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transition: "all 0.15s ease"
                   }}
                 >
                   <div>

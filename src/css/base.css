@@ -66,37 +66,62 @@ body.modal-open, html.modal-open {
   overflow: hidden !important;
 }
 
+/* ==========================================================================
+   Mobile-First Device Architecture
+   ========================================================================== */
 #app {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
   margin: 0 auto;
-  padding: 14px 16px calc(108px + env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
 }
 
-@media (min-width: 600px) and (max-width: 1023px) {
-  #app {
-    max-width: 720px;
-    padding: 20px 24px calc(112px + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-@media (min-width: 1024px) {
-  #app {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0;
+@media (min-width: 600px) {
+  body {
+    background: #EFE7ED;
+    background-image: radial-gradient(circle at 50% 10%, #FAF5F8 0%, #EFE7ED 100%);
     display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
+    padding: 24px 0;
+  }
+  :root[data-theme="dark"] body {
+    background: #120E16;
+    background-image: radial-gradient(circle at 50% 10%, #1F1926 0%, #120E16 100%);
+  }
+  #app {
+    max-width: 420px;
+    height: 880px;
+    max-height: calc(100vh - 48px);
+    border-radius: 48px;
+    box-shadow:
+      0 28px 75px -15px rgba(45, 25, 40, 0.22),
+      0 0 0 10px #FFFFFF,
+      0 0 0 12px rgba(45, 35, 44, 0.08);
+    overflow: hidden;
+  }
+  :root[data-theme="dark"] #app {
+    box-shadow:
+      0 28px 75px -15px rgba(0, 0, 0, 0.65),
+      0 0 0 10px #251E2B,
+      0 0 0 12px rgba(255, 255, 255, 0.08);
   }
 }
 
 h1, h2, h3, h4 {
+  font-family: var(--font-heading, 'Outfit', 'Montserrat', sans-serif);
   color: var(--plum);
   margin: 0;
   font-weight: 700;
   line-height: 1.25;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 
 h1 { font-size: 26px; }
@@ -128,16 +153,23 @@ p { margin: 0.4em 0; }
   gap: 10px;
 }
 
-/* Touch Targets: minimum 44px */
+/* Touch Targets: minimum 44px, no tap highlight/double-tap zoom, 16px input font to prevent iOS zoom */
 button, input, select, textarea, .chip, .mood, .day {
   min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, select, textarea {
+  font-size: 16px !important;
+  font-family: var(--font-body);
 }
 
 /* Accessible Focus States */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--pink-glow);
-  border-color: var(--pink) !important;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  border-color: var(--primary) !important;
 }
 
 /* View Transitions API */

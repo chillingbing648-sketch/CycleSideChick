@@ -42,7 +42,7 @@ export function CareCustomModal() {
             placeholder="e.g. Magnesium soak, chamomile tea, walk"
             value={title}
             onChange={e => setTitle(e.target.value)}
-            style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "13.5px" }}
+            style={{ width: "100%", padding: "12px 16px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)", fontSize: "14px", fontFamily: "var(--font-body)" }}
           />
         </div>
 
@@ -55,7 +55,7 @@ export function CareCustomModal() {
             placeholder="e.g. Evening Rest, Nutrition, Gentle Movement"
             value={desc}
             onChange={e => setDesc(e.target.value)}
-            style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "13.5px" }}
+            style={{ width: "100%", padding: "12px 16px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)", fontSize: "14px", fontFamily: "var(--font-body)" }}
           />
         </div>
 

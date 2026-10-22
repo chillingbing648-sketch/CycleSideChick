@@ -14,8 +14,11 @@ import React from "react";
 import { useStore } from "../../app/store.js";
 import { actions } from "../../app/actions.js";
 import { CycleRing } from "./CycleRing.jsx";
+import { GentleReminderCard } from "../../components/home/GentleReminderCard.jsx";
 import { Card } from "../../components/ui/Card.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
+import { WaterCup } from "../../components/ui/WaterCup.jsx";
+import { BunnyMascot } from "../../components/ui/BunnyMascot.jsx";
 import { TD, I, N, fmt, calculateStats, calculatePregnancy, getDailyPhaseGuidance } from "../../core/engine.js";
 import { getReassuranceMessage } from "../../core/content.js";
 
@@ -81,13 +84,14 @@ export function HomeView() {
   // Mood Log state (0: Distressed to 4: Great)
   const todayLog = (S.logs && S.logs[todayStr]) || {};
   const currentMood = todayLog.m !== undefined ? todayLog.m : 2; // Default to neutral
+  const todayWater = todayLog.water || 0;
 
   const MOOD_FACES = [
-    { level: 4, label: "Great", symbol: "😄" },
-    { level: 3, label: "Good", symbol: "🙂" },
-    { level: 2, label: "Neutral", symbol: "😐" },
-    { level: 1, label: "Low", symbol: "🙁" },
-    { level: 0, label: "Heavy", symbol: "😣" }
+    { level: 4, label: "Great", icon: "moodHappy" },
+    { level: 3, label: "Good", icon: "moodCalm" },
+    { level: 2, label: "Neutral", icon: "moodNeutral" },
+    { level: 1, label: "Low", icon: "moodLow" },
+    { level: 0, label: "Heavy", icon: "moodIrritable" }
   ];
 
   // Vital Status Calculations
@@ -140,7 +144,7 @@ export function HomeView() {
           onClick={() => actions.openProfile()}
           aria-label="Profile and settings"
         >
-          <Icon name="user" size={22} />
+          <BunnyMascot size={32} />
         </button>
       </div>
 
@@ -159,6 +163,9 @@ export function HomeView() {
           </button>
         ))}
       </div>
+
+      {/* Gentle Reminder Card (Upcoming period / Daily check-in / Care) */}
+      <GentleReminderCard stats={stats} S={S} todayDn={todayDn} todayLog={todayLog} />
 
       {/* 3. Central Hero Row: Cycle Wheel & Vertical Mood Log */}
       <div className="v-hero-wheel-row">
@@ -213,7 +220,7 @@ export function HomeView() {
                     aria-label={`Log mood: ${m.label}`}
                     title={m.label}
                   >
-                    <span>{m.symbol}</span>
+                    <Icon name={m.icon} size={17} />
                   </button>
                 );
               })}
@@ -295,11 +302,25 @@ export function HomeView() {
         </div>
       </div>
 
-      {/* 6. Daily Reassurance & Hormonal Guidance Card */}
+      {/* 6. Daily Hydration Target */}
+      {S.waterGoal !== 0 && (
+        <Card variant="base" className="v-hydration-card" style={{ padding: "16px" }}>
+          <WaterCup
+            count={todayWater}
+            goal={8}
+            onAdd={() => actions.quickSetWater(Math.min(8, todayWater + 1))}
+            onReset={() => actions.quickSetWater(0)}
+          />
+        </Card>
+      )}
+
+      {/* 7. Daily Reassurance & Hormonal Guidance Card */}
       <Card variant="base" className="v-support-card">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "16px" }}>🌸</span>
+            <div style={{ width: "26px", height: "26px", borderRadius: "50%", background: "var(--tint-rose-bg)", color: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Icon name="flower" size={15} />
+            </div>
             <b style={{ fontSize: "13.5px", color: "var(--plum)" }}>Daily Hormone Care</b>
           </div>
           <button
