@@ -474,3 +474,70 @@ BEGIN
   );
 END;
 $$;
+
+-- Function 3: Secure Invitation Preview (Narrowly scoped, zero health data exposed)
+CREATE OR REPLACE FUNCTION public.get_companion_invitation_preview(
+  p_token_hash TEXT
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_inv RECORD;
+  v_owner_name TEXT;
+BEGIN
+  IF p_token_hash IS NULL OR char_length(p_token_hash) < 32 THEN
+    RETURN jsonb_build_object('valid', false, 'error_code', 'INVALID_FORMAT', 'error', 'Invalid token format.');
+  END IF;
+
+  SELECT * INTO v_inv
+  FROM public.sharing_invitations
+  WHERE token_hash = p_token_hash;
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('valid', false, 'error_code', 'NOT_FOUND', 'error', 'Invitation not found or invalid.');
+  END IF;
+
+  IF v_inv.status = 'claimed' THEN
+    RETURN jsonb_build_object('valid', false, 'error_code', 'ALREADY_CLAIMED', 'error', 'This invitation has already been accepted.');
+  END IF;
+
+  IF v_inv.status = 'revoked' THEN
+    RETURN jsonb_build_object('valid', false, 'error_code', 'REVOKED', 'error', 'This invitation has been revoked by the owner.');
+  END IF;
+
+  IF v_inv.expires_at < timezone('utc', now()) THEN
+    -- Mark expired
+    UPDATE public.sharing_invitations
+    SET status = 'expired'
+    WHERE id = v_inv.id;
+    RETURN jsonb_build_object('valid', false, 'error_code', 'EXPIRED', 'error', 'This invitation has expired.');
+  END IF;
+
+  SELECT display_name INTO v_owner_name
+  FROM public.sharing_profiles
+  WHERE id = v_inv.owner_id;
+
+  RETURN jsonb_build_object(
+    'valid', true,
+    'owner_id', v_inv.owner_id,
+    'owner_name', COALESCE(v_owner_name, 'A trusted partner'),
+    'permissions', v_inv.permissions,
+    'humorous_notifications', v_inv.humorous_notifications,
+    'allowed_responses', v_inv.allowed_responses,
+    'expires_at', v_inv.expires_at
+  );
+END;
+$$;
+
+-- ==============================================================================
+-- GRANTS FOR SECURITY ROLES
+-- ==============================================================================
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO authenticated;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon;
+GRANT EXECUTE ON FUNCTION public.get_companion_invitation_preview(TEXT) TO anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.claim_companion_invitation(TEXT) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.revoke_companion_relationship(UUID) TO authenticated, service_role;

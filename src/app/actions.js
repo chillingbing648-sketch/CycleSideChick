@@ -546,6 +546,16 @@ export const actions = {
     notify();
   },
 
+  openScanner() {
+    ui.qrScannerModal = true;
+    notify();
+  },
+
+  closeScanner() {
+    ui.qrScannerModal = false;
+    notify();
+  },
+
   copyPartnerLink() {
     const stats = calculateStats(S);
     const text = `CycleSideChick Partner Summary:\nTypical cycle: ${stats.avg} days\nNext expected period: ${stats.nextEstimated || "Estimated soon"}\nShared privately with care.`;

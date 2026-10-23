@@ -10,6 +10,40 @@ import { generateSecureToken, sha256Hash } from "./crypto.js";
 import { DEFAULT_PERMISSIONS, DEFAULT_ALLOWED_RESPONSES } from "./types.js";
 
 /**
+ * Extracts raw invitation token from scanned QR payload, full URL, or manual code
+ */
+export function extractInviteToken(scannedText) {
+  if (!scannedText || typeof scannedText !== "string") return null;
+  const trimmed = scannedText.trim();
+
+  // 1. Direct 16-64 char token string
+  if (/^[a-zA-Z0-9_-]{16,64}$/.test(trimmed)) {
+    return trimmed;
+  }
+
+  // 2. Parse from URL (query parameter or hash)
+  try {
+    const url = new URL(trimmed);
+    const searchToken = url.searchParams.get("invite");
+    if (searchToken) return searchToken;
+
+    if (url.hash && url.hash.includes("/invite/")) {
+      const parts = url.hash.split("/invite/");
+      if (parts[1]) return parts[1].split("?")[0].split("#")[0];
+    }
+  } catch (e) {
+    // If not a full URL with scheme, check substring
+    const inviteMatch = trimmed.match(/[?&]invite=([a-zA-Z0-9_-]+)/);
+    if (inviteMatch && inviteMatch[1]) return inviteMatch[1];
+
+    const hashMatch = trimmed.match(/#\/invite\/([a-zA-Z0-9_-]+)/);
+    if (hashMatch && hashMatch[1]) return hashMatch[1];
+  }
+
+  return null;
+}
+
+/**
  * Normalizes Supabase Project URL.
  * Automatically strips trailing /rest/v1/ or slashes if the user pasted the REST endpoint URL.
  */
@@ -18,6 +52,27 @@ export function normalizeSupabaseUrl(url) {
   let trimmed = url.trim().replace(/\/+$/, "");
   trimmed = trimmed.replace(/\/rest\/v1\/?$/, "");
   return trimmed;
+}
+
+/**
+ * Detects the correct base application URL across local dev, custom domains, and GitHub Pages.
+ */
+export function getBaseAppUrl() {
+  if (typeof window === "undefined") return "https://chillingbing648-sketch.github.io/CycleSideChick/";
+  const origin = window.location.origin;
+  // Strip any trailing filenames like index.html or 404.html
+  let pathname = window.location.pathname.replace(/\/[^/]+\.[^/]+$/, "");
+  if (!pathname.endsWith("/")) pathname += "/";
+  return `${origin}${pathname}`;
+}
+
+/**
+ * Builds a clean, universally decodable invitation URL with query parameter and hash fragment
+ */
+export function buildCompanionInviteUrl(rawToken) {
+  if (!rawToken) return "";
+  const base = getBaseAppUrl();
+  return `${base}?invite=${encodeURIComponent(rawToken)}#/invite/${encodeURIComponent(rawToken)}`;
 }
 
 const RAW_SUPABASE_URL = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_URL : "";
@@ -371,43 +426,71 @@ export async function getInvitationPreview(rawToken) {
   if (isLiveBackendConfigured && supabase) {
     try {
       const tokenHash = await sha256Hash(rawToken);
-      const { data, error } = await supabase
-        .from("sharing_invitations")
-        .select("id, owner_id, permissions, humorous_notifications, allowed_responses, status, expires_at")
-        .eq("token_hash", tokenHash)
-        .single();
 
-      if (error) {
-        if (error.code === "PGRST205" || error.message?.includes("schema cache")) {
-          return mockBackend.getInvitationPreview(rawToken);
+      // Primary secure validation: Narrowly-scoped server-side RPC (zero health data exposed)
+      const { data: rpcData, error: rpcError } = await supabase.rpc("get_companion_invitation_preview", {
+        p_token_hash: tokenHash
+      });
+
+      if (!rpcError && rpcData) {
+        if (!rpcData.valid) {
+          return {
+            valid: false,
+            errorCode: rpcData.error_code,
+            error: rpcData.error || "Invalid invitation."
+          };
         }
-        return { valid: false, error: "Invitation not found or invalid." };
+        return {
+          valid: true,
+          ownerId: rpcData.owner_id,
+          ownerName: rpcData.owner_name || "A trusted partner",
+          permissions: rpcData.permissions,
+          humorousNotifications: rpcData.humorous_notifications,
+          allowedResponses: rpcData.allowed_responses,
+          expiresAt: rpcData.expires_at
+        };
       }
 
-      if (!data) {
-        return { valid: false, error: "Invitation not found or invalid." };
+      // Fallback query if stored procedure is not yet registered (e.g. initial setup)
+      if (rpcError && (rpcError.code === "PGRST202" || rpcError.message?.includes("function"))) {
+        const { data, error } = await supabase
+          .from("sharing_invitations")
+          .select("id, owner_id, permissions, humorous_notifications, allowed_responses, status, expires_at")
+          .eq("token_hash", tokenHash)
+          .single();
+
+        if (error) {
+          return { valid: false, error: "Invitation not found or invalid." };
+        }
+
+        if (data.status === "claimed") {
+          return { valid: false, errorCode: "ALREADY_CLAIMED", error: "This invitation has already been claimed." };
+        }
+        if (data.status === "revoked") {
+          return { valid: false, errorCode: "REVOKED", error: "This invitation has been revoked by the owner." };
+        }
+        if (new Date(data.expires_at) < new Date()) {
+          return { valid: false, errorCode: "EXPIRED", error: "This invitation has expired." };
+        }
+
+        return {
+          valid: true,
+          ownerId: data.owner_id,
+          ownerName: "A trusted partner",
+          permissions: data.permissions,
+          humorousNotifications: data.humorous_notifications,
+          allowedResponses: data.allowed_responses,
+          expiresAt: data.expires_at
+        };
       }
 
-      if (data.status === "claimed") {
-        return { valid: false, error: "This invitation has already been claimed." };
+      if (rpcError) {
+        console.error("[CycleCareCompanion] Database preview error:", rpcError);
+        return { valid: false, error: rpcError.message || "Could not validate invitation with database." };
       }
-      if (data.status === "revoked") {
-        return { valid: false, error: "This invitation has been revoked by the owner." };
-      }
-      if (new Date(data.expires_at) < new Date()) {
-        return { valid: false, error: "This invitation has expired." };
-      }
-
-      return {
-        valid: true,
-        ownerId: data.owner_id,
-        permissions: data.permissions,
-        humorousNotifications: data.humorous_notifications,
-        allowedResponses: data.allowed_responses,
-        expiresAt: data.expires_at
-      };
     } catch (e) {
-      console.warn("[CycleCareCompanion] Fallback to local preview:", e.message);
+      console.error("[CycleCareCompanion] Preview failure:", e);
+      return { valid: false, error: "Validation network error: " + e.message };
     }
   }
 
@@ -451,6 +534,16 @@ export async function claimInvitation(rawToken, recipientId = null, recipientNam
     }
 
     saveLocalSession({ activeRelationshipId: data.relationship_id, role: "recipient" });
+
+    // Persist recipient profile display name
+    if (recipientName && recipientName.trim()) {
+      try {
+        await supabase
+          .from("sharing_profiles")
+          .upsert({ id: user.id, display_name: recipientName.trim() }, { onConflict: "id" });
+      } catch (e) {}
+    }
+
     return data;
   }
 

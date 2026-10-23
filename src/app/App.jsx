@@ -11,6 +11,7 @@ import { PinLockScreen } from "../features/lock/PinLockScreen.jsx";
 import { OnboardingFlow } from "../features/onboarding/OnboardingFlow.jsx";
 import { InviteAcceptModal } from "../features/companion/InviteAcceptModal.jsx";
 import { CompanionDashboard } from "../features/companion/CompanionDashboard.jsx";
+import { QRScannerModal } from "../features/companion/QRScannerModal.jsx";
 
 function getUrlParams() {
   if (typeof window === "undefined") return { invite: null, companion: null };
@@ -57,6 +58,7 @@ export function App() {
       if (e.key === "Escape" || e.key === "Esc") {
         if (inviteToken) setInviteToken(null);
         else if (companionRelId) setCompanionRelId(null);
+        else if (ui.qrScannerModal) actions.closeScanner();
         else if (ui.deleteJournalConfirm) actions.cancelDeleteJournal();
         else if (ui.careCustomModal) actions.closeCustomCareModal();
         else if (ui.conflict) actions.conflictClose();
@@ -127,5 +129,19 @@ export function App() {
     );
   }
 
-  return <AppShell />;
+  return (
+    <>
+      <AppShell />
+      {ui.qrScannerModal && (
+        <QRScannerModal
+          isOpen={true}
+          onClose={() => actions.closeScanner()}
+          onScanned={(token) => {
+            actions.closeScanner();
+            setInviteToken(token);
+          }}
+        />
+      )}
+    </>
+  );
 }

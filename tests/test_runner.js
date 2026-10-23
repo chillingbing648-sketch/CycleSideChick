@@ -34,4 +34,13 @@ if (liveTest.status !== 0) {
   process.exit(liveTest.status);
 }
 
+console.log("\n");
+
+// 4. Run QR Code Scanning & Companion Flow Tests
+const qrFlowTest = spawnSync("node", ["tests/qr_and_flow.test.js"], { stdio: "inherit" });
+if (qrFlowTest.status !== 0) {
+  console.error("\nQR and Flow tests failed with status:", qrFlowTest.status);
+  process.exit(qrFlowTest.status);
+}
+
 console.log("\nAll test suites passed cleanly with 100% success.");

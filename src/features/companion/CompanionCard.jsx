@@ -44,13 +44,23 @@ export function CompanionCard({ hasConnection = false, status = "inactive" }) {
           </div>
         </div>
 
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={() => actions.openPartner()}
-        >
-          {hasConnection ? "Manage" : "Share & Support"}
-        </Button>
+        <div style={{ display: "flex", gap: "6px" }}>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => actions.openScanner()}
+            title="Scan partner QR code"
+          >
+            <Icon name="camera" size={14} /> Scan QR
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => actions.openPartner()}
+          >
+            {hasConnection ? "Manage" : "Share"}
+          </Button>
+        </div>
       </div>
 
       <p style={{ fontSize: "12.5px", lineHeight: "1.45", margin: 0, color: "var(--text-muted, #7A7280)" }}>

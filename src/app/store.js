@@ -32,6 +32,7 @@ export const ui = {
   careCustomIcon: "flame",
   activeArticle: null,
   partnerModal: false,
+  qrScannerModal: false,
   clinicianModal: false,
   conflict: null,
   infoTopic: null,

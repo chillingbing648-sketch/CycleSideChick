@@ -19,12 +19,13 @@ import { SheetModal } from "../../components/ui/SheetModal.jsx";
 import { Card } from "../../components/ui/Card.jsx";
 import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
-import { QRCode } from "./qr.jsx";
+import { QRCode, downloadQrPng } from "./qr.jsx";
 import { useCompanion } from "./useCompanion.js";
-import { checkBackendStatus } from "./api.js";
+import { checkBackendStatus, buildCompanionInviteUrl } from "./api.js";
 import { CompanionAuthCard } from "./CompanionAuthCard.jsx";
 import { COMPANION_PERMISSIONS, PREDEFINED_RESPONSES } from "./types.js";
 import { toast, haptic } from "../../app/store.js";
+import { actions } from "../../app/actions.js";
 
 export function CompanionShareSheet({ isOpen = true, onClose }) {
   const {
@@ -87,6 +88,8 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
   );
 
   const [inviteUrl, setInviteUrl] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [enlargeQr, setEnlargeQr] = useState(false);
 
   const togglePermission = (key) => {
     setPermissions(prev => ({ ...prev, [key]: !prev[key] }));
@@ -106,9 +109,8 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
         allowedResponses,
         preferLocal
       });
-      // Build clean URL with token
-      const baseOrigin = typeof window !== "undefined" ? window.location.origin + window.location.pathname : "";
-      const fullUrl = `${baseOrigin}?invite=${inv.rawToken}#/invite/${inv.rawToken}`;
+      // Build clean verified URL with token
+      const fullUrl = buildCompanionInviteUrl(inv.rawToken);
       setInviteUrl(fullUrl);
       setActiveTab("invite");
       haptic(20);
@@ -121,6 +123,21 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
       } else {
         toast(e.message || "Could not generate invitation.");
       }
+    }
+  };
+
+  const handleCopyLink = async () => {
+    if (!inviteUrl) return;
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(inviteUrl);
+        setCopied(true);
+        toast("Invitation link copied to clipboard!");
+        haptic(20);
+        setTimeout(() => setCopied(false), 3000);
+      }
+    } catch (err) {
+      toast("Please copy link from text box below.");
     }
   };
 
@@ -140,10 +157,14 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
         if (err.name !== "AbortError") console.warn(err);
       }
     }
-    // Clipboard fallback
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(inviteUrl);
-      toast("Invitation link copied to clipboard!");
+    handleCopyLink();
+  };
+
+  const handleDownloadQr = async () => {
+    if (!inviteUrl) return;
+    const ok = await downloadQrPng(inviteUrl, "CycleSideChick-Invite-QR.png");
+    if (ok) {
+      toast("QR code image downloaded!");
       haptic(20);
     }
   };
@@ -393,28 +414,103 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
           <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center", textAlign: "center" }}>
             {inviteUrl ? (
               <>
-                <div style={{ margin: "8px 0" }}>
-                  <QRCode value={inviteUrl} size={190} />
+                <div style={{
+                  background: "#FFFFFF",
+                  padding: enlargeQr ? "16px" : "12px",
+                  borderRadius: "24px",
+                  boxShadow: "0 10px 32px rgba(44, 34, 48, 0.12)",
+                  border: "1px solid rgba(44, 34, 48, 0.08)",
+                  display: "inline-block",
+                  transition: "all 0.25s ease"
+                }}>
+                  <QRCode value={inviteUrl} size={enlargeQr ? 260 : 210} />
+                </div>
+
+                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                  <button
+                    type="button"
+                    onClick={() => setEnlargeQr(prev => !prev)}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "var(--rose-hot, #E05375)",
+                      fontSize: "12px",
+                      fontWeight: "700",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px"
+                    }}
+                  >
+                    <Icon name="maximize" size={13} />
+                    <span>{enlargeQr ? "Standard Size" : "Enlarge QR for Scanning"}</span>
+                  </button>
                 </div>
 
                 <div style={{ maxWidth: "380px" }}>
-                  <b style={{ fontSize: "15px", display: "block", marginBottom: "4px" }}>
+                  <b style={{ fontSize: "15px", display: "block", marginBottom: "4px", color: "var(--plum)" }}>
                     Private Companion Invitation
                   </b>
-                  <p style={{ fontSize: "12.5px", color: "var(--text-muted)", margin: 0 }}>
-                    Have your trusted person scan this QR code or send them the private link below.
+                  <p style={{ fontSize: "12.5px", color: "var(--text-muted)", margin: 0, lineHeight: "1.45" }}>
+                    Have your partner scan this QR with their camera or CycleSideChick app.
                     The invitation expires in 48 hours and can only be claimed once.
                   </p>
                 </div>
 
+                {/* Primary Actions Row */}
+                <div style={{
+                  display: "flex",
+                  gap: "8px",
+                  width: "100%",
+                  justifyContent: "center",
+                  flexWrap: "wrap"
+                }}>
+                  <Button
+                    variant={copied ? "secondary" : "primary"}
+                    size="sm"
+                    onClick={handleCopyLink}
+                    style={{
+                      flex: 1,
+                      minWidth: "120px",
+                      background: copied ? "#d1fae5" : undefined,
+                      color: copied ? "#065f46" : undefined,
+                      borderColor: copied ? "#065f46" : undefined
+                    }}
+                  >
+                    <Icon name={copied ? "check" : "copy"} size={14} />
+                    <span>{copied ? "Copied! ✓" : "Copy Link"}</span>
+                  </Button>
+
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleShare}
+                    style={{ flex: 1, minWidth: "100px" }}
+                  >
+                    <Icon name="share" size={14} />
+                    <span>Share Link</span>
+                  </Button>
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleDownloadQr}
+                    title="Save QR code image to camera roll"
+                  >
+                    <Icon name="download" size={14} /> Save QR
+                  </Button>
+                </div>
+
+                {/* Direct Link Display */}
                 <div style={{
                   display: "flex",
                   width: "100%",
                   gap: "8px",
                   background: "#F8F5F9",
-                  padding: "6px 8px",
+                  padding: "6px 10px",
                   borderRadius: "10px",
-                  border: "1px solid rgba(0,0,0,0.06)"
+                  border: "1px solid rgba(0,0,0,0.06)",
+                  boxSizing: "border-box"
                 }}>
                   <input
                     type="text"
@@ -424,13 +520,39 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
                       flex: 1,
                       border: "none",
                       background: "transparent",
-                      fontSize: "12px",
+                      fontSize: "11.5px",
                       color: "var(--plum)",
                       outline: "none"
                     }}
                   />
-                  <Button variant="secondary" size="sm" onClick={handleShare}>
-                    Share / Copy
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "var(--rose-hot)",
+                      fontSize: "11.5px",
+                      fontWeight: "700",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                </div>
+
+                {/* Scan Partner QR action */}
+                <div style={{ borderTop: "1px dashed rgba(0,0,0,0.08)", width: "100%", paddingTop: "12px", marginTop: "4px" }}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      if (onClose) onClose();
+                      actions.openScanner();
+                    }}
+                    style={{ width: "100%", justifyContent: "center", color: "var(--plum)" }}
+                  >
+                    <Icon name="camera" size={14} /> Scan a Partner's QR Code Instead
                   </Button>
                 </div>
               </>
