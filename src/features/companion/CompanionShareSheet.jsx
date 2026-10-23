@@ -14,7 +14,7 @@
  * 9. Immediate pause & revocation
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SheetModal } from "../../components/ui/SheetModal.jsx";
 import { Card } from "../../components/ui/Card.jsx";
 import { Button } from "../../components/ui/Button.jsx";
@@ -551,6 +551,22 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
                   {previewSnapshot.supportSuggestion}
                 </span>
               </div>
+            </div>
+
+            <div style={{ marginTop: "4px" }}>
+              <Button
+                variant="secondary"
+                size="sm"
+                style={{ width: "100%", justifyContent: "center" }}
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    window.location.hash = "#/companion/preview";
+                  }
+                  if (onClose) onClose();
+                }}
+              >
+                <Icon name="heart" size={14} /> Open Full Companion Dashboard Preview
+              </Button>
             </div>
           </div>
         )}

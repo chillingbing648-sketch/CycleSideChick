@@ -24,7 +24,10 @@ function getUrlParams() {
   }
   if (!companion && hash.startsWith("#/companion")) {
     const parts = hash.split("/");
-    if (parts.length > 2) companion = parts[2];
+    if (parts.length > 2 && parts[2]) companion = parts[2];
+    else companion = "preview";
+  } else if (searchParams.has("companion") && !companion) {
+    companion = "preview";
   }
   return { invite, companion };
 }
@@ -38,14 +41,22 @@ export function App() {
     applyThemeToDOM();
 
     // Check URL parameters for invitation or companion route
-    const { invite, companion } = getUrlParams();
-    if (invite) setInviteToken(invite);
-    if (companion) setCompanionRelId(companion);
+    const syncRoutesFromUrl = () => {
+      const { invite, companion } = getUrlParams();
+      setInviteToken(invite || null);
+      setCompanionRelId(companion || null);
+    };
+
+    syncRoutesFromUrl();
+
+    window.addEventListener("hashchange", syncRoutesFromUrl);
+    window.addEventListener("popstate", syncRoutesFromUrl);
 
     // Keyboard Accessibility: Escape key dismisses top modal
     const handleKeyDown = e => {
       if (e.key === "Escape" || e.key === "Esc") {
         if (inviteToken) setInviteToken(null);
+        else if (companionRelId) setCompanionRelId(null);
         else if (ui.deleteJournalConfirm) actions.cancelDeleteJournal();
         else if (ui.careCustomModal) actions.closeCustomCareModal();
         else if (ui.conflict) actions.conflictClose();
@@ -59,8 +70,12 @@ export function App() {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [ui, inviteToken]);
+    return () => {
+      window.removeEventListener("hashchange", syncRoutesFromUrl);
+      window.removeEventListener("popstate", syncRoutesFromUrl);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [ui, inviteToken, companionRelId]);
 
   // Recipient invitation acceptance screen
   if (inviteToken) {

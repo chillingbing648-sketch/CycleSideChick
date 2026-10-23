@@ -179,6 +179,38 @@ export function CompanionDashboard({ relationshipId, onExit }) {
         </div>
       </div>
 
+      {relationshipId === "preview" && (
+        <div style={{
+          background: "rgba(180, 140, 200, 0.15)",
+          border: "1px dashed var(--plum, #4A3E50)",
+          padding: "8px 12px",
+          borderRadius: "10px",
+          fontSize: "12px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}>
+          <span>👀 <b>Preview Mode</b>: Demonstrating companion dashboard.</span>
+          {onExit && (
+            <button
+              type="button"
+              onClick={onExit}
+              style={{
+                background: "transparent",
+                border: "none",
+                fontWeight: "700",
+                color: "var(--plum)",
+                cursor: "pointer",
+                fontSize: "12px",
+                textDecoration: "underline"
+              }}
+            >
+              Back to tracker
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Main Cycle Status Card */}
       <Card variant="tinted" tint="rose" style={{ padding: "18px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>

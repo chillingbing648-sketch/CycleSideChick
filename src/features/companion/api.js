@@ -225,7 +225,7 @@ export async function checkBackendStatus() {
 // ==========================================
 
 export function subscribeToCompanionRealtime(relationshipId, { onResponse, onSnapshot, onRelationshipChange } = {}) {
-  if (!isLiveBackendConfigured || !supabase || !relationshipId) {
+  if (!isLiveBackendConfigured || !supabase || !relationshipId || relationshipId === "preview" || relationshipId === "demo") {
     return { unsubscribe: () => {} };
   }
 
@@ -356,6 +356,18 @@ export async function createCompanionInvitation({
 export async function getInvitationPreview(rawToken) {
   if (!rawToken) return { valid: false, error: "Missing invitation token" };
 
+  if (rawToken === "preview" || rawToken === "demo") {
+    return {
+      valid: true,
+      ownerName: "Sarah (Preview Mode)",
+      ownerId: "usr_preview_owner",
+      permissions: DEFAULT_PERMISSIONS,
+      humorousNotifications: true,
+      allowedResponses: DEFAULT_ALLOWED_RESPONSES,
+      expiresAt: new Date(Date.now() + 48 * 3600 * 1000).toISOString()
+    };
+  }
+
   if (isLiveBackendConfigured && supabase) {
     try {
       const tokenHash = await sha256Hash(rawToken);
@@ -406,6 +418,15 @@ export async function getInvitationPreview(rawToken) {
  * Atomically claims an invitation for a recipient
  */
 export async function claimInvitation(rawToken, recipientId = null, recipientName = "Companion") {
+  if (rawToken === "preview" || rawToken === "demo") {
+    saveLocalSession({ activeRelationshipId: "preview", role: "recipient" });
+    return {
+      success: true,
+      relationshipId: "preview",
+      relationship: { id: "preview", status: "active" }
+    };
+  }
+
   if (isLiveBackendConfigured && supabase) {
     const user = await getCurrentAuthUser();
     if (!user) {
@@ -499,6 +520,35 @@ export async function syncCycleSnapshot(relationshipId, snapshot) {
 export async function getSharedSnapshot(relationshipId) {
   const session = getLocalSession();
 
+  if (relationshipId === "preview" || relationshipId === "demo") {
+    return {
+      status: "active",
+      relationship: {
+        id: "preview",
+        owner_id: "usr_preview_owner",
+        owner_name: "Sarah",
+        permissions: DEFAULT_PERMISSIONS,
+        humorous_notifications: true,
+        allowed_responses: DEFAULT_ALLOWED_RESPONSES
+      },
+      snapshot: {
+        cycle_phase: "Luteal Phase",
+        cycle_day: 22,
+        period_status: "Expected in 6 days",
+        is_period_logged: false,
+        next_period_est: "in 6 days",
+        fertile_window_est: "Completed",
+        feelings: ["Needs rest", "Gentle hugs welcome"],
+        symptoms: ["Mild cramping", "Craving dark chocolate"],
+        energy_level: "Low to moderate",
+        mood: "Soft & introspective",
+        support_preference: "Comfort snacks & hot tea",
+        support_suggestion: "Keep her favorite warm beverage ready and handle dinner chores without asking.",
+        synced_at: new Date().toISOString()
+      }
+    };
+  }
+
   if (isLiveBackendConfigured && supabase) {
     const { data: rel, error: relErr } = await supabase
       .from("sharing_relationships")
@@ -548,6 +598,15 @@ export async function getSharedSnapshot(relationshipId) {
  * Submits an owner-permitted predefined support response
  */
 export async function sendSupportResponse(relationshipId, responseKey) {
+  if (relationshipId === "preview" || relationshipId === "demo") {
+    return {
+      success: true,
+      id: "resp_preview",
+      response_key: responseKey,
+      created_at: new Date().toISOString()
+    };
+  }
+
   const session = getLocalSession();
 
   if (isLiveBackendConfigured && supabase) {
