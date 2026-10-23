@@ -165,21 +165,9 @@ export function HomeView() {
           {S.premium ? (
             <button
               type="button"
+              className="v-premium-badge-btn"
               onClick={() => setPremiumModal(true)}
-              style={{
-                background: "var(--surface-tint)",
-                color: "var(--primary)",
-                border: "1px solid var(--berry-border)",
-                borderRadius: "999px",
-                padding: "4px 10px",
-                fontSize: "11px",
-                fontWeight: "800",
-                letterSpacing: "0.04em",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "4px"
-              }}
+              aria-label="Pro license active"
               title="Evaluation License Active"
             >
               <span>PRO</span>
@@ -187,20 +175,9 @@ export function HomeView() {
           ) : (
             <button
               type="button"
+              className="v-premium-badge-btn"
               onClick={() => setPremiumModal(true)}
-              style={{
-                background: "var(--surface-tint)",
-                color: "var(--primary)",
-                border: "1px solid var(--berry-border)",
-                borderRadius: "999px",
-                padding: "4px 10px",
-                fontSize: "11.5px",
-                fontWeight: "700",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "4px"
-              }}
+              aria-label="Unlock premium features"
               title="Test Evaluation License"
             >
               <span>Premium</span>
@@ -208,21 +185,9 @@ export function HomeView() {
           )}
           <button
             type="button"
-            className="chip"
+            className="chip v-companion-chip"
             onClick={() => actions.openPartner()}
-            style={{
-              background: "var(--lavender-soft, #F5EFF7)",
-              border: "1px solid rgba(0,0,0,0.06)",
-              borderRadius: "999px",
-              padding: "4px 10px",
-              fontSize: "11.5px",
-              fontWeight: "700",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              color: "var(--plum)"
-            }}
+            aria-label="Cycle Care Companion pairing"
             title="Cycle Care Companion"
           >
             <Icon name="heart" size={13} />
@@ -425,6 +390,9 @@ export function HomeView() {
           </div>
         </div>
       </div>
+      <p className="v-vital-disclaimer">
+        Estimates are evidence-based approximations calculated from your logged rhythms. Not intended as medical diagnosis or guaranteed contraception.
+      </p>
 
       {/* 5. Menstrual Phase Educational Cards (Reference Row 6 Screen 3) */}
       <div className="v-phase-carousel-section" style={{ marginTop: "24px" }}>

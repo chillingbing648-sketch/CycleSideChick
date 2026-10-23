@@ -601,6 +601,17 @@ export const ICONS = {
       <path d="M18 6l-2.1 2.1M8.1 15.9L6 18m12 0l-2.1-2.1M8.1 8.1L6 6" />
       <circle cx="12" cy="12" r="2" fill="currentColor" fillOpacity="0.25" />
     </>
+  ),
+  camera: (
+    <>
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+      <circle cx="12" cy="13" r="4" />
+    </>
+  ),
+  maximize: (
+    <>
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+    </>
   )
 };
 

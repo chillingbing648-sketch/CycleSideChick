@@ -284,7 +284,11 @@ export const actions = {
     if (ui.tab === tab) return;
     const update = () => {
       ui.tab = tab;
-      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "instant" });
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        const main = document.querySelector(".v-main-content");
+        if (main) main.scrollTop = 0;
+      }
       haptic(10);
       notify();
     };

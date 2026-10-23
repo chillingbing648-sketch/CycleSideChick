@@ -25,7 +25,7 @@ export function SlidingPillNav({ activeTab = "home", motionPref = 1 }) {
     { key: "calendar", label: "Calendar", icon: "calendar" },
     { key: "log", label: "Log", icon: "plus", isAction: true },
     { key: "insights", label: "Insights", icon: "insights" },
-    { key: "care", label: "Journal", icon: "book" }
+    { key: "care", label: "Care", icon: "care" }
   ];
 
   // Measure and align sliding pill to active tab
@@ -53,12 +53,7 @@ export function SlidingPillNav({ activeTab = "home", motionPref = 1 }) {
   }, [activeTab]);
 
   const handleNavClick = (item) => {
-    if (item.key === "care") {
-      actions.setCareTab("journal");
-      actions.setTab("care");
-    } else {
-      actions.setTab(item.key);
-    }
+    actions.setTab(item.key);
   };
 
   const prefersReduced = motionPref === 0 ||

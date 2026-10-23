@@ -112,25 +112,25 @@
   --radius-pill: 999px;
   --radius-full: 9999px;
 
-  /* --- Surfaces & Backgrounds -------------------------------------------- */
-  --bg: #F7F7F9;
-  --bg-subtle: #FAFAFC;
-  --bg-gradient: linear-gradient(180deg, #FFFFFF 0%, #F7F7F9 100%);
+  /* --- Surfaces & Backgrounds (Warm Cream Ivory & Soft Blush) ---------- */
+  --bg: #FAF6F4;
+  --bg-subtle: #FDFBFA;
+  --bg-gradient: linear-gradient(180deg, #FFFFFF 0%, #FAF5F3 100%);
   --surface: #FFFFFF;
-  --surface-warm: #FFFFFF;
-  --surface-alt: #F1F1F5;
+  --surface-warm: #FFFDFD;
+  --surface-alt: #F4EFEB;
   --surface-raised: #FFFFFF;
   --surface-floating: #FFFFFF;
-  --surface-soft: #F9F9FB;
+  --surface-soft: #F9F5F3;
   --surface-elevated: #FFFFFF;
-  --surface-groove: #EAEAEF;
-  --surface-inset: #F2F2F6;
-  --surface-tint: #FFF0F5;
+  --surface-groove: #EFE8E5;
+  --surface-inset: #F5EFEB;
+  --surface-tint: #FDF2F5;
 
-  /* --- Typography Colors (Clean Charcoal & Muted Grey) ------------------- */
-  --text: #29252A;
-  --text-muted: #85818A;
-  --text-subtle: #AAA6AF;
+  /* --- Typography Colors (Warm Charcoal-Plum & Muted Violet-Grey) ------ */
+  --text: #2D242B;
+  --text-muted: #6B6271;
+  --text-subtle: #8E8495;
   --text-inverse: #FFFFFF;
 
   /* Legacy aliases */
@@ -139,18 +139,18 @@
   --muted: var(--text-muted);
   --subtle: var(--text-subtle);
 
-  /* --- Borders ----------------------------------------------------------- */
-  --border: #ECECF0;
-  --border-subtle: rgba(41, 37, 42, 0.06);
-  --border-strong: #DCD8E2;
+  /* --- Borders (Soft & Warm) -------------------------------------------- */
+  --border: #EDE6E3;
+  --border-subtle: rgba(45, 36, 43, 0.06);
+  --border-strong: #D9CED5;
 
-  /* --- Primary (Vivid Rose / Hot Pink #FF5B99) -------------------------- */
-  --primary: #FF5B99;
-  --primary-hover: #F04887;
-  --primary-active: #DC3874;
-  --primary-light: #FFF0F5;
-  --primary-gradient: linear-gradient(135deg, #FF72A7 0%, #FF5B99 100%);
-  --primary-glow: 0 6px 20px rgba(255, 91, 153, 0.28);
+  /* --- Primary (Sophisticated Soft Dusty Blush Rose #D85A80) ------------ */
+  --primary: #D85A80;
+  --primary-hover: #C5486E;
+  --primary-active: #B23A5F;
+  --primary-light: #FDF1F5;
+  --primary-gradient: linear-gradient(135deg, #DF698D 0%, #D05177 100%);
+  --primary-glow: 0 4px 16px rgba(216, 90, 128, 0.22);
 
   /* Legacy aliases (used everywhere) */
   --berry: var(--primary);
@@ -187,29 +187,34 @@
   --sage: #DEF3E6;
   --sky: #E3F0FC;
 
-  /* --- Phase Palette (Consistent App-Wide) ------------------------------- */
-  --phase-period: #FF5B99;
-  --phase-period-bg: #FFF0F5;
-  --phase-follicular: #FFA834;
-  --phase-follicular-bg: #FFF6EB;
-  --phase-fertile: #20C997;
-  --phase-fertile-bg: #E8F9F3;
-  --phase-ovulatory: #00B4D8;
-  --phase-ovulatory-bg: #E6F8FB;
-  --phase-luteal: #A855F7;
-  --phase-luteal-bg: #F5EEFD;
+  /* --- Phase Palette (Harmonious Restrained Pastels) -------------------- */
+  --phase-period: #D85A80;
+  --phase-period-bg: #FDF1F5;
+  --phase-period-border: #F8D5E1;
+  --phase-follicular: #DF8344;
+  --phase-follicular-bg: #FDF5ED;
+  --phase-follicular-border: #FBE4D2;
+  --phase-fertile: #26A575;
+  --phase-fertile-bg: #EDF8F3;
+  --phase-fertile-border: #D1EFE2;
+  --phase-ovulatory: #755BB4;
+  --phase-ovulatory-bg: #F5F1FD;
+  --phase-ovulatory-border: #E8DFF9;
+  --phase-luteal: #8E5DAF;
+  --phase-luteal-bg: #F7F1FB;
+  --phase-luteal-border: #EBDCF5;
 
-  /* Legacy phase aliases (used by CycleRing, charts, etc.) */
+  /* Legacy phase aliases */
   --phase-menstrual: var(--phase-period);
   --phase-menstrual-bg: var(--phase-period-bg);
-  --phase-menstrual-text: #FF5B99;
-  --phase-menstrual-border: #F8DCE7;
-  --phase-follicular-text: #7D4118;
-  --phase-follicular-border: #FFE5D6;
-  --phase-ovulatory-text: #59398E;
-  --phase-ovulatory-border: #E9E1FA;
-  --phase-luteal-text: #245C3B;
-  --phase-luteal-border: #DCEFE3;
+  --phase-menstrual-text: #9B284E;
+  --phase-menstrual-border: #F8D5E1;
+  --phase-follicular-text: #8E481A;
+  --phase-follicular-border: #FBE4D2;
+  --phase-ovulatory-text: #50378C;
+  --phase-ovulatory-border: #E8DFF9;
+  --phase-luteal-text: #5C3278;
+  --phase-luteal-border: #EBDCF5;
 
   /* --- Semantic Tint Surfaces -------------------------------------------- */
   --tint-rose-bg: #FDF1F5;
@@ -311,43 +316,43 @@
    4. Dark Theme — Deep Charcoal (#121217 Base) with Vivid Rose Pink
    ========================================================================== */
 :root[data-theme="dark"] {
-  --bg: #121217;
-  --bg-subtle: #18171F;
-  --bg-gradient: linear-gradient(180deg, #18171F 0%, #121217 100%);
+  --bg: #151319;
+  --bg-subtle: #1C1921;
+  --bg-gradient: linear-gradient(180deg, #1C1921 0%, #151319 100%);
 
-  --surface: #1E1D26;
-  --surface-warm: #1E1D26;
-  --surface-alt: #252432;
-  --surface-raised: #252432;
-  --surface-floating: #2B2A38;
-  --surface-soft: #191822;
-  --surface-elevated: #252432;
-  --surface-groove: #14131A;
-  --surface-inset: #14131A;
-  --surface-tint: #2C1A26;
+  --surface: #221E27;
+  --surface-warm: #221E27;
+  --surface-alt: #292430;
+  --surface-raised: #292430;
+  --surface-floating: #312B3A;
+  --surface-soft: #1B1820;
+  --surface-elevated: #292430;
+  --surface-groove: #18151D;
+  --surface-inset: #18151D;
+  --surface-tint: #321F2B;
 
   --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-  --text: #FFFFFF;
-  --text-muted: #8E8A96;
-  --text-subtle: #63606E;
-  --text-inverse: #121217;
+  --text: #FBF8FA;
+  --text-muted: #ADA4B4;
+  --text-subtle: #7A7282;
+  --text-inverse: #151319;
 
   --plum: var(--text);
-  --ink: #FFFFFF;
+  --ink: #FBF8FA;
   --muted: var(--text-muted);
   --subtle: var(--text-subtle);
 
-  --border: #2D2B3A;
+  --border: #332B3B;
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: #3F3C50;
+  --border-strong: #483E53;
 
-  --primary: #FF5B99;
-  --primary-hover: #FF70A8;
-  --primary-active: #E84A88;
-  --primary-light: rgba(255, 91, 153, 0.16);
-  --primary-gradient: linear-gradient(135deg, #FF72A7 0%, #FF5B99 100%);
-  --primary-glow: 0 6px 20px rgba(255, 91, 153, 0.28);
+  --primary: #E86B91;
+  --primary-hover: #F07EA1;
+  --primary-active: #D9567E;
+  --primary-light: rgba(232, 107, 145, 0.18);
+  --primary-gradient: linear-gradient(135deg, #EE789D 0%, #DF5E84 100%);
+  --primary-glow: 0 4px 18px rgba(232, 107, 145, 0.28);
 
   --berry: var(--primary);
   --berry-hover: var(--primary-hover);
