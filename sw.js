@@ -66,16 +66,43 @@ self.addEventListener("fetch", event => {
 });
 
 self.addEventListener("push", event => {
-  let data = { title: "CycleSideChick Reminder", body: "Check in with your cycle today." };
+  let data = {
+    title: "CycleSideChick Companion",
+    body: "Your cycle companion shared an update. Open to see how you can offer support today.",
+    url: "./"
+  };
   try {
-    if (event.data) data = event.data.json();
+    if (event.data) {
+      const parsed = event.data.json();
+      data = { ...data, ...parsed };
+    }
   } catch (e) {}
 
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
       icon: "./favicon.svg",
-      badge: "./favicon.svg"
+      badge: "./favicon.svg",
+      data: data,
+      tag: "cycle-companion-notification"
+    })
+  );
+});
+
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  const targetUrl = (event.notification.data && event.notification.data.url) || "./";
+
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then(windowClients => {
+      for (const client of windowClients) {
+        if ("focus" in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
     })
   );
 });

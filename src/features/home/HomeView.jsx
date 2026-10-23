@@ -208,6 +208,28 @@ export function HomeView() {
           )}
           <button
             type="button"
+            className="chip"
+            onClick={() => actions.openPartner()}
+            style={{
+              background: "var(--lavender-soft, #F5EFF7)",
+              border: "1px solid rgba(0,0,0,0.06)",
+              borderRadius: "999px",
+              padding: "4px 10px",
+              fontSize: "11.5px",
+              fontWeight: "700",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              color: "var(--plum)"
+            }}
+            title="Cycle Care Companion"
+          >
+            <Icon name="heart" size={13} />
+            <span>Companion</span>
+          </button>
+          <button
+            type="button"
             className="v-home-avatar-btn"
             onClick={() => actions.openProfile()}
             aria-label="Profile and settings"

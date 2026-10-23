@@ -15,6 +15,7 @@ import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { SelfCareChecklist } from "../../components/care/SelfCareChecklist.jsx";
 import { MoodJournalSection } from "../../components/journal/MoodJournalSection.jsx";
+import { CompanionCard } from "../companion/CompanionCard.jsx";
 import { ARTICLES, getReassuranceMessage, getCareSuggestions } from "../../core/content.js";
 
 export function CareView() {
@@ -82,6 +83,9 @@ export function CareView() {
               "{reassurance}"
             </p>
           </Card>
+
+          {/* Cycle Care Companion Integration */}
+          <CompanionCard />
 
           {/* Component 04: Gentle Self-Care Checklist */}
           <SelfCareChecklist S={S} />
