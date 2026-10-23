@@ -1,12 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="64" height="64">
-  <g stroke="#481930" stroke-width="2.5" stroke-linejoin="round">
-    <ellipse cx="36" cy="26" rx="9" ry="22" fill="#F7EDF2" transform="rotate(-8 36 26)"/>
-    <ellipse cx="64" cy="28" rx="9" ry="20" fill="#F7EDF2" transform="rotate(14 64 28)"/>
-    <ellipse cx="50" cy="68" rx="31" ry="26" fill="#F7EDF2"/>
-  </g>
-  <ellipse cx="36" cy="28" rx="4" ry="14" fill="#C68196" transform="rotate(-8 36 28)"/>
-  <ellipse cx="64" cy="30" rx="4" ry="12" fill="#C68196" transform="rotate(14 64 30)"/>
-  <circle cx="40" cy="66" r="3" fill="#481930"/>
-  <circle cx="60" cy="66" r="3" fill="#481930"/>
-  <path d="M50 86c-9-5-11-10-7-12 2-1 5 0 7 2 2-2 5-3 7-2 4 2 2 7-7 12z" fill="#D9447E"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <!-- Rich Rose-Red Blood Droplet Gradient -->
+    <linearGradient id="cscBloodGrad" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#FF5B8F"/>
+      <stop offset="45%" stop-color="#FF2E6D"/>
+      <stop offset="100%" stop-color="#D60E4B"/>
+    </linearGradient>
+
+    <!-- Soft Ambient Halo / Drop Shadow -->
+    <filter id="cscDropGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#D60E4B" flood-opacity="0.32"/>
+    </filter>
+
+    <!-- Rosy Cheek Blush -->
+    <radialGradient id="cscBlush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFAAC4" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFAAC4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Clean, Rounded Pure Droplet Body -->
+  <path d="M 50 6 C 50 6 12 50 12 70 C 12 87 28.5 96 50 96 C 71.5 96 88 87 88 70 C 88 50 50 6 50 6 Z"
+        fill="url(#cscBloodGrad)"
+        filter="url(#cscDropGlow)"/>
+
+  <!-- Glossy Specular Reflection Arc (Left Shoulder) -->
+  <path d="M 28 44 C 20 54 20 68 25 76"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="5"
+        stroke-linecap="round"
+        opacity="0.75"/>
+  <circle cx="34" cy="34" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+
+  <!-- Sweet Kawaii Smiling Eyes (Curved Arcs) -->
+  <path d="M 36 64 C 38.5 59.5 42.5 59.5 45 64"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="3"
+        stroke-linecap="round"/>
+  <path d="M 55 64 C 57.5 59.5 61.5 59.5 64 64"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="3"
+        stroke-linecap="round"/>
+
+  <!-- Blushing Cheeks -->
+  <ellipse cx="32" cy="71" rx="5.5" ry="3.5" fill="url(#cscBlush)"/>
+  <ellipse cx="68" cy="71" rx="5.5" ry="3.5" fill="url(#cscBlush)"/>
+
+  <!-- Tiny Joyful Curved Mouth -->
+  <path d="M 46.5 71 Q 50 75 53.5 71"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="2.6"
+        stroke-linecap="round"/>
+
+  <!-- Little Sparkle Star on Upper Right -->
+  <path d="M 76 22 Q 76 29 83 29 Q 76 29 76 36 Q 76 29 69 29 Q 76 29 76 22 Z"
+        fill="#FFE5EE"
+        opacity="0.95"/>
 </svg>

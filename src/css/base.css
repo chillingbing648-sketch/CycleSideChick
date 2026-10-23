@@ -9,15 +9,20 @@ html, body, button, input, select, textarea {
   box-sizing: border-box;
 }
 
-/* Custom Slim Scrollbars */
+/* Custom Ultra-Smooth, Cooler, Animated Glow Scrollbars */
+html {
+  scroll-behavior: smooth;
+}
+
 * {
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--scrollbar-thumb, rgba(255, 91, 153, 0.3)) transparent;
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 *::-webkit-scrollbar-track {
@@ -25,13 +30,22 @@ html, body, button, input, select, textarea {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--scrollbar-thumb, rgba(255, 91, 153, 0.3));
   border-radius: var(--radius-pill);
-  transition: background 0.15s ease;
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--subtle);
+  background: linear-gradient(180deg, #FF72A7 0%, #FF5B99 100%);
+  background-clip: padding-box;
+  box-shadow: 0 0 12px var(--scrollbar-glow, rgba(255, 91, 153, 0.45));
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: #E84583;
+  box-shadow: 0 0 16px rgba(232, 69, 131, 0.7);
 }
 
 html {
@@ -66,18 +80,62 @@ body.modal-open, html.modal-open {
   overflow: hidden !important;
 }
 
+/* ==========================================================================
+   Mobile-First Device Architecture
+   ========================================================================== */
 #app {
-  max-width: 480px;
+  width: 100%;
+  max-width: 440px;
   margin: 0 auto;
-  padding: 14px 16px calc(108px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  body {
+    background: #EFE7ED;
+    background-image: radial-gradient(circle at 50% 10%, #FAF5F8 0%, #EFE7ED 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 0;
+  }
+  :root[data-theme="dark"] body {
+    background: #120E16;
+    background-image: radial-gradient(circle at 50% 10%, #1F1926 0%, #120E16 100%);
+  }
+  #app {
+    max-width: 420px;
+    height: 880px;
+    max-height: calc(100vh - 48px);
+    border-radius: 48px;
+    box-shadow:
+      0 28px 75px -15px rgba(45, 25, 40, 0.22),
+      0 0 0 10px #FFFFFF,
+      0 0 0 12px rgba(45, 35, 44, 0.08);
+    overflow: hidden;
+  }
+  :root[data-theme="dark"] #app {
+    box-shadow:
+      0 28px 75px -15px rgba(0, 0, 0, 0.65),
+      0 0 0 10px #251E2B,
+      0 0 0 12px rgba(255, 255, 255, 0.08);
+  }
 }
 
 h1, h2, h3, h4 {
+  font-family: var(--font-heading, 'Quicksand', 'Nunito Sans', sans-serif);
   color: var(--plum);
   margin: 0;
   font-weight: 700;
   line-height: 1.25;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 
 h1 { font-size: 26px; }
@@ -109,16 +167,41 @@ p { margin: 0.4em 0; }
   gap: 10px;
 }
 
-/* Touch Targets: minimum 44px */
+/* Touch Targets: minimum 44px, no tap highlight/double-tap zoom, 16px input font to prevent iOS zoom */
 button, input, select, textarea, .chip, .mood, .day {
   min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, select, textarea {
+  font-size: 16px !important;
+  font-family: var(--font-body);
 }
 
 /* Accessible Focus States */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--pink-glow);
-  border-color: var(--pink) !important;
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  border-color: var(--primary) !important;
+}
+
+/* View Transitions API */
+::view-transition-old(root) {
+  animation: 220ms var(--ease-out-expo) both vFadeOut;
+}
+::view-transition-new(root) {
+  animation: 260ms var(--ease-out-expo) both vFadeIn;
+}
+
+@keyframes vFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.99); }
+}
+
+@keyframes vFadeIn {
+  from { opacity: 0; transform: scale(0.99); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* Disabled Controls */

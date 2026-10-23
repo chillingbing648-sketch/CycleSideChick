@@ -24,8 +24,8 @@ const fmt = (n, o = { month: "short", day: "numeric" }) =>
 
 const okD = s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s) && I(N(s)) === s;
 
-const vp = S => (S.periods || []).filter(p => okD(p.s) && N(p.s) <= TD());
-const badP = S => (S.periods || []).filter(p => !(okD(p.s) && N(p.s) <= TD()));
+const vp = S => (S.periods || S.p || []).filter(p => okD(p.s) && N(p.s) <= TD());
+const badP = S => (S.periods || S.p || []).filter(p => !(okD(p.s) && N(p.s) <= TD()));
 const pEnd = (p, S) => (okD(p.e) && N(p.e) >= N(p.s) && N(p.e) <= TD()) ? N(p.e) : Math.min(N(p.s) + (S.pl || 5) - 1, Math.max(TD(), N(p.s)));
 
 const pdset = S => {
@@ -57,12 +57,13 @@ function calculateStats(S) {
   const r = lens.slice(-6); // Up to last 6 valid cycles
   const n = r.length;
   let A = S.cl || 28;
+  let median = A;
   let sd = 2;
   let outlierDetected = false;
 
   if (n > 0) {
     const sorted = [...r].sort((a, b) => a - b);
-    const median = n % 2 === 1 ? sorted[Math.floor(n / 2)] : Math.round((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
+    median = n % 2 === 1 ? sorted[Math.floor(n / 2)] : Math.round((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
     const minVal = sorted[0];
     const maxVal = sorted[sorted.length - 1];
 
@@ -142,11 +143,51 @@ function calculateStats(S) {
     };
   });
 
+  // Complete period dates for rendering
+  const activePdSet = pdset(S);
+
+  // Current cycle details
+  const cur = last != null ? {
+    s: last,
+    startDate: I(last),
+    cd: Math.max(1, TD() - last + 1),
+    day: Math.max(1, TD() - last + 1),
+    len: A,
+    end: last + A - 1,
+    isPeriod: activePdSet.has(TD())
+  } : null;
+
+  // Predicted bleeding dates
+  const predictedDates = [];
+  predictedCycles.forEach(pc => {
+    for (let d = pc.periodStart; d <= pc.periodEnd; d++) {
+      predictedDates.push(d);
+    }
+  });
+
+  // Historical completed cycles
+  const history = [];
+  for (let i = 1; i < validPeriods.length; i++) {
+    const prev = validPeriods[i - 1];
+    const curr = validPeriods[i];
+    const prevStart = N(prev.s);
+    const currStart = N(curr.s);
+    const cycleLength = currStart - prevStart;
+    const periodDuration = pEnd(prev, S) - prevStart + 1;
+    history.push({
+      start: prevStart,
+      end: currStart - 1,
+      length: cycleLength,
+      duration: periodDuration
+    });
+  }
+
   return {
     st,
     lens,
     gaps,
     avg: A,
+    med: median,
     pm,
     sd,
     confLevel,
@@ -155,12 +196,17 @@ function calculateStats(S) {
     pred,
     nextPred,
     predictedCycles,
+    predictedDates,
     ll,
     estOvulation,
+    ovulationDate: estOvulation,
     fertileStart,
     fertileEnd,
     n,
-    outlierDetected
+    outlierDetected,
+    cur,
+    pdset: activePdSet,
+    history
   };
 }
 

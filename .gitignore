@@ -1,3 +1,7 @@
+# Build Output
+dist/
+dist-ssr/
+
 # Node / NPM
 node_modules/
 npm-debug.log*
