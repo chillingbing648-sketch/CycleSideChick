@@ -20,7 +20,8 @@ import {
   pauseSharing,
   updatePermissions,
   saveLocalSession,
-  isLiveBackendConfigured
+  isLiveBackendConfigured,
+  subscribeToCompanionRealtime
 } from "./api.js";
 import { DEFAULT_PERMISSIONS, DEFAULT_ALLOWED_RESPONSES } from "./types.js";
 
@@ -201,7 +202,27 @@ export function useCompanion() {
     }
   }, [S.logs, S.periods, activeRelationship?.id, activeRelationship?.status]);
 
-  // Periodic poll for responses (every 20s)
+  // Realtime subscription for incoming responses & status updates
+  useEffect(() => {
+    if (!activeRelationship?.id) return;
+
+    const sub = subscribeToCompanionRealtime(activeRelationship.id, {
+      onResponse: (newResp) => {
+        setResponses(prev => [newResp, ...prev.filter(r => r.id !== newResp.id)]);
+        toast("New supportive message from companion!");
+        haptic(20);
+      },
+      onRelationshipChange: (updatedRel) => {
+        setActiveRelationship(updatedRel);
+      }
+    });
+
+    return () => {
+      if (sub && sub.unsubscribe) sub.unsubscribe();
+    };
+  }, [activeRelationship?.id]);
+
+  // Periodic poll for responses (fallback every 20s)
   useEffect(() => {
     if (!activeRelationship?.id) return;
     refreshResponses();

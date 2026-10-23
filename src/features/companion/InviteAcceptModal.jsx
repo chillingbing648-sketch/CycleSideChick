@@ -9,7 +9,8 @@ import { Card } from "../../components/ui/Card.jsx";
 import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { BunnyMascot } from "../../components/ui/BunnyMascot.jsx";
-import { getInvitationPreview, claimInvitation } from "./api.js";
+import { getInvitationPreview, claimInvitation, getCurrentAuthUser, isLiveBackendConfigured } from "./api.js";
+import { CompanionAuthCard } from "./CompanionAuthCard.jsx";
 import { COMPANION_PERMISSIONS } from "./types.js";
 import { toast, haptic } from "../../app/store.js";
 
@@ -19,6 +20,16 @@ export function InviteAcceptModal({ token, onAccepted, onDismiss }) {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
   const [companionName, setCompanionName] = useState("");
+  const [authUser, setAuthUser] = useState(null);
+  const [skipAuth, setSkipAuth] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getCurrentAuthUser().then(u => {
+      if (mounted) setAuthUser(u);
+    });
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     async function loadPreview() {
@@ -118,6 +129,14 @@ export function InviteAcceptModal({ token, onAccepted, onDismiss }) {
                 })}
               </div>
             </Card>
+
+            {/* Recipient Cloud Account Sign-in */}
+            {isLiveBackendConfigured && !authUser && !skipAuth && (
+              <CompanionAuthCard
+                onAuthSuccess={(u) => setAuthUser(u)}
+                onSkipToLocal={() => setSkipAuth(true)}
+              />
+            )}
 
             <div style={{ textAlign: "left" }}>
               <label style={{ fontSize: "12.5px", fontWeight: "600", color: "var(--plum)", display: "block", marginBottom: "6px" }}>

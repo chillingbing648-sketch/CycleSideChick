@@ -8,7 +8,7 @@ import { Card } from "../../components/ui/Card.jsx";
 import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { BunnyMascot } from "../../components/ui/BunnyMascot.jsx";
-import { getSharedSnapshot, sendSupportResponse } from "./api.js";
+import { getSharedSnapshot, sendSupportResponse, subscribeToCompanionRealtime } from "./api.js";
 import { PREDEFINED_RESPONSES } from "./types.js";
 import { toast, haptic } from "../../app/store.js";
 
@@ -36,9 +36,29 @@ export function CompanionDashboard({ relationshipId, onExit }) {
 
   useEffect(() => {
     fetchStatus();
-    // Poll every 30 seconds for live updates
+
+    // Subscribe to Realtime Postgres Changes
+    const sub = subscribeToCompanionRealtime(relationshipId, {
+      onSnapshot: (newSnap) => {
+        setData(prev => ({ ...prev, snapshot: newSnap }));
+        toast("Cycle status updated by companion");
+        haptic(15);
+      },
+      onRelationshipChange: (updatedRel) => {
+        if (updatedRel.status === "revoked") {
+          setData(prev => ({ ...prev, status: "revoked", revoked: true }));
+        } else {
+          setData(prev => ({ ...prev, relationship: updatedRel, status: updatedRel.status }));
+        }
+      }
+    });
+
+    // Fallback polling every 30 seconds
     const interval = setInterval(fetchStatus, 30000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (sub && sub.unsubscribe) sub.unsubscribe();
+    };
   }, [relationshipId]);
 
   const handleSendResponse = async (key) => {
