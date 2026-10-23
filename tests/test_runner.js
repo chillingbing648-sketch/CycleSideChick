@@ -1,10 +1,13 @@
 /**
  * CycleSideChick — Test Runner
- * Executes Cycle Engine tests and Cycle Care Companion Security & E2E tests.
+ * Executes:
+ * 1. Cycle Engine unit tests
+ * 2. Cycle Care Companion Security & E2E tests
+ * 3. Live Supabase project integration tests
  */
 const { spawnSync } = require("child_process");
 
-console.log("Starting CycleSideChick Test Suite...\n");
+console.log("Starting CycleSideChick Complete Test Suite...\n");
 
 // 1. Run Core Cycle Engine Unit Tests
 const engineTest = spawnSync("node", ["tests/cycle_engine.test.js"], { stdio: "inherit" });
@@ -20,6 +23,15 @@ const securityTest = spawnSync("node", ["tests/companion_security.test.js"], { s
 if (securityTest.status !== 0) {
   console.error("\nCompanion security tests failed with status:", securityTest.status);
   process.exit(securityTest.status);
+}
+
+console.log("\n");
+
+// 3. Run Live Supabase Integration Tests
+const liveTest = spawnSync("node", ["tests/supabase_live_integration.test.js"], { stdio: "inherit" });
+if (liveTest.status !== 0) {
+  console.error("\nSupabase live integration tests failed with status:", liveTest.status);
+  process.exit(liveTest.status);
 }
 
 console.log("\nAll test suites passed cleanly with 100% success.");

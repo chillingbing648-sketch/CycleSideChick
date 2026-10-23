@@ -1,7 +1,7 @@
 /**
  * CycleSideChick — Unified Companion API Client
- * Provides seamless integration with Supabase when credentials exist,
- * with automatic fallback to high-fidelity, local-first mockBackend.
+ * Provides integration with Supabase (Auth, RLS, Realtime & PostgREST)
+ * with robust local-first fallback when cloud sync is not active.
  */
 
 import { createClient } from "@supabase/supabase-js";
@@ -9,16 +9,40 @@ import { mockBackend } from "./mockBackend.js";
 import { generateSecureToken, sha256Hash } from "./crypto.js";
 import { DEFAULT_PERMISSIONS, DEFAULT_ALLOWED_RESPONSES } from "./types.js";
 
-const SUPABASE_URL = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_URL : "";
-const SUPABASE_ANON_KEY = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_ANON_KEY : "";
+/**
+ * Normalizes Supabase Project URL.
+ * Automatically strips trailing /rest/v1/ or slashes if the user pasted the REST endpoint URL.
+ */
+export function normalizeSupabaseUrl(url) {
+  if (!url || typeof url !== "string") return "";
+  let trimmed = url.trim().replace(/\/+$/, "");
+  trimmed = trimmed.replace(/\/rest\/v1\/?$/, "");
+  return trimmed;
+}
 
-export const isLiveBackendConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+const RAW_SUPABASE_URL = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_URL : "";
+const RAW_SUPABASE_ANON_KEY = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_ANON_KEY : "";
+
+export const SUPABASE_URL = normalizeSupabaseUrl(RAW_SUPABASE_URL);
+export const SUPABASE_ANON_KEY = (RAW_SUPABASE_ANON_KEY || "").trim();
+
+export const isLiveBackendConfigured = Boolean(
+  SUPABASE_URL &&
+  SUPABASE_ANON_KEY &&
+  (SUPABASE_ANON_KEY.startsWith("ey") || SUPABASE_ANON_KEY.startsWith("sb_publishable_"))
+);
 
 export const supabase = isLiveBackendConfigured
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    })
   : null;
 
-// Local identity store for local-first/mock mode
+// Local identity store for local-first mode
 const LOCAL_STORAGE_KEY = "csc_companion_session";
 
 function getLocalSession() {
@@ -52,12 +76,209 @@ export function saveLocalSession(updates) {
   return merged;
 }
 
-export function getCompanionUser() {
+// ==========================================
+// AUTHENTICATION & DIAGNOSTICS
+// ==========================================
+
+export async function getCurrentAuthUser() {
   if (isLiveBackendConfigured && supabase) {
-    return supabase.auth.getUser();
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      return user || null;
+    } catch (e) {
+      return null;
+    }
   }
-  return Promise.resolve({ data: { user: { id: getLocalSession().userId } }, error: null });
+  return null;
 }
+
+export async function signInWithEmailOtp(email) {
+  if (!isLiveBackendConfigured || !supabase) {
+    throw new Error("Supabase is not configured. Running in Local Safe Mode.");
+  }
+  const redirectTo = typeof window !== "undefined" ? window.location.origin + window.location.pathname : undefined;
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: redirectTo }
+  });
+  if (error) throw error;
+  return data;
+}
+
+export async function verifyEmailOtp(email, token) {
+  if (!isLiveBackendConfigured || !supabase) {
+    throw new Error("Supabase is not configured.");
+  }
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "email"
+  });
+  if (error) throw error;
+  return data;
+}
+
+export async function signInWithPassword(email, password) {
+  if (!isLiveBackendConfigured || !supabase) {
+    throw new Error("Supabase is not configured.");
+  }
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+export async function signUpWithPassword(email, password) {
+  if (!isLiveBackendConfigured || !supabase) {
+    throw new Error("Supabase is not configured.");
+  }
+  const redirectTo = typeof window !== "undefined" ? window.location.origin + window.location.pathname : undefined;
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { emailRedirectTo: redirectTo }
+  });
+  if (error) throw error;
+  return data;
+}
+
+export async function signOutCompanion() {
+  if (isLiveBackendConfigured && supabase) {
+    await supabase.auth.signOut();
+  }
+  saveLocalSession({ activeRelationshipId: null, activeInvitationId: null });
+}
+
+export function onAuthStateChange(callback) {
+  if (isLiveBackendConfigured && supabase) {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      callback(event, session);
+    });
+    return subscription;
+  }
+  return { unsubscribe: () => {} };
+}
+
+/**
+ * Diagnostic health check verifying Supabase connection, credentials, and schema readiness.
+ */
+export async function checkBackendStatus() {
+  if (!isLiveBackendConfigured || !supabase) {
+    return {
+      status: "local",
+      configured: false,
+      schemaReady: false,
+      message: "Privacy-first local companion mode active."
+    };
+  }
+
+  try {
+    const { status, error } = await supabase
+      .from("sharing_invitations")
+      .select("id")
+      .limit(1);
+
+    if (status === 401) {
+      return {
+        status: "invalid_key",
+        configured: true,
+        schemaReady: false,
+        message: "Invalid Supabase API key. Please check your publishable key in .env.local."
+      };
+    }
+
+    if (status === 404 || error?.code === "PGRST205" || error?.message?.includes("schema cache")) {
+      return {
+        status: "schema_pending",
+        configured: true,
+        schemaReady: false,
+        message: "Supabase connected! Database tables are pending migration in your Supabase SQL editor."
+      };
+    }
+
+    if (status === 200 || !error) {
+      return {
+        status: "ready",
+        configured: true,
+        schemaReady: true,
+        message: "Connected to Supabase with Row Level Security."
+      };
+    }
+
+    return {
+      status: "warning",
+      configured: true,
+      schemaReady: false,
+      message: error?.message || "Supabase connection active."
+    };
+  } catch (err) {
+    return {
+      status: "error",
+      configured: true,
+      schemaReady: false,
+      message: "Could not reach Supabase endpoint: " + err.message
+    };
+  }
+}
+
+// ==========================================
+// REALTIME SUBSCRIPTIONS
+// ==========================================
+
+export function subscribeToCompanionRealtime(relationshipId, { onResponse, onSnapshot, onRelationshipChange } = {}) {
+  if (!isLiveBackendConfigured || !supabase || !relationshipId) {
+    return { unsubscribe: () => {} };
+  }
+
+  const channel = supabase
+    .channel(`companion-${relationshipId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "predefined_responses",
+        filter: `relationship_id=eq.${relationshipId}`
+      },
+      payload => {
+        if (onResponse && payload.new) onResponse(payload.new);
+      }
+    )
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "shared_cycle_snapshots",
+        filter: `relationship_id=eq.${relationshipId}`
+      },
+      payload => {
+        if (onSnapshot && payload.new) onSnapshot(payload.new);
+      }
+    )
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "sharing_relationships",
+        filter: `id=eq.${relationshipId}`
+      },
+      payload => {
+        if (onRelationshipChange && payload.new) onRelationshipChange(payload.new);
+      }
+    )
+    .subscribe();
+
+  return {
+    unsubscribe: () => {
+      supabase.removeChannel(channel);
+    }
+  };
+}
+
+// ==========================================
+// INVITATIONS & RELATIONSHIP OPERATIONS
+// ==========================================
 
 /**
  * Creates a cryptographically secure sharing invitation
@@ -66,12 +287,17 @@ export async function createCompanionInvitation({
   permissions = DEFAULT_PERMISSIONS,
   humorousNotifications = true,
   allowedResponses = DEFAULT_ALLOWED_RESPONSES,
-  expiresInHours = 48
+  expiresInHours = 48,
+  preferLocal = false
 } = {}) {
   const session = getLocalSession();
-  const ownerId = session.userId;
 
-  if (isLiveBackendConfigured && supabase) {
+  if (isLiveBackendConfigured && supabase && !preferLocal) {
+    const user = await getCurrentAuthUser();
+    if (!user) {
+      throw new Error("AUTHENTICATION_REQUIRED: Please sign in with your email to create a cloud sharing invitation.");
+    }
+
     const rawToken = generateSecureToken(32);
     const tokenHash = await sha256Hash(rawToken);
     const expiresAt = new Date(Date.now() + expiresInHours * 3600 * 1000).toISOString();
@@ -79,7 +305,7 @@ export async function createCompanionInvitation({
     const { data, error } = await supabase
       .from("sharing_invitations")
       .insert({
-        owner_id: ownerId,
+        owner_id: user.id, // Authenticated Supabase Auth UUID
         token_hash: tokenHash,
         permissions,
         humorous_notifications: humorousNotifications,
@@ -90,7 +316,12 @@ export async function createCompanionInvitation({
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "PGRST205" || error.message?.includes("schema cache")) {
+        throw new Error("SCHEMA_PENDING: Database tables are pending migration in your Supabase SQL editor.");
+      }
+      throw error;
+    }
 
     saveLocalSession({ activeInvitationId: data.id });
 
@@ -107,7 +338,7 @@ export async function createCompanionInvitation({
 
   // Local-safe provider fallback
   const result = await mockBackend.createInvitation({
-    ownerId,
+    ownerId: session.userId,
     ownerName: session.displayName || "Cycle Owner",
     permissions,
     humorousNotifications,
@@ -126,35 +357,46 @@ export async function getInvitationPreview(rawToken) {
   if (!rawToken) return { valid: false, error: "Missing invitation token" };
 
   if (isLiveBackendConfigured && supabase) {
-    const tokenHash = await sha256Hash(rawToken);
-    const { data, error } = await supabase
-      .from("sharing_invitations")
-      .select("id, owner_id, permissions, humorous_notifications, allowed_responses, status, expires_at")
-      .eq("token_hash", tokenHash)
-      .single();
+    try {
+      const tokenHash = await sha256Hash(rawToken);
+      const { data, error } = await supabase
+        .from("sharing_invitations")
+        .select("id, owner_id, permissions, humorous_notifications, allowed_responses, status, expires_at")
+        .eq("token_hash", tokenHash)
+        .single();
 
-    if (error || !data) {
-      return { valid: false, error: "Invitation not found or invalid." };
-    }
+      if (error) {
+        if (error.code === "PGRST205" || error.message?.includes("schema cache")) {
+          return mockBackend.getInvitationPreview(rawToken);
+        }
+        return { valid: false, error: "Invitation not found or invalid." };
+      }
 
-    if (data.status === "claimed") {
-      return { valid: false, error: "This invitation has already been claimed." };
-    }
-    if (data.status === "revoked") {
-      return { valid: false, error: "This invitation has been revoked by the owner." };
-    }
-    if (new Date(data.expires_at) < new Date()) {
-      return { valid: false, error: "This invitation has expired." };
-    }
+      if (!data) {
+        return { valid: false, error: "Invitation not found or invalid." };
+      }
 
-    return {
-      valid: true,
-      ownerId: data.owner_id,
-      permissions: data.permissions,
-      humorousNotifications: data.humorous_notifications,
-      allowedResponses: data.allowed_responses,
-      expiresAt: data.expires_at
-    };
+      if (data.status === "claimed") {
+        return { valid: false, error: "This invitation has already been claimed." };
+      }
+      if (data.status === "revoked") {
+        return { valid: false, error: "This invitation has been revoked by the owner." };
+      }
+      if (new Date(data.expires_at) < new Date()) {
+        return { valid: false, error: "This invitation has expired." };
+      }
+
+      return {
+        valid: true,
+        ownerId: data.owner_id,
+        permissions: data.permissions,
+        humorousNotifications: data.humorous_notifications,
+        allowedResponses: data.allowed_responses,
+        expiresAt: data.expires_at
+      };
+    } catch (e) {
+      console.warn("[CycleCareCompanion] Fallback to local preview:", e.message);
+    }
   }
 
   return mockBackend.getInvitationPreview(rawToken);
@@ -163,26 +405,38 @@ export async function getInvitationPreview(rawToken) {
 /**
  * Atomically claims an invitation for a recipient
  */
-export async function claimInvitation(rawToken, recipientId, recipientName = "Companion") {
-  if (!recipientId) {
-    const s = getLocalSession();
-    recipientId = s.userId;
-  }
-
+export async function claimInvitation(rawToken, recipientId = null, recipientName = "Companion") {
   if (isLiveBackendConfigured && supabase) {
+    const user = await getCurrentAuthUser();
+    if (!user) {
+      throw new Error("AUTHENTICATION_REQUIRED: Please sign in to accept this companion invitation.");
+    }
+
     const tokenHash = await sha256Hash(rawToken);
     const { data, error } = await supabase.rpc("claim_companion_invitation", {
       p_token_hash: tokenHash
     });
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "PGRST202" || error.code === "PGRST205" || error.message?.includes("schema cache")) {
+        console.warn("[CycleCareCompanion] Supabase function not found; using local claim:", error.message);
+        return await mockBackend.claimInvitation({
+          rawTokenOrHash: rawToken,
+          recipientId: user.id,
+          recipientName
+        });
+      }
+      throw error;
+    }
+
     saveLocalSession({ activeRelationshipId: data.relationship_id, role: "recipient" });
     return data;
   }
 
+  const session = getLocalSession();
   const result = await mockBackend.claimInvitation({
     rawTokenOrHash: rawToken,
-    recipientId,
+    recipientId: recipientId || session.userId,
     recipientName
   });
 
@@ -195,14 +449,16 @@ export async function claimInvitation(rawToken, recipientId, recipientName = "Co
  */
 export async function syncCycleSnapshot(relationshipId, snapshot) {
   const session = getLocalSession();
-  const ownerId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
+    const user = await getCurrentAuthUser();
+    if (!user) throw new Error("Authenticated session required to sync snapshot.");
+
     const { data, error } = await supabase
       .from("shared_cycle_snapshots")
       .insert({
         relationship_id: relationshipId,
-        owner_id: ownerId,
+        owner_id: user.id, // Authenticated Supabase Auth UUID
         cycle_phase: snapshot.cyclePhase,
         cycle_day: snapshot.cycleDay,
         period_status: snapshot.periodStatus,
@@ -221,12 +477,17 @@ export async function syncCycleSnapshot(relationshipId, snapshot) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "PGRST205" || error.message?.includes("schema cache")) {
+        return await mockBackend.syncCycleSnapshot({ ownerId: session.userId, relationshipId, snapshot });
+      }
+      throw error;
+    }
     return { success: true, snapshot: data };
   }
 
   return mockBackend.syncCycleSnapshot({
-    ownerId,
+    ownerId: session.userId,
     relationshipId,
     snapshot
   });
@@ -237,7 +498,6 @@ export async function syncCycleSnapshot(relationshipId, snapshot) {
  */
 export async function getSharedSnapshot(relationshipId) {
   const session = getLocalSession();
-  const userId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
     const { data: rel, error: relErr } = await supabase
@@ -246,9 +506,14 @@ export async function getSharedSnapshot(relationshipId) {
       .eq("id", relationshipId)
       .single();
 
-    if (relErr || !rel) throw new Error("Relationship not found or access denied.");
+    if (relErr) {
+      if (relErr.code === "PGRST205" || relErr.message?.includes("schema cache")) {
+        return mockBackend.getSharedSnapshot({ userId: session.userId, relationshipId });
+      }
+      throw new Error("Relationship not found or access denied.");
+    }
 
-    if (rel.status !== "active") {
+    if (rel && rel.status !== "active") {
       return {
         status: rel.status,
         revoked: rel.status === "revoked",
@@ -264,6 +529,11 @@ export async function getSharedSnapshot(relationshipId) {
       .order("synced_at", { ascending: false })
       .limit(1);
 
+    if (snapErr) {
+      if (snapErr.code === "PGRST205") return mockBackend.getSharedSnapshot({ userId: session.userId, relationshipId });
+      throw snapErr;
+    }
+
     return {
       status: "active",
       relationship: rel,
@@ -271,7 +541,7 @@ export async function getSharedSnapshot(relationshipId) {
     };
   }
 
-  return mockBackend.getSharedSnapshot({ userId, relationshipId });
+  return mockBackend.getSharedSnapshot({ userId: session.userId, relationshipId });
 }
 
 /**
@@ -279,25 +549,52 @@ export async function getSharedSnapshot(relationshipId) {
  */
 export async function sendSupportResponse(relationshipId, responseKey) {
   const session = getLocalSession();
-  const recipientId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
+    const user = await getCurrentAuthUser();
+    if (!user) throw new Error("Sign in required to send support responses.");
+
+    // Fetch relationship to get owner_id and verify allowed responses
+    const { data: rel, error: relErr } = await supabase
+      .from("sharing_relationships")
+      .select("owner_id, allowed_responses, status")
+      .eq("id", relationshipId)
+      .single();
+
+    if (relErr) {
+      if (relErr.code === "PGRST205") {
+        return await mockBackend.sendSupportResponse({ recipientId: session.userId, relationshipId, responseKey });
+      }
+      throw new Error("Relationship not found or access denied.");
+    }
+
+    if (rel.status !== "active") throw new Error("Sharing connection is not active.");
+    if (!rel.allowed_responses.includes(responseKey)) {
+      throw new Error(`Response key "${responseKey}" is not authorized by the cycle owner.`);
+    }
+
     const { data, error } = await supabase
       .from("predefined_responses")
       .insert({
         relationship_id: relationshipId,
-        sender_id: recipientId,
+        sender_id: user.id, // Real Supabase Auth UUID
+        owner_id: rel.owner_id,
         response_key: responseKey
       })
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "PGRST205") {
+        return await mockBackend.sendSupportResponse({ recipientId: session.userId, relationshipId, responseKey });
+      }
+      throw error;
+    }
     return { success: true, response: data };
   }
 
   return mockBackend.sendSupportResponse({
-    recipientId,
+    recipientId: session.userId,
     relationshipId,
     responseKey
   });
@@ -308,7 +605,6 @@ export async function sendSupportResponse(relationshipId, responseKey) {
  */
 export async function getOwnerResponses(relationshipId) {
   const session = getLocalSession();
-  const userId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
     const { data, error } = await supabase
@@ -317,11 +613,16 @@ export async function getOwnerResponses(relationshipId) {
       .eq("relationship_id", relationshipId)
       .order("created_at", { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "PGRST205" || error.message?.includes("schema cache")) {
+        return mockBackend.getResponses({ userId: session.userId, relationshipId });
+      }
+      throw error;
+    }
     return data || [];
   }
 
-  return mockBackend.getResponses({ userId, relationshipId });
+  return mockBackend.getResponses({ userId: session.userId, relationshipId });
 }
 
 /**
@@ -329,18 +630,20 @@ export async function getOwnerResponses(relationshipId) {
  */
 export async function revokeSharing(relationshipId) {
   const session = getLocalSession();
-  const callerId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
     const { data, error } = await supabase.rpc("revoke_companion_relationship", {
       p_relationship_id: relationshipId
     });
+    if (error && (error.code === "PGRST202" || error.code === "PGRST205")) {
+      return await mockBackend.revokeRelationship({ callerId: session.userId, relationshipId });
+    }
     if (error) throw error;
     saveLocalSession({ activeRelationshipId: null });
     return data;
   }
 
-  const result = await mockBackend.revokeRelationship({ callerId, relationshipId });
+  const result = await mockBackend.revokeRelationship({ callerId: session.userId, relationshipId });
   saveLocalSession({ activeRelationshipId: null });
   return result;
 }
@@ -350,22 +653,27 @@ export async function revokeSharing(relationshipId) {
  */
 export async function pauseSharing(relationshipId, paused = true) {
   const session = getLocalSession();
-  const ownerId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
+    const user = await getCurrentAuthUser();
+    if (!user) throw new Error("Authenticated session required.");
+
     const { data, error } = await supabase
       .from("sharing_relationships")
       .update({ status: paused ? "paused" : "active", updated_at: new Date().toISOString() })
       .eq("id", relationshipId)
-      .eq("owner_id", ownerId)
+      .eq("owner_id", user.id)
       .select()
       .single();
 
+    if (error && (error.code === "PGRST205" || error.message?.includes("schema cache"))) {
+      return await mockBackend.pauseRelationship({ ownerId: session.userId, relationshipId, paused });
+    }
     if (error) throw error;
     return { success: true, status: data.status };
   }
 
-  return mockBackend.pauseRelationship({ ownerId, relationshipId, paused });
+  return mockBackend.pauseRelationship({ ownerId: session.userId, relationshipId, paused });
 }
 
 /**
@@ -373,9 +681,11 @@ export async function pauseSharing(relationshipId, paused = true) {
  */
 export async function updatePermissions(relationshipId, permissions, humorousNotifications, allowedResponses) {
   const session = getLocalSession();
-  const ownerId = session.userId;
 
   if (isLiveBackendConfigured && supabase) {
+    const user = await getCurrentAuthUser();
+    if (!user) throw new Error("Authenticated session required.");
+
     const updates = { updated_at: new Date().toISOString() };
     if (permissions) updates.permissions = permissions;
     if (humorousNotifications !== undefined) updates.humorous_notifications = humorousNotifications;
@@ -385,16 +695,25 @@ export async function updatePermissions(relationshipId, permissions, humorousNot
       .from("sharing_relationships")
       .update(updates)
       .eq("id", relationshipId)
-      .eq("owner_id", ownerId)
+      .eq("owner_id", user.id)
       .select()
       .single();
 
+    if (error && (error.code === "PGRST205" || error.message?.includes("schema cache"))) {
+      return await mockBackend.updatePermissions({
+        ownerId: session.userId,
+        relationshipId,
+        permissions,
+        humorousNotifications,
+        allowedResponses
+      });
+    }
     if (error) throw error;
     return { success: true, relationship: data };
   }
 
   return mockBackend.updatePermissions({
-    ownerId,
+    ownerId: session.userId,
     relationshipId,
     permissions,
     humorousNotifications,

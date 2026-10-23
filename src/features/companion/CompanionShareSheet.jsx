@@ -21,6 +21,8 @@ import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import { QRCode } from "./qr.jsx";
 import { useCompanion } from "./useCompanion.js";
+import { checkBackendStatus } from "./api.js";
+import { CompanionAuthCard } from "./CompanionAuthCard.jsx";
 import { COMPANION_PERMISSIONS, PREDEFINED_RESPONSES } from "./types.js";
 import { toast, haptic } from "../../app/store.js";
 
@@ -41,6 +43,19 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
     compileApprovedSnapshot,
     isLiveBackend
   } = useCompanion();
+
+  const [backendStatus, setBackendStatus] = useState({
+    status: isLiveBackend ? "checking" : "local",
+    message: isLiveBackend ? "Checking Supabase connection..." : "Privacy-first local companion mode active."
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    checkBackendStatus().then(res => {
+      if (mounted) setBackendStatus(res);
+    });
+    return () => { mounted = false; };
+  }, []);
 
   // Tab inside sheet: "settings" | "invite" | "preview" | "inbox"
   const [activeTab, setActiveTab] = useState("settings");
@@ -83,12 +98,13 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
     );
   };
 
-  const handleGenerateInvite = async () => {
+  const handleGenerateInvite = async (preferLocal = false) => {
     try {
       const inv = await createInvite({
         permissions,
         humorousNotifications: humorEnabled,
-        allowedResponses
+        allowedResponses,
+        preferLocal
       });
       // Build clean URL with token
       const baseOrigin = typeof window !== "undefined" ? window.location.origin + window.location.pathname : "";
@@ -97,7 +113,14 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
       setActiveTab("invite");
       haptic(20);
     } catch (e) {
-      console.error(e);
+      if (e.message && e.message.includes("AUTHENTICATION_REQUIRED")) {
+        toast("Sign in above to link your companion cloud account, or choose local mode.");
+      } else if (e.message && e.message.includes("SCHEMA_PENDING")) {
+        toast("Supabase migration pending in SQL editor. Generated offline-compatible invitation.");
+        handleGenerateInvite(true);
+      } else {
+        toast(e.message || "Could not generate invitation.");
+      }
     }
   };
 
@@ -188,27 +211,82 @@ export function CompanionShareSheet({ isOpen = true, onClose }) {
         </div>
 
         {/* Backend mode indicator (Privacy banner) */}
-        <div style={{
-          fontSize: "12px",
-          display: "flex",
-          alignItems: "center",
-          gap: "6px",
-          padding: "8px 12px",
-          borderRadius: "10px",
-          background: isLiveBackend ? "rgba(78, 175, 124, 0.12)" : "rgba(180, 140, 200, 0.12)",
-          color: isLiveBackend ? "#26734d" : "var(--plum, #4A3E50)"
-        }}>
-          <Icon name="check" size={14} />
-          <span>
-            {isLiveBackend
-              ? "Encrypted backend connected with Row Level Security."
-              : "Privacy-first local companion mode active."}
-          </span>
-        </div>
+        {backendStatus.status === "ready" && (
+          <div style={{
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "8px 12px",
+            borderRadius: "10px",
+            background: "rgba(78, 175, 124, 0.12)",
+            color: "#26734d"
+          }}>
+            <Icon name="check" size={14} />
+            <span>Connected to Supabase with Row Level Security.</span>
+          </div>
+        )}
+
+        {backendStatus.status === "schema_pending" && (
+          <div style={{
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "8px",
+            padding: "9px 12px",
+            borderRadius: "10px",
+            background: "rgba(224, 150, 60, 0.12)",
+            color: "#92400e",
+            border: "1px solid rgba(224, 150, 60, 0.25)"
+          }}>
+            <div style={{ marginTop: "1px" }}><Icon name="shield" size={14} /></div>
+            <div style={{ flex: 1, lineHeight: "1.4" }}>
+              <span style={{ fontWeight: "700" }}>Supabase Connected · Schema Pending</span>
+              <div style={{ fontSize: "11px", marginTop: "2px", opacity: 0.9 }}>
+                Credentials verified. Run SQL migration in Supabase SQL editor to enable cloud tables. Running in local secure mode in the meantime.
+              </div>
+            </div>
+          </div>
+        )}
+
+        {backendStatus.status === "invalid_key" && (
+          <div style={{
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "8px 12px",
+            borderRadius: "10px",
+            background: "rgba(239, 68, 68, 0.12)",
+            color: "#b91c1c"
+          }}>
+            <Icon name="shield" size={14} />
+            <span>Invalid Supabase API key in .env.local (Using local safe mode).</span>
+          </div>
+        )}
+
+        {(backendStatus.status === "local" || backendStatus.status === "checking") && (
+          <div style={{
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "8px 12px",
+            borderRadius: "10px",
+            background: "rgba(180, 140, 200, 0.12)",
+            color: "var(--plum, #4A3E50)"
+          }}>
+            <Icon name="check" size={14} />
+            <span>{backendStatus.message || "Privacy-first local companion mode active."}</span>
+          </div>
+        )}
 
         {/* TAB 1: PERMISSIONS & SETTINGS */}
         {activeTab === "settings" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            {/* Supabase Account Connection Card */}
+            <CompanionAuthCard onSkipToLocal={() => handleGenerateInvite(true)} />
+
             <p style={{ fontSize: "13px", lineHeight: "1.5", margin: 0, color: "var(--text-muted)" }}>
               Choose strictly which cycle information your companion is authorized to view.
               Your private journal reflections and unrestricted cycle logs are <b>never</b> shared.
