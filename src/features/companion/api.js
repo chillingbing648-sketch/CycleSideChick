@@ -4,7 +4,6 @@
  * with robust local-first fallback when cloud sync is not active.
  */
 
-import { createClient } from "@supabase/supabase-js";
 import { mockBackend } from "./mockBackend.js";
 import { generateSecureToken, sha256Hash } from "./crypto.js";
 import { DEFAULT_PERMISSIONS, DEFAULT_ALLOWED_RESPONSES } from "./types.js";
@@ -75,27 +74,49 @@ export function buildCompanionInviteUrl(rawToken) {
   return `${base}?invite=${encodeURIComponent(rawToken)}#/invite/${encodeURIComponent(rawToken)}`;
 }
 
-const RAW_SUPABASE_URL = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_URL : "";
-const RAW_SUPABASE_ANON_KEY = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_SUPABASE_ANON_KEY : "";
+// Cloud authentication is intentionally disconnected. No Supabase client is initialized.
+export const SUPABASE_URL = "";
+export const SUPABASE_ANON_KEY = "";
+export const isLiveBackendConfigured = false;
+export const supabase = null;
 
-export const SUPABASE_URL = normalizeSupabaseUrl(RAW_SUPABASE_URL);
-export const SUPABASE_ANON_KEY = (RAW_SUPABASE_ANON_KEY || "").trim();
+const LOCAL_AUTH_USERS_KEY = "csc_local_auth_users_v1";
+const LOCAL_AUTH_SESSION_KEY = "csc_local_auth_session_v1";
+const LOCAL_AUTH_COOKIE = "csc_local_session";
+const authListeners = new Set();
 
-export const isLiveBackendConfigured = Boolean(
-  SUPABASE_URL &&
-  SUPABASE_ANON_KEY &&
-  (SUPABASE_ANON_KEY.startsWith("ey") || SUPABASE_ANON_KEY.startsWith("sb_publishable_"))
-);
-
-export const supabase = isLiveBackendConfigured
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
-    })
-  : null;
+function readLocalAuthUsers() {
+  try { return JSON.parse(localStorage.getItem(LOCAL_AUTH_USERS_KEY) || "[]"); } catch { return []; }
+}
+function readLocalAuthSession() {
+  try {
+    const session = JSON.parse(localStorage.getItem(LOCAL_AUTH_SESSION_KEY) || "null");
+    const part = typeof document !== "undefined" ? document.cookie.split("; ").find((item) => item.startsWith(LOCAL_AUTH_COOKIE + "=")) : null;
+    const cookie = part ? decodeURIComponent(part.slice(LOCAL_AUTH_COOKIE.length + 1)) : null;
+    if (!session || !cookie || cookie !== session.token || session.expiresAt <= Date.now()) return null;
+    const user = readLocalAuthUsers().find((item) => item.id === session.userId);
+    return user ? { id: user.id, email: user.email, user_metadata: user.metadata || {} } : null;
+  } catch { return null; }
+}
+function saveLocalAuthSession(user) {
+  const token = generateSecureToken(32);
+  localStorage.setItem(LOCAL_AUTH_SESSION_KEY, JSON.stringify({ token, userId: user.id, expiresAt: Date.now() + 2592000000 }));
+  if (typeof document !== "undefined") {
+    const secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = LOCAL_AUTH_COOKIE + "=" + encodeURIComponent(token) + "; Path=/; Max-Age=2592000; SameSite=Lax" + secure;
+  }
+  const publicUser = { id: user.id, email: user.email, user_metadata: user.metadata || {} };
+  const session = { access_token: token, token_type: "bearer", user: publicUser };
+  authListeners.forEach((callback) => callback("SIGNED_IN", session));
+  saveLocalSession({ userId: user.id, displayName: user.metadata?.display_name || user.email.split("@")[0], role: "owner" });
+  return { user: publicUser, session };
+}
+async function hashLocalPassword(password, salt) {
+  if (!globalThis.crypto?.subtle) throw new Error("Secure browser cryptography requires HTTPS or localhost.");
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: new TextEncoder().encode(salt), iterations: 210000, hash: "SHA-256" }, key, 256);
+  return Array.from(new Uint8Array(bits), (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
 
 // Local identity store for local-first mode
 const LOCAL_STORAGE_KEY = "csc_companion_session";
@@ -136,81 +157,49 @@ export function saveLocalSession(updates) {
 // ==========================================
 
 export async function getCurrentAuthUser() {
-  if (isLiveBackendConfigured && supabase) {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      return user || null;
-    } catch (e) {
-      return null;
-    }
-  }
-  return null;
+  return readLocalAuthSession();
 }
 
-export async function signInWithEmailOtp(email) {
-  if (!isLiveBackendConfigured || !supabase) {
-    throw new Error("Supabase is not configured. Running in Local Safe Mode.");
-  }
-  const redirectTo = typeof window !== "undefined" ? window.location.origin + window.location.pathname : undefined;
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: redirectTo }
-  });
-  if (error) throw error;
-  return data;
+export async function signInWithEmailOtp() {
+  throw new Error("Email OTP is unavailable in local-only mode. Use email and password instead.");
 }
 
-export async function verifyEmailOtp(email, token) {
-  if (!isLiveBackendConfigured || !supabase) {
-    throw new Error("Supabase is not configured.");
-  }
-  const { data, error } = await supabase.auth.verifyOtp({
-    email,
-    token,
-    type: "email"
-  });
-  if (error) throw error;
-  return data;
+export async function verifyEmailOtp() {
+  throw new Error("Email OTP verification is unavailable in local-only mode.");
 }
 
 export async function signInWithPassword(email, password) {
-  if (!isLiveBackendConfigured || !supabase) {
-    throw new Error("Supabase is not configured.");
-  }
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) throw error;
-  return data;
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+  const user = readLocalAuthUsers().find((item) => item.email === normalizedEmail);
+  if (!user) throw new Error("Incorrect email or password.");
+  const hash = await hashLocalPassword(String(password || ""), user.salt);
+  if (hash !== user.passwordHash) throw new Error("Incorrect email or password.");
+  return saveLocalAuthSession(user);
 }
 
 export async function signUpWithPassword(email, password) {
-  if (!isLiveBackendConfigured || !supabase) {
-    throw new Error("Supabase is not configured.");
-  }
-  const redirectTo = typeof window !== "undefined" ? window.location.origin + window.location.pathname : undefined;
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: { emailRedirectTo: redirectTo }
-  });
-  if (error) throw error;
-  return data;
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) throw new Error("Enter a valid email address.");
+  if (String(password || "").length < 8) throw new Error("Password must contain at least 8 characters.");
+  const users = readLocalAuthUsers();
+  if (users.some((item) => item.email === normalizedEmail)) throw new Error("An account with this email already exists.");
+  const salt = generateSecureToken(16);
+  const user = { id: "usr_" + generateSecureToken(12), email: normalizedEmail, salt, passwordHash: await hashLocalPassword(String(password), salt), metadata: { display_name: normalizedEmail.split("@")[0] }, createdAt: new Date().toISOString() };
+  users.push(user);
+  localStorage.setItem(LOCAL_AUTH_USERS_KEY, JSON.stringify(users));
+  return saveLocalAuthSession(user);
 }
 
 export async function signOutCompanion() {
-  if (isLiveBackendConfigured && supabase) {
-    await supabase.auth.signOut();
-  }
-  saveLocalSession({ activeRelationshipId: null, activeInvitationId: null });
+  localStorage.removeItem(LOCAL_AUTH_SESSION_KEY);
+  if (typeof document !== "undefined") document.cookie = LOCAL_AUTH_COOKIE + "=; Path=/; Max-Age=0; SameSite=Lax";
+  authListeners.forEach((callback) => callback("SIGNED_OUT", null));
+  saveLocalSession({ userId: "usr_" + generateSecureToken(8), displayName: "Cycle Owner", activeRelationshipId: null, activeInvitationId: null, role: "owner" });
 }
 
 export function onAuthStateChange(callback) {
-  if (isLiveBackendConfigured && supabase) {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      callback(event, session);
-    });
-    return subscription;
-  }
-  return { unsubscribe: () => {} };
+  authListeners.add(callback);
+  return { unsubscribe: () => authListeners.delete(callback) };
 }
 
 /**
