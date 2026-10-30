@@ -13,12 +13,10 @@ import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import {
   getCurrentAuthUser,
-  signInWithEmailOtp,
   signInWithPassword,
   signUpWithPassword,
   signOutCompanion,
   onAuthStateChange,
-  isLiveBackendConfigured
 } from "./api.js";
 import { toast, haptic } from "../../app/store.js";
 
