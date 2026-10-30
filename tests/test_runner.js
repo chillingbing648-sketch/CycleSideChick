@@ -3,7 +3,7 @@
  * Executes:
  * 1. Cycle Engine unit tests
  * 2. Cycle Care Companion Security & E2E tests
- * 3. Live Supabase project integration tests
+ * 3. Local-only authentication and backend isolation tests
  */
 const { spawnSync } = require("child_process");
 
@@ -27,7 +27,7 @@ if (securityTest.status !== 0) {
 
 console.log("\n");
 
-// 3. Run Live Supabase Integration Tests
+// 3. Run Local-only Auth & Backend Isolation Tests
 const liveTest = spawnSync("node", ["tests/supabase_live_integration.test.js"], { stdio: "inherit" });
 if (liveTest.status !== 0) {
   console.error("\nSupabase live integration tests failed with status:", liveTest.status);
@@ -43,4 +43,4 @@ if (qrFlowTest.status !== 0) {
   process.exit(qrFlowTest.status);
 }
 
-console.log("\nAll test suites passed cleanly with 100% success.");
+console.log("\nAll local-only test suites passed cleanly.");
