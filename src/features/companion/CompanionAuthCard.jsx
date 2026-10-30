@@ -1,6 +1,6 @@
 /**
  * CycleSideChick — CompanionAuthCard
- * Secure, privacy-first Supabase authentication component for Cycle Care Companion.
+ * Secure, privacy-first local authentication component for Cycle Care Companion.
  * 
  * Guarantees:
  * - Tracking data is never uploaded automatically.
@@ -13,12 +13,10 @@ import { Button } from "../../components/ui/Button.jsx";
 import { Icon } from "../../components/ui/Icon.jsx";
 import {
   getCurrentAuthUser,
-  signInWithEmailOtp,
   signInWithPassword,
   signUpWithPassword,
   signOutCompanion,
   onAuthStateChange,
-  isLiveBackendConfigured
 } from "./api.js";
 import { toast, haptic } from "../../app/store.js";
 
@@ -28,7 +26,7 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
   const [actionLoading, setActionLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [authMode, setAuthMode] = useState("otp"); // "otp" | "password"
+  const [authMode, setAuthMode] = useState("password"); // local-only password authentication
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
@@ -66,10 +64,8 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
       setActionLoading(true);
       setError(null);
       setMessage(null);
-      await signInWithEmailOtp(email.trim());
-      setMessage("Magic link sent! Check your email to sign in.");
-      toast("Magic link sent!");
-      haptic(20);
+      setAuthMode("password");
+      setMessage("Local-only mode uses email and password. No email link is sent.");
     } catch (err) {
       if (err.message && err.message.includes("rate limit")) {
         setError("Email rate limit reached on Supabase. Try using password sign-in or local mode.");
@@ -115,7 +111,7 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
       setActionLoading(true);
       await signOutCompanion();
       setUser(null);
-      toast("Signed out from companion cloud.");
+      toast("Signed out from this device.");
       haptic(15);
     } catch (err) {
       setError(err.message);
@@ -123,8 +119,6 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
       setActionLoading(false);
     }
   };
-
-  if (!isLiveBackendConfigured) return null;
 
   if (loading) {
     return <div style={{ fontSize: "12px", color: "var(--text-muted)" }}>Checking companion account...</div>;
@@ -148,7 +142,7 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
           </div>
           <div>
             <span style={{ fontSize: "11px", fontWeight: "700", textTransform: "uppercase", color: "var(--text-muted)", letterSpacing: "0.5px" }}>
-              Cloud Companion Account
+              Local Companion Account
             </span>
             <div style={{ fontSize: "13px", fontWeight: "600", color: "var(--plum)" }}>
               {user.email || "Authenticated User"}
@@ -167,7 +161,7 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
     <Card variant="tinted" tint="rose" style={{ padding: "14px", display: "flex", flexDirection: "column", gap: "10px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
         <Icon name="shield" size={16} />
-        <b style={{ fontSize: "13.5px", color: "var(--plum)" }}>Sign In for Cloud Companion Sharing</b>
+        <b style={{ fontSize: "13.5px", color: "var(--plum)" }}>Sign In for Local Companion Sharing</b>
       </div>
 
       <p style={{ fontSize: "12px", color: "var(--text-muted)", margin: 0, lineHeight: "1.45" }}>
@@ -230,7 +224,7 @@ export function CompanionAuthCard({ onAuthSuccess, onSkipToLocal }) {
         {authMode === "password" && (
           <input
             type="password"
-            placeholder="Password (minimum 6 characters)"
+            placeholder="Password (minimum 8 characters)"
             value={password}
             onChange={e => setPassword(e.target.value)}
             style={{

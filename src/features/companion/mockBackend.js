@@ -14,15 +14,37 @@ class MockBackendStore {
   }
 
   reset() {
-    this.profiles = new Map();
-    this.invitations = new Map();
-    this.relationships = new Map();
-    this.snapshots = new Map(); // relationshipId -> array of snapshots
-    this.responses = new Map(); // relationshipId -> array of responses
-    this.notificationPreferences = new Map();
-    this.pushSubscriptions = new Map();
-    this.notificationJobs = [];
-    this.auditLogs = [];
+    const saved = (() => {
+      try { return JSON.parse(localStorage.getItem("csc_companion_store_v1") || "{}"); }
+      catch { return {}; }
+    })();
+    this.profiles = new Map(saved.profiles || []);
+    this.invitations = new Map(saved.invitations || []);
+    this.relationships = new Map(saved.relationships || []);
+    this.snapshots = new Map(saved.snapshots || []);
+    this.responses = new Map(saved.responses || []);
+    this.notificationPreferences = new Map(saved.notificationPreferences || []);
+    this.pushSubscriptions = new Map(saved.pushSubscriptions || []);
+    this.notificationJobs = saved.notificationJobs || [];
+    this.auditLogs = saved.auditLogs || [];
+  }
+
+  persist() {
+    try {
+      localStorage.setItem("csc_companion_store_v1", JSON.stringify({
+        profiles: [...this.profiles.entries()],
+        invitations: [...this.invitations.entries()],
+        relationships: [...this.relationships.entries()],
+        snapshots: [...this.snapshots.entries()],
+        responses: [...this.responses.entries()],
+        notificationPreferences: [...this.notificationPreferences.entries()],
+        pushSubscriptions: [...this.pushSubscriptions.entries()],
+        notificationJobs: this.notificationJobs,
+        auditLogs: this.auditLogs
+      }));
+    } catch (error) {
+      console.warn("[CycleCareCompanion] Local companion data could not be persisted.", error);
+    }
   }
 
   // --- Profiles ---
@@ -34,6 +56,7 @@ class MockBackendStore {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     });
+    this.persist();
   }
 
   getProfile(userId) {
@@ -75,6 +98,7 @@ class MockBackendStore {
     };
 
     this.invitations.set(tokenHash, record);
+    this.persist();
 
     return {
       invitationId,
@@ -110,6 +134,8 @@ class MockBackendStore {
 
     if (new Date(inv.expires_at) < new Date()) {
       inv.status = "expired";
+      this.invitations.set(inv.token_hash, inv);
+      this.persist();
       return { valid: false, error: "This invitation link has expired." };
     }
 
@@ -138,6 +164,8 @@ class MockBackendStore {
     if (inv.status === "revoked") throw new Error("This invitation has been revoked.");
     if (new Date(inv.expires_at) < new Date()) {
       inv.status = "expired";
+      this.invitations.set(inv.token_hash, inv);
+      this.persist();
       throw new Error("This invitation has expired.");
     }
     if (inv.owner_id === recipientId) {
@@ -166,7 +194,9 @@ class MockBackendStore {
       revoked_at: null
     };
 
+    this.invitations.set(inv.token_hash, inv);
     this.relationships.set(relationshipId, relationship);
+    this.persist();
 
     return {
       success: true,
@@ -208,6 +238,7 @@ class MockBackendStore {
       this.snapshots.set(relationshipId, []);
     }
     this.snapshots.get(relationshipId).push(filtered);
+    this.persist();
 
     // Evaluate notification job for recipient
     await this.evaluateNotificationJob({
@@ -286,6 +317,7 @@ class MockBackendStore {
       this.responses.set(relationshipId, []);
     }
     this.responses.get(relationshipId).push(responseRecord);
+    this.persist();
 
     return { success: true, response: responseRecord };
   }
@@ -316,6 +348,8 @@ class MockBackendStore {
       }
     }
 
+    this.relationships.set(relationshipId, rel);
+    this.persist();
     return { success: true, status: "revoked" };
   }
 
@@ -327,6 +361,8 @@ class MockBackendStore {
     rel.status = paused ? "paused" : "active";
     rel.updated_at = new Date().toISOString();
 
+    this.relationships.set(relationshipId, rel);
+    this.persist();
     return { success: true, status: rel.status };
   }
 
@@ -340,6 +376,8 @@ class MockBackendStore {
     if (allowedResponses) rel.allowed_responses = [...allowedResponses];
     rel.updated_at = new Date().toISOString();
 
+    this.relationships.set(relationshipId, rel);
+    this.persist();
     return { success: true, relationship: rel };
   }
 
@@ -383,6 +421,7 @@ class MockBackendStore {
     };
 
     this.notificationJobs.push(job);
+    this.persist();
 
     // Process immediately in local mock
     await this.processNotificationJob(job);
@@ -394,6 +433,7 @@ class MockBackendStore {
     const rel = this.relationships.get(job.relationship_id);
     if (!rel || rel.status !== "active") {
       job.status = "revoked";
+      this.persist();
       return;
     }
 
@@ -408,12 +448,14 @@ class MockBackendStore {
       // In production, job scheduled_for would be moved to the morning
       job.status = "suppressed";
       job.failure_reason = "Quiet hours active";
+      this.persist();
       return;
     }
 
     job.attempts += 1;
     job.status = "delivered";
     job.delivered_at = new Date().toISOString();
+    this.persist();
   }
 }
 
